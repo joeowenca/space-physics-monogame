@@ -95,24 +95,24 @@ public class Camera
     parallaxFactor *= 7;
 
     if (input.ContinuousPress(Keys.OemPlus))
-      GameState.targetCameraZoom *= 1.005f;
+      GameState.targetZoom *= 1.005f;
     if (input.ContinuousPress(Keys.OemMinus))
-      GameState.targetCameraZoom *= 0.995f;
+      GameState.targetZoom *= 0.995f;
 
     if (parallaxFactor == 1) return 1f;
 
-    GameState.cameraZoom = MathHelper.Lerp(GameState.cameraZoom, GameState.targetCameraZoom, 0.03f);
-    GameState.cameraZoom = Math.Clamp(GameState.cameraZoom, minZoom, maxZoom);
-    GameState.targetCameraZoom = Math.Clamp(GameState.targetCameraZoom, minZoom, maxZoom);
+    GameState.zoom = MathHelper.Lerp(GameState.zoom, GameState.zoom, 0.03f);
+    GameState.zoom = Math.Clamp(GameState.zoom, minZoom, maxZoom);
+    GameState.targetZoom = Math.Clamp(GameState.targetZoom, minZoom, maxZoom);
 
     zoomPercent =
-      ((float)Math.Log10(GameState.cameraZoom) -
+      ((float)Math.Log10(GameState.zoom) -
       ((float)Math.Log10(minZoom)) /
       (float)Math.Log10(maxZoom) -
       (float)Math.Log10(minZoom)) *
       100;
 
-    return MathHelper.Lerp(1f, GameState.cameraZoom, GetZoomFactor(parallaxFactor));
+    return MathHelper.Lerp(1f, GameState.zoom, GetZoomFactor(parallaxFactor));
   }
 
   private static float CalculateZoomOverride(float parallaxFactor)
