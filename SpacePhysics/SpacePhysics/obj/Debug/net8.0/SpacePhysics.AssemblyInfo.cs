@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SpacePhysics")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9af15bb54b2f5588e1cf2890e082269af56ace3e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fc826ca6c421a9670d72d04c781b4583cad7ea92")]
 [assembly: System.Reflection.AssemblyProductAttribute("SpacePhysics")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SpacePhysics")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
