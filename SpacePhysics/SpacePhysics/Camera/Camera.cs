@@ -121,7 +121,7 @@ public class Camera
 
     if (parallaxFactor == 1) return 1f;
 
-    zoomOverride = ExponentialLerp(zoomOverride, targetZoomOverride, zoomOverrideLerpSpeed);
+    zoomOverride = Utilities.ExponentialLerp(zoomOverride, targetZoomOverride, zoomOverrideLerpSpeed);
     zoomOverride = Math.Clamp(zoomOverride, 0f, 20f);
 
     return MathHelper.Lerp(1f, zoomOverride, GetZoomFactor(parallaxFactor));
@@ -130,13 +130,6 @@ public class Camera
   private static float GetZoomFactor(float parallaxFactor)
   {
     return (float)Math.Pow(parallaxFactor / 7f, 3f);
-  }
-
-  private static float ExponentialLerp(float start, float end, float t, float k = 10f)
-  {
-    t = MathHelper.Clamp(t, 0f, 1f);
-    float factor = 1f - (float)Math.Exp(-t * k);
-    return MathHelper.Lerp(start, end, factor);
   }
 
   public static Matrix GetViewMatrix(float parallaxFactor)
