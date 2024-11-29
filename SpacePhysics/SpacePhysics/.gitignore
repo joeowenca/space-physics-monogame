@@ -1,0 +1,73 @@
+# Build artifacts
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.log
+*.cache
+
+# IDE specific files
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+*.iml
+
+# Visual Studio Code
+.vscode/
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+
+# MonoDevelop
+*.userprefs
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+*.tlog
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Crash Reports
+*.crash
+*.stackdump
+
+# Resharper files
+_ReSharper.Caches/
+
+# MonoGame Content Pipeline files
+*.mgcb
+*.mgcontent
+
+# Content pipeline generated files
+*.xnb
+Content/bin/
+Content/obj/
+
+# Debugging files
+.vshost.exe*
+.vshost.exe.manifest
+*.tlog
+*.unsuccessfulbuild
+
+# Git specific
+!.gitignore
