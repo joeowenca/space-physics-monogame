@@ -1,2 +1,2 @@
-﻿using var game = new SpacePhysics.Game1();
+﻿using var game = new SpacePhysics.Main();
 game.Run();
