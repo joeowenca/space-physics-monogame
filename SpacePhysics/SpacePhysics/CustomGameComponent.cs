@@ -23,6 +23,7 @@ public class CustomGameComponent
 
   public List<CustomGameComponent> components = [];
 
+  public Texture2D texture;
   public Vector2 position;
   public int layerIndex;
   public Alignment alignment;
