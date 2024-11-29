@@ -8,11 +8,28 @@ namespace SpacePhysics;
 
 public class CustomGameComponent
 {
+  public enum Alignment
+  {
+    Left,
+    Right,
+    Center,
+    BottomLeft,
+    BottomRight,
+    BottomCenter,
+    TopLeft,
+    TopRight,
+    TopCenter
+  }
+
   public List<CustomGameComponent> components = [];
 
-  private int layerIndex;
-  public CustomGameComponent(int layerIndex = 0)
+  public Vector2 position;
+  public int layerIndex;
+  public Alignment alignment;
+
+  public CustomGameComponent(Alignment alignment = Alignment.TopLeft, int layerIndex = 0)
   {
+    this.alignment = alignment;
     this.layerIndex = layerIndex;
   }
 
