@@ -52,6 +52,14 @@ public class HudSprite : CustomGameComponent
       rectangle.X,
       rectangle.Y
     );
+
+    Update(new GameTime());
+  }
+
+  public override void Update(GameTime gameTime)
+  {
+    rectangle.X = (int)initialPosition.X + (int)offset().X;
+    rectangle.Y = (int)initialPosition.Y + (int)offset().Y;
   }
 
   public override void Draw(SpriteBatch spriteBatch)
