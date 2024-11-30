@@ -2,7 +2,9 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using SpacePhysics.Sprites;
+using static SpacePhysics.GameState;
 
 namespace SpacePhysics.Player;
 
@@ -23,6 +25,7 @@ public class Ship : CustomGameComponent
   private float dryMass;
   private float throttleTransitionSpeed;
   private float angularThrustFactor;
+  private float deltaTime;
 
   public readonly Func<float> opacity;
 
@@ -42,8 +45,8 @@ public class Ship : CustomGameComponent
     thrust = 0f;
     maxThrust = 115800f;
     angularThrustFactor = 0.001f;
-    throttleTransition = false;
     throttleTransitionSpeed = 10f;
+    deltaTime = 0;
   }
 
   public override void Load(ContentManager contentManager)
@@ -64,7 +67,10 @@ public class Ship : CustomGameComponent
   {
     input.Update();
 
-    Physics(gameTime);
+    deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+    Physics();
+    Throttle();
   }
 
   public override void Draw(SpriteBatch spriteBatch)
@@ -74,9 +80,9 @@ public class Ship : CustomGameComponent
       GameState.position,
       null,
       Color.White * opacity(),
-      GameState.direction,
+      direction,
       new Vector2(texture.Width / 2, texture.Height / 2),
-      GameState.scale,
+      scale,
       SpriteEffects.None,
       0f
     );
@@ -85,25 +91,74 @@ public class Ship : CustomGameComponent
       thrustOverlay,
       GameState.position,
       null,
-      Color.White * (GameState.throttle / 100 * opacity()),
-      GameState.direction,
+      Color.White * (throttle / 100 * opacity()),
+      direction,
       new Vector2(thrustOverlay.Width / 2, thrustOverlay.Height / 2),
-      GameState.scale,
+      scale,
       SpriteEffects.None,
       0f
     );
   }
 
-  private void Physics(GameTime gameTime)
+  private void Physics()
   {
-    mass = dryMass + GameState.fuel;
+    mass = dryMass + fuel;
 
-    force.X = (float)Math.Cos(GameState.direction) * thrust;
-    force.Y = (float)Math.Sin(GameState.direction) * thrust;
+    force.X = (float)Math.Cos(direction) * thrust;
+    force.Y = (float)Math.Sin(direction) * thrust;
 
     acceleration = force / mass;
 
-    GameState.velocity += acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
-    GameState.position += GameState.velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+    velocity += acceleration * deltaTime;
+    GameState.position += velocity * deltaTime;
+  }
+
+  private void Throttle()
+  {
+    if (input.ContinuousPress(Keys.LeftShift))
+    {
+      throttleTransition = false;
+      targetThrottle += 1 * deltaTime;
+    }
+
+    if (input.ContinuousPress(Keys.LeftControl))
+    {
+      throttleTransition = false;
+      targetThrottle -= 1 * deltaTime;
+    }
+
+    if (input.ContinuousPress(Keys.Z) && thrust != maxThrust)
+    {
+      targetThrottle = 100;
+      throttleTransition = true;
+    }
+
+    if (input.ContinuousPress(Keys.X) && thrust != 0)
+    {
+      targetThrottle = 0;
+      throttleTransition = true;
+    }
+
+    throttle = MathHelper.Lerp(throttle, targetThrottle, 0.1f);
+
+    if (Math.Abs(throttle - targetThrottle) < 0.01f)
+    {
+      throttle = targetThrottle;
+    }
+
+    if (throttleTransition)
+    {
+      throttle = MathHelper.Lerp(
+        throttle,
+        targetThrottle,
+        throttleTransitionSpeed * deltaTime
+      );
+
+      if (Math.Abs(throttle - targetThrottle) < 0.01f)
+      {
+        throttle = targetThrottle;
+        throttleTransition = false;
+      }
+    }
   }
 }
