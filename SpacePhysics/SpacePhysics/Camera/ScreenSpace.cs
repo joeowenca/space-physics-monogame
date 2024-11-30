@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static SpacePhysics.CustomGameComponent;
+using static SpacePhysics.GameState;
 
 namespace SpacePhysics.Camera;
 
@@ -35,9 +36,9 @@ public class ScreenSpace
     {
       case Alignment.BottomCenter:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
-          (GameState.screenSize.X / 2) - (GameState.screenSize.X * GameState.scale / 2),
-          GameState.screenSize.Y - (GameState.screenSize.Y * GameState.scale)),
-          GameState.scale,
+          (screenSize.X / 2) - (screenSize.X * scale / 2),
+          screenSize.Y - (screenSize.Y * scale)),
+          scale,
           Vector2.Zero),
           component
         );
@@ -45,9 +46,9 @@ public class ScreenSpace
 
       case Alignment.TopCenter:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
-          (GameState.screenSize.X / 2) - (GameState.screenSize.X * GameState.scale / 2),
+          (screenSize.X / 2) - (screenSize.X * scale / 2),
           0),
-          GameState.scale,
+          scale,
           Vector2.Zero),
           component
         );
@@ -56,8 +57,8 @@ public class ScreenSpace
       case Alignment.Left:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
           0,
-          (GameState.screenSize.Y / 2) - (GameState.screenSize.Y * GameState.scale / 2)),
-          GameState.scale,
+          (screenSize.Y / 2) - (screenSize.Y * scale / 2)),
+          scale,
           Vector2.Zero),
           component
         );
@@ -65,9 +66,9 @@ public class ScreenSpace
 
       case Alignment.Right:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
-          GameState.screenSize.X - (GameState.screenSize.X * GameState.scale),
-          (GameState.screenSize.Y / 2) - (GameState.screenSize.Y * GameState.scale / 2)),
-          GameState.scale,
+          screenSize.X - (screenSize.X * scale),
+          (screenSize.Y / 2) - (screenSize.Y * scale / 2)),
+          scale,
           Vector2.Zero),
           component
         );
@@ -75,9 +76,9 @@ public class ScreenSpace
 
       case Alignment.TopRight:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
-          GameState.screenSize.X - (GameState.screenSize.X * GameState.scale),
+          screenSize.X - (screenSize.X * scale),
           0),
-          GameState.scale,
+          scale,
           Vector2.Zero),
           component
         );
@@ -85,9 +86,9 @@ public class ScreenSpace
 
       case Alignment.BottomRight:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
-          GameState.screenSize.X - (GameState.screenSize.X * GameState.scale),
-          GameState.screenSize.Y - (GameState.screenSize.Y * GameState.scale)),
-          GameState.scale,
+          screenSize.X - (screenSize.X * scale),
+          screenSize.Y - (screenSize.Y * scale)),
+          scale,
           Vector2.Zero),
           component
         );
@@ -96,8 +97,8 @@ public class ScreenSpace
       case Alignment.BottomLeft:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
           0,
-          GameState.screenSize.Y - (GameState.screenSize.Y * GameState.scale)),
-          GameState.scale,
+          screenSize.Y - (screenSize.Y * scale)),
+          scale,
           Vector2.Zero),
           component
         );
@@ -105,16 +106,16 @@ public class ScreenSpace
 
       case Alignment.Center:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
-          (GameState.screenSize.X / 2) - (GameState.screenSize.X * GameState.scale / 2),
-          (GameState.screenSize.Y / 2) - (GameState.screenSize.Y * GameState.scale / 2)),
-          GameState.scale,
+          (screenSize.X / 2) - (screenSize.X * scale / 2),
+          (screenSize.Y / 2) - (screenSize.Y * scale / 2)),
+          scale,
           Vector2.Zero),
           component
         );
         break;
 
       default:
-        DrawSpriteBatch(spriteBatch, CreateMatrix(Vector2.Zero, GameState.scale, Vector2.Zero), component);
+        DrawSpriteBatch(spriteBatch, CreateMatrix(Vector2.Zero, scale, Vector2.Zero), component);
         break;
     }
   }
