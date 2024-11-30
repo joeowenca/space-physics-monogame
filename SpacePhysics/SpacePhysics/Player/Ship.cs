@@ -24,8 +24,6 @@ public class Ship : CustomGameComponent
 
   private float dryMass;
   private float maxThrust;
-  private float throttleTransitionSpeed;
-  private float angularThrustFactor;
   private float maxFuel;
   private float engineEfficiency;
   private float deltaTime;
@@ -47,8 +45,6 @@ public class Ship : CustomGameComponent
     dryMass = 2500f;
     thrust = 0f;
     maxThrust = 115800f;
-    angularThrustFactor = 0.001f;
-    throttleTransitionSpeed = 10f;
     maxFuel = fuel;
     engineEfficiency = 0.001f;
     deltaTime = 0;
@@ -78,6 +74,7 @@ public class Ship : CustomGameComponent
     Physics();
     Throttle();
     Thrust();
+    Stability();
   }
 
   public override void Draw(SpriteBatch spriteBatch)
@@ -158,7 +155,7 @@ public class Ship : CustomGameComponent
       throttle = MathHelper.Lerp(
         throttle,
         targetThrottle,
-        throttleTransitionSpeed * deltaTime
+        10f * deltaTime
       );
 
       if (Math.Abs(throttle - targetThrottle) < 0.01f)
@@ -185,5 +182,47 @@ public class Ship : CustomGameComponent
 
     fuel -= thrust * engineEfficiency;
     fuelPercent = fuel / maxFuel * 100;
+  }
+
+  private void Stability()
+  {
+    float angularThrust = throttle / mass;
+
+    if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
+    {
+      angularVelocity += angularThrust * deltaTime;
+    }
+
+    if (input.ContinuousPress(Keys.Left) || input.ContinuousPress(Keys.A))
+    {
+      angularVelocity -= angularThrust * deltaTime;
+    }
+
+    if (sas &&
+        !input.ContinuousPress(Keys.Right) &&
+        !input.ContinuousPress(Keys.Left) &&
+        !input.ContinuousPress(Keys.D) &&
+        !input.ContinuousPress(Keys.A)
+      )
+    {
+      angularVelocity = 0f;
+
+      if (angularVelocity > 0.0001f)
+      {
+        angularVelocity -= angularThrust * deltaTime;
+      }
+
+      if (angularVelocity < 0.0001f)
+      {
+        angularVelocity += angularThrust * deltaTime;
+      }
+    }
+
+    direction += angularVelocity;
+
+    if (input.OnFirstFramePress(Keys.T))
+    {
+      sas = !sas;
+    }
   }
 }
