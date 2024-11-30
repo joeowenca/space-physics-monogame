@@ -16,9 +16,8 @@ public class StartScene : CustomGameComponent
   private float backgroundOpacity;
 
   public StartScene(
-    SceneManager sceneManager,
-    int layerIndex
-  ) : base(Alignment.TopLeft, layerIndex)
+    SceneManager sceneManager
+  ) : base(Alignment.TopLeft, 7)
   {
     this.sceneManager = sceneManager;
   }
