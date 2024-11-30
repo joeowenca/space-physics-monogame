@@ -1,5 +1,5 @@
 using System;
-using System.Numerics;
+using Microsoft.Xna.Framework;
 
 namespace SpacePhysics;
 
@@ -16,6 +16,7 @@ public class GameState
   public static float zoom;
   public static float targetZoom;
   public static float scale;
+  public static float units;
 
   public static bool sas;
   public static bool debug;
@@ -32,6 +33,7 @@ public class GameState
     zoom = 1.27f;
     targetZoom = zoom;
     scale = 0.4f;
+    units = 5f;
     sas = false;
   }
 }

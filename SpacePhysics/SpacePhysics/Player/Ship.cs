@@ -17,6 +17,7 @@ public class Ship : CustomGameComponent
 
   public static float mass;
   public static float thrust;
+  public static float maxThrust;
   public static float altitude;
 
   private float dryMass;
@@ -38,7 +39,8 @@ public class Ship : CustomGameComponent
     acceleration = Vector2.Zero;
     force = Vector2.Zero;
     dryMass = 2500f;
-    thrust = 115800f;
+    thrust = 0f;
+    maxThrust = 115800f;
     angularThrustFactor = 0.001f;
     throttleTransition = false;
     throttleTransitionSpeed = 10f;
@@ -61,6 +63,8 @@ public class Ship : CustomGameComponent
   public override void Update(GameTime gameTime)
   {
     input.Update();
+
+    Physics(gameTime);
   }
 
   public override void Draw(SpriteBatch spriteBatch)
@@ -88,5 +92,18 @@ public class Ship : CustomGameComponent
       SpriteEffects.None,
       0f
     );
+  }
+
+  private void Physics(GameTime gameTime)
+  {
+    mass = dryMass + GameState.fuel;
+
+    force.X = (float)Math.Cos(GameState.direction) * thrust;
+    force.Y = (float)Math.Sin(GameState.direction) * thrust;
+
+    acceleration = force / mass;
+
+    GameState.velocity += acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+    GameState.position += GameState.velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
   }
 }
