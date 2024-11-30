@@ -33,8 +33,10 @@ public class CustomGameComponent
 
   public Texture2D texture;
   public Vector2 position;
-  public int layerIndex;
+  public int width;
+  public int height;
   public Alignment alignment;
+  public int layerIndex;
 
   public CustomGameComponent(Alignment alignment = Alignment.TopLeft, int layerIndex = 0)
   {
