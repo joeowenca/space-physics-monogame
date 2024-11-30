@@ -71,7 +71,7 @@ public class Camera
 
   private static void AdjustCamera()
   {
-    position = GameState.position - new Vector2(Main.screenSize.X / 2, Main.screenSize.Y / 2);
+    position = GameState.position - new Vector2(GameState.screenSize.X / 2, GameState.screenSize.Y / 2);
 
     if (input.OnFirstFramePress(Keys.V))
     {
@@ -142,6 +142,6 @@ public class Camera
         Matrix.CreateRotationZ(rotation) *
         Matrix.CreateTranslation(new Vector3(parallaxFactor == 0 ? 0 : shakeOffset.X, parallaxFactor == 0 ? 0 : shakeOffset.Y, 0)) *
         Matrix.CreateScale(zoom * extremeZoom) *
-        Matrix.CreateTranslation(new Vector3(Main.screenSize.X / 2f, Main.screenSize.Y / 2f, 0));
+        Matrix.CreateTranslation(new Vector3(GameState.screenSize.X / 2f, GameState.screenSize.Y / 2f, 0));
   }
 }

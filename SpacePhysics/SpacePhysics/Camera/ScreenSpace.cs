@@ -35,8 +35,8 @@ public class ScreenSpace
     {
       case Alignment.BottomCenter:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
-          (Main.screenSize.X / 2) - (Main.screenSize.X * GameState.scale / 2),
-          Main.screenSize.Y - (Main.screenSize.Y * GameState.scale)),
+          (GameState.screenSize.X / 2) - (GameState.screenSize.X * GameState.scale / 2),
+          GameState.screenSize.Y - (GameState.screenSize.Y * GameState.scale)),
           GameState.scale,
           Vector2.Zero),
           component
@@ -45,7 +45,7 @@ public class ScreenSpace
 
       case Alignment.TopCenter:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
-          (Main.screenSize.X / 2) - (Main.screenSize.X * GameState.scale / 2),
+          (GameState.screenSize.X / 2) - (GameState.screenSize.X * GameState.scale / 2),
           0),
           GameState.scale,
           Vector2.Zero),
@@ -56,7 +56,7 @@ public class ScreenSpace
       case Alignment.Left:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
           0,
-          (Main.screenSize.Y / 2) - (Main.screenSize.Y * GameState.scale / 2)),
+          (GameState.screenSize.Y / 2) - (GameState.screenSize.Y * GameState.scale / 2)),
           GameState.scale,
           Vector2.Zero),
           component
@@ -65,8 +65,8 @@ public class ScreenSpace
 
       case Alignment.Right:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
-          Main.screenSize.X - (Main.screenSize.X * GameState.scale),
-          (Main.screenSize.Y / 2) - (Main.screenSize.Y * GameState.scale / 2)),
+          GameState.screenSize.X - (GameState.screenSize.X * GameState.scale),
+          (GameState.screenSize.Y / 2) - (GameState.screenSize.Y * GameState.scale / 2)),
           GameState.scale,
           Vector2.Zero),
           component
@@ -75,7 +75,7 @@ public class ScreenSpace
 
       case Alignment.TopRight:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
-          Main.screenSize.X - (Main.screenSize.X * GameState.scale),
+          GameState.screenSize.X - (GameState.screenSize.X * GameState.scale),
           0),
           GameState.scale,
           Vector2.Zero),
@@ -85,8 +85,8 @@ public class ScreenSpace
 
       case Alignment.BottomRight:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
-          Main.screenSize.X - (Main.screenSize.X * GameState.scale),
-            Main.screenSize.Y - (Main.screenSize.Y * GameState.scale)),
+          GameState.screenSize.X - (GameState.screenSize.X * GameState.scale),
+          GameState.screenSize.Y - (GameState.screenSize.Y * GameState.scale)),
           GameState.scale,
           Vector2.Zero),
           component
@@ -96,7 +96,7 @@ public class ScreenSpace
       case Alignment.BottomLeft:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
           0,
-            Main.screenSize.Y - (Main.screenSize.Y * GameState.scale)),
+          GameState.screenSize.Y - (GameState.screenSize.Y * GameState.scale)),
           GameState.scale,
           Vector2.Zero),
           component
@@ -105,8 +105,8 @@ public class ScreenSpace
 
       case Alignment.Center:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
-          (Main.screenSize.X / 2) - (Main.screenSize.X * GameState.scale / 2),
-          (Main.screenSize.Y / 2) - (Main.screenSize.Y * GameState.scale / 2)),
+          (GameState.screenSize.X / 2) - (GameState.screenSize.X * GameState.scale / 2),
+          (GameState.screenSize.Y / 2) - (GameState.screenSize.Y * GameState.scale / 2)),
           GameState.scale,
           Vector2.Zero),
           component

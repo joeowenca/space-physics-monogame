@@ -16,6 +16,9 @@ public class GameState
 
   public static State state;
 
+  public static Vector2 screenSize = new Vector2(2560, 1440);
+  public static float FPS;
+
   public static Vector2 position;
   public static Vector2 velocity;
 
@@ -62,5 +65,10 @@ public class GameState
   {
     deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
     elapsedTime += deltaTime;
+
+    if (deltaTime > 0)
+    {
+      FPS = 1 / (float)gameTime.ElapsedGameTime.TotalSeconds;
+    }
   }
 }

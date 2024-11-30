@@ -25,8 +25,8 @@ public class StartScene : CustomGameComponent
   public override void Initialize()
   {
     input = new();
-    offset = new Vector2(Main.screenSize.X / 10, -50);
-    targetOffset = new Vector2(Main.screenSize.X / 10, -50);
+    offset = new Vector2(GameState.screenSize.X / 10, -50);
+    targetOffset = new Vector2(GameState.screenSize.X / 10, -50);
 
     opacity = 0f;
     backgroundOpacity = 1f;
@@ -57,12 +57,12 @@ public class StartScene : CustomGameComponent
 
     if (GameState.state == GameState.State.TitleScreen || GameState.state == GameState.State.MainMenu)
     {
-      targetOffset = new Vector2(Main.screenSize.X / 10, -50);
+      targetOffset = new Vector2(GameState.screenSize.X / 10, -50);
     }
 
     if (GameState.state == GameState.State.Settings)
     {
-      targetOffset = new Vector2(-Main.screenSize.X / 10, -50);
+      targetOffset = new Vector2(-GameState.screenSize.X / 10, -50);
     }
 
     if (GameState.state == GameState.State.Play)
