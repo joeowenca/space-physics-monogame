@@ -22,6 +22,13 @@ public class CustomGameComponent
     TopCenter
   }
 
+  public enum TextAlign
+  {
+    Left,
+    Right,
+    Center
+  }
+
   public List<CustomGameComponent> components = [];
 
   public Texture2D texture;
