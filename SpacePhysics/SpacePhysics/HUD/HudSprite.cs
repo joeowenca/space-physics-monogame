@@ -41,4 +41,23 @@ public class HudSprite : CustomGameComponent
   {
     texture = contentManager.Load<Texture2D>(textureName);
   }
+
+  public override void Draw(SpriteBatch spriteBatch)
+  {
+    bool hidden = color().R < 1 && color().G < 1 && color().B < 1 && color().A < 1;
+
+    if (!hidden)
+    {
+      spriteBatch.Draw(
+        texture,
+        rectangle,
+        null,
+        color(),
+        rotation(),
+        originVector,
+        SpriteEffects.None,
+        0f
+      );
+    }
+  }
 }
