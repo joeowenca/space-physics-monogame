@@ -15,6 +15,7 @@ public class GameState
   public static float fuel;
   public static float zoom;
   public static float targetZoom;
+  public static float scale;
 
   public static bool sas;
   public static bool debug;
@@ -30,6 +31,7 @@ public class GameState
     fuel = 7500;
     zoom = 1.27f;
     targetZoom = zoom;
+    scale = 0.4f;
     sas = false;
   }
 }
