@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SpacePhysics.Sprites;
 
@@ -17,13 +18,9 @@ public class Ship : CustomGameComponent
   public static float mass;
   public static float thrust;
   public static float altitude;
-  public static float fuelPercent;
 
   private float dryMass;
-  private float maxThrust;
-  private float minThrust;
-  private float thrustTransitionSpeed;
-  private float maxFuel;
+  private float throttleTransitionSpeed;
   private float angularThrustFactor;
 
   public readonly Func<float> opacity;
@@ -34,5 +31,62 @@ public class Ship : CustomGameComponent
   {
     input = new(allowInput);
     this.opacity = opacity;
+  }
+
+  public override void Initialize()
+  {
+    acceleration = Vector2.Zero;
+    force = Vector2.Zero;
+    dryMass = 2500f;
+    thrust = 115800f;
+    angularThrustFactor = 0.001f;
+    throttleTransition = false;
+    throttleTransitionSpeed = 10f;
+  }
+
+  public override void Load(ContentManager contentManager)
+  {
+    texture = contentManager.Load<Texture2D>("Ship");
+
+    thrustOverlay = contentManager.Load<Texture2D>("thrustOverlay");
+
+    thrustSprite = new AnimatedSprite(
+      contentManager.Load<Texture2D>("thrustSheet"),
+      4,
+      1,
+      60
+    );
+  }
+
+  public override void Update(GameTime gameTime)
+  {
+    input.Update();
+  }
+
+  public override void Draw(SpriteBatch spriteBatch)
+  {
+    spriteBatch.Draw(
+      texture,
+      GameState.position,
+      null,
+      Color.White * opacity(),
+      GameState.direction,
+      new Vector2(texture.Width / 2, texture.Height / 2),
+      GameState.scale,
+      SpriteEffects.None,
+      0f
+    );
+
+    spriteBatch.Draw(
+      thrustOverlay,
+      GameState.position,
+      null,
+      Color.White * (GameState.throttle / 100 * opacity()),
+      GameState.direction,
+      new Vector2(thrustOverlay.Width / 2, thrustOverlay.Height / 2),
+      GameState.scale,
+      SpriteEffects.None,
+      0f
+    );
   }
 }

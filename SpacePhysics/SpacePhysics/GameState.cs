@@ -28,7 +28,7 @@ public class GameState
     direction = (float)-(Math.PI / 2);
     throttle = 0f;
     targetThrottle = 0f;
-    fuel = 7500;
+    fuel = 7500f;
     zoom = 1.27f;
     targetZoom = zoom;
     scale = 0.4f;
