@@ -115,4 +115,28 @@ public class HudText : CustomGameComponent
       )
     };
   }
+
+  private Vector2 GetTextAlign(TextAlign textAlign)
+  {
+    return textAlign switch
+    {
+      TextAlign.Center => new Vector2(
+          -width / 2,
+0
+),
+      TextAlign.Left => new Vector2(
+          0,
+0
+),
+      TextAlign.Right => new Vector2(
+          -width,
+          0
+),
+      _ => throw new ArgumentOutOfRangeException(
+          nameof(alignment),
+          alignment,
+          null
+      )
+    };
+  }
 }
