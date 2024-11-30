@@ -35,6 +35,7 @@ public class HudSprite : CustomGameComponent
     this.offset = offset;
     this.rotation = rotation;
     this.color = color;
+    this.scale = scale;
   }
 
   public override void Load(ContentManager contentManager)

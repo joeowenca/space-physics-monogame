@@ -7,7 +7,7 @@ namespace SpacePhysics;
 
 public class Main : Game
 {
-    public static Vector2 screenSize = new Vector2(1560, 1440);
+    public static Vector2 screenSize = new Vector2(2560, 1440);
     public static float FPS;
 
     private GraphicsDeviceManager graphics;
