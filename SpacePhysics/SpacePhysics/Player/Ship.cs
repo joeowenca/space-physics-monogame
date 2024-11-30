@@ -19,12 +19,15 @@ public class Ship : CustomGameComponent
 
   public static float mass;
   public static float thrust;
-  public static float maxThrust;
   public static float altitude;
+  public static float fuelPercent;
 
   private float dryMass;
+  private float maxThrust;
   private float throttleTransitionSpeed;
   private float angularThrustFactor;
+  private float maxFuel;
+  private float engineEfficiency;
   private float deltaTime;
 
   public readonly Func<float> opacity;
@@ -46,6 +49,8 @@ public class Ship : CustomGameComponent
     maxThrust = 115800f;
     angularThrustFactor = 0.001f;
     throttleTransitionSpeed = 10f;
+    maxFuel = fuel;
+    engineEfficiency = 0.001f;
     deltaTime = 0;
   }
 
@@ -66,11 +71,13 @@ public class Ship : CustomGameComponent
   public override void Update(GameTime gameTime)
   {
     input.Update();
+    thrustSprite.Update(gameTime, GameState.position);
 
     deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
     Physics();
     Throttle();
+    Thrust();
   }
 
   public override void Draw(SpriteBatch spriteBatch)
@@ -118,18 +125,18 @@ public class Ship : CustomGameComponent
     if (input.ContinuousPress(Keys.LeftShift))
     {
       throttleTransition = false;
-      targetThrottle += 1 * deltaTime;
+      targetThrottle += 0.01f * deltaTime;
     }
 
     if (input.ContinuousPress(Keys.LeftControl))
     {
       throttleTransition = false;
-      targetThrottle -= 1 * deltaTime;
+      targetThrottle -= 0.01f * deltaTime;
     }
 
     if (input.ContinuousPress(Keys.Z) && thrust != maxThrust)
     {
-      targetThrottle = 100;
+      targetThrottle = 1;
       throttleTransition = true;
     }
 
@@ -160,5 +167,23 @@ public class Ship : CustomGameComponent
         throttleTransition = false;
       }
     }
+
+    throttle = Math.Clamp(throttle, 0f, 1f);
+    targetThrottle = Math.Clamp(targetThrottle, 0f, 1f);
+  }
+
+  private void Thrust()
+  {
+    if (fuel > 0)
+    {
+      thrust = maxThrust * throttle;
+    }
+    else
+    {
+      thrust = 0f;
+    }
+
+    fuel -= thrust * engineEfficiency;
+    fuelPercent = fuel / maxFuel * 100;
   }
 }
