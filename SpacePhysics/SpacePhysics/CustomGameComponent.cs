@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SpacePhysics.Camera;
 
 namespace SpacePhysics;
 
@@ -62,7 +63,24 @@ public class CustomGameComponent
   {
     foreach (var component in components)
     {
-      component.Draw(spriteBatch);
+      if (component.layerIndex >= 1 || component.layerIndex <= 10)
+      {
+        ScreenSpace.DrawSpriteBatch(
+          spriteBatch,
+          Camera.Camera.GetViewMatrix((float)component.layerIndex / 7),
+          component
+        );
+      }
+
+      if (component.layerIndex == 0)
+      {
+        ScreenSpace.DrawScreenSpace(spriteBatch, component);
+      }
+
+      if (component.layerIndex == 11)
+      {
+        ScreenSpace.DrawHudSpace(spriteBatch, component);
+      }
     }
   }
 }
