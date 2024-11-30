@@ -30,6 +30,8 @@ public class Main : Game
     {
         GraphicsDevice.PresentationParameters.MultiSampleCount = 4;
 
+        Camera.Camera.Initialize();
+
         sceneManager = new(Content);
 
         base.Initialize();
@@ -49,6 +51,8 @@ public class Main : Game
         {
             FPS = 1 / (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
+
+        Camera.Camera.Update();
 
         sceneManager.GetCurrentScene().Update(gameTime);
 
