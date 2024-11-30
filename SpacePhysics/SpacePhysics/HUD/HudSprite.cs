@@ -63,45 +63,57 @@ public class HudSprite : CustomGameComponent
 
   private Rectangle GetAlignment(Alignment alignment)
   {
-    int screenWidth = (int)Main.screenSize.X;
-    int screenHeight = (int)Main.screenSize.Y;
+    Vector2 alignmentVector = GetAlignmentVector(
+      new Vector2(Main.screenSize.X, Main.screenSize.Y),
+      alignment
+    );
 
-    Vector2 alignmentVector = alignment switch
+    return new(
+      (int)alignmentVector.X,
+      (int)alignmentVector.Y,
+      (int)(texture.Width * scale),
+      (int)(texture.Height * scale)
+    );
+  }
+
+  private Vector2 GetAlignmentVector(Vector2 size, Alignment alignment)
+  {
+    return alignment switch
     {
       Alignment.Center => new(
-        screenWidth / 2,
-        screenHeight / 2
+        size.X / 2,
+        size.Y / 2
       ),
       Alignment.Left => new(
         0,
-        screenHeight / 2
+        size.Y / 2
       ),
       Alignment.Right => new(
-        screenWidth,
-        screenHeight / 2
+        size.X,
+        size.Y / 2
       ),
       Alignment.BottomLeft => new(
         0,
-        screenHeight
+        size.Y
       ),
       Alignment.BottomRight => new(
-        screenWidth,
-        screenHeight
+        size.X,
+        size.Y
       ),
       Alignment.BottomCenter => new(
-        screenWidth / 2,
-        screenHeight
+        size.X / 2,
+        size.Y
       ),
       Alignment.TopLeft => new(
         0,
         0
       ),
       Alignment.TopRight => new(
-        screenWidth,
+        size.X,
         0
       ),
       Alignment.TopCenter => new(
-        screenWidth / 2,
+        size.X / 2,
         0
       ),
       _ => throw new ArgumentOutOfRangeException(
@@ -110,12 +122,5 @@ public class HudSprite : CustomGameComponent
         null
       )
     };
-
-    return new(
-      (int)alignmentVector.X,
-      (int)alignmentVector.Y,
-      (int)(texture.Width * scale),
-      (int)(texture.Height * scale)
-    );
   }
 }
