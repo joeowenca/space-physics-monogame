@@ -40,6 +40,18 @@ public class HudSprite : CustomGameComponent
   public override void Load(ContentManager contentManager)
   {
     texture = contentManager.Load<Texture2D>(textureName);
+
+    rectangle = GetAlignmentRectangle(alignment);
+
+    originVector = GetAlignmentVector(
+      new Vector2(texture.Width, texture.Height),
+      origin
+    );
+
+    initialPosition = new Vector2(
+      rectangle.X,
+      rectangle.Y
+    );
   }
 
   public override void Draw(SpriteBatch spriteBatch)
