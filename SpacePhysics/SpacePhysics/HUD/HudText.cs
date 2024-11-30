@@ -8,7 +8,6 @@ namespace SpacePhysics.HUD;
 public class HudText : CustomGameComponent
 {
   private SpriteFont font;
-  private Vector2 initialPosition;
 
   private string fontName;
   private readonly Func<string> value;
