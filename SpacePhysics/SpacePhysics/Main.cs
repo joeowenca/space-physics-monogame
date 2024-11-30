@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SpacePhysics.Scenes;
 
 namespace SpacePhysics;
 
@@ -11,6 +12,7 @@ public class Main : Game
 
     private GraphicsDeviceManager graphics;
     private SpriteBatch spriteBatch;
+    private SceneManager sceneManager;
 
     public Main()
     {
@@ -27,6 +29,10 @@ public class Main : Game
     protected override void Initialize()
     {
         GraphicsDevice.PresentationParameters.MultiSampleCount = 4;
+
+        Camera.Camera.Initialize();
+
+        sceneManager = new(Content);
 
         base.Initialize();
     }
@@ -46,6 +52,10 @@ public class Main : Game
             FPS = 1 / (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
 
+        Camera.Camera.Update();
+
+        sceneManager.GetCurrentScene().Update(gameTime);
+
         base.Update(gameTime);
     }
 
@@ -53,6 +63,7 @@ public class Main : Game
     {
         GraphicsDevice.Clear(Color.Black);
 
+        sceneManager.GetCurrentScene().Draw(spriteBatch);
 
         base.Draw(gameTime);
     }
