@@ -40,6 +40,8 @@ public class Main : Game
     protected override void LoadContent()
     {
         spriteBatch = new SpriteBatch(GraphicsDevice);
+
+        sceneManager.AddScene(new Scenes.Start.StartScene(sceneManager));
     }
 
     protected override void Update(GameTime gameTime)
