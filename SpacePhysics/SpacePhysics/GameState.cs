@@ -13,8 +13,9 @@ public class GameState
   public static float throttle;
   public static float targetThrottle;
   public static float fuel;
-  public static float cameraZoom;
-  public static float targetCameraZoom;
+  public static float zoom;
+  public static float targetZoom;
+  public static float scale;
 
   public static bool sas;
   public static bool debug;
@@ -28,8 +29,9 @@ public class GameState
     throttle = 0f;
     targetThrottle = 0f;
     fuel = 7500;
-    cameraZoom = 1.27f;
-    targetCameraZoom = cameraZoom;
+    zoom = 1.27f;
+    targetZoom = zoom;
+    scale = 0.4f;
     sas = false;
   }
 }
