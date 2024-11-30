@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -102,6 +103,8 @@ public class Ship : CustomGameComponent
       SpriteEffects.None,
       0f
     );
+
+    DrawThrust(spriteBatch);
   }
 
   private void Physics()
@@ -224,5 +227,34 @@ public class Ship : CustomGameComponent
     {
       sas = !sas;
     }
+  }
+
+  private void DrawThrust(SpriteBatch spriteBatch)
+  {
+    float thrustScale = throttle * scale;
+
+    Vector2 origin = new Vector2(thrustSprite.texture.Width / 2, 80);
+    Vector2 offset = new Vector2(2, 63f);
+
+    float rotation = (float)(direction + Math.PI / 2);
+
+    Vector2 rotatedOffset = new Vector2(
+      offset.X * (float)Math.Cos(rotation) - offset.Y * (float)Math.Sin(rotation),
+      offset.X * (float)Math.Sin(rotation) + offset.Y * (float)Math.Cos(rotation)
+    );
+
+    Vector2 adjustedPosition = thrustSprite.position + rotatedOffset;
+
+    spriteBatch.Draw(
+      thrustSprite.texture,
+      adjustedPosition,
+      thrustSprite.SourceRectangle,
+      Color.White,
+      rotation,
+      origin,
+      thrustScale,
+      SpriteEffects.None,
+      0f
+    );
   }
 }
