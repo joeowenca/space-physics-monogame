@@ -40,12 +40,19 @@ public class HudText : CustomGameComponent
   public override void Load(ContentManager contentManager)
   {
     font = contentManager.Load<SpriteFont>(fontName);
+
+    Update(new GameTime());
   }
 
   public override void Update(GameTime gameTime)
   {
     width = (int)(font.MeasureString(value()).X * scale);
     height = (int)(font.MeasureString(value()).Y * scale);
+
+    position = offset();
+
+    position += GetAlignment(alignment);
+    position += GetTextAlign(textAlign);
   }
 
   public override void Draw(SpriteBatch spriteBatch)
