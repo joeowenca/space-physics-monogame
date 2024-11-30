@@ -68,6 +68,8 @@ public class MenuItem : CustomGameComponent
       targetColor = highlightColor;
     }
 
+    color = ColorHelper.Lerp(color, targetColor, 0.3f);
+
     component.Update(gameTime);
   }
 
