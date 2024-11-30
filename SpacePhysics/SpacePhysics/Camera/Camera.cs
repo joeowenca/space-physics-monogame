@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using static SpacePhysics.GameState;
 
 namespace SpacePhysics.Camera;
 
@@ -71,7 +72,7 @@ public class Camera
 
   private static void AdjustCamera()
   {
-    position = GameState.position - new Vector2(Main.screenSize.X / 2, Main.screenSize.Y / 2);
+    position = GameState.position - new Vector2(screenSize.X / 2, screenSize.Y / 2);
 
     if (input.OnFirstFramePress(Keys.V))
     {
@@ -80,14 +81,14 @@ public class Camera
 
     if (changeCamera)
     {
-      rotation = -GameState.direction - (float)(Math.PI / 2);
+      rotation = -direction - (float)(Math.PI / 2);
     }
     else
     {
       rotation = 0f;
     }
 
-    shakeOffset = Shake(GameState.throttle * 0.01f);
+    shakeOffset = Shake(throttle * 0.01f);
   }
 
   private static float CalculateZoom(float parallaxFactor)
@@ -95,24 +96,24 @@ public class Camera
     parallaxFactor *= 7;
 
     if (input.ContinuousPress(Keys.OemPlus))
-      GameState.targetZoom *= 1.005f;
+      targetZoom *= 1.005f;
     if (input.ContinuousPress(Keys.OemMinus))
-      GameState.targetZoom *= 0.995f;
+      targetZoom *= 0.995f;
 
     if (parallaxFactor == 1) return 1f;
 
-    GameState.zoom = MathHelper.Lerp(GameState.zoom, GameState.zoom, 0.03f);
-    GameState.zoom = Math.Clamp(GameState.zoom, minZoom, maxZoom);
-    GameState.targetZoom = Math.Clamp(GameState.targetZoom, minZoom, maxZoom);
+    zoom = MathHelper.Lerp(zoom, zoom, 0.03f);
+    zoom = Math.Clamp(zoom, minZoom, maxZoom);
+    targetZoom = Math.Clamp(targetZoom, minZoom, maxZoom);
 
     zoomPercent =
-      ((float)Math.Log10(GameState.zoom) -
+      ((float)Math.Log10(zoom) -
       ((float)Math.Log10(minZoom)) /
       (float)Math.Log10(maxZoom) -
       (float)Math.Log10(minZoom)) *
       100;
 
-    return MathHelper.Lerp(1f, GameState.zoom, GetZoomFactor(parallaxFactor));
+    return MathHelper.Lerp(1f, zoom, GetZoomFactor(parallaxFactor));
   }
 
   private static float CalculateZoomOverride(float parallaxFactor)
@@ -142,6 +143,6 @@ public class Camera
         Matrix.CreateRotationZ(rotation) *
         Matrix.CreateTranslation(new Vector3(parallaxFactor == 0 ? 0 : shakeOffset.X, parallaxFactor == 0 ? 0 : shakeOffset.Y, 0)) *
         Matrix.CreateScale(zoom * extremeZoom) *
-        Matrix.CreateTranslation(new Vector3(Main.screenSize.X / 2f, Main.screenSize.Y / 2f, 0));
+        Matrix.CreateTranslation(new Vector3(screenSize.X / 2f, screenSize.Y / 2f, 0));
   }
 }

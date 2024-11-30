@@ -7,9 +7,6 @@ namespace SpacePhysics;
 
 public class Main : Game
 {
-    public static Vector2 screenSize = new Vector2(2560, 1440);
-    public static float FPS;
-
     private GraphicsDeviceManager graphics;
     private SpriteBatch spriteBatch;
     private SceneManager sceneManager;
@@ -17,8 +14,8 @@ public class Main : Game
     public Main()
     {
         graphics = new GraphicsDeviceManager(this);
-        graphics.PreferredBackBufferWidth = (int)screenSize.X;
-        graphics.PreferredBackBufferHeight = (int)screenSize.Y;
+        graphics.PreferredBackBufferWidth = (int)GameState.screenSize.X;
+        graphics.PreferredBackBufferHeight = (int)GameState.screenSize.Y;
         graphics.IsFullScreen = true;
         graphics.PreferMultiSampling = true;
         graphics.ApplyChanges();
@@ -48,11 +45,6 @@ public class Main : Game
     {
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
-
-        if (gameTime.ElapsedGameTime.TotalSeconds > 0)
-        {
-            FPS = 1 / (float)gameTime.ElapsedGameTime.TotalSeconds;
-        }
 
         Camera.Camera.Update();
 

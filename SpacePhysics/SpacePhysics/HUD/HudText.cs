@@ -76,42 +76,45 @@ public class HudText : CustomGameComponent
 
   private Vector2 GetAlignment(Alignment alignment)
   {
+    float screenWidth = GameState.screenSize.X;
+    float screenHeight = GameState.screenSize.Y;
+
     return alignment switch
     {
       Alignment.Center => new Vector2(
-          (Main.screenSize.X) / 2,
-          (Main.screenSize.Y - height) / 2
+          screenWidth / 2,
+          (screenHeight - height) / 2
       ),
       Alignment.Left => new Vector2(
           0,
-          (Main.screenSize.Y - height) / 2
+          (screenHeight - height) / 2
       ),
       Alignment.Right => new Vector2(
-          Main.screenSize.X,
-          (Main.screenSize.Y - height) / 2
+          screenWidth,
+          (screenHeight - height) / 2
       ),
       Alignment.BottomLeft => new Vector2(
           0,
-          Main.screenSize.Y - height
+          screenHeight - height
       ),
       Alignment.BottomRight => new Vector2(
-          Main.screenSize.X,
-          Main.screenSize.Y - height
+          screenWidth,
+          screenHeight - height
       ),
       Alignment.BottomCenter => new Vector2(
-          (Main.screenSize.X) / 2,
-          Main.screenSize.Y - height
+          screenWidth / 2,
+          screenHeight - height
       ),
       Alignment.TopLeft => new Vector2(
           0,
           0
       ),
       Alignment.TopRight => new Vector2(
-          Main.screenSize.X,
+          screenWidth,
           0
       ),
       Alignment.TopCenter => new Vector2(
-          Main.screenSize.X / 2,
+          screenWidth / 2,
           0
       ),
       _ => throw new ArgumentOutOfRangeException(

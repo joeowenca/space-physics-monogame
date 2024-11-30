@@ -30,7 +30,7 @@ public class ColorHelper
     if (GameState.deltaTime > 0f)
     {
       float increment = GameState.deltaTime * Math.Abs(start - end) / (durationInSeconds + preDelayInSeconds);
-      float preDelayFrames = preDelayInSeconds * Main.FPS;
+      float preDelayFrames = preDelayInSeconds * GameState.FPS;
       float preDelay = preDelayFrames * increment;
 
       if (fadeIn)

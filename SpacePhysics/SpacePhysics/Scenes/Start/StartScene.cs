@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using static SpacePhysics.GameState;
 
 namespace SpacePhysics.Scenes.Start;
 
@@ -25,8 +26,8 @@ public class StartScene : CustomGameComponent
   public override void Initialize()
   {
     input = new();
-    offset = new Vector2(Main.screenSize.X / 10, -50);
-    targetOffset = new Vector2(Main.screenSize.X / 10, -50);
+    offset = new Vector2(screenSize.X / 10, -50);
+    targetOffset = new Vector2(screenSize.X / 10, -50);
 
     opacity = 0f;
     backgroundOpacity = 1f;
@@ -55,17 +56,17 @@ public class StartScene : CustomGameComponent
     GameState.Update(gameTime);
     input.Update();
 
-    if (GameState.state == GameState.State.TitleScreen || GameState.state == GameState.State.MainMenu)
+    if (state == State.TitleScreen || state == State.MainMenu)
     {
-      targetOffset = new Vector2(Main.screenSize.X / 10, -50);
+      targetOffset = new Vector2(screenSize.X / 10, -50);
     }
 
-    if (GameState.state == GameState.State.Settings)
+    if (state == State.Settings)
     {
-      targetOffset = new Vector2(-Main.screenSize.X / 10, -50);
+      targetOffset = new Vector2(-screenSize.X / 10, -50);
     }
 
-    if (GameState.state == GameState.State.Play)
+    if (state == State.Play)
     {
       Camera.Camera.targetZoomOverride = 20;
       opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, 0f, 2f);

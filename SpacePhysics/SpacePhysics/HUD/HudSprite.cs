@@ -85,7 +85,7 @@ public class HudSprite : CustomGameComponent
   private Rectangle GetAlignmentRectangle(Alignment alignment)
   {
     Vector2 alignmentVector = GetAlignmentVector(
-      new Vector2(Main.screenSize.X, Main.screenSize.Y),
+      new Vector2(GameState.screenSize.X, GameState.screenSize.Y),
       alignment
     );
 
