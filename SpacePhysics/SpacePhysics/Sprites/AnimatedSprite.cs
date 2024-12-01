@@ -32,11 +32,11 @@ public class AnimatedSprite : CustomGameComponent
     totalFrames = rows * columns;
   }
 
-  public void Update(GameTime gameTime, Vector2 position)
+  public void Update(Vector2 position)
   {
     this.position = position;
 
-    elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
+    elapsedTime += (int)GameState.deltaTime * 1000;
 
     if (elapsedTime >= animationSpeed)
     {

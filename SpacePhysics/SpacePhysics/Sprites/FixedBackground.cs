@@ -8,7 +8,7 @@ public class FixedBackground : CustomGameComponent
 {
   private Color color;
 
-  public FixedBackground(Texture2D texture, Vector2 position, Color color, Alignment alignment, int layerIndex) : base(alignment, layerIndex)
+  public FixedBackground(Texture2D texture, Vector2 position, Color color, Alignment alignment, int layerIndex) : base(false, alignment, layerIndex)
   {
     this.texture = texture;
     this.position = position;

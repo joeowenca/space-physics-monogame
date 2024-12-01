@@ -24,7 +24,7 @@ public class MenuItem : CustomGameComponent
     Func<Vector2> offset,
     Func<float> opacity,
     int layerIndex
-  ) : base(alignment, layerIndex)
+  ) : base(false, alignment, layerIndex)
   {
     this.active = active;
 
@@ -55,7 +55,7 @@ public class MenuItem : CustomGameComponent
     component.Load(contentManager);
   }
 
-  public override void Update(GameTime gameTime)
+  public override void Update()
   {
     position = component.position;
     width = component.width;
@@ -70,7 +70,7 @@ public class MenuItem : CustomGameComponent
 
     color = ColorHelper.Lerp(color, targetColor, 0.3f);
 
-    component.Update(gameTime);
+    component.Update();
   }
 
   public override void Draw(SpriteBatch spriteBatch)

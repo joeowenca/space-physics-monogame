@@ -11,7 +11,6 @@ namespace SpacePhysics.Player;
 
 public class Ship : CustomGameComponent
 {
-  private InputManager input;
   private AnimatedSprite thrustSprite;
   private Texture2D thrustOverlay;
 
@@ -27,15 +26,13 @@ public class Ship : CustomGameComponent
   private float maxThrust;
   private float maxFuel;
   private float engineEfficiency;
-  private float deltaTime;
 
   public readonly Func<float> opacity;
 
   private bool throttleTransition;
 
-  public Ship(Func<float> opacity, bool allowInput, Alignment alignment, int layerIndex) : base(alignment, layerIndex)
+  public Ship(Func<float> opacity, bool allowInput, Alignment alignment, int layerIndex) : base(allowInput, alignment, layerIndex)
   {
-    input = new(allowInput);
     this.opacity = opacity;
   }
 
@@ -48,7 +45,6 @@ public class Ship : CustomGameComponent
     maxThrust = 115800f;
     maxFuel = fuel;
     engineEfficiency = 0.001f;
-    deltaTime = 0;
   }
 
   public override void Load(ContentManager contentManager)
@@ -65,12 +61,9 @@ public class Ship : CustomGameComponent
     );
   }
 
-  public override void Update(GameTime gameTime)
+  public override void Update()
   {
-    input.Update();
-    thrustSprite.Update(gameTime, GameState.position);
-
-    deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+    thrustSprite.Update(GameState.position);
 
     Physics();
     Throttle();

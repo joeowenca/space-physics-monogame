@@ -9,7 +9,7 @@ public class LoopingBackground : CustomGameComponent
   private readonly Func<Color> color;
   private float parallaxFactor;
 
-  public LoopingBackground(Texture2D texture, Func<Color> color, int layerIndex) : base(Alignment.TopLeft, layerIndex)
+  public LoopingBackground(Texture2D texture, Func<Color> color, int layerIndex) : base(false, Alignment.TopLeft, layerIndex)
   {
     this.texture = texture;
     this.color = color;

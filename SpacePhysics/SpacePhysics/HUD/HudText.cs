@@ -25,7 +25,7 @@ public class HudText : CustomGameComponent
     Func<Color> color,
     float scale,
     int layerIndex
-  ) : base(alignment, layerIndex)
+  ) : base(false, alignment, layerIndex)
   {
     this.fontName = fontName;
     this.value = value;
@@ -40,10 +40,10 @@ public class HudText : CustomGameComponent
   {
     font = contentManager.Load<SpriteFont>(fontName);
 
-    Update(new GameTime());
+    Update();
   }
 
-  public override void Update(GameTime gameTime)
+  public override void Update()
   {
     width = (int)(font.MeasureString(value()).X * scale);
     height = (int)(font.MeasureString(value()).Y * scale);

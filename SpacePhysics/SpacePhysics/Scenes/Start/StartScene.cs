@@ -8,7 +8,6 @@ namespace SpacePhysics.Scenes.Start;
 public class StartScene : CustomGameComponent
 {
   private SceneManager sceneManager;
-  private InputManager input;
 
   public static Vector2 offset;
   private Vector2 targetOffset;
@@ -18,14 +17,13 @@ public class StartScene : CustomGameComponent
 
   public StartScene(
     SceneManager sceneManager
-  ) : base(Alignment.TopLeft, 7)
+  ) : base(true, Alignment.TopLeft, 7)
   {
     this.sceneManager = sceneManager;
   }
 
   public override void Initialize()
   {
-    input = new();
     offset = new Vector2(screenSize.X / 10, -50);
     targetOffset = new Vector2(screenSize.X / 10, -50);
 
@@ -34,8 +32,6 @@ public class StartScene : CustomGameComponent
 
     Camera.Camera.allowInput = false;
     Camera.Camera.zoomOverrideLerpSpeed = 0.0001f;
-
-    GameState.Initialize();
 
     foreach (var component in components)
     {
@@ -51,11 +47,8 @@ public class StartScene : CustomGameComponent
     }
   }
 
-  public override void Update(GameTime gameTime)
+  public override void Update()
   {
-    GameState.Update(gameTime);
-    input.Update();
-
     if (state == State.TitleScreen || state == State.MainMenu)
     {
       targetOffset = new Vector2(screenSize.X / 10, -50);
@@ -82,7 +75,7 @@ public class StartScene : CustomGameComponent
 
     foreach (var component in components)
     {
-      component.Update(gameTime);
+      component.Update();
     }
   }
 }
