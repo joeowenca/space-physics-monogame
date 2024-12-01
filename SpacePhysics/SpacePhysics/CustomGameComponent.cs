@@ -31,6 +31,8 @@ public class CustomGameComponent
 
   public List<CustomGameComponent> components = [];
 
+  public InputManager input;
+
   public Texture2D texture;
   public Vector2 position;
   public int width;
@@ -38,10 +40,12 @@ public class CustomGameComponent
   public Alignment alignment;
   public int layerIndex;
 
-  public CustomGameComponent(Alignment alignment = Alignment.TopLeft, int layerIndex = 0)
+  public CustomGameComponent(bool allowInput = false, Alignment alignment = Alignment.TopLeft, int layerIndex = 0)
   {
     this.alignment = alignment;
     this.layerIndex = layerIndex;
+
+    input = new(allowInput);
   }
 
   public virtual void Initialize()
@@ -62,6 +66,8 @@ public class CustomGameComponent
 
   public virtual void Update(GameTime gameTime)
   {
+    input.Update();
+
     foreach (var component in components)
     {
       component.Update(gameTime);

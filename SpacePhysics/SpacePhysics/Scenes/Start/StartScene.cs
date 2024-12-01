@@ -8,7 +8,6 @@ namespace SpacePhysics.Scenes.Start;
 public class StartScene : CustomGameComponent
 {
   private SceneManager sceneManager;
-  private InputManager input;
 
   public static Vector2 offset;
   private Vector2 targetOffset;
@@ -18,14 +17,13 @@ public class StartScene : CustomGameComponent
 
   public StartScene(
     SceneManager sceneManager
-  ) : base(Alignment.TopLeft, 7)
+  ) : base(true, Alignment.TopLeft, 7)
   {
     this.sceneManager = sceneManager;
   }
 
   public override void Initialize()
   {
-    input = new();
     offset = new Vector2(screenSize.X / 10, -50);
     targetOffset = new Vector2(screenSize.X / 10, -50);
 
@@ -54,7 +52,6 @@ public class StartScene : CustomGameComponent
   public override void Update(GameTime gameTime)
   {
     GameState.Update(gameTime);
-    input.Update();
 
     if (state == State.TitleScreen || state == State.MainMenu)
     {

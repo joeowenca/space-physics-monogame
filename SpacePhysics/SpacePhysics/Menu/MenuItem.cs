@@ -24,7 +24,7 @@ public class MenuItem : CustomGameComponent
     Func<Vector2> offset,
     Func<float> opacity,
     int layerIndex
-  ) : base(alignment, layerIndex)
+  ) : base(false, alignment, layerIndex)
   {
     this.active = active;
 

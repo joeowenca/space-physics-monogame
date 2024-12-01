@@ -11,7 +11,6 @@ namespace SpacePhysics.Player;
 
 public class Ship : CustomGameComponent
 {
-  private InputManager input;
   private AnimatedSprite thrustSprite;
   private Texture2D thrustOverlay;
 
@@ -33,9 +32,8 @@ public class Ship : CustomGameComponent
 
   private bool throttleTransition;
 
-  public Ship(Func<float> opacity, bool allowInput, Alignment alignment, int layerIndex) : base(alignment, layerIndex)
+  public Ship(Func<float> opacity, bool allowInput, Alignment alignment, int layerIndex) : base(allowInput, alignment, layerIndex)
   {
-    input = new(allowInput);
     this.opacity = opacity;
   }
 
@@ -67,7 +65,6 @@ public class Ship : CustomGameComponent
 
   public override void Update(GameTime gameTime)
   {
-    input.Update();
     thrustSprite.Update(gameTime, GameState.position);
 
     deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
