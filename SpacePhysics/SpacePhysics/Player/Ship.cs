@@ -26,7 +26,6 @@ public class Ship : CustomGameComponent
   private float maxThrust;
   private float maxFuel;
   private float engineEfficiency;
-  private float deltaTime;
 
   public readonly Func<float> opacity;
 
@@ -46,7 +45,6 @@ public class Ship : CustomGameComponent
     maxThrust = 115800f;
     maxFuel = fuel;
     engineEfficiency = 0.001f;
-    deltaTime = 0;
   }
 
   public override void Load(ContentManager contentManager)
@@ -63,11 +61,9 @@ public class Ship : CustomGameComponent
     );
   }
 
-  public override void Update(GameTime gameTime)
+  public override void Update()
   {
-    thrustSprite.Update(gameTime, GameState.position);
-
-    deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+    thrustSprite.Update(GameState.position);
 
     Physics();
     Throttle();

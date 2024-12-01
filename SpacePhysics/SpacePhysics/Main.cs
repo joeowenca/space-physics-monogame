@@ -27,6 +27,7 @@ public class Main : Game
     {
         GraphicsDevice.PresentationParameters.MultiSampleCount = 4;
 
+        GameState.Initialize();
         Camera.Camera.Initialize();
 
         sceneManager = new(Content);
@@ -46,9 +47,10 @@ public class Main : Game
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
+        GameState.Update(gameTime);
         Camera.Camera.Update();
 
-        sceneManager.GetCurrentScene().Update(gameTime);
+        sceneManager.GetCurrentScene().Update();
 
         base.Update(gameTime);
     }

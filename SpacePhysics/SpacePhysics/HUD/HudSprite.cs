@@ -27,7 +27,7 @@ public class HudSprite : CustomGameComponent
     Func<Color> color,
     float scale,
     int layerIndex
-  ) : base(alignment, layerIndex)
+  ) : base(false, alignment, layerIndex)
   {
     this.textureName = textureName;
     this.alignment = alignment;
@@ -54,10 +54,10 @@ public class HudSprite : CustomGameComponent
       rectangle.Y
     );
 
-    Update(new GameTime());
+    Update();
   }
 
-  public override void Update(GameTime gameTime)
+  public override void Update()
   {
     rectangle.X = (int)initialPosition.X + (int)offset().X;
     rectangle.Y = (int)initialPosition.Y + (int)offset().Y;

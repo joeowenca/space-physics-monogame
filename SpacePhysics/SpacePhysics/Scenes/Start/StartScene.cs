@@ -33,8 +33,6 @@ public class StartScene : CustomGameComponent
     Camera.Camera.allowInput = false;
     Camera.Camera.zoomOverrideLerpSpeed = 0.0001f;
 
-    GameState.Initialize();
-
     foreach (var component in components)
     {
       component.Initialize();
@@ -49,10 +47,8 @@ public class StartScene : CustomGameComponent
     }
   }
 
-  public override void Update(GameTime gameTime)
+  public override void Update()
   {
-    GameState.Update(gameTime);
-
     if (state == State.TitleScreen || state == State.MainMenu)
     {
       targetOffset = new Vector2(screenSize.X / 10, -50);
@@ -79,7 +75,7 @@ public class StartScene : CustomGameComponent
 
     foreach (var component in components)
     {
-      component.Update(gameTime);
+      component.Update();
     }
   }
 }

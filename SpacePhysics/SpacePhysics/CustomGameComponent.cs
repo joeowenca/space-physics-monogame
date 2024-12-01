@@ -64,13 +64,13 @@ public class CustomGameComponent
     }
   }
 
-  public virtual void Update(GameTime gameTime)
+  public virtual void Update()
   {
     input.Update();
 
     foreach (var component in components)
     {
-      component.Update(gameTime);
+      component.Update();
     }
   }
 
