@@ -42,9 +42,9 @@ public class Ship : CustomGameComponent
     force = Vector2.Zero;
     dryMass = 2500f;
     thrust = 0f;
-    maxThrust = 115800f;
+    maxThrust = 115800;
     maxFuel = fuel;
-    engineEfficiency = 0.001f;
+    engineEfficiency = 0.00000001f;
   }
 
   public override void Load(ContentManager contentManager)
@@ -182,6 +182,9 @@ public class Ship : CustomGameComponent
 
     fuel -= thrust * engineEfficiency;
     fuelPercent = fuel / maxFuel * 100;
+    fuel = Math.Clamp(fuel, 0f, maxFuel);
+
+    Console.WriteLine(fuel);
   }
 
   private void Stability()
