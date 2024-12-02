@@ -15,7 +15,7 @@ public class Camera
   private static Vector2 shakeDirection;
   private static Vector2 shakeOffset;
 
-  private static int counter;
+  private static float counter;
 
   public static float zoomOverride;
   public static float targetZoomOverride;
@@ -56,10 +56,11 @@ public class Camera
 
   public static Vector2 Shake(float intensity)
   {
-    counter++;
+    counter += deltaTime;
 
-    if (counter % 4 == 0)
+    if (counter >= 1f / 60f)
     {
+      counter = 0f;
       Random random = new Random();
       float angle = (float)(random.NextDouble() * Math.PI * 2);
       shakeDirection = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
@@ -90,7 +91,7 @@ public class Camera
       rotation = 0f;
     }
 
-    shakeOffset = Shake(throttle * 0.01f);
+    shakeOffset = Shake(throttle);
   }
 
   private static float CalculateZoom(float parallaxFactor)

@@ -183,8 +183,6 @@ public class Ship : CustomGameComponent
     fuel -= thrust * engineEfficiency;
     fuelPercent = fuel / maxFuel * 100;
     fuel = Math.Clamp(fuel, 0f, maxFuel);
-
-    Console.WriteLine(fuel);
   }
 
   private void Stability()
