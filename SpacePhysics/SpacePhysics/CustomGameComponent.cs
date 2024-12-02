@@ -35,8 +35,10 @@ public class CustomGameComponent
 
   public Texture2D texture;
   public Vector2 position;
+
   public int width;
   public int height;
+
   public Alignment alignment;
   public int layerIndex;
 
@@ -78,7 +80,7 @@ public class CustomGameComponent
   {
     foreach (var component in components)
     {
-      if (component.layerIndex >= 1 || component.layerIndex <= 10)
+      if (component.layerIndex >= 1 && component.layerIndex <= 10)
       {
         ScreenSpace.DrawSpriteBatch(
           spriteBatch,
