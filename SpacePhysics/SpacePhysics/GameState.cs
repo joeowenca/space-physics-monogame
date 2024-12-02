@@ -48,7 +48,7 @@ public class GameState
     defaultColor = Color.White * 0.75f;
     highlightColor = Color.Gold;
     angularVelocity = 0f;
-    direction = (float)-(Math.PI / 2);
+    direction = 0f;
     throttle = 0f;
     targetThrottle = 0f;
     fuel = 7500f;
