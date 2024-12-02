@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using SpacePhysics.Player;
 using SpacePhysics.Sprites;
 using static SpacePhysics.GameState;
 
@@ -37,6 +38,8 @@ public class StartScene : CustomGameComponent
       () => new Color(160, 160, 160, 0),
       1
     ));
+
+    components.Add(new Ship(() => 1f, true, Alignment.TopLeft, 7));
   }
 
   public override void Initialize()

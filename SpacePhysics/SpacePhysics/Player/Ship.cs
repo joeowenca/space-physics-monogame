@@ -49,20 +49,22 @@ public class Ship : CustomGameComponent
 
   public override void Load(ContentManager contentManager)
   {
-    texture = contentManager.Load<Texture2D>("Ship");
+    texture = contentManager.Load<Texture2D>("Player/ship");
 
-    thrustOverlay = contentManager.Load<Texture2D>("thrustOverlay");
+    thrustOverlay = contentManager.Load<Texture2D>("Player/thrust-overlay");
 
     thrustSprite = new AnimatedSprite(
-      contentManager.Load<Texture2D>("thrustSheet"),
+      contentManager.Load<Texture2D>("Player/thrust-sheet"),
       4,
       1,
-      60
+      1f / 15f
     );
   }
 
   public override void Update()
   {
+    input.Update();
+
     thrustSprite.Update(GameState.position);
 
     Physics();
