@@ -117,31 +117,33 @@ public class Ship : CustomGameComponent
 
   private void Throttle()
   {
+    float throttleChangeSpeed = deltaTime * 0.75f;
+
     if (input.ContinuousPress(Keys.LeftShift))
     {
       throttleTransition = false;
-      targetThrottle += 0.01f * deltaTime;
+      targetThrottle += throttleChangeSpeed;
     }
 
     if (input.ContinuousPress(Keys.LeftControl))
     {
       throttleTransition = false;
-      targetThrottle -= 0.01f * deltaTime;
+      targetThrottle -= throttleChangeSpeed;
     }
 
-    if (input.ContinuousPress(Keys.Z) && thrust != maxThrust)
+    if (input.ContinuousPress(Keys.Z))
     {
       targetThrottle = 1;
       throttleTransition = true;
     }
 
-    if (input.ContinuousPress(Keys.X) && thrust != 0)
+    if (input.ContinuousPress(Keys.X))
     {
       targetThrottle = 0;
       throttleTransition = true;
     }
 
-    throttle = MathHelper.Lerp(throttle, targetThrottle, 0.1f);
+    throttle = MathHelper.Lerp(throttle, targetThrottle, deltaTime);
 
     if (Math.Abs(throttle - targetThrottle) < 0.01f)
     {
@@ -153,7 +155,7 @@ public class Ship : CustomGameComponent
       throttle = MathHelper.Lerp(
         throttle,
         targetThrottle,
-        10f * deltaTime
+        deltaTime * 10f
       );
 
       if (Math.Abs(throttle - targetThrottle) < 0.01f)
