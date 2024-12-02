@@ -155,7 +155,7 @@ public class Ship : CustomGameComponent
       throttle = MathHelper.Lerp(
         throttle,
         targetThrottle,
-        deltaTime * 10f
+        deltaTime * 15f
       );
 
       if (Math.Abs(throttle - targetThrottle) < 0.01f)

@@ -31,12 +31,12 @@ public class StartScene : CustomGameComponent
     components.Add(new LoopingBackground(
       "Backgrounds/purple-background",
       () => new Color(100, 100, 100, 0),
-      1
+      2
     ));
     components.Add(new LoopingBackground(
-      "Backgrounds/starfield",
-      () => new Color(160, 160, 160, 0),
-      1
+      "Backgrounds/purple-background-2",
+      () => new Color(100, 100, 100, 0),
+      4
     ));
 
     components.Add(new Ship(() => 1f, true, Alignment.TopLeft, 7));
