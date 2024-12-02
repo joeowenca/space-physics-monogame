@@ -99,13 +99,13 @@ public class Camera
     parallaxFactor *= 7;
 
     if (input.ContinuousPress(Keys.OemPlus))
-      targetZoom *= 1.005f;
+      targetZoom *= 1.00005f;
     if (input.ContinuousPress(Keys.OemMinus))
-      targetZoom *= 0.995f;
+      targetZoom *= 0.99995f;
 
     if (parallaxFactor == 1) return 1f;
 
-    zoom = MathHelper.Lerp(zoom, zoom, 0.03f);
+    zoom = MathHelper.Lerp(zoom, targetZoom, deltaTime * 2f);
     zoom = Math.Clamp(zoom, minZoom, maxZoom);
     targetZoom = Math.Clamp(targetZoom, minZoom, maxZoom);
 

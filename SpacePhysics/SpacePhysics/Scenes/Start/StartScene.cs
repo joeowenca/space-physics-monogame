@@ -50,7 +50,7 @@ public class StartScene : CustomGameComponent
     opacity = 0f;
     backgroundOpacity = 1f;
 
-    Camera.Camera.allowInput = false;
+    Camera.Camera.allowInput = true;
     Camera.Camera.zoomOverrideLerpSpeed = 0.0001f;
 
     foreach (var component in components)
