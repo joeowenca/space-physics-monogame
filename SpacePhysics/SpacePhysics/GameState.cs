@@ -70,7 +70,5 @@ public class GameState
     {
       FPS = 1 / (float)gameTime.ElapsedGameTime.TotalSeconds;
     }
-
-    Console.WriteLine(FPS);
   }
 }
