@@ -42,9 +42,9 @@ public class Ship : CustomGameComponent
     force = Vector2.Zero;
     dryMass = 2500f;
     thrust = 0f;
-    maxThrust = 115800f;
+    maxThrust = 115800;
     maxFuel = fuel;
-    engineEfficiency = 0.001f;
+    engineEfficiency = 0.00000001f;
   }
 
   public override void Load(ContentManager contentManager)
@@ -80,7 +80,7 @@ public class Ship : CustomGameComponent
       GameState.position,
       null,
       Color.White * opacity(),
-      direction,
+      direction + (float)(Math.PI * 0.5f),
       new Vector2(texture.Width / 2, texture.Height / 2),
       scale,
       SpriteEffects.None,
@@ -92,7 +92,7 @@ public class Ship : CustomGameComponent
       GameState.position,
       null,
       Color.White * throttle,
-      direction,
+      direction + (float)(Math.PI * 0.5f),
       new Vector2(thrustOverlay.Width / 2, thrustOverlay.Height / 2),
       scale,
       SpriteEffects.None,
@@ -117,31 +117,33 @@ public class Ship : CustomGameComponent
 
   private void Throttle()
   {
+    float throttleChangeSpeed = deltaTime * 0.75f;
+
     if (input.ContinuousPress(Keys.LeftShift))
     {
       throttleTransition = false;
-      targetThrottle += 0.01f * deltaTime;
+      targetThrottle += throttleChangeSpeed;
     }
 
     if (input.ContinuousPress(Keys.LeftControl))
     {
       throttleTransition = false;
-      targetThrottle -= 0.01f * deltaTime;
+      targetThrottle -= throttleChangeSpeed;
     }
 
-    if (input.ContinuousPress(Keys.Z) && thrust != maxThrust)
+    if (input.ContinuousPress(Keys.Z))
     {
       targetThrottle = 1;
       throttleTransition = true;
     }
 
-    if (input.ContinuousPress(Keys.X) && thrust != 0)
+    if (input.ContinuousPress(Keys.X))
     {
       targetThrottle = 0;
       throttleTransition = true;
     }
 
-    throttle = MathHelper.Lerp(throttle, targetThrottle, 0.1f);
+    throttle = MathHelper.Lerp(throttle, targetThrottle, deltaTime);
 
     if (Math.Abs(throttle - targetThrottle) < 0.01f)
     {
@@ -153,7 +155,7 @@ public class Ship : CustomGameComponent
       throttle = MathHelper.Lerp(
         throttle,
         targetThrottle,
-        10f * deltaTime
+        deltaTime * 15f
       );
 
       if (Math.Abs(throttle - targetThrottle) < 0.01f)
@@ -180,11 +182,12 @@ public class Ship : CustomGameComponent
 
     fuel -= thrust * engineEfficiency;
     fuelPercent = fuel / maxFuel * 100;
+    fuel = Math.Clamp(fuel, 0f, maxFuel);
   }
 
   private void Stability()
   {
-    float angularThrust = throttle / mass;
+    float angularThrust = throttle / mass * 0.1f;
 
     if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
     {
@@ -203,14 +206,12 @@ public class Ship : CustomGameComponent
         !input.ContinuousPress(Keys.A)
       )
     {
-      angularVelocity = 0f;
-
-      if (angularVelocity > 0.0001f)
+      if (angularVelocity > 0f)
       {
         angularVelocity -= angularThrust * deltaTime;
       }
 
-      if (angularVelocity < 0.0001f)
+      if (angularVelocity < 0f)
       {
         angularVelocity += angularThrust * deltaTime;
       }
@@ -231,7 +232,7 @@ public class Ship : CustomGameComponent
     Vector2 origin = new Vector2(thrustSprite.texture.Width / 2, 80);
     Vector2 offset = new Vector2(2, 88f);
 
-    float rotation = direction;
+    float rotation = direction + (float)(Math.PI * 0.5f);
 
     Vector2 rotatedOffset = new Vector2(
       offset.X * (float)Math.Cos(rotation) - offset.Y * (float)Math.Sin(rotation),
