@@ -17,7 +17,8 @@ public class Main : Game
         graphics.PreferredBackBufferWidth = (int)GameState.screenSize.X;
         graphics.PreferredBackBufferHeight = (int)GameState.screenSize.Y;
         graphics.IsFullScreen = true;
-        graphics.PreferMultiSampling = true;
+        IsFixedTimeStep = false;
+        graphics.SynchronizeWithVerticalRetrace = false;
         graphics.ApplyChanges();
         Content.RootDirectory = "Content";
         IsMouseVisible = false;

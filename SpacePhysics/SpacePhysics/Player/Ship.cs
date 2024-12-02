@@ -49,20 +49,22 @@ public class Ship : CustomGameComponent
 
   public override void Load(ContentManager contentManager)
   {
-    texture = contentManager.Load<Texture2D>("Ship");
+    texture = contentManager.Load<Texture2D>("Player/ship");
 
-    thrustOverlay = contentManager.Load<Texture2D>("thrustOverlay");
+    thrustOverlay = contentManager.Load<Texture2D>("Player/thrust-overlay");
 
     thrustSprite = new AnimatedSprite(
-      contentManager.Load<Texture2D>("thrustSheet"),
+      contentManager.Load<Texture2D>("Player/thrust-sheet"),
       4,
       1,
-      60
+      1f / 15f
     );
   }
 
   public override void Update()
   {
+    input.Update();
+
     thrustSprite.Update(GameState.position);
 
     Physics();
@@ -89,7 +91,7 @@ public class Ship : CustomGameComponent
       thrustOverlay,
       GameState.position,
       null,
-      Color.White * (throttle / 100 * opacity()),
+      Color.White * throttle,
       direction,
       new Vector2(thrustOverlay.Width / 2, thrustOverlay.Height / 2),
       scale,
@@ -227,9 +229,9 @@ public class Ship : CustomGameComponent
     float thrustScale = throttle * scale;
 
     Vector2 origin = new Vector2(thrustSprite.texture.Width / 2, 80);
-    Vector2 offset = new Vector2(2, 63f);
+    Vector2 offset = new Vector2(2, 88f);
 
-    float rotation = (float)(direction + Math.PI / 2);
+    float rotation = direction;
 
     Vector2 rotatedOffset = new Vector2(
       offset.X * (float)Math.Cos(rotation) - offset.Y * (float)Math.Sin(rotation),

@@ -50,6 +50,8 @@ public class Camera
   {
     input.Update();
     input.allowInput = allowInput;
+
+    AdjustCamera();
   }
 
   public static Vector2 Shake(float intensity)

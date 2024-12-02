@@ -11,12 +11,6 @@ public class ScreenSpace
   public static void DrawSpriteBatch(SpriteBatch spriteBatch, Matrix matrix, CustomGameComponent component)
   {
     spriteBatch.Begin(
-      SpriteSortMode.Deferred,
-      BlendState.AlphaBlend,
-      SamplerState.AnisotropicClamp,
-      DepthStencilState.Default,
-      RasterizerState.CullNone,
-      null,
       transformMatrix: matrix
     );
 

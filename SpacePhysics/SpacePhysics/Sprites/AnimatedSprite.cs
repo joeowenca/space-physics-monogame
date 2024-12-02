@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -8,20 +9,20 @@ public class AnimatedSprite : CustomGameComponent
 {
   public Rectangle SourceRectangle => new Rectangle(
       currentFrame % columns * frameWidth,
-      currentFrame / rows * frameHeight,
+      currentFrame / columns * frameHeight,
       frameWidth,
       frameHeight
   );
 
   private int rows;
   private int columns;
-  private int animationSpeed;
+  private float animationSpeed;
   private int currentFrame;
   private int totalFrames;
   private int frameWidth;
   private int frameHeight;
-  private int elapsedTime;
-  public AnimatedSprite(Texture2D texture, int rows, int columns, int animationSpeed) : base()
+  private float elapsedTime;
+  public AnimatedSprite(Texture2D texture, int rows, int columns, float animationSpeed) : base()
   {
     this.texture = texture;
     this.rows = rows;
@@ -36,12 +37,12 @@ public class AnimatedSprite : CustomGameComponent
   {
     this.position = position;
 
-    elapsedTime += (int)GameState.deltaTime * 1000;
+    elapsedTime += GameState.deltaTime;
 
     if (elapsedTime >= animationSpeed)
     {
       currentFrame = (currentFrame + 1) % totalFrames;
-      elapsedTime = 0;
+      elapsedTime -= animationSpeed;
     }
   }
 }
