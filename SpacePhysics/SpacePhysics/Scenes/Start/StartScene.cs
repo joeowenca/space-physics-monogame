@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using SpacePhysics.Sprites;
 using static SpacePhysics.GameState;
 
 namespace SpacePhysics.Scenes.Start;
@@ -20,6 +21,22 @@ public class StartScene : CustomGameComponent
   ) : base(true, Alignment.TopLeft, 7)
   {
     this.sceneManager = sceneManager;
+
+    components.Add(new LoopingBackground(
+      "Backgrounds/starfield",
+      () => new Color(255, 255, 255, 0),
+      1
+    ));
+    components.Add(new LoopingBackground(
+      "Backgrounds/purple-background",
+      () => new Color(100, 100, 100, 0),
+      1
+    ));
+    components.Add(new LoopingBackground(
+      "Backgrounds/starfield",
+      () => new Color(160, 160, 160, 0),
+      1
+    ));
   }
 
   public override void Initialize()
