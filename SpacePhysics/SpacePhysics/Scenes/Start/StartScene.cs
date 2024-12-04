@@ -3,19 +3,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using SpacePhysics.Player;
 using SpacePhysics.Sprites;
-using static SpacePhysics.GameState;
 
 namespace SpacePhysics.Scenes.Start;
 
 public class StartScene : CustomGameComponent
 {
   private SceneManager sceneManager;
-
-  public static Vector2 offset;
-  private Vector2 targetOffset;
-
-  private float opacity;
-  private float backgroundOpacity;
 
   public StartScene(
     SceneManager sceneManager
@@ -44,15 +37,6 @@ public class StartScene : CustomGameComponent
 
   public override void Initialize()
   {
-    offset = new Vector2(screenSize.X / 10, -50);
-    targetOffset = new Vector2(screenSize.X / 10, -50);
-
-    opacity = 0f;
-    backgroundOpacity = 1f;
-
-    Camera.Camera.allowInput = true;
-    Camera.Camera.zoomOverrideLerpSpeed = 0.0001f;
-
     base.Initialize();
   }
 
@@ -63,30 +47,6 @@ public class StartScene : CustomGameComponent
 
   public override void Update()
   {
-    if (state == State.TitleScreen || state == State.MainMenu)
-    {
-      targetOffset = new Vector2(screenSize.X / 10, -50);
-    }
-
-    if (state == State.Settings)
-    {
-      targetOffset = new Vector2(-screenSize.X / 10, -50);
-    }
-
-    if (state == State.Play)
-    {
-      Camera.Camera.targetZoomOverride = 20;
-      opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, 0f, 2f);
-      backgroundOpacity = ColorHelper.FadeOpacity(backgroundOpacity, 1f, 0f, 0f, 2f);
-    }
-
-    opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, 0.5f, 2f);
-
-    offset.X = MathHelper.Lerp(offset.X, targetOffset.X, 0.05f);
-    offset.Y = MathHelper.Lerp(offset.Y, targetOffset.Y, 0.05f);
-
-    Camera.Camera.offset = offset;
-
     base.Update();
   }
 }
