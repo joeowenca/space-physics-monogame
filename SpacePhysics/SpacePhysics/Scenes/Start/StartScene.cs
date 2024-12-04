@@ -1,6 +1,8 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using SpacePhysics.Menu;
 using SpacePhysics.Player;
 using SpacePhysics.Sprites;
 
@@ -32,7 +34,18 @@ public class StartScene : CustomGameComponent
       4
     ));
 
-    components.Add(new Ship(() => 1f, true, Alignment.TopLeft, 7));
+    components.Add(new Ship(
+      () => 1f,
+      true,
+      Alignment.TopLeft,
+      7
+    ));
+
+    components.Add(new TitleMenu(
+      true,
+      Alignment.TopLeft,
+      7
+    ));
   }
 
   public override void Initialize()

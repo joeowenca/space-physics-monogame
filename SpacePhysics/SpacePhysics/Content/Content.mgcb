@@ -49,6 +49,13 @@
 /processorParam:TextureFormat=Color
 /build:Backgrounds/starfield.png
 
+#begin Fonts/title-font.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/title-font.spritefont
+
 #begin Player/ship.png
 /importer:TextureImporter
 /processor:TextureProcessor

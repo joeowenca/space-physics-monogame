@@ -5,23 +5,23 @@ namespace SpacePhysics.Menu;
 
 public class MenuContainer
 {
-  public static float CalculateMenuHeight(List<CustomGameComponent> components)
+  public static float CalculateMenuHeight(List<CustomGameComponent> menuItems)
   {
     float totalHeight = 0;
     float previousPositionY = 0;
     float previousHeight = 0;
 
-    foreach (var component in components)
+    foreach (var menuItem in menuItems)
     {
-      totalHeight += component.height;
+      totalHeight += menuItem.height;
 
       if (previousPositionY > 0 && previousHeight > 0)
       {
-        totalHeight += component.position.Y - previousPositionY - previousHeight;
+        totalHeight += menuItem.position.Y - previousPositionY - previousHeight;
       }
 
-      previousPositionY = component.position.Y;
-      previousHeight = component.height;
+      previousPositionY = menuItem.position.Y;
+      previousHeight = menuItem.height;
     }
 
     return totalHeight;
