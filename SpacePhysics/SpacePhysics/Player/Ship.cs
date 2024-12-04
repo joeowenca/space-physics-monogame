@@ -63,14 +63,14 @@ public class Ship : CustomGameComponent
 
   public override void Update()
   {
-    input.Update();
-
     thrustSprite.Update(GameState.position);
 
     Physics();
     Throttle();
     Thrust();
     Stability();
+
+    base.Update();
   }
 
   public override void Draw(SpriteBatch spriteBatch)

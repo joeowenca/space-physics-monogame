@@ -53,18 +53,12 @@ public class StartScene : CustomGameComponent
     Camera.Camera.allowInput = true;
     Camera.Camera.zoomOverrideLerpSpeed = 0.0001f;
 
-    foreach (var component in components)
-    {
-      component.Initialize();
-    }
+    base.Initialize();
   }
 
   public override void Load(ContentManager contentManager)
   {
-    foreach (var component in components)
-    {
-      component.Load(contentManager);
-    }
+    base.Load(contentManager);
   }
 
   public override void Update()
@@ -93,9 +87,6 @@ public class StartScene : CustomGameComponent
 
     Camera.Camera.offset = offset;
 
-    foreach (var component in components)
-    {
-      component.Update();
-    }
+    base.Update();
   }
 }
