@@ -21,40 +21,34 @@ public class ColorHelper
     float opacity,
     float start,
     float end,
-    float preDelayInSeconds,
     float durationInSeconds)
   {
-    bool fadeIn = start - end < 0;
-    bool fadeOut = start - end > 0;
+    bool fadeIn = (start - end) < 0;
+    bool fadeOut = (start - end) > 0;
 
     if (GameState.deltaTime > 0f)
     {
-      float increment = GameState.deltaTime * Math.Abs(start - end) / (durationInSeconds + preDelayInSeconds);
-      float preDelayFrames = preDelayInSeconds * GameState.FPS;
-      float preDelay = preDelayFrames * increment;
+      float increment = GameState.deltaTime * Math.Abs(start - end) / durationInSeconds;
 
       if (fadeIn)
       {
-        opacity -= preDelay;
         opacity += increment;
 
-        opacity = Math.Clamp(opacity, start - preDelay, end);
+        opacity = Math.Clamp(opacity, start, end);
       }
 
       if (fadeOut)
       {
-        opacity += preDelay;
         opacity -= increment;
 
-        opacity = Math.Clamp(opacity, start, end + preDelay);
+        opacity = Math.Clamp(opacity, end, start);
       }
+
+      Console.WriteLine(opacity);
 
       return opacity;
     }
 
-    if (fadeIn) return start;
-    if (fadeOut) return end;
-
-    return 0f;
+    return start;
   }
 }

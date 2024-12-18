@@ -53,13 +53,24 @@ public class GameState
     throttle = 0f;
     targetThrottle = 0f;
     fuel = 7500f;
-    zoom = 1.27f;
+    zoom = 2f;
     targetZoom = zoom;
-    scale = 0.4f;
+    scaleOverride = 0.3f;
+    scale = screenSize.Y / 1080 * scaleOverride;
     units = 5f;
     elapsedTime = 0f;
     deltaTime = 0f;
     sas = false;
+  }
+
+  public static void Intro()
+  {
+    position = new Vector2(400, 400);
+    velocity = new Vector2(200, -80);
+    angularVelocity = 0.00002f;
+    direction = (float)-(Math.PI / 2) - 0.4f;
+    zoom = 2f;
+    targetZoom = zoom;
   }
 
   public static void Update(GameTime gameTime)

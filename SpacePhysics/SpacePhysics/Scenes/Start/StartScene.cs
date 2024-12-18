@@ -1,6 +1,5 @@
 using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using SpacePhysics.Menu;
 using SpacePhysics.Player;
 using SpacePhysics.Sprites;
@@ -25,38 +24,38 @@ public class StartScene : CustomGameComponent
 
     components.Add(new LoopingBackground(
       "Backgrounds/starfield",
-      () => new Color(255, 255, 255, 0),
+      () => new Color(255, 255, 255, 0) * opacity,
       1
     ));
     components.Add(new LoopingBackground(
       "Backgrounds/purple-background",
-      () => new Color(100, 100, 100, 0),
+      () => new Color(100, 100, 100, 0) * opacity,
       2
     ));
     components.Add(new LoopingBackground(
       "Backgrounds/purple-background-2",
-      () => new Color(100, 100, 100, 0),
+      () => new Color(100, 100, 100, 0) * opacity,
       4
     ));
 
     components.Add(new Ship(
-      () => 1f,
-      true,
+      () => opacity,
+      false,
       Alignment.TopLeft,
       7
     ));
 
     components.Add(new TitleMenu(
       true,
-      Alignment.TopLeft,
-      7
+      Alignment.Left,
+      () => menuOpacity,
+      11
     ));
   }
 
   public override void Initialize()
   {
-    base.Initialize();
-  }
+    GameState.Intro();
 
     Camera.Camera.allowInput = false;
 
