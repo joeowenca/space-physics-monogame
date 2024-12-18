@@ -14,7 +14,6 @@ public class StartScene : CustomGameComponent
   public static Vector2 targetOffset;
 
   private float opacity;
-  private float menuOpacity;
 
   public StartScene(
     SceneManager sceneManager
@@ -48,7 +47,6 @@ public class StartScene : CustomGameComponent
     components.Add(new TitleMenu(
       true,
       Alignment.Left,
-      () => menuOpacity,
       11
     ));
   }
@@ -73,7 +71,6 @@ public class StartScene : CustomGameComponent
     Camera.Camera.offset = offset;
 
     opacity = ColorHelper.FadeOpacity(opacity, -0.25f, 1f, 4f);
-    menuOpacity = ColorHelper.FadeOpacity(menuOpacity, -0.75f, 1f, 4.75f);
 
     base.Update();
   }

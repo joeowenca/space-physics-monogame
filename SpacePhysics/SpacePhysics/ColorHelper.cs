@@ -44,8 +44,6 @@ public class ColorHelper
         opacity = Math.Clamp(opacity, end, start);
       }
 
-      Console.WriteLine(opacity);
-
       return opacity;
     }
 

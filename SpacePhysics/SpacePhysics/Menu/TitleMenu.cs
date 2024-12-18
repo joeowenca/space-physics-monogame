@@ -11,23 +11,36 @@ public class TitleMenu : CustomGameComponent
 {
   private Vector2 offset;
 
+  private float titleOpacity;
+  private float textOpacity;
+
   public TitleMenu(
     bool allowInput,
     Alignment alignment,
-    Func<float> opacity,
     int layerIndex) : base(
       allowInput,
       alignment,
       layerIndex
     )
   {
+    components.Add(new HudSprite(
+      "Menu/icon",
+      Alignment.TopLeft,
+      Alignment.TopLeft,
+      () => new Vector2(screenSize.X - (screenSize.X * 0.5f) - (screenSize.X * 0.22f), 0f) + offset,
+      () => 0f,
+      () => Color.White * titleOpacity,
+      2f,
+      11
+    ));
+
     components.Add(new HudText(
       "Fonts/title-font",
       () => "Space Physics",
       Alignment.TopLeft,
-      TextAlign.Center,
-      () => new Vector2(screenSize.X, 0f) + offset,
-      () => Color.White * opacity(),
+      TextAlign.Left,
+      () => new Vector2(screenSize.X - (screenSize.X * 0.5f), 0f) + offset,
+      () => Color.White * titleOpacity,
       scale * 5f,
       11
     ));
@@ -36,9 +49,9 @@ public class TitleMenu : CustomGameComponent
       "Fonts/light-font",
       () => "PRESS ANY KEY",
       Alignment.TopLeft,
-      TextAlign.Center,
-      () => new Vector2(screenSize.X, screenSize.Y * 0.5f) + offset,
-      () => Color.White * opacity(),
+      TextAlign.Left,
+      () => new Vector2(screenSize.X * 0.75f, screenSize.Y * 0.6f) + offset,
+      () => Color.White * textOpacity,
       scale * 3f,
       11
     ));
@@ -47,6 +60,9 @@ public class TitleMenu : CustomGameComponent
   public override void Update()
   {
     offset = MenuContainer.CenterMenu(components);
+
+    titleOpacity = ColorHelper.FadeOpacity(titleOpacity, -0.75f, 1f, 4.5f);
+    textOpacity = ColorHelper.FadeOpacity(textOpacity, -2f, 0.9f, 5f);
 
     base.Update();
   }
