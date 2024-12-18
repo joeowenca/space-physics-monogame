@@ -33,6 +33,7 @@ public class GameState
   public static float zoom;
   public static float targetZoom;
   public static float scale;
+  public static float scaleOverride;
   public static float units;
   public static float elapsedTime;
   public static float deltaTime;

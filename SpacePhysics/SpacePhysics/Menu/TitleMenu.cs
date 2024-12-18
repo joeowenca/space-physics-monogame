@@ -41,7 +41,7 @@ public class TitleMenu : CustomGameComponent
 
   public override void Update()
   {
-    height = MenuContainer.CalculateMenuHeight(components);
+    offset = MenuContainer.CenterMenu(components);
 
     base.Update();
   }

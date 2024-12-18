@@ -15,7 +15,7 @@ public class MenuContainer
     {
       totalHeight += menuItem.height;
 
-      if (previousPositionY > 0 && previousHeight > 0)
+      if (Math.Abs(previousPositionY) > 0 || previousHeight > 0)
       {
         totalHeight += menuItem.position.Y - previousPositionY - previousHeight;
       }
@@ -25,5 +25,13 @@ public class MenuContainer
     }
 
     return totalHeight;
+  }
+
+  public static Vector2 CenterMenu(List<CustomGameComponent> menuItems)
+  {
+    return new Vector2(
+      0f,
+      GameState.screenSize.Y * GameState.scale - CalculateMenuHeight(menuItems) / 2
+    );
   }
 }

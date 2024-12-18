@@ -45,8 +45,8 @@ public class HudText : CustomGameComponent
 
   public override void Update()
   {
-    width = (int)(font.MeasureString(value()).X * scale);
-    height = (int)(font.MeasureString(value()).Y * scale);
+    width = font.MeasureString(value()).X * scale;
+    height = font.MeasureString(value()).Y * scale;
 
     position = offset();
 
@@ -130,17 +130,17 @@ public class HudText : CustomGameComponent
     return textAlign switch
     {
       TextAlign.Center => new Vector2(
-          -width / 2,
-0
-),
+        -width / 2,
+        0
+      ),
       TextAlign.Left => new Vector2(
-          0,
-0
-),
+        0,
+        0
+      ),
       TextAlign.Right => new Vector2(
-          -width,
-          0
-),
+        -width,
+        0
+      ),
       _ => throw new ArgumentOutOfRangeException(
           nameof(alignment),
           alignment,

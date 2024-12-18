@@ -1,7 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 using SpacePhysics.Menu;
 using SpacePhysics.Player;
 using SpacePhysics.Sprites;
@@ -11,6 +10,12 @@ namespace SpacePhysics.Scenes.Start;
 public class StartScene : CustomGameComponent
 {
   private SceneManager sceneManager;
+
+  public static Vector2 offset;
+  public static Vector2 targetOffset;
+
+  private float opacity;
+  private float menuOpacity;
 
   public StartScene(
     SceneManager sceneManager
@@ -53,13 +58,24 @@ public class StartScene : CustomGameComponent
     base.Initialize();
   }
 
-  public override void Load(ContentManager contentManager)
-  {
-    base.Load(contentManager);
+    Camera.Camera.allowInput = false;
+
+    offset = new Vector2(GameState.screenSize.X / 10, -50);
+    targetOffset = new Vector2(GameState.screenSize.X / 10, -50);
+
+    base.Initialize();
   }
 
   public override void Update()
   {
+    offset.X = MathHelper.Lerp(offset.X, targetOffset.X, 0.05f);
+    offset.Y = MathHelper.Lerp(offset.Y, targetOffset.Y, 0.05f);
+
+    Camera.Camera.offset = offset;
+
+    opacity = ColorHelper.FadeOpacity(opacity, -0.25f, 1f, 4f);
+    menuOpacity = ColorHelper.FadeOpacity(menuOpacity, -0.75f, 1f, 4.75f);
+
     base.Update();
   }
 }
