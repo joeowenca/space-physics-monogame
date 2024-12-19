@@ -13,6 +13,8 @@ public class StartScene : CustomGameComponent
   public static Vector2 offset;
   public static Vector2 targetOffset;
 
+  public static float transitionSpeed;
+
   private float opacity;
 
   public StartScene(
@@ -44,6 +46,12 @@ public class StartScene : CustomGameComponent
       7
     ));
 
+    components.Add(new Title(
+      true,
+      Alignment.Left,
+      11
+    ));
+
     components.Add(new TitleMenu(
       true,
       Alignment.Left,
@@ -59,6 +67,8 @@ public class StartScene : CustomGameComponent
 
     offset = new Vector2(GameState.screenSize.X / 10, -50);
     targetOffset = new Vector2(GameState.screenSize.X / 10, -50);
+
+    transitionSpeed = 0.33f;
 
     base.Initialize();
   }
