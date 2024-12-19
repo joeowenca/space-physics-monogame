@@ -11,7 +11,7 @@ public class StartScene : CustomGameComponent
   private SceneManager sceneManager;
 
   public static Vector2 offset;
-  public static Vector2 targetOffset;
+  private Vector2 targetOffset;
 
   public static float transitionSpeed;
 
@@ -39,13 +39,6 @@ public class StartScene : CustomGameComponent
       4
     ));
 
-    components.Add(new Ship(
-      () => opacity,
-      false,
-      Alignment.TopLeft,
-      7
-    ));
-
     components.Add(new Title(
       true,
       Alignment.Left,
@@ -69,6 +62,13 @@ public class StartScene : CustomGameComponent
       Alignment.Right,
       11
     ));
+
+    components.Add(new Ship(
+      () => opacity,
+      false,
+      Alignment.TopLeft,
+      7
+    ));
   }
 
   public override void Initialize()
@@ -80,7 +80,7 @@ public class StartScene : CustomGameComponent
     offset = new Vector2(GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
     targetOffset = new Vector2(GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
 
-    transitionSpeed = 0.33f;
+    transitionSpeed = 0.6f;
 
     base.Initialize();
   }
@@ -96,8 +96,8 @@ public class StartScene : CustomGameComponent
       targetOffset = new Vector2(GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
     }
 
-    offset.X = MathHelper.Lerp(offset.X, targetOffset.X, GameState.deltaTime * 4f);
-    offset.Y = MathHelper.Lerp(offset.Y, targetOffset.Y, GameState.deltaTime * 4f);
+    offset.X = MathHelper.Lerp(offset.X, targetOffset.X, GameState.deltaTime * 3f);
+    offset.Y = MathHelper.Lerp(offset.Y, targetOffset.Y, GameState.deltaTime * 3f);
 
     Camera.Camera.offset = offset;
 

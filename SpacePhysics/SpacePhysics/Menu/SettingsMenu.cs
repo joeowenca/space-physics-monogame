@@ -11,6 +11,8 @@ namespace SpacePhysics.Menu;
 public class SettingsMenu : CustomGameComponent
 {
   private Vector2 offset;
+  private Vector2 baseOffset;
+  private Vector2 menuOffset;
 
   private float opacity;
 
@@ -30,7 +32,9 @@ public class SettingsMenu : CustomGameComponent
   {
     float padding = 0.17f;
     float menuSize = 1000f * padding;
-    offset = new Vector2(-2600f, -200f);
+    offset = new Vector2(-1700f, -200f);
+    baseOffset = offset;
+    menuOffset = offset;
 
     components.Add(new HudText(
       "Fonts/title-font",
@@ -47,7 +51,7 @@ public class SettingsMenu : CustomGameComponent
         "Audio",
         () => activeMenu == 1,
         alignment,
-        () => new Vector2(0f, 0f) + offset,
+        () => new Vector2(0f, 0f) + menuOffset,
         () => opacity,
         11
       ));
@@ -56,7 +60,7 @@ public class SettingsMenu : CustomGameComponent
       "Graphics",
       () => activeMenu == 2,
       alignment,
-      () => new Vector2(0f, menuSize) + offset,
+      () => new Vector2(0f, menuSize) + menuOffset,
       () => opacity,
       11
     ));
@@ -65,7 +69,7 @@ public class SettingsMenu : CustomGameComponent
       "Gameplay",
       () => activeMenu == 3,
       alignment,
-      () => new Vector2(0f, menuSize * 2f) + offset,
+      () => new Vector2(0f, menuSize * 2f) + menuOffset,
       () => opacity,
       11
     ));
@@ -74,7 +78,7 @@ public class SettingsMenu : CustomGameComponent
       "Controls",
       () => activeMenu == 4,
       alignment,
-      () => new Vector2(0f, menuSize * 3f) + offset,
+      () => new Vector2(0f, menuSize * 3f) + menuOffset,
       () => opacity,
       11
     ));
@@ -83,7 +87,7 @@ public class SettingsMenu : CustomGameComponent
       "Back",
       () => activeMenu == 5,
       alignment,
-      () => new Vector2(0f, menuSize * 4.5f) + offset,
+      () => new Vector2(0f, menuSize * 4.5f) + menuOffset,
       () => opacity,
       11
     ));
@@ -123,6 +127,9 @@ public class SettingsMenu : CustomGameComponent
     }
 
     activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
+
+    offset.X = baseOffset.X + StartScene.offset.X * 3f;
+    menuOffset.X = baseOffset.X - 150 + (StartScene.offset.X * 0.85f * 3f);
 
     base.Update();
   }

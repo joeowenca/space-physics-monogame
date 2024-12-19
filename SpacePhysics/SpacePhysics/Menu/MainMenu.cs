@@ -10,6 +10,7 @@ namespace SpacePhysics.Menu;
 public class MainMenu : CustomGameComponent
 {
   private Vector2 offset;
+  private Vector2 baseOffset;
 
   private float opacity;
 
@@ -29,7 +30,8 @@ public class MainMenu : CustomGameComponent
   {
     float padding = 0.17f;
     float menuSize = 1000f * padding;
-    offset = new Vector2(1800f, 50f);
+    offset = new Vector2(1050f, 50f);
+    baseOffset = offset;
 
     components.Add(new MenuItem(
         "Play",
@@ -99,6 +101,8 @@ public class MainMenu : CustomGameComponent
     }
 
     activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
+
+    offset.X = baseOffset.X + (StartScene.offset.X * 0.85f * 3f);
 
     base.Update();
   }
