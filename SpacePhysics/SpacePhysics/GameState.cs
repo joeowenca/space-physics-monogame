@@ -69,7 +69,7 @@ public class GameState
     velocity = new Vector2(200, -80);
     angularVelocity = 0.00002f;
     direction = (float)-(Math.PI / 2) - 0.4f;
-    zoom = 1.5f;
+    zoom = 1.75f;
     targetZoom = zoom;
   }
 

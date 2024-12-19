@@ -13,6 +13,9 @@ public class Title : CustomGameComponent
 {
   private Vector2 offset;
 
+  private float offsetY;
+  private float targetOffsetY;
+
   private float opacity;
 
   public Title(
@@ -24,27 +27,28 @@ public class Title : CustomGameComponent
       layerIndex
     )
   {
-    offset = new Vector2(screenSize.X * 0.33f, 0);
+    offset = new Vector2(1000, 0);
+    targetOffsetY = 0f;
 
     components.Add(new HudSprite(
       "Menu/icon",
-      Alignment.Left,
-      Alignment.Left,
-      () => new Vector2(0, -screenSize.Y * 0.25f) + offset,
+      alignment,
+      alignment,
+      () => new Vector2(0, -300) + offset,
       () => 0f,
       () => Color.White * opacity,
-      scale * 6f,
+      2.5f,
       11
     ));
 
     components.Add(new HudText(
       "Fonts/title-font",
       () => "Space Physics",
-      Alignment.Left,
+      alignment,
       TextAlign.Left,
-      () => new Vector2(screenSize.X * 0.25f, -screenSize.Y * 0.25f) + offset,
+      () => new Vector2(700, -300) + offset,
       () => Color.White * opacity,
-      scale * 4f,
+      1.75f,
       11
     ));
   }
@@ -54,11 +58,20 @@ public class Title : CustomGameComponent
     if (state != State.TitleScreen && state != State.MainMenu)
     {
       opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, StartScene.transitionSpeed);
+      targetOffsetY = -50;
+    }
+    else if (state == State.MainMenu)
+    {
+      targetOffsetY = -50;
     }
     else
     {
       opacity = ColorHelper.FadeOpacity(opacity, -1f, 1f, 5f);
+      targetOffsetY = 0f;
     }
+
+    offsetY = MathHelper.Lerp(offsetY, targetOffsetY, deltaTime * 4f);
+    offset.Y = offsetY;
 
     base.Update();
   }

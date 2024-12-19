@@ -57,6 +57,12 @@ public class StartScene : CustomGameComponent
       Alignment.Left,
       11
     ));
+
+    components.Add(new MainMenu(
+      true,
+      Alignment.Left,
+      11
+    ));
   }
 
   public override void Initialize()
@@ -65,8 +71,8 @@ public class StartScene : CustomGameComponent
 
     Camera.Camera.allowInput = false;
 
-    offset = new Vector2(GameState.screenSize.X / 10, -50);
-    targetOffset = new Vector2(GameState.screenSize.X / 10, -50);
+    offset = new Vector2(GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
+    targetOffset = new Vector2(GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
 
     transitionSpeed = 0.33f;
 

@@ -24,16 +24,16 @@ public class TitleMenu : CustomGameComponent
       layerIndex
     )
   {
-    offset = new Vector2(screenSize.X * 0.33f, 0);
+    offset = new Vector2(800, 0);
 
     components.Add(new HudText(
       "Fonts/light-font",
       () => "PRESS ANY KEY",
-      Alignment.Left,
+      alignment,
       TextAlign.Left,
-      () => new Vector2(screenSize.X * 0.4f, screenSize.Y * 0.25f) + offset,
+      () => new Vector2(1250, 300) + offset,
       () => Color.White * opacity,
-      scale * 3f,
+      1.4f,
       11
     ));
   }

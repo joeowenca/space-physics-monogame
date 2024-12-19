@@ -5,15 +5,15 @@ namespace SpacePhysics;
 
 public class ColorHelper
 {
-  public static Color Lerp(Color from, Color to, float duration)
+  public static Color Lerp(Color from, Color to, float speed)
   {
-    duration = Math.Clamp(duration, 0f, 1f);
+    speed = Math.Clamp(speed, 0f, 1f);
 
     return new Color(
-      (byte)MathHelper.Lerp(from.R, to.R, duration),
-      (byte)MathHelper.Lerp(from.G, to.G, duration),
-      (byte)MathHelper.Lerp(from.B, to.B, duration),
-      (byte)MathHelper.Lerp(from.A, to.A, duration)
+      (byte)MathHelper.Lerp(from.R, to.R, speed),
+      (byte)MathHelper.Lerp(from.G, to.G, speed),
+      (byte)MathHelper.Lerp(from.B, to.B, speed),
+      (byte)MathHelper.Lerp(from.A, to.A, speed)
     );
   }
 
