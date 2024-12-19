@@ -63,6 +63,12 @@ public class StartScene : CustomGameComponent
       Alignment.Left,
       11
     ));
+
+    components.Add(new SettingsMenu(
+      true,
+      Alignment.Left,
+      11
+    ));
   }
 
   public override void Initialize()
