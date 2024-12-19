@@ -29,13 +29,13 @@ public class MenuItem : CustomGameComponent
     this.active = active;
 
     component = new HudText(
-      "font-name",
+      "Fonts/text-font",
       () => label,
       alignment,
       TextAlign.Left,
       () => offset(),
       () => color * opacity(),
-      2f * GameState.scale,
+      1f,
       11
     );
   }
@@ -63,10 +63,7 @@ public class MenuItem : CustomGameComponent
 
     targetColor = defaultColor;
 
-    if (active())
-    {
-      targetColor = highlightColor;
-    }
+    if (active()) targetColor = highlightColor;
 
     color = ColorHelper.Lerp(color, targetColor, 0.3f);
 

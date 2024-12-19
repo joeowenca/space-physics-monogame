@@ -1,9 +1,8 @@
 using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
+using SpacePhysics.Menu;
 using SpacePhysics.Player;
 using SpacePhysics.Sprites;
-using static SpacePhysics.GameState;
 
 namespace SpacePhysics.Scenes.Start;
 
@@ -12,10 +11,11 @@ public class StartScene : CustomGameComponent
   private SceneManager sceneManager;
 
   public static Vector2 offset;
-  private Vector2 targetOffset;
+  public static Vector2 targetOffset;
+
+  public static float transitionSpeed;
 
   private float opacity;
-  private float backgroundOpacity;
 
   public StartScene(
     SceneManager sceneManager
@@ -25,77 +25,69 @@ public class StartScene : CustomGameComponent
 
     components.Add(new LoopingBackground(
       "Backgrounds/starfield",
-      () => new Color(255, 255, 255, 0),
+      () => new Color(255, 255, 255, 0) * opacity,
       1
     ));
     components.Add(new LoopingBackground(
       "Backgrounds/purple-background",
-      () => new Color(100, 100, 100, 0),
+      () => new Color(100, 100, 100, 0) * opacity,
       2
     ));
     components.Add(new LoopingBackground(
       "Backgrounds/purple-background-2",
-      () => new Color(100, 100, 100, 0),
+      () => new Color(100, 100, 100, 0) * opacity,
       4
     ));
 
-    components.Add(new Ship(() => 1f, true, Alignment.TopLeft, 7));
+    components.Add(new Ship(
+      () => opacity,
+      false,
+      Alignment.TopLeft,
+      7
+    ));
+
+    components.Add(new Title(
+      true,
+      Alignment.Left,
+      11
+    ));
+
+    components.Add(new TitleMenu(
+      true,
+      Alignment.Left,
+      11
+    ));
+
+    components.Add(new MainMenu(
+      true,
+      Alignment.Left,
+      11
+    ));
   }
 
   public override void Initialize()
   {
-    offset = new Vector2(screenSize.X / 10, -50);
-    targetOffset = new Vector2(screenSize.X / 10, -50);
+    GameState.Intro();
 
-    opacity = 0f;
-    backgroundOpacity = 1f;
+    Camera.Camera.allowInput = false;
 
-    Camera.Camera.allowInput = true;
-    Camera.Camera.zoomOverrideLerpSpeed = 0.0001f;
+    offset = new Vector2(GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
+    targetOffset = new Vector2(GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
 
-    foreach (var component in components)
-    {
-      component.Initialize();
-    }
-  }
+    transitionSpeed = 0.33f;
 
-  public override void Load(ContentManager contentManager)
-  {
-    foreach (var component in components)
-    {
-      component.Load(contentManager);
-    }
+    base.Initialize();
   }
 
   public override void Update()
   {
-    if (state == State.TitleScreen || state == State.MainMenu)
-    {
-      targetOffset = new Vector2(screenSize.X / 10, -50);
-    }
-
-    if (state == State.Settings)
-    {
-      targetOffset = new Vector2(-screenSize.X / 10, -50);
-    }
-
-    if (state == State.Play)
-    {
-      Camera.Camera.targetZoomOverride = 20;
-      opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, 0f, 2f);
-      backgroundOpacity = ColorHelper.FadeOpacity(backgroundOpacity, 1f, 0f, 0f, 2f);
-    }
-
-    opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, 0.5f, 2f);
-
     offset.X = MathHelper.Lerp(offset.X, targetOffset.X, 0.05f);
     offset.Y = MathHelper.Lerp(offset.Y, targetOffset.Y, 0.05f);
 
     Camera.Camera.offset = offset;
 
-    foreach (var component in components)
-    {
-      component.Update();
-    }
+    opacity = ColorHelper.FadeOpacity(opacity, -0.25f, 1f, 4f);
+
+    base.Update();
   }
 }

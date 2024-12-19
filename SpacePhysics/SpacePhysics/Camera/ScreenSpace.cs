@@ -28,6 +28,10 @@ public class ScreenSpace
   {
     switch (component.alignment)
     {
+      case Alignment.TopLeft:
+        DrawSpriteBatch(spriteBatch, CreateMatrix(Vector2.Zero, scale, Vector2.Zero), component);
+        break;
+
       case Alignment.BottomCenter:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
           (screenSize.X / 2) - (screenSize.X * scale / 2),

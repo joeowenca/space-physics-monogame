@@ -36,8 +36,8 @@ public class CustomGameComponent
   public Texture2D texture;
   public Vector2 position;
 
-  public int width;
-  public int height;
+  public float width;
+  public float height;
 
   public Alignment alignment;
   public int layerIndex;
