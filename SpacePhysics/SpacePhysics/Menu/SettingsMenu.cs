@@ -30,7 +30,7 @@ public class SettingsMenu : CustomGameComponent
   {
     float padding = 0.17f;
     float menuSize = 1000f * padding;
-    offset = new Vector2(1800f, -200f);
+    offset = new Vector2(-2600f, -200f);
 
     components.Add(new HudText(
       "Fonts/title-font",

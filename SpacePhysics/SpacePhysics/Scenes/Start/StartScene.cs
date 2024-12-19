@@ -66,7 +66,7 @@ public class StartScene : CustomGameComponent
 
     components.Add(new SettingsMenu(
       true,
-      Alignment.Left,
+      Alignment.Right,
       11
     ));
   }
@@ -87,8 +87,17 @@ public class StartScene : CustomGameComponent
 
   public override void Update()
   {
-    offset.X = MathHelper.Lerp(offset.X, targetOffset.X, 0.05f);
-    offset.Y = MathHelper.Lerp(offset.Y, targetOffset.Y, 0.05f);
+    if (GameState.state == GameState.State.Settings)
+    {
+      targetOffset = new Vector2(-GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
+    }
+    else
+    {
+      targetOffset = new Vector2(GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
+    }
+
+    offset.X = MathHelper.Lerp(offset.X, targetOffset.X, GameState.deltaTime * 4f);
+    offset.Y = MathHelper.Lerp(offset.Y, targetOffset.Y, GameState.deltaTime * 4f);
 
     Camera.Camera.offset = offset;
 
