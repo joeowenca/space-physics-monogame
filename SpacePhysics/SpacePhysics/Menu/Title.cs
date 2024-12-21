@@ -76,7 +76,7 @@ public class Title : CustomGameComponent
     offsetY = MathHelper.Lerp(offsetY, targetOffsetY, deltaTime * 4f);
     offset.Y = offsetY;
 
-    offset.X = baseOffset.X + StartScene.offset.X * 3f;
+    offset.X = baseOffset.X + StartScene.menuOffset.X * 3f;
 
     base.Update();
   }

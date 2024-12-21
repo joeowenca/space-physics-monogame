@@ -102,7 +102,7 @@ public class MainMenu : CustomGameComponent
 
     activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
 
-    offset.X = baseOffset.X + (StartScene.offset.X * 0.85f * 3f);
+    offset.X = baseOffset.X + (StartScene.menuOffset.X * 0.85f * 3f);
 
     base.Update();
   }
