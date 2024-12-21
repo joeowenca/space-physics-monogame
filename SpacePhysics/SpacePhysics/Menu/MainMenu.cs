@@ -79,6 +79,16 @@ public class MainMenu : CustomGameComponent
 
       if (opacity <= 0.1f)
         activeMenu = 1;
+
+      if (state == State.Play)
+      {
+        Camera.Camera.targetZoomOverride = 20f;
+      }
+      else
+      {
+        Camera.Camera.zoomOverride = 1f;
+        Camera.Camera.targetZoomOverride = 1f;
+      }
     }
     else
     {
@@ -98,11 +108,20 @@ public class MainMenu : CustomGameComponent
 
       if (activeMenu == 3 && input.OnFirstFramePress(Keys.Enter))
         quit = true;
+
+      Camera.Camera.zoomOverride = 1f;
+      Camera.Camera.targetZoomOverride = 1f;
     }
 
     activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
 
     offset.X = baseOffset.X + (StartScene.menuOffset.X * 0.85f * 3f);
+
+    // For debugging purposes only. TODO: remove when no longer needed
+    if (input.OnFirstFramePress(Keys.LeftControl))
+    {
+      state = State.MainMenu;
+    }
 
     base.Update();
   }

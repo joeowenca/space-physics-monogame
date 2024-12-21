@@ -39,7 +39,6 @@ public class Camera
     shakeDirection = Vector2.Zero;
     zoomOverride = 1f;
     targetZoomOverride = 1f;
-    zoomOverrideLerpSpeed = 0.0005f;
     minZoom = 0.4f;
     maxZoom = 4f;
     changeCamera = false;
@@ -50,6 +49,8 @@ public class Camera
   {
     input.Update();
     input.allowInput = allowInput;
+
+    zoomOverrideLerpSpeed = deltaTime * 0.005f;
 
     AdjustCamera();
   }
@@ -128,6 +129,8 @@ public class Camera
     zoomOverride = Utilities.ExponentialLerp(zoomOverride, targetZoomOverride, zoomOverrideLerpSpeed);
     zoomOverride = Math.Clamp(zoomOverride, 0f, 20f);
 
+    Console.WriteLine(zoomOverrideLerpSpeed);
+
     return MathHelper.Lerp(1f, zoomOverride, GetZoomFactor(parallaxFactor));
   }
 
@@ -139,13 +142,13 @@ public class Camera
   public static Matrix GetViewMatrix(float parallaxFactor)
   {
     float zoom = CalculateZoom(parallaxFactor);
-    float extremeZoom = CalculateZoomOverride(parallaxFactor);
+    float zoomOverride = CalculateZoomOverride(parallaxFactor);
 
     return
         Matrix.CreateTranslation(new Vector3((-GameState.position.X) * parallaxFactor + offset.X, (-GameState.position.Y) * parallaxFactor + offset.Y, 0)) *
         Matrix.CreateRotationZ(rotation) *
         Matrix.CreateTranslation(new Vector3(parallaxFactor == 0 ? 0 : shakeOffset.X, parallaxFactor == 0 ? 0 : shakeOffset.Y, 0)) *
-        Matrix.CreateScale(zoom * extremeZoom) *
+        Matrix.CreateScale(zoom * zoomOverride) *
         Matrix.CreateTranslation(new Vector3(screenSize.X / 2f, screenSize.Y / 2f, 0));
   }
 }
