@@ -12,6 +12,7 @@ namespace SpacePhysics.Menu;
 public class Title : CustomGameComponent
 {
   private Vector2 offset;
+  private Vector2 baseOffset;
 
   private float offsetY;
   private float targetOffsetY;
@@ -27,7 +28,8 @@ public class Title : CustomGameComponent
       layerIndex
     )
   {
-    offset = new Vector2(1000, 0);
+    offset = new Vector2(100, 0);
+    baseOffset = offset;
     targetOffsetY = 0f;
 
     components.Add(new HudSprite(
@@ -62,6 +64,7 @@ public class Title : CustomGameComponent
     }
     else if (state == State.MainMenu)
     {
+      opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, StartScene.transitionSpeed);
       targetOffsetY = -50;
     }
     else
@@ -72,6 +75,8 @@ public class Title : CustomGameComponent
 
     offsetY = MathHelper.Lerp(offsetY, targetOffsetY, deltaTime * 4f);
     offset.Y = offsetY;
+
+    offset.X = baseOffset.X + StartScene.menuOffset.X * 3f;
 
     base.Update();
   }

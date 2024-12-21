@@ -3,14 +3,16 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpacePhysics.Scenes.Start;
+using SpacePhysics.HUD;
 using static SpacePhysics.GameState;
 
 namespace SpacePhysics.Menu;
 
-public class MainMenu : CustomGameComponent
+public class SettingsMenu : CustomGameComponent
 {
   private Vector2 offset;
   private Vector2 baseOffset;
+  private Vector2 menuOffset;
 
   private float opacity;
 
@@ -19,7 +21,7 @@ public class MainMenu : CustomGameComponent
 
   public static bool quit;
 
-  public MainMenu(
+  public SettingsMenu(
     bool allowInput,
     Alignment alignment,
     int layerIndex) : base(
@@ -30,32 +32,62 @@ public class MainMenu : CustomGameComponent
   {
     float padding = 0.17f;
     float menuSize = 1000f * padding;
-    offset = new Vector2(1050f, 50f);
+    offset = new Vector2(-1700f, -200f);
     baseOffset = offset;
+    menuOffset = offset;
+
+    components.Add(new HudText(
+      "Fonts/title-font",
+      () => "Settings",
+      alignment,
+      TextAlign.Left,
+      () => new Vector2(-100, -400) + offset,
+      () => Color.White * opacity,
+      1.75f,
+      11
+    ));
 
     components.Add(new MenuItem(
-        "Play",
+        "Audio",
         () => activeMenu == 1,
         alignment,
-        () => new Vector2(0f, 0f) + offset,
+        () => new Vector2(0f, 0f) + menuOffset,
         () => opacity,
         11
       ));
 
     components.Add(new MenuItem(
-      "Settings",
+      "Graphics",
       () => activeMenu == 2,
       alignment,
-      () => new Vector2(0f, menuSize) + offset,
+      () => new Vector2(0f, menuSize) + menuOffset,
       () => opacity,
       11
     ));
 
     components.Add(new MenuItem(
-      "Quit",
+      "Gameplay",
       () => activeMenu == 3,
       alignment,
-      () => new Vector2(0f, menuSize * 2f) + offset,
+      () => new Vector2(0f, menuSize * 2f) + menuOffset,
+      () => opacity,
+      11
+    ));
+
+    components.Add(new MenuItem(
+      "Controls",
+      () => activeMenu == 4,
+      alignment,
+      () => new Vector2(0f, menuSize * 3f) + menuOffset,
+      () => opacity,
+      11
+    ));
+
+    components.Add(new MenuItem(
+      "Back",
+      () => activeMenu == 5,
+      alignment,
+      () => new Vector2(0f, menuSize * 4.5f) + menuOffset,
       () => opacity,
       11
     ));
@@ -63,7 +95,7 @@ public class MainMenu : CustomGameComponent
 
   public override void Initialize()
   {
-    menuItemsLength = 3;
+    menuItemsLength = 5;
     activeMenu = 1;
     quit = false;
 
@@ -72,7 +104,7 @@ public class MainMenu : CustomGameComponent
 
   public override void Update()
   {
-    if (state != State.MainMenu)
+    if (state != State.Settings)
     {
       if (opacity > 0)
         opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, StartScene.transitionSpeed);
@@ -90,19 +122,14 @@ public class MainMenu : CustomGameComponent
       if (input.OnFirstFramePress(Keys.Up))
         activeMenu--;
 
-      if (activeMenu == 1 && input.OnFirstFramePress(Keys.Enter))
-        state = State.Play;
-
-      if (activeMenu == 2 && input.OnFirstFramePress(Keys.Enter))
-        state = State.Settings;
-
-      if (activeMenu == 3 && input.OnFirstFramePress(Keys.Enter))
-        quit = true;
+      if (activeMenu == 5 && input.OnFirstFramePress(Keys.Enter))
+        state = State.MainMenu;
     }
 
     activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
 
-    offset.X = baseOffset.X + (StartScene.menuOffset.X * 0.85f * 3f);
+    offset.X = baseOffset.X + StartScene.menuOffset.X * 3f;
+    menuOffset.X = baseOffset.X - 150 + (StartScene.menuOffset.X * 0.85f * 3f);
 
     base.Update();
   }

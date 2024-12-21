@@ -10,8 +10,12 @@ public class StartScene : CustomGameComponent
 {
   private SceneManager sceneManager;
 
-  public static Vector2 offset;
-  public static Vector2 targetOffset;
+  private Vector2 offset;
+  private Vector2 targetOffset;
+
+  public static Vector2 menuOffset;
+  private Vector2 targetMenuOffset;
+  private int menuOffsetAmount;
 
   public static float transitionSpeed;
 
@@ -39,13 +43,6 @@ public class StartScene : CustomGameComponent
       4
     ));
 
-    components.Add(new Ship(
-      () => opacity,
-      false,
-      Alignment.TopLeft,
-      7
-    ));
-
     components.Add(new Title(
       true,
       Alignment.Left,
@@ -63,6 +60,19 @@ public class StartScene : CustomGameComponent
       Alignment.Left,
       11
     ));
+
+    components.Add(new SettingsMenu(
+      true,
+      Alignment.Right,
+      11
+    ));
+
+    components.Add(new Ship(
+      () => opacity,
+      false,
+      Alignment.TopLeft,
+      7
+    ));
   }
 
   public override void Initialize()
@@ -74,15 +84,33 @@ public class StartScene : CustomGameComponent
     offset = new Vector2(GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
     targetOffset = new Vector2(GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
 
-    transitionSpeed = 0.33f;
+    menuOffsetAmount = 300;
+    menuOffset = new Vector2(menuOffsetAmount, 0);
+    targetMenuOffset = new Vector2(menuOffsetAmount, 0);
+
+    transitionSpeed = 0.6f;
 
     base.Initialize();
   }
 
   public override void Update()
   {
-    offset.X = MathHelper.Lerp(offset.X, targetOffset.X, 0.05f);
-    offset.Y = MathHelper.Lerp(offset.Y, targetOffset.Y, 0.05f);
+    if (GameState.state == GameState.State.Settings)
+    {
+      targetOffset = new Vector2(-GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
+      targetMenuOffset = new Vector2(-menuOffsetAmount, 0);
+    }
+    else
+    {
+      targetOffset = new Vector2(GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
+      targetMenuOffset = new Vector2(menuOffsetAmount, 0);
+    }
+
+    offset.X = MathHelper.Lerp(offset.X, targetOffset.X, GameState.deltaTime * 3f);
+    offset.Y = MathHelper.Lerp(offset.Y, targetOffset.Y, GameState.deltaTime * 3f);
+
+    menuOffset.X = MathHelper.Lerp(menuOffset.X, targetMenuOffset.X, GameState.deltaTime * 3f);
+    menuOffset.Y = MathHelper.Lerp(menuOffset.Y, targetMenuOffset.Y, GameState.deltaTime * 3f);
 
     Camera.Camera.offset = offset;
 
