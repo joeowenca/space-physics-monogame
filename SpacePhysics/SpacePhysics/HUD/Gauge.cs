@@ -11,6 +11,8 @@ public class Gauge : CustomGameComponent
     public Gauge(Func<float> opacity) : base(false, Alignment.BottomCenter, 11) {
         offset = new Vector2(0, -400f);
 
+        float guageScale = 1.4f;
+
         HudSprite guage = new(
             "HUD/gauge",
             Alignment.BottomCenter,
@@ -18,7 +20,7 @@ public class Gauge : CustomGameComponent
             () => offset,
             () => 0f,
             () => GameState.defaultColor * opacity(),
-            1.25f,
+            guageScale,
             11
         );
 
@@ -29,7 +31,7 @@ public class Gauge : CustomGameComponent
             () => offset,
             () => GameState.direction,
             () => GameState.defaultColor * opacity(),
-            1.25f,
+            guageScale,
             11
         );
 
@@ -40,7 +42,7 @@ public class Gauge : CustomGameComponent
             () => offset,
             () => GameState.velocityAngle,
             () => new Color(0, 255, 0) * opacity(),
-            1.25f,
+            guageScale,
             11
         );
 
@@ -51,7 +53,7 @@ public class Gauge : CustomGameComponent
             () => offset,
             () => GameState.velocityAngle + (float)Math.PI,
             () => Color.Red * opacity(),
-            1.25f,
+            guageScale,
             11
         );
 
@@ -62,7 +64,7 @@ public class Gauge : CustomGameComponent
             () => offset,
             () => GameState.velocityAngle - (float)(Math.PI * 0.5f),
             () => Color.Cyan * opacity(),
-            1.25f,
+            guageScale,
             11
         );
 
@@ -73,7 +75,7 @@ public class Gauge : CustomGameComponent
             () => offset,
             () => GameState.velocityAngle + (float)(Math.PI * 0.5f),
             () => Color.Cyan * opacity(),
-            1.25f,
+            guageScale,
             11
         );
 
@@ -83,6 +85,17 @@ public class Gauge : CustomGameComponent
         components.Add(retrogradeIndicator);
         components.Add(radialLeftIndicator);
         components.Add(radialRightIndicator);
+
+        components.Add(new HudText(
+            "Fonts/text-font",
+            () => (GameState.velocity.Length() / GameState.units).ToString("0.0") + "m/s",
+            Alignment.BottomCenter,
+            TextAlign.Center,
+            () => offset + new Vector2(0, -120f),
+            () => GameState.defaultColor * opacity(),
+            0.6f,
+            11
+        ));
     }
 
     public override void Draw(SpriteBatch spriteBatch)
