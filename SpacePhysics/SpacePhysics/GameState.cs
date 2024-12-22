@@ -26,6 +26,7 @@ public class GameState
   public static Color highlightColor;
 
   public static float angularVelocity;
+  public static float velocityAngle;
   public static float direction;
   public static float throttle;
   public static float targetThrottle;
@@ -48,7 +49,8 @@ public class GameState
     defaultColor = Color.White * 0.75f;
     highlightColor = Color.Gold;
     angularVelocity = 0f;
-    direction = (float)-(Math.PI * 0.5f);
+    velocityAngle = 0f;
+    direction = 0f;
     throttle = 0f;
     targetThrottle = 0f;
     fuel = 7500f;
@@ -68,13 +70,19 @@ public class GameState
     position = new Vector2(400, 400);
     velocity = new Vector2(200, -80);
     angularVelocity = 0.15f;
-    direction = (float)-(Math.PI / 2) - 0.4f;
+    direction = -0.4f;
     zoom = 1.75f;
     targetZoom = zoom;
   }
 
   public static void Update(GameTime gameTime)
   {
+    velocityAngle = MathF.Atan2(velocity.Y, velocity.X) + (float)(Math.PI * 0.5f);
+
+    if (velocityAngle == (float)(Math.PI * 0.5f) && velocity == Vector2.Zero) {
+      velocityAngle = 0f;
+    }
+
     deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
     elapsedTime += deltaTime;
 

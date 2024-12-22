@@ -80,7 +80,7 @@ public class Ship : CustomGameComponent
       GameState.position,
       null,
       Color.White * opacity(),
-      direction + (float)(Math.PI * 0.5f),
+      direction,
       new Vector2(texture.Width / 2, texture.Height / 2),
       scale,
       SpriteEffects.None,
@@ -92,7 +92,7 @@ public class Ship : CustomGameComponent
       GameState.position,
       null,
       Color.White * throttle,
-      direction + (float)(Math.PI * 0.5f),
+      direction,
       new Vector2(thrustOverlay.Width / 2, thrustOverlay.Height / 2),
       scale,
       SpriteEffects.None,
@@ -106,8 +106,8 @@ public class Ship : CustomGameComponent
   {
     mass = dryMass + fuel;
 
-    force.X = (float)Math.Cos(direction) * thrust;
-    force.Y = (float)Math.Sin(direction) * thrust;
+    force.X = (float)Math.Cos(direction - (float)(Math.PI * 0.5f)) * thrust;
+    force.Y = (float)Math.Sin(direction - (float)(Math.PI * 0.5f)) * thrust;
 
     acceleration = force / mass;
 
@@ -232,7 +232,7 @@ public class Ship : CustomGameComponent
     Vector2 origin = new Vector2(thrustSprite.texture.Width / 2, 80);
     Vector2 offset = new Vector2(2, 225f * scale);
 
-    float rotation = direction + (float)(Math.PI * 0.5f);
+    float rotation = direction;
 
     Vector2 rotatedOffset = new Vector2(
       offset.X * (float)Math.Cos(rotation) - offset.Y * (float)Math.Sin(rotation),
