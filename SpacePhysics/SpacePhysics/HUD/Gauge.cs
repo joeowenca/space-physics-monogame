@@ -8,8 +8,9 @@ public class Gauge : CustomGameComponent
 {
     private Vector2 offset;
 
-    public Gauge(Func<float> opacity) : base(false, Alignment.BottomCenter, 11) {
-        offset = new Vector2(0, -400f);
+    public Gauge(Func<float> opacity) : base(false, Alignment.BottomCenter, 11)
+    {
+        offset = new Vector2(0, -450f);
 
         float guageScale = 1.4f;
 
@@ -30,7 +31,7 @@ public class Gauge : CustomGameComponent
             Alignment.Center,
             () => offset,
             () => GameState.direction,
-            () => GameState.defaultColor * opacity(),
+            () => GameState.sas ? GameState.highlightColor * opacity() : GameState.defaultColor * opacity(),
             guageScale,
             11
         );
@@ -88,19 +89,42 @@ public class Gauge : CustomGameComponent
 
         components.Add(new HudText(
             "Fonts/text-font",
-            () => (GameState.velocity.Length() / GameState.units).ToString("0.0") + "m/s",
+            () => (Math.Abs(GameState.position.Y) / GameState.units).ToString("0") + " m",
             Alignment.BottomCenter,
             TextAlign.Center,
-            () => offset + new Vector2(0, -120f),
-            () => GameState.defaultColor * opacity(),
-            0.6f,
+            () => new Vector2(0, -440f) + offset,
+            () => GameState.highlightColor * opacity(),
+            guageScale * 0.4f,
+            11
+        ));
+
+        components.Add(new HudText(
+            "Fonts/text-font",
+            () => (GameState.velocity.Length() / GameState.units).ToString("0.0") + " m/s",
+            Alignment.BottomCenter,
+            TextAlign.Center,
+            () => new Vector2(0, -120f) + offset,
+            () => GameState.highlightColor * opacity(),
+            guageScale * 0.4f,
+            11
+        ));
+
+        components.Add(new HudText(
+            "Fonts/text-font",
+            () => Math.Round(Math.Abs(GameState.direction * (180 / Math.PI) + 90) % 360).ToString() + "°",
+            Alignment.BottomCenter,
+            TextAlign.Center,
+            () => new Vector2(0, 240f) + offset,
+            () => GameState.sas ? GameState.highlightColor * opacity() : GameState.defaultColor * opacity(),
+            guageScale * 0.4f,
             11
         ));
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        foreach (var component in components) {
+        foreach (var component in components)
+        {
             component.Draw(spriteBatch);
         }
     }
