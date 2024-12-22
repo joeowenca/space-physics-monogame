@@ -61,7 +61,7 @@ public class GameState
     scaleOverride = 0.3f;
     scale = screenSize.Y / 1080 * scaleOverride;
     hudScale = 1.4f;
-    hudTextScale = hudScale * 0.3f;
+    hudTextScale = hudScale * 0.4f;
     units = 5f;
     elapsedTime = 0f;
     deltaTime = 0f;
