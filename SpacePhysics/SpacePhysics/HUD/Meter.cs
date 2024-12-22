@@ -81,7 +81,7 @@ public class Meter : CustomGameComponent
 
         HudText fuelPercent = new(
             "Fonts/text-font",
-            () => (GameState.fuelPercent).ToString("0") + "%",
+            () => GameState.fuelPercent.ToString("0") + "%",
             Alignment.BottomCenter,
             TextAlign.Left,
             () => new Vector2(650, 50f) + offset,

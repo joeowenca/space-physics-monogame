@@ -79,14 +79,7 @@ public class Gauge : CustomGameComponent
             11
         );
 
-        components.Add(guage);
-        components.Add(directionIndicator);
-        components.Add(progradeIndicator);
-        components.Add(retrogradeIndicator);
-        components.Add(radialLeftIndicator);
-        components.Add(radialRightIndicator);
-
-        components.Add(new HudText(
+        HudText altitude = new(
             "Fonts/text-font",
             () => (Math.Abs(GameState.position.Y) / units).ToString("0") + " m",
             Alignment.BottomCenter,
@@ -95,20 +88,20 @@ public class Gauge : CustomGameComponent
             () => highlightColor * opacity(),
             hudTextScale,
             11
-        ));
+        );
 
-        components.Add(new HudText(
+        HudText velocity = new(
             "Fonts/text-font",
-            () => (velocity.Length() / units).ToString("0.0") + " m/s",
+            () => (GameState.velocity.Length() / units).ToString("0.0") + " m/s",
             Alignment.BottomCenter,
             TextAlign.Center,
             () => new Vector2(0, -120f) + offset,
             () => highlightColor * opacity(),
             hudTextScale,
             11
-        ));
+        );
 
-        components.Add(new HudText(
+        HudText heading = new(
             "Fonts/text-font",
             () => Math.Round(Math.Abs(direction * (180 / Math.PI) + 90) % 360).ToString() + "°",
             Alignment.BottomCenter,
@@ -117,7 +110,17 @@ public class Gauge : CustomGameComponent
             () => sas ? highlightColor * opacity() : defaultColor * opacity(),
             hudTextScale,
             11
-        ));
+        );
+
+        components.Add(guage);
+        components.Add(directionIndicator);
+        components.Add(progradeIndicator);
+        components.Add(retrogradeIndicator);
+        components.Add(radialLeftIndicator);
+        components.Add(radialRightIndicator);
+        components.Add(altitude);
+        components.Add(velocity);
+        components.Add(heading);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
