@@ -43,6 +43,10 @@ public class SpaceScene : CustomGameComponent
     components.Add(new Gauge(
       () => opacity
     ));
+
+    components.Add(new Meter(
+      () => opacity
+    ));
   }
 
   public override void Initialize()

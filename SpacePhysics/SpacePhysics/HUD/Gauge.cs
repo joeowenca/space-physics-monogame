@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using static SpacePhysics.GameState;
 
 namespace SpacePhysics.HUD;
 
@@ -12,16 +13,14 @@ public class Gauge : CustomGameComponent
     {
         offset = new Vector2(0, -450f);
 
-        float guageScale = 1.4f;
-
         HudSprite guage = new(
             "HUD/gauge",
             Alignment.BottomCenter,
             Alignment.Center,
             () => offset,
             () => 0f,
-            () => GameState.defaultColor * opacity(),
-            guageScale,
+            () => defaultColor * opacity(),
+            hudScale,
             11
         );
 
@@ -30,9 +29,9 @@ public class Gauge : CustomGameComponent
             Alignment.BottomCenter,
             Alignment.Center,
             () => offset,
-            () => GameState.direction,
-            () => GameState.sas ? GameState.highlightColor * opacity() : GameState.defaultColor * opacity(),
-            guageScale,
+            () => direction,
+            () => sas ? highlightColor * opacity() : defaultColor * opacity(),
+            hudScale,
             11
         );
 
@@ -41,9 +40,9 @@ public class Gauge : CustomGameComponent
             Alignment.BottomCenter,
             Alignment.Center,
             () => offset,
-            () => GameState.velocityAngle,
+            () => velocityAngle,
             () => new Color(0, 255, 0) * opacity(),
-            guageScale,
+            hudScale,
             11
         );
 
@@ -52,9 +51,9 @@ public class Gauge : CustomGameComponent
             Alignment.BottomCenter,
             Alignment.Center,
             () => offset,
-            () => GameState.velocityAngle + (float)Math.PI,
+            () => velocityAngle + (float)Math.PI,
             () => Color.Red * opacity(),
-            guageScale,
+            hudScale,
             11
         );
 
@@ -63,9 +62,9 @@ public class Gauge : CustomGameComponent
             Alignment.BottomCenter,
             Alignment.Center,
             () => offset,
-            () => GameState.velocityAngle - (float)(Math.PI * 0.5f),
+            () => velocityAngle - (float)(Math.PI * 0.5f),
             () => Color.Cyan * opacity(),
-            guageScale,
+            hudScale,
             11
         );
 
@@ -74,9 +73,9 @@ public class Gauge : CustomGameComponent
             Alignment.BottomCenter,
             Alignment.Center,
             () => offset,
-            () => GameState.velocityAngle + (float)(Math.PI * 0.5f),
+            () => velocityAngle + (float)(Math.PI * 0.5f),
             () => Color.Cyan * opacity(),
-            guageScale,
+            hudScale,
             11
         );
 
@@ -89,34 +88,34 @@ public class Gauge : CustomGameComponent
 
         components.Add(new HudText(
             "Fonts/text-font",
-            () => (Math.Abs(GameState.position.Y) / GameState.units).ToString("0") + " m",
+            () => (Math.Abs(position.Y) / units).ToString("0") + " m",
             Alignment.BottomCenter,
             TextAlign.Center,
             () => new Vector2(0, -440f) + offset,
-            () => GameState.highlightColor * opacity(),
-            guageScale * 0.4f,
+            () => highlightColor * opacity(),
+            hudTextScale,
             11
         ));
 
         components.Add(new HudText(
             "Fonts/text-font",
-            () => (GameState.velocity.Length() / GameState.units).ToString("0.0") + " m/s",
+            () => (velocity.Length() / units).ToString("0.0") + " m/s",
             Alignment.BottomCenter,
             TextAlign.Center,
             () => new Vector2(0, -120f) + offset,
-            () => GameState.highlightColor * opacity(),
-            guageScale * 0.4f,
+            () => highlightColor * opacity(),
+            hudTextScale,
             11
         ));
 
         components.Add(new HudText(
             "Fonts/text-font",
-            () => Math.Round(Math.Abs(GameState.direction * (180 / Math.PI) + 90) % 360).ToString() + "°",
+            () => Math.Round(Math.Abs(direction * (180 / Math.PI) + 90) % 360).ToString() + "°",
             Alignment.BottomCenter,
             TextAlign.Center,
             () => new Vector2(0, 240f) + offset,
-            () => GameState.sas ? GameState.highlightColor * opacity() : GameState.defaultColor * opacity(),
-            guageScale * 0.4f,
+            () => sas ? highlightColor * opacity() : defaultColor * opacity(),
+            hudTextScale,
             11
         ));
     }

@@ -35,6 +35,8 @@ public class GameState
   public static float targetZoom;
   public static float scale;
   public static float scaleOverride;
+  public static float hudScale;
+  public static float hudTextScale;
   public static float units;
   public static float elapsedTime;
   public static float deltaTime;
@@ -58,6 +60,8 @@ public class GameState
     targetZoom = zoom;
     scaleOverride = 0.3f;
     scale = screenSize.Y / 1080 * scaleOverride;
+    hudScale = 1.4f;
+    hudTextScale = hudScale * 0.3f;
     units = 5f;
     elapsedTime = 0f;
     deltaTime = 0f;
@@ -79,7 +83,8 @@ public class GameState
   {
     velocityAngle = MathF.Atan2(velocity.Y, velocity.X) + (float)(Math.PI * 0.5f);
 
-    if (velocityAngle == (float)(Math.PI * 0.5f) && velocity == Vector2.Zero) {
+    if (velocityAngle == (float)(Math.PI * 0.5f) && velocity == Vector2.Zero)
+    {
       velocityAngle = 0f;
     }
 
