@@ -31,6 +31,8 @@ public class GameState
   public static float throttle;
   public static float targetThrottle;
   public static float fuel;
+  public static float maxFuel;
+  public static float fuelPercent;
   public static float zoom;
   public static float targetZoom;
   public static float scale;
@@ -56,6 +58,7 @@ public class GameState
     throttle = 0f;
     targetThrottle = 0f;
     fuel = 7500f;
+    maxFuel = fuel;
     zoom = 1.26f;
     targetZoom = zoom;
     scaleOverride = 0.3f;
@@ -82,6 +85,7 @@ public class GameState
   public static void Update(GameTime gameTime)
   {
     velocityAngle = MathF.Atan2(velocity.Y, velocity.X) + (float)(Math.PI * 0.5f);
+    fuelPercent = fuel / maxFuel * 100f;
 
     if (velocityAngle == (float)(Math.PI * 0.5f) && velocity == Vector2.Zero)
     {

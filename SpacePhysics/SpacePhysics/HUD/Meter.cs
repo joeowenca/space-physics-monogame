@@ -57,10 +57,58 @@ public class Meter : CustomGameComponent
             11
         );
 
+        HudSprite fuelMeter = new(
+            "HUD/meter-right",
+            Alignment.BottomCenter,
+            Alignment.Center,
+            () => new Vector2(500, 0) + offset,
+            () => 0f,
+            () => defaultColor * opacity(),
+            hudScale,
+            11
+        );
+
+        HudSprite fuelMeterIndicator = new(
+            "HUD/meter-indicator-right",
+            Alignment.BottomCenter,
+            Alignment.Center,
+            () => new Vector2(500, -GameState.fuelPercent * 6.28f) + offset,
+            () => 0f,
+            () => highlightColor * opacity(),
+            hudScale,
+            11
+        );
+
+        HudText fuelPercent = new(
+            "Fonts/text-font",
+            () => (GameState.fuelPercent).ToString("0") + "%",
+            Alignment.BottomCenter,
+            TextAlign.Left,
+            () => new Vector2(650, 50f) + offset,
+            () => highlightColor * opacity(),
+            hudTextScale,
+            11
+        );
+
+        HudText fuelLabel = new(
+            "Fonts/text-font",
+            () => "Fuel",
+            Alignment.BottomCenter,
+            TextAlign.Center,
+            () => new Vector2(500, -360f) + offset,
+            () => defaultColor * opacity(),
+            hudTextScale,
+            11
+        );
+
         components.Add(throttleMeter);
         components.Add(throttleMeterIndicator);
-        components.Add(throttleLabel);
         components.Add(throttlePercent);
+        components.Add(throttleLabel);
+        components.Add(fuelMeter);
+        components.Add(fuelMeterIndicator);
+        components.Add(fuelPercent);
+        components.Add(fuelLabel);
     }
 
     public override void Draw(SpriteBatch spriteBatch)

@@ -88,7 +88,7 @@ public class Gauge : CustomGameComponent
 
         components.Add(new HudText(
             "Fonts/text-font",
-            () => (Math.Abs(position.Y) / units).ToString("0") + " m",
+            () => (Math.Abs(GameState.position.Y) / units).ToString("0") + " m",
             Alignment.BottomCenter,
             TextAlign.Center,
             () => new Vector2(0, -440f) + offset,
