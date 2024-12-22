@@ -131,8 +131,6 @@ public class Camera
     zoomOverride = Utilities.ExponentialLerp(zoomOverride, targetZoomOverride, zoomOverrideLerpSpeed);
     zoomOverride = Math.Clamp(zoomOverride, 0f, 20f);
 
-    Console.WriteLine(zoomOverrideLerpSpeed);
-
     return MathHelper.Lerp(1f, zoomOverride, GetZoomFactor(parallaxFactor));
   }
 
