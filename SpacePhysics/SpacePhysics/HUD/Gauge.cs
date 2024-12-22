@@ -33,8 +33,56 @@ public class Gauge : CustomGameComponent
             11
         );
 
+        HudSprite progradeIndicator = new(
+            "HUD/direction-indicator",
+            Alignment.BottomCenter,
+            Alignment.Center,
+            () => offset,
+            () => GameState.velocityAngle,
+            () => new Color(0, 255, 0) * opacity(),
+            1.25f,
+            11
+        );
+
+        HudSprite retrogradeIndicator = new(
+            "HUD/direction-indicator",
+            Alignment.BottomCenter,
+            Alignment.Center,
+            () => offset,
+            () => GameState.velocityAngle + (float)Math.PI,
+            () => Color.Red * opacity(),
+            1.25f,
+            11
+        );
+
+        HudSprite radialLeftIndicator = new(
+            "HUD/direction-indicator",
+            Alignment.BottomCenter,
+            Alignment.Center,
+            () => offset,
+            () => GameState.velocityAngle - (float)(Math.PI * 0.5f),
+            () => Color.Cyan * opacity(),
+            1.25f,
+            11
+        );
+
+        HudSprite radialRightIndicator = new(
+            "HUD/direction-indicator",
+            Alignment.BottomCenter,
+            Alignment.Center,
+            () => offset,
+            () => GameState.velocityAngle + (float)(Math.PI * 0.5f),
+            () => Color.Cyan * opacity(),
+            1.25f,
+            11
+        );
+
         components.Add(guage);
         components.Add(directionIndicator);
+        components.Add(progradeIndicator);
+        components.Add(retrogradeIndicator);
+        components.Add(radialLeftIndicator);
+        components.Add(radialRightIndicator);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
