@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using SpacePhysics.HUD;
 using SpacePhysics.Player;
 using SpacePhysics.Scenes.Start;
 using SpacePhysics.Sprites;
@@ -37,6 +38,10 @@ public class SpaceScene : CustomGameComponent
       true,
       Alignment.TopLeft,
       7
+    ));
+
+    components.Add(new Gauge(
+      () => opacity
     ));
   }
 
