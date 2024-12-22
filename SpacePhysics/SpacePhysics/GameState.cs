@@ -35,6 +35,7 @@ public class GameState
   public static float fuelPercent;
   public static float zoom;
   public static float targetZoom;
+  public static float zoomPercent;
   public static float scale;
   public static float scaleOverride;
   public static float hudScale;

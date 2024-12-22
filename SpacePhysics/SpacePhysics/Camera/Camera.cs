@@ -21,7 +21,6 @@ public class Camera
   public static float targetZoomOverride;
   public static float zoomOverrideLerpSpeed;
   public static float zoomOverrideLerpSpeedFactor;
-  public static float zoomPercent;
   private static float minZoom;
   private static float maxZoom;
   private static float rotation;
@@ -104,9 +103,9 @@ public class Camera
     float zoomSpeed = 1.3f;
 
     if (input.ContinuousPress(Keys.OemPlus))
-        targetZoom *= (float)Math.Pow(zoomSpeed, deltaTime);
+      targetZoom *= (float)Math.Pow(zoomSpeed, deltaTime);
     if (input.ContinuousPress(Keys.OemMinus))
-        targetZoom /= (float)Math.Pow(zoomSpeed, deltaTime);
+      targetZoom /= (float)Math.Pow(zoomSpeed, deltaTime);
 
     if (parallaxFactor == 1) return 1f;
 
@@ -115,11 +114,11 @@ public class Camera
     targetZoom = Math.Clamp(targetZoom, minZoom, maxZoom);
 
     zoomPercent =
-      ((float)Math.Log10(zoom) -
+      (((float)Math.Log10(zoom) -
       ((float)Math.Log10(minZoom)) /
       (float)Math.Log10(maxZoom) -
       (float)Math.Log10(minZoom)) *
-      100;
+      100) - 66;
 
     return MathHelper.Lerp(1f, zoom, GetZoomFactor(parallaxFactor));
   }

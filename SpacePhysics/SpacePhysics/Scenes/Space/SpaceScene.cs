@@ -47,6 +47,10 @@ public class SpaceScene : CustomGameComponent
     components.Add(new Meter(
       () => opacity
     ));
+
+    components.Add(new CameraHud(
+      () => opacity
+    ));
   }
 
   public override void Initialize()
