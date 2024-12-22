@@ -20,6 +20,7 @@ public class Camera
   public static float zoomOverride;
   public static float targetZoomOverride;
   public static float zoomOverrideLerpSpeed;
+  public static float zoomOverrideLerpSpeedFactor;
   public static float zoomPercent;
   private static float minZoom;
   private static float maxZoom;
@@ -39,6 +40,7 @@ public class Camera
     shakeDirection = Vector2.Zero;
     zoomOverride = 1f;
     targetZoomOverride = 1f;
+    zoomOverrideLerpSpeedFactor = 0.005f;
     minZoom = 0.4f;
     maxZoom = 4f;
     changeCamera = false;
@@ -50,7 +52,7 @@ public class Camera
     input.Update();
     input.allowInput = allowInput;
 
-    zoomOverrideLerpSpeed = deltaTime * 0.005f;
+    zoomOverrideLerpSpeed = deltaTime * zoomOverrideLerpSpeedFactor;
 
     AdjustCamera();
   }

@@ -111,6 +111,17 @@ public class StartScene : CustomGameComponent
       targetMenuOffset = new Vector2(menuOffsetAmount, 0);
     }
 
+    if (Camera.Camera.zoomOverride > 10 && opacity <= 0f)
+    {
+      sceneManager.RemoveScene();
+      sceneManager.AddScene(new Space.SpaceScene(sceneManager));
+
+      Camera.Camera.zoomOverride = 0f;
+      Camera.Camera.targetZoomOverride = 1f;
+
+      return;
+    }
+
     offset.X = MathHelper.Lerp(offset.X, targetOffset.X, GameState.deltaTime * 3f);
     offset.Y = MathHelper.Lerp(offset.Y, targetOffset.Y, GameState.deltaTime * 3f);
 
