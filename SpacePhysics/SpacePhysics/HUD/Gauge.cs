@@ -22,7 +22,19 @@ public class Gauge : CustomGameComponent
             11
         );
 
+        HudSprite directionIndicator = new(
+            "HUD/gauge-indicator",
+            Alignment.BottomCenter,
+            Alignment.Center,
+            () => offset,
+            () => GameState.direction,
+            () => GameState.defaultColor * opacity(),
+            1.25f,
+            11
+        );
+
         components.Add(guage);
+        components.Add(directionIndicator);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
