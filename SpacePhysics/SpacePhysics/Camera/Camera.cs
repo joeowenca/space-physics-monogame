@@ -101,10 +101,12 @@ public class Camera
   {
     parallaxFactor *= 7;
 
+    float zoomSpeed = 1.3f;
+
     if (input.ContinuousPress(Keys.OemPlus))
-      targetZoom *= 1.00005f;
+        targetZoom *= (float)Math.Pow(zoomSpeed, deltaTime);
     if (input.ContinuousPress(Keys.OemMinus))
-      targetZoom *= 0.99995f;
+        targetZoom /= (float)Math.Pow(zoomSpeed, deltaTime);
 
     if (parallaxFactor == 1) return 1f;
 
