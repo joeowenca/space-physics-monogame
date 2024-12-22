@@ -16,7 +16,7 @@ public class GameState
 
   public static State state;
 
-  public static Vector2 screenSize = new Vector2(1920, 1080);
+  public static Vector2 screenSize = new Vector2(2560, 1440);
   public static float FPS;
 
   public static Vector2 position;
@@ -43,7 +43,6 @@ public class GameState
 
   public static void Initialize()
   {
-    state = State.TitleScreen;
     position = Vector2.Zero;
     velocity = Vector2.Zero;
     defaultColor = Color.White * 0.75f;
@@ -53,7 +52,7 @@ public class GameState
     throttle = 0f;
     targetThrottle = 0f;
     fuel = 7500f;
-    zoom = 2f;
+    zoom = 1.26f;
     targetZoom = zoom;
     scaleOverride = 0.3f;
     scale = screenSize.Y / 1080 * scaleOverride;
@@ -65,6 +64,7 @@ public class GameState
 
   public static void Intro()
   {
+    state = State.TitleScreen;
     position = new Vector2(400, 400);
     velocity = new Vector2(200, -80);
     angularVelocity = 0.00002f;

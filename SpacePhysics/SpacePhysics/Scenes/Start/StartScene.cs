@@ -100,10 +100,26 @@ public class StartScene : CustomGameComponent
       targetOffset = new Vector2(-GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
       targetMenuOffset = new Vector2(-menuOffsetAmount, 0);
     }
+    else if (GameState.state == GameState.State.Play)
+    {
+      opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, 2f);
+    }
     else
     {
+      opacity = ColorHelper.FadeOpacity(opacity, -0.25f, 1f, 4f);
       targetOffset = new Vector2(GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
       targetMenuOffset = new Vector2(menuOffsetAmount, 0);
+    }
+
+    if (Camera.Camera.zoomOverride > 10 && opacity <= 0f)
+    {
+      sceneManager.RemoveScene();
+      sceneManager.AddScene(new Space.SpaceScene(sceneManager));
+
+      Camera.Camera.zoomOverride = 0f;
+      Camera.Camera.targetZoomOverride = 1f;
+
+      return;
     }
 
     offset.X = MathHelper.Lerp(offset.X, targetOffset.X, GameState.deltaTime * 3f);
@@ -113,8 +129,6 @@ public class StartScene : CustomGameComponent
     menuOffset.Y = MathHelper.Lerp(menuOffset.Y, targetMenuOffset.Y, GameState.deltaTime * 3f);
 
     Camera.Camera.offset = offset;
-
-    opacity = ColorHelper.FadeOpacity(opacity, -0.25f, 1f, 4f);
 
     base.Update();
   }

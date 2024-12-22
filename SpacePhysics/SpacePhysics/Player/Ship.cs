@@ -230,7 +230,7 @@ public class Ship : CustomGameComponent
     float thrustScale = throttle * scale;
 
     Vector2 origin = new Vector2(thrustSprite.texture.Width / 2, 80);
-    Vector2 offset = new Vector2(2, 88f);
+    Vector2 offset = new Vector2(2, 225f * scale);
 
     float rotation = direction + (float)(Math.PI * 0.5f);
 
