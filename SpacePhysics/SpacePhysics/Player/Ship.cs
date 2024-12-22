@@ -187,16 +187,16 @@ public class Ship : CustomGameComponent
 
   private void Stability()
   {
-    float angularThrust = throttle / mass * 0.1f;
+    float angularThrust = throttle / mass * 2f;
 
     if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
     {
-      angularVelocity += angularThrust * deltaTime;
+      angularVelocity += angularThrust;
     }
 
     if (input.ContinuousPress(Keys.Left) || input.ContinuousPress(Keys.A))
     {
-      angularVelocity -= angularThrust * deltaTime;
+      angularVelocity -= angularThrust;
     }
 
     if (sas &&
@@ -217,7 +217,7 @@ public class Ship : CustomGameComponent
       }
     }
 
-    direction += angularVelocity;
+    direction += angularVelocity * deltaTime;
 
     if (input.OnFirstFramePress(Keys.T))
     {
