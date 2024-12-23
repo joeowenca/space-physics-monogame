@@ -86,7 +86,7 @@ public class Camera
 
     if (changeCamera)
     {
-      rotation = -direction - (float)(Math.PI / 2);
+      rotation = -direction;
     }
     else
     {

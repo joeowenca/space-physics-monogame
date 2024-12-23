@@ -1,8 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using SpacePhysics.Scenes.Start;
 using static SpacePhysics.GameState;
 
 namespace SpacePhysics.HUD;
@@ -13,7 +11,7 @@ public class CameraHud : CustomGameComponent
 
     public CameraHud(Func<float> opacity) : base(false, Alignment.TopCenter, 11)
     {
-        offset = new Vector2(0, 400f);
+        offset = new Vector2(0, 350f);
 
         HudSprite meter = new(
             "HUD/meter-left",
