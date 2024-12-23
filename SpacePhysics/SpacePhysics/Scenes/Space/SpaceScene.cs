@@ -2,8 +2,9 @@ using System;
 using Microsoft.Xna.Framework;
 using SpacePhysics.HUD;
 using SpacePhysics.Player;
-using SpacePhysics.Scenes.Start;
+using Microsoft.Xna.Framework.Input;
 using SpacePhysics.Sprites;
+using SpacePhysics.Scenes.Start;
 
 namespace SpacePhysics.Scenes.Space;
 
@@ -12,6 +13,10 @@ public class SpaceScene : CustomGameComponent
   SceneManager sceneManager;
 
   private float opacity;
+  private float cameraHudOpacity;
+  private float cameraAngleHudOpacity;
+  private float cameraHudTime;
+  private float cameraAngleHudTime;
 
   public SpaceScene(SceneManager sceneManager) : base(true, Alignment.TopLeft, 7)
   {
@@ -43,6 +48,18 @@ public class SpaceScene : CustomGameComponent
     components.Add(new Gauge(
       () => opacity
     ));
+
+    components.Add(new Meter(
+      () => opacity
+    ));
+
+    components.Add(new CameraHud(
+      () => opacity * cameraHudOpacity
+    ));
+
+    components.Add(new CameraAngleHud(
+      () => opacity * cameraAngleHudOpacity
+    ));
   }
 
   public override void Initialize()
@@ -61,6 +78,32 @@ public class SpaceScene : CustomGameComponent
     if (GameState.state == GameState.State.Play)
     {
       opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, 2f);
+    }
+
+    if (input.ContinuousPress(Keys.OemMinus) || input.ContinuousPress(Keys.OemPlus))
+    {
+      cameraHudOpacity = 1f;
+      cameraHudTime = GameState.elapsedTime;
+    }
+    else
+    {
+      if (GameState.elapsedTime > cameraHudTime + 2)
+      {
+        cameraHudOpacity = ColorHelper.FadeOpacity(cameraHudOpacity, 1f, 0f, StartScene.transitionSpeed);
+      }
+    }
+
+    if (input.ContinuousPress(Keys.V))
+    {
+      cameraAngleHudOpacity = 1f;
+      cameraAngleHudTime = GameState.elapsedTime;
+    }
+    else
+    {
+      if (GameState.elapsedTime > cameraAngleHudTime + 2)
+      {
+        cameraAngleHudOpacity = ColorHelper.FadeOpacity(cameraAngleHudOpacity, 1f, 0f, StartScene.transitionSpeed);
+      }
     }
 
     base.Update();
