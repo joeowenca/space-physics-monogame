@@ -208,12 +208,12 @@ public class Ship : CustomGameComponent
     {
       if (angularVelocity > 0f)
       {
-        angularVelocity -= angularThrust * deltaTime;
+        angularVelocity -= angularThrust;
       }
 
       if (angularVelocity < 0f)
       {
-        angularVelocity += angularThrust * deltaTime;
+        angularVelocity += angularThrust;
       }
     }
 
