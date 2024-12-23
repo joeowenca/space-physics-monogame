@@ -2,8 +2,9 @@ using System;
 using Microsoft.Xna.Framework;
 using SpacePhysics.HUD;
 using SpacePhysics.Player;
-using SpacePhysics.Scenes.Start;
+using Microsoft.Xna.Framework.Input;
 using SpacePhysics.Sprites;
+using SpacePhysics.Scenes.Start;
 
 namespace SpacePhysics.Scenes.Space;
 
@@ -12,6 +13,8 @@ public class SpaceScene : CustomGameComponent
   SceneManager sceneManager;
 
   private float opacity;
+  private float cameraHudOpacity;
+  private float currentTime;
 
   public SpaceScene(SceneManager sceneManager) : base(true, Alignment.TopLeft, 7)
   {
@@ -49,7 +52,7 @@ public class SpaceScene : CustomGameComponent
     ));
 
     components.Add(new CameraHud(
-      () => opacity
+      () => opacity * cameraHudOpacity
     ));
   }
 
@@ -69,6 +72,19 @@ public class SpaceScene : CustomGameComponent
     if (GameState.state == GameState.State.Play)
     {
       opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, 2f);
+    }
+
+    if (input.ContinuousPress(Keys.OemMinus) || input.ContinuousPress(Keys.OemPlus))
+    {
+      cameraHudOpacity = 1f;
+      currentTime = GameState.elapsedTime;
+    }
+    else
+    {
+      if (GameState.elapsedTime > currentTime + 2)
+      {
+        cameraHudOpacity = ColorHelper.FadeOpacity(cameraHudOpacity, 1f, 0f, StartScene.transitionSpeed);
+      }
     }
 
     base.Update();
