@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using SpacePhysics.Menu;
 using SpacePhysics.Player;
 using SpacePhysics.Sprites;
+using SpacePhysics.Debugging;
 
 namespace SpacePhysics.Scenes.Start;
 
@@ -73,6 +74,8 @@ public class StartScene : CustomGameComponent
       Alignment.TopLeft,
       7
     ));
+
+    components.Add(new DebugView());
   }
 
   public override void Initialize()
