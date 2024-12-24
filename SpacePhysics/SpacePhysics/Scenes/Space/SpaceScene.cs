@@ -5,6 +5,7 @@ using SpacePhysics.Player;
 using Microsoft.Xna.Framework.Input;
 using SpacePhysics.Sprites;
 using SpacePhysics.Scenes.Start;
+using SpacePhysics.Debugging;
 
 namespace SpacePhysics.Scenes.Space;
 
@@ -60,6 +61,8 @@ public class SpaceScene : CustomGameComponent
     components.Add(new CameraAngleHud(
       () => opacity * cameraAngleHudOpacity
     ));
+
+    components.Add(new DebugView());
   }
 
   public override void Initialize()
