@@ -42,6 +42,7 @@ namespace SpacePhysics.Debugging
       debugItems.Add(new DebugItem("SAS", () => sas.ToString()));
       debugItems.Add(new DebugItem("Camera Offset", () => Camera.Camera.offset.ToString()));
       debugItems.Add(new DebugItem("Menu State", () => state.ToString()));
+      debugItems.Add(new DebugItem("Paused", () => paused.ToString()));
 
       for (int i = 0; i < debugItems.Count; i++)
       {

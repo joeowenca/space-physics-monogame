@@ -11,6 +11,7 @@ public class Main : Game
     private GraphicsDeviceManager graphics;
     private SpriteBatch spriteBatch;
     private SceneManager sceneManager;
+    private InputManager input;
 
     public Main()
     {
@@ -32,6 +33,8 @@ public class Main : Game
         GameState.Initialize();
         Camera.Camera.Initialize();
 
+        input = new InputManager();
+
         sceneManager = new(Content);
 
         base.Initialize();
@@ -46,13 +49,23 @@ public class Main : Game
 
     protected override void Update(GameTime gameTime)
     {
+        input.Update();
+
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) || MainMenu.quit)
             Exit();
 
         GameState.Update(gameTime);
-        Camera.Camera.Update();
 
-        sceneManager.GetCurrentScene().Update();
+        if (!GameState.paused)
+        {
+            Camera.Camera.Update();
+            sceneManager.GetCurrentScene().Update();
+        }
+
+        if (input.OnFirstFramePress(Keys.Q))
+        {
+            GameState.paused = !GameState.paused;
+        }
 
         base.Update(gameTime);
     }
