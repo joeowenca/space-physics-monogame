@@ -20,7 +20,7 @@ namespace SpacePhysics.Debugging
 
     public DebugView() : base(true, Alignment.TopLeft, 11)
     {
-      debugItems.Add(new DebugItem("FPS", FPS.ToString));
+      debugItems.Add(new DebugItem("FPS", () => FPS.ToString()));
 
       if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
       {
