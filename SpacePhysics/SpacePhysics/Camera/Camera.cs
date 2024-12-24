@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using SpacePhysics.Player;
 using static SpacePhysics.GameState;
 
 namespace SpacePhysics.Camera;
@@ -93,7 +94,7 @@ public class Camera
       rotation = 0f;
     }
 
-    shakeOffset = Shake(throttle);
+    shakeOffset = Shake(Ship.thrustAmount);
   }
 
   private static float CalculateZoom(float parallaxFactor)

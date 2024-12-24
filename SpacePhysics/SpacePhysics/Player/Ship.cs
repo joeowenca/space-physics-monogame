@@ -19,6 +19,7 @@ public class Ship : CustomGameComponent
 
   public static float mass;
   public static float thrust;
+  public static float thrustAmount;
   public static float altitude;
   public static float fuelPercent;
 
@@ -44,7 +45,7 @@ public class Ship : CustomGameComponent
     thrust = 0f;
     maxThrust = 115800;
     maxFuel = fuel;
-    engineEfficiency = 0.00000001f;
+    engineEfficiency = 0.0000001f;
   }
 
   public override void Load(ContentManager contentManager)
@@ -91,7 +92,7 @@ public class Ship : CustomGameComponent
       thrustOverlay,
       GameState.position,
       null,
-      Color.White * throttle,
+      Color.White * thrustAmount,
       direction,
       new Vector2(thrustOverlay.Width / 2, thrustOverlay.Height / 2),
       scale,
@@ -177,19 +178,21 @@ public class Ship : CustomGameComponent
     }
     else
     {
-      thrust = 0f;
+      thrust = MathHelper.Lerp(thrust, 0f, deltaTime * 15f);
     }
 
     fuel -= thrust * engineEfficiency;
     fuelPercent = fuel / maxFuel * 100;
     fuel = Math.Clamp(fuel, 0f, maxFuel);
+
+    thrustAmount = thrust / maxThrust;
   }
 
   private void Stability()
   {
-    float angularThrust = throttle / mass * 2f * deltaTime * 500f;
+    float angularThrust = thrustAmount / mass * deltaTime * 250f;
 
-    float rcsThrust = 1 / mass * 2f * deltaTime * 500f;
+    float rcsThrust = 1 / mass * 4f * deltaTime * 250f;
 
     if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
     {
@@ -238,7 +241,7 @@ public class Ship : CustomGameComponent
 
   private void DrawThrust(SpriteBatch spriteBatch)
   {
-    float thrustScale = throttle * scale;
+    float thrustScale = thrustAmount * scale;
 
     Vector2 origin = new Vector2(thrustSprite.texture.Width / 2, 80);
     Vector2 offset = new Vector2(2, 225f * scale);
