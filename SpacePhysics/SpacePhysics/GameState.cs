@@ -16,7 +16,7 @@ public class GameState
 
   public static State state;
 
-  public static Vector2 screenSize = new Vector2(1920, 1080);
+  public static Vector2 screenSize = new Vector2(2560, 1440);
   public static float FPS;
 
   public static Vector2 position;
