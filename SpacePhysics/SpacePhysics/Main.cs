@@ -13,6 +13,8 @@ public class Main : Game
     private SceneManager sceneManager;
     private InputManager input;
 
+    private GameState.State previousState;
+
     public Main()
     {
         graphics = new GraphicsDeviceManager(this);
@@ -58,8 +60,14 @@ public class Main : Game
 
         if (!GameState.paused)
         {
+            GameState.state = previousState;
             Camera.Camera.Update();
             sceneManager.GetCurrentScene().Update();
+            previousState = GameState.state;
+        }
+        else
+        {
+            GameState.state = GameState.State.Pause;
         }
 
         if (input.OnFirstFramePress(Keys.Q))
