@@ -94,7 +94,7 @@ public class Camera
       rotation = 0f;
     }
 
-    shakeOffset = Shake(Ship.thrustAmount);
+    if (!paused) shakeOffset = Shake(Ship.thrustAmount);
   }
 
   private static float CalculateZoom(float parallaxFactor)
@@ -110,7 +110,7 @@ public class Camera
 
     if (parallaxFactor == 1) return 1f;
 
-    if (!paused) zoom = MathHelper.Lerp(zoom, targetZoom, deltaTime * 2f);
+    zoom = MathHelper.Lerp(zoom, targetZoom, deltaTime * 2f);
 
     zoom = Math.Clamp(zoom, minZoom, maxZoom);
     targetZoom = Math.Clamp(targetZoom, minZoom, maxZoom);

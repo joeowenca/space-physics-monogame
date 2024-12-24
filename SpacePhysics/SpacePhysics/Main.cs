@@ -56,12 +56,9 @@ public class Main : Game
 
         GameState.Update(gameTime);
 
-        sceneManager.GetCurrentScene().Update();
+        Camera.Camera.Update();
 
-        if (!GameState.paused)
-        {
-            Camera.Camera.Update();
-        }
+        sceneManager.GetCurrentScene().Update();
 
         if (input.OnFirstFramePress(Keys.Q) && GameState.state == GameState.State.Play)
         {
