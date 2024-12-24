@@ -189,14 +189,18 @@ public class Ship : CustomGameComponent
   {
     float angularThrust = throttle / mass * 2f * deltaTime * 500f;
 
+    float rcsThrust = 1 / mass * 2f * deltaTime * 500f;
+
     if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
     {
       angularVelocity += angularThrust;
+      if (rcs) angularVelocity += rcsThrust;
     }
 
     if (input.ContinuousPress(Keys.Left) || input.ContinuousPress(Keys.A))
     {
       angularVelocity -= angularThrust;
+      if (rcs) angularVelocity -= rcsThrust;
     }
 
     if (sas &&
@@ -209,11 +213,13 @@ public class Ship : CustomGameComponent
       if (angularVelocity > 0f)
       {
         angularVelocity -= angularThrust;
+        if (rcs) angularVelocity -= rcsThrust;
       }
 
       if (angularVelocity < 0f)
       {
         angularVelocity += angularThrust;
+        if (rcs) angularVelocity += rcsThrust;
       }
     }
 
