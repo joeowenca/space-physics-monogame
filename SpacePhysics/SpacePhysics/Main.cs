@@ -13,6 +13,8 @@ public class Main : Game
     private SceneManager sceneManager;
     private InputManager input;
 
+    private GameState.State previousState;
+
     public Main()
     {
         graphics = new GraphicsDeviceManager(this);
@@ -32,6 +34,8 @@ public class Main : Game
 
         GameState.Initialize();
         Camera.Camera.Initialize();
+
+        previousState = GameState.State.TitleScreen;
 
         input = new InputManager();
 
@@ -60,9 +64,23 @@ public class Main : Game
 
         sceneManager.GetCurrentScene().Update();
 
-        if (input.OnFirstFramePress(Keys.Q) && GameState.state == GameState.State.Play)
+        if (!GameState.paused)
+        {
+            previousState = GameState.state;
+        }
+
+        if (input.OnFirstFramePress(Keys.Q)
+            && (GameState.state == GameState.State.Play
+            || GameState.state == GameState.State.Pause))
         {
             GameState.paused = !GameState.paused;
+        }
+
+        GameState.state = previousState;
+
+        if (GameState.paused)
+        {
+            GameState.state = GameState.State.Pause;
         }
 
         base.Update(gameTime);
