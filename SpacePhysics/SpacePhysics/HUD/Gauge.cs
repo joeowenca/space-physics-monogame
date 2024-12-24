@@ -112,6 +112,17 @@ public class Gauge : CustomGameComponent
             11
         );
 
+        HudText sasStatus = new(
+            "Fonts/text-font",
+            () => "SAS",
+            Alignment.BottomCenter,
+            TextAlign.Center,
+            () => new Vector2(200f, 50f) + offset,
+            () => sas ? highlightColor * opacity() : defaultColor * 0f,
+            hudTextScale,
+            11
+        );
+
         HudSprite hudShadow = new(
             "HUD/hud-shadow",
             Alignment.BottomCenter,
@@ -133,6 +144,7 @@ public class Gauge : CustomGameComponent
         components.Add(altitude);
         components.Add(velocity);
         components.Add(heading);
+        components.Add(sasStatus);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
