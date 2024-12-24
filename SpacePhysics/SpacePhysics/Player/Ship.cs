@@ -181,7 +181,7 @@ public class Ship : CustomGameComponent
       thrust = MathHelper.Lerp(thrust, 0f, deltaTime * 15f);
     }
 
-    fuel -= thrust * engineEfficiency;
+    fuel -= thrust * engineEfficiency * deltaTime * 5000f;
     fuelPercent = fuel / maxFuel * 100;
     fuel = Math.Clamp(fuel, 0f, maxFuel);
 
