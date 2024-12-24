@@ -15,14 +15,34 @@ public class CameraAngleHud : CustomGameComponent
 
         components.Add(new HudText(
             "Fonts/text-font",
-            () => "Camera: " + (Camera.Camera.changeCamera ? "Ship" : "Horizon"),
+            () => "Camera: ",
             Alignment.TopCenter,
-            TextAlign.Center,
+            TextAlign.Left,
             () => new Vector2(0f, 0f) + offset,
             () => defaultColor * opacity(),
             hudTextScale,
             11
         ));
+
+        components.Add(new HudText(
+            "Fonts/text-font",
+            () => Camera.Camera.changeCamera ? "Ship" : "Horizon",
+            Alignment.TopCenter,
+            TextAlign.Left,
+            () => new Vector2(components[0].width, 0f) + offset,
+            () => highlightColor * opacity(),
+            hudTextScale,
+            11
+        ));
+    }
+
+    public override void Update()
+    {
+        float totalWidth = components[0].width + components[1].width;
+
+        offset.X = -totalWidth * 0.5f;
+
+        base.Update();
     }
 
     public override void Draw(SpriteBatch spriteBatch)
