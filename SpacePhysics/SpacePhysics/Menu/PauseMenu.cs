@@ -31,7 +31,7 @@ public class PauseMenu : CustomGameComponent
   {
     float padding = 0.17f;
     float menuSize = 1000f * padding;
-    offset = new Vector2(1050f + StartScene.menuOffsetX, 50f);
+    offset = new Vector2(1050f + StartScene.menuOffsetX, 0f);
     baseOffset = offset;
 
     components.Add(new HudText(
@@ -46,7 +46,7 @@ public class PauseMenu : CustomGameComponent
     ));
 
     components.Add(new MenuItem(
-        "Play",
+        "Resume",
         () => activeMenu == 1,
         alignment,
         () => new Vector2(0f, 0f) + offset,
@@ -64,10 +64,19 @@ public class PauseMenu : CustomGameComponent
     ));
 
     components.Add(new MenuItem(
-      "Quit",
+      "Main Menu",
       () => activeMenu == 3,
       alignment,
       () => new Vector2(0f, menuSize * 2f) + offset,
+      () => opacity,
+      11
+    ));
+
+    components.Add(new MenuItem(
+      "Quit",
+      () => activeMenu == 4,
+      alignment,
+      () => new Vector2(0f, menuSize * 3f) + offset,
       () => opacity,
       11
     ));
@@ -75,7 +84,7 @@ public class PauseMenu : CustomGameComponent
 
   public override void Initialize()
   {
-    menuItemsLength = 3;
+    menuItemsLength = 4;
     activeMenu = 1;
     quit = false;
 
