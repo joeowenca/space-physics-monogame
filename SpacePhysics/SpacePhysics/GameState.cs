@@ -49,6 +49,8 @@ public class GameState
   public static bool sas;
   public static bool debug;
 
+  private static DateTime lastFPSCheck;
+
   public static void Initialize()
   {
     position = Vector2.Zero;
@@ -100,9 +102,10 @@ public class GameState
     deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
     elapsedTime += deltaTime;
 
-    if (deltaTime > 0)
+    if ((DateTime.Now - lastFPSCheck).TotalMilliseconds >= 1000 && deltaTime > 0)
     {
       FPS = 1 / (float)gameTime.ElapsedGameTime.TotalSeconds;
+      lastFPSCheck = DateTime.Now;
     }
   }
 }

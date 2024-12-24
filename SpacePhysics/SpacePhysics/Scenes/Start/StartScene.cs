@@ -98,8 +98,6 @@ public class StartScene : CustomGameComponent
     menuOffset = new Vector2(menuOffsetAmount, 0);
     targetMenuOffset = new Vector2(menuOffsetAmount, 0);
 
-    Console.WriteLine(menuOffsetX);
-
     transitionSpeed = 0.6f;
 
     base.Initialize();
