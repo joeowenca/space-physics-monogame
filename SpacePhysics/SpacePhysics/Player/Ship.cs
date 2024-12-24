@@ -145,7 +145,7 @@ public class Ship : CustomGameComponent
 
     throttle = MathHelper.Lerp(throttle, targetThrottle, deltaTime * 10f);
 
-    if (Math.Abs(throttle - targetThrottle) < 0.001f)
+    if (Math.Abs(throttle - targetThrottle) < 0.00001f)
     {
       throttle = targetThrottle;
     }
@@ -158,7 +158,7 @@ public class Ship : CustomGameComponent
         deltaTime * 10f
       );
 
-      if (Math.Abs(throttle - targetThrottle) < 0.001f)
+      if (Math.Abs(throttle - targetThrottle) < 0.00001f)
       {
         throttle = targetThrottle;
         throttleTransition = false;
