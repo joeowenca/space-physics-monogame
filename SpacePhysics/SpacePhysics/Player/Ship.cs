@@ -64,12 +64,15 @@ public class Ship : CustomGameComponent
 
   public override void Update()
   {
-    thrustSprite.Update(GameState.position);
+    if (!paused)
+    {
+      thrustSprite.Update(GameState.position);
 
-    Physics();
-    Throttle();
-    Thrust();
-    Stability();
+      Physics();
+      Throttle();
+      Thrust();
+      Stability();
+    }
 
     base.Update();
   }
