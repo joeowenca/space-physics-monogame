@@ -32,16 +32,19 @@ public class SpaceScene : CustomGameComponent
     components.Add(new LoopingBackground(
       "Backgrounds/starfield",
       () => new Color(255, 255, 255, 0) * opacity,
+      2f,
       1
     ));
     components.Add(new LoopingBackground(
       "Backgrounds/purple-background",
       () => new Color(100, 100, 100, 0) * opacity,
+      3f,
       2
     ));
     components.Add(new LoopingBackground(
       "Backgrounds/purple-background-2",
       () => new Color(100, 100, 100, 0) * opacity,
+      3f,
       4
     ));
 

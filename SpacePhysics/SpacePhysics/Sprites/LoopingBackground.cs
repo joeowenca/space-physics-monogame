@@ -13,10 +13,13 @@ public class LoopingBackground : CustomGameComponent
 
   private float parallaxFactor;
 
-  public LoopingBackground(string textureName, Func<Color> color, int layerIndex) : base(false, Alignment.TopLeft, layerIndex)
+  private float textureScale;
+
+  public LoopingBackground(string textureName, Func<Color> color, float textureScale, int layerIndex) : base(false, Alignment.TopLeft, layerIndex)
   {
     this.textureName = textureName;
     this.color = color;
+    this.textureScale = textureScale;
 
     parallaxFactor = layerIndex / 14f;
   }
@@ -40,8 +43,8 @@ public class LoopingBackground : CustomGameComponent
     float viewportTop = viewport.Y;
     float viewportBottom = viewport.W + viewport.Y;
 
-    width = (int)(texture.Width * scale * 2f);
-    height = (int)(texture.Height * scale * 2f);
+    width = (int)(texture.Width * scale * textureScale);
+    height = (int)(texture.Height * scale * textureScale);
 
     float startX = (float)Math.Floor(viewportLeft * parallaxFactor / width) - 2;
     float startY = (float)Math.Floor(viewportTop * parallaxFactor / height) - 2;
