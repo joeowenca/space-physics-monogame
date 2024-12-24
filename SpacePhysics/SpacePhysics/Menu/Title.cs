@@ -28,7 +28,7 @@ public class Title : CustomGameComponent
       layerIndex
     )
   {
-    offset = new Vector2(100, 0);
+    offset = new Vector2(100 + StartScene.menuOffsetX, 0);
     baseOffset = offset;
     targetOffsetY = 0f;
 

@@ -40,6 +40,8 @@ public class GameState
   public static float scaleOverride;
   public static float hudScale;
   public static float hudTextScale;
+  public static float hudScaleOverride;
+  public static float hudScaleOverrideFactor;
   public static float units;
   public static float elapsedTime;
   public static float deltaTime;
@@ -66,6 +68,8 @@ public class GameState
     scale = screenSize.Y / 1080 * scaleOverride;
     hudScale = 1.4f;
     hudTextScale = hudScale * 0.4f;
+    hudScaleOverrideFactor = 0.75f;
+    hudScaleOverride = scale * hudScaleOverrideFactor;
     units = 5f;
     elapsedTime = 0f;
     deltaTime = 0f;

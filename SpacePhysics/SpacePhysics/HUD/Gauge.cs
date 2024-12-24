@@ -112,6 +112,18 @@ public class Gauge : CustomGameComponent
             11
         );
 
+        HudSprite hudShadow = new(
+            "HUD/hud-shadow",
+            Alignment.BottomCenter,
+            Alignment.BottomCenter,
+            () => Vector2.Zero,
+            () => 0f,
+            () => Color.White * 0.75f * opacity(),
+            hudScale,
+            11
+        );
+
+        components.Add(hudShadow);
         components.Add(guage);
         components.Add(directionIndicator);
         components.Add(progradeIndicator);

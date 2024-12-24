@@ -15,6 +15,7 @@ public class SpaceScene : CustomGameComponent
 
   private float opacity;
   private float cameraHudOpacity;
+  private float cameraHudShadowOpacity;
   private float cameraAngleHudOpacity;
   private float cameraHudTime;
   private float cameraAngleHudTime;
@@ -52,6 +53,17 @@ public class SpaceScene : CustomGameComponent
 
     components.Add(new Meter(
       () => opacity
+    ));
+
+    components.Add(new HudSprite(
+        "HUD/hud-shadow",
+        Alignment.TopCenter,
+        Alignment.Center,
+        () => new Vector2(0f, 500f),
+        () => (float)Math.PI,
+        () => Color.White * 0.75f * cameraHudShadowOpacity,
+        GameState.hudScale * 0.5f,
+        11
     ));
 
     components.Add(new CameraHud(
@@ -107,6 +119,16 @@ public class SpaceScene : CustomGameComponent
       {
         cameraAngleHudOpacity = ColorHelper.FadeOpacity(cameraAngleHudOpacity, 1f, 0f, StartScene.transitionSpeed);
       }
+    }
+
+    if (cameraAngleHudOpacity > 0 && cameraAngleHudOpacity > cameraHudOpacity)
+    {
+      cameraHudShadowOpacity = cameraAngleHudOpacity;
+    }
+
+    if (cameraHudOpacity > 0 && cameraHudOpacity > cameraAngleHudOpacity)
+    {
+      cameraHudShadowOpacity = cameraHudOpacity;
     }
 
     base.Update();

@@ -29,14 +29,14 @@ public class ScreenSpace
     switch (component.alignment)
     {
       case Alignment.TopLeft:
-        DrawSpriteBatch(spriteBatch, CreateMatrix(Vector2.Zero, scale, Vector2.Zero), component);
+        DrawSpriteBatch(spriteBatch, CreateMatrix(Vector2.Zero, hudScaleOverride, Vector2.Zero), component);
         break;
 
       case Alignment.BottomCenter:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
-          (screenSize.X / 2) - (screenSize.X * scale / 2),
-          screenSize.Y - (screenSize.Y * scale)),
-          scale,
+          (screenSize.X / 2) - (screenSize.X * hudScaleOverride / 2),
+          screenSize.Y - (screenSize.Y * hudScaleOverride)),
+          hudScaleOverride,
           Vector2.Zero),
           component
         );
@@ -44,9 +44,9 @@ public class ScreenSpace
 
       case Alignment.TopCenter:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
-          (screenSize.X / 2) - (screenSize.X * scale / 2),
+          (screenSize.X / 2) - (screenSize.X * hudScaleOverride / 2),
           0),
-          scale,
+          hudScaleOverride,
           Vector2.Zero),
           component
         );
@@ -55,8 +55,8 @@ public class ScreenSpace
       case Alignment.Left:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
           0,
-          (screenSize.Y / 2) - (screenSize.Y * scale / 2)),
-          scale,
+          (screenSize.Y / 2) - (screenSize.Y * hudScaleOverride / 2)),
+          hudScaleOverride,
           Vector2.Zero),
           component
         );
@@ -64,9 +64,9 @@ public class ScreenSpace
 
       case Alignment.Right:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
-          screenSize.X - (screenSize.X * scale),
-          (screenSize.Y / 2) - (screenSize.Y * scale / 2)),
-          scale,
+          screenSize.X - (screenSize.X * hudScaleOverride),
+          (screenSize.Y / 2) - (screenSize.Y * hudScaleOverride / 2)),
+          hudScaleOverride,
           Vector2.Zero),
           component
         );
@@ -74,9 +74,9 @@ public class ScreenSpace
 
       case Alignment.TopRight:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
-          screenSize.X - (screenSize.X * scale),
+          screenSize.X - (screenSize.X * hudScaleOverride),
           0),
-          scale,
+          hudScaleOverride,
           Vector2.Zero),
           component
         );
@@ -84,9 +84,9 @@ public class ScreenSpace
 
       case Alignment.BottomRight:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
-          screenSize.X - (screenSize.X * scale),
-          screenSize.Y - (screenSize.Y * scale)),
-          scale,
+          screenSize.X - (screenSize.X * hudScaleOverride),
+          screenSize.Y - (screenSize.Y * hudScaleOverride)),
+          hudScaleOverride,
           Vector2.Zero),
           component
         );
@@ -95,8 +95,8 @@ public class ScreenSpace
       case Alignment.BottomLeft:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
           0,
-          screenSize.Y - (screenSize.Y * scale)),
-          scale,
+          screenSize.Y - (screenSize.Y * hudScaleOverride)),
+          hudScaleOverride,
           Vector2.Zero),
           component
         );
@@ -104,16 +104,16 @@ public class ScreenSpace
 
       case Alignment.Center:
         DrawSpriteBatch(spriteBatch, CreateMatrix(new Vector2(
-          (screenSize.X / 2) - (screenSize.X * scale / 2),
-          (screenSize.Y / 2) - (screenSize.Y * scale / 2)),
-          scale,
+          (screenSize.X / 2) - (screenSize.X * hudScaleOverride / 2),
+          (screenSize.Y / 2) - (screenSize.Y * hudScaleOverride / 2)),
+          hudScaleOverride,
           Vector2.Zero),
           component
         );
         break;
 
       default:
-        DrawSpriteBatch(spriteBatch, CreateMatrix(Vector2.Zero, scale, Vector2.Zero), component);
+        DrawSpriteBatch(spriteBatch, CreateMatrix(Vector2.Zero, hudScaleOverride, Vector2.Zero), component);
         break;
     }
   }

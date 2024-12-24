@@ -45,7 +45,7 @@ namespace SpacePhysics.Debugging
 
       for (int i = 0; i < debugItems.Count; i++)
       {
-        debugItems[i].position = new Vector2(20, i * 60);
+        debugItems[i].position = new Vector2(20, i * 140 * hudTextScale);
       }
     }
 
@@ -77,7 +77,7 @@ namespace SpacePhysics.Debugging
             defaultColor,
             0f,
             Vector2.Zero,
-            scale,
+            hudTextScale,
             SpriteEffects.None,
             0f
           );
@@ -85,11 +85,11 @@ namespace SpacePhysics.Debugging
           spriteBatch.DrawString(
             font,
             item.ValueGetter(),
-            item.position + new Vector2(font.MeasureString(item.Label).X * scale + 30, 0),
+            item.position + new Vector2(font.MeasureString(item.Label).X * hudTextScale + 30, 0),
             highlightColor,
             0f,
             Vector2.Zero,
-            scale,
+            hudTextScale,
             SpriteEffects.None,
             0f
           );

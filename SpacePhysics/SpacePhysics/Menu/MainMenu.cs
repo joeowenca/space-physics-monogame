@@ -30,7 +30,7 @@ public class MainMenu : CustomGameComponent
   {
     float padding = 0.17f;
     float menuSize = 1000f * padding;
-    offset = new Vector2(1050f, 50f);
+    offset = new Vector2(1050f + StartScene.menuOffsetX, 50f);
     baseOffset = offset;
 
     components.Add(new MenuItem(
