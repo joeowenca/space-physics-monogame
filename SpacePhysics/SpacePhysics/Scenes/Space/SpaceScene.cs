@@ -13,7 +13,11 @@ public class SpaceScene : CustomGameComponent
 {
   SceneManager sceneManager;
 
+  private Vector2 cameraOffset;
+  private Vector2 targetCameraOffset;
+
   private float opacity;
+  private float hudOpacity;
   private float cameraHudOpacity;
   private float cameraHudShadowOpacity;
   private float cameraAngleHudOpacity;
@@ -48,11 +52,11 @@ public class SpaceScene : CustomGameComponent
     ));
 
     components.Add(new Gauge(
-      () => opacity
+      () => opacity * hudOpacity
     ));
 
     components.Add(new Meter(
-      () => opacity
+      () => opacity * hudOpacity
     ));
 
     components.Add(new HudSprite(
@@ -61,17 +65,17 @@ public class SpaceScene : CustomGameComponent
         Alignment.Center,
         () => new Vector2(0f, 500f),
         () => (float)Math.PI,
-        () => Color.White * 0.75f * cameraHudShadowOpacity,
+        () => Color.White * 0.75f * cameraHudShadowOpacity * hudOpacity,
         GameState.hudScale * 0.5f,
         11
     ));
 
     components.Add(new CameraHud(
-      () => opacity * cameraHudOpacity
+      () => opacity * cameraHudOpacity * hudOpacity
     ));
 
     components.Add(new CameraAngleHud(
-      () => opacity * cameraAngleHudOpacity
+      () => opacity * cameraAngleHudOpacity * hudOpacity
     ));
 
     components.Add(new DebugView());
@@ -130,6 +134,28 @@ public class SpaceScene : CustomGameComponent
     {
       cameraHudShadowOpacity = cameraHudOpacity;
     }
+
+    if (GameState.state == GameState.State.Pause)
+    {
+      Camera.Camera.zoomOverrideLerpSpeedFactor = 0.5f;
+      Camera.Camera.targetZoomOverride = 1.5f;
+      GameState.targetZoom = 1.26f;
+
+      hudOpacity = ColorHelper.FadeOpacity(hudOpacity, 1f, 0f, 0.2f);
+
+      targetCameraOffset = new Vector2(GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
+    }
+    else
+    {
+      Camera.Camera.targetZoomOverride = 1f;
+      hudOpacity = ColorHelper.FadeOpacity(hudOpacity, 0f, 1f, 0.2f);
+      targetCameraOffset = Vector2.Zero;
+    }
+
+    cameraOffset.X = MathHelper.Lerp(cameraOffset.X, targetCameraOffset.X, GameState.deltaTime * 5f);
+    cameraOffset.Y = MathHelper.Lerp(cameraOffset.Y, targetCameraOffset.Y, GameState.deltaTime * 5f);
+
+    Camera.Camera.offset = cameraOffset;
 
     base.Update();
   }
