@@ -17,7 +17,8 @@ public class LoopingBackground : CustomGameComponent
   {
     this.textureName = textureName;
     this.color = color;
-    parallaxFactor = layerIndex * 0.071375f;
+
+    parallaxFactor = layerIndex / 14f;
   }
 
   public override void Load(ContentManager contentManager)
@@ -27,24 +28,29 @@ public class LoopingBackground : CustomGameComponent
 
   public override void Draw(SpriteBatch spriteBatch)
   {
-    Rectangle viewport = new Rectangle(
-        (int)Camera.Camera.position.X,
-        (int)Camera.Camera.position.Y,
-        (int)screenSize.X,
-        (int)screenSize.Y
+    Vector4 viewport = new(
+      Camera.Camera.position.X,
+      Camera.Camera.position.Y,
+      screenSize.X,
+      screenSize.Y
     );
 
-    width = texture.Width * scale * 2f;
-    height = texture.Height * scale * 2f;
+    float viewportLeft = viewport.X;
+    float viewportRight = viewport.X + viewport.Z;
+    float viewportTop = viewport.Y;
+    float viewportBottom = viewport.W + viewport.Y;
 
-    int startX = (int)Math.Floor((float)(viewport.Left * parallaxFactor) / width) - 2;
-    int startY = (int)Math.Floor((float)(viewport.Top * parallaxFactor) / height) - 2;
-    int endX = (int)Math.Ceiling((float)(viewport.Right * parallaxFactor) / width) + 2;
-    int endY = (int)Math.Ceiling((float)(viewport.Bottom * parallaxFactor) / height) + 2;
+    width = (int)(texture.Width * scale * 2f);
+    height = (int)(texture.Height * scale * 2f);
 
-    for (int x = startX; x <= endX; x++)
+    float startX = (float)Math.Floor(viewportLeft * parallaxFactor / width) - 2;
+    float startY = (float)Math.Floor(viewportTop * parallaxFactor / height) - 2;
+    float endX = (float)Math.Ceiling(viewportRight * parallaxFactor / width) + 2;
+    float endY = (float)Math.Ceiling(viewportBottom * parallaxFactor / height) + 2;
+
+    for (int x = (int)startX; x <= endX; x++)
     {
-      for (int y = startY; y <= endY; y++)
+      for (int y = (int)startY; y <= endY; y++)
       {
         float tilePositionX = x * width + viewport.X * parallaxFactor;
         float tilePositionY = y * height + viewport.Y * parallaxFactor;
