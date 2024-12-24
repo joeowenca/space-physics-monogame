@@ -223,6 +223,11 @@ public class Ship : CustomGameComponent
     {
       sas = !sas;
     }
+
+    if (input.OnFirstFramePress(Keys.R))
+    {
+      rcs = !rcs;
+    }
   }
 
   private void DrawThrust(SpriteBatch spriteBatch)

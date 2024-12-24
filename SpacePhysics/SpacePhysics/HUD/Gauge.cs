@@ -123,6 +123,17 @@ public class Gauge : CustomGameComponent
             11
         );
 
+        HudText rcsStatus = new(
+            "Fonts/text-font",
+            () => "RCS",
+            Alignment.BottomCenter,
+            TextAlign.Center,
+            () => new Vector2(-200f, 50f) + offset,
+            () => rcs ? Color.Cyan * opacity() : defaultColor * 0f,
+            hudTextScale,
+            11
+        );
+
         HudSprite hudShadow = new(
             "HUD/hud-shadow",
             Alignment.BottomCenter,
@@ -145,6 +156,7 @@ public class Gauge : CustomGameComponent
         components.Add(velocity);
         components.Add(heading);
         components.Add(sasStatus);
+        components.Add(rcsStatus);
     }
 
     public override void Draw(SpriteBatch spriteBatch)

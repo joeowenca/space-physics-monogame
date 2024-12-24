@@ -47,6 +47,7 @@ public class GameState
   public static float deltaTime;
 
   public static bool sas;
+  public static bool rcs;
   public static bool debug;
 
   private static DateTime lastFPSCheck;
@@ -76,6 +77,7 @@ public class GameState
     elapsedTime = 0f;
     deltaTime = 0f;
     sas = false;
+    rcs = false;
   }
 
   public static void Intro()
