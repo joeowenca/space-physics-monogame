@@ -24,6 +24,7 @@ public class SpaceScene : CustomGameComponent
   private float cameraAngleHudOpacity;
   private float cameraHudTime;
   private float cameraAngleHudTime;
+  private float previousTargetZoom;
 
   public SpaceScene(SceneManager sceneManager) : base(true, Alignment.TopLeft, 7)
   {
@@ -99,6 +100,8 @@ public class SpaceScene : CustomGameComponent
     Camera.Camera.offset = Vector2.Zero;
     Camera.Camera.zoomOverrideLerpSpeedFactor = 0.025f;
 
+    previousTargetZoom = GameState.targetZoom;
+
     base.Initialize();
   }
 
@@ -158,6 +161,13 @@ public class SpaceScene : CustomGameComponent
     else
     {
       Camera.Camera.targetZoomOverride = 1f;
+
+      if (!input.ContinuousPress(Keys.OemMinus) && !input.ContinuousPress(Keys.OemPlus))
+      {
+        GameState.targetZoom = previousTargetZoom;
+      }
+
+      previousTargetZoom = GameState.targetZoom;
       hudOpacity = ColorHelper.FadeOpacity(hudOpacity, 0f, 1f, 0.2f);
       targetCameraOffset = Vector2.Zero;
     }
