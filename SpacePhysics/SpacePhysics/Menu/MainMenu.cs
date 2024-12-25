@@ -73,7 +73,7 @@ public class MainMenu : CustomGameComponent
 
     UpdateMenu();
 
-    offset.X = baseOffset.X + (StartScene.menuOffset.X * 0.85f * 3f);
+    UpdateOffset();
 
     base.Update();
   }
@@ -136,5 +136,10 @@ public class MainMenu : CustomGameComponent
     }
 
     activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
+  }
+
+  private void UpdateOffset()
+  {
+    offset.X = baseOffset.X + (StartScene.menuOffset.X * 0.85f * 3f);
   }
 }
