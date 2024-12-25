@@ -69,6 +69,25 @@ public class MainMenu : CustomGameComponent
 
   public override void Update()
   {
+    TransitionState();
+
+    activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
+
+    offset.X = baseOffset.X + (StartScene.menuOffset.X * 0.85f * 3f);
+
+    base.Update();
+  }
+
+  public override void Draw(SpriteBatch spriteBatch)
+  {
+    foreach (var component in components)
+    {
+      component.Draw(spriteBatch);
+    }
+  }
+
+  private void TransitionState()
+  {
     if (state != State.MainMenu)
     {
       if (opacity > 0)
@@ -108,26 +127,6 @@ public class MainMenu : CustomGameComponent
 
       Camera.Camera.zoomOverride = 1f;
       Camera.Camera.targetZoomOverride = 1f;
-    }
-
-    activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
-
-    offset.X = baseOffset.X + (StartScene.menuOffset.X * 0.85f * 3f);
-
-    // For debugging purposes only. TODO: remove when no longer needed
-    if (input.OnFirstFramePress(Keys.LeftControl))
-    {
-      state = State.MainMenu;
-    }
-
-    base.Update();
-  }
-
-  public override void Draw(SpriteBatch spriteBatch)
-  {
-    foreach (var component in components)
-    {
-      component.Draw(spriteBatch);
     }
   }
 }
