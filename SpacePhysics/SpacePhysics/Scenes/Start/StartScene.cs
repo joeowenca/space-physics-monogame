@@ -12,10 +12,6 @@ public class StartScene : CustomGameComponent
 {
   private SceneManager sceneManager;
 
-  public static Vector2 menuOffset;
-  private Vector2 targetMenuOffset;
-  private int menuOffsetAmount;
-
   public static float transitionSpeed;
 
   private float opacity;
@@ -85,10 +81,6 @@ public class StartScene : CustomGameComponent
 
     Camera.Camera.allowInput = false;
 
-    menuOffsetAmount = 300;
-    menuOffset = new Vector2(menuOffsetAmount, 0);
-    targetMenuOffset = new Vector2(menuOffsetAmount, 0);
-
     cameraOffset = cameraOffsetLeft;
 
     transitionSpeed = 0.6f;
@@ -99,8 +91,6 @@ public class StartScene : CustomGameComponent
   public override void Update()
   {
     TransitionState();
-
-    UpdateOffset();
 
     base.Update();
   }
@@ -133,11 +123,5 @@ public class StartScene : CustomGameComponent
 
       return;
     }
-  }
-
-  private void UpdateOffset()
-  {
-    menuOffset.X = MathHelper.Lerp(menuOffset.X, targetMenuOffset.X, GameState.deltaTime * 3f);
-    menuOffset.Y = MathHelper.Lerp(menuOffset.Y, targetMenuOffset.Y, GameState.deltaTime * 3f);
   }
 }

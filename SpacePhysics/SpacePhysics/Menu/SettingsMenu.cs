@@ -13,7 +13,7 @@ public class SettingsMenu : CustomGameComponent
 {
   private Vector2 offset;
   private Vector2 baseOffset;
-  private Vector2 menuOffset;
+  private Vector2 menuOffsetOverride;
 
   private float opacity;
 
@@ -29,9 +29,8 @@ public class SettingsMenu : CustomGameComponent
       layerIndex
     )
   {
-    offset = new Vector2(-1700f - menuOffsetX, -200f);
+    offset = new Vector2(menuOffsetXRight, -200f);
     baseOffset = offset;
-    menuOffset = offset;
 
     components.Add(new HudText(
       "Fonts/title-font",
@@ -48,7 +47,7 @@ public class SettingsMenu : CustomGameComponent
         "Audio",
         () => activeMenu == 1,
         alignment,
-        () => new Vector2(0f, 0f) + menuOffset,
+        () => new Vector2(0f, 0f) + menuOffsetOverride,
         () => opacity,
         11
       ));
@@ -57,7 +56,7 @@ public class SettingsMenu : CustomGameComponent
       "Graphics",
       () => activeMenu == 2,
       alignment,
-      () => new Vector2(0f, menuSizeY) + menuOffset,
+      () => new Vector2(0f, menuSizeY) + menuOffsetOverride,
       () => opacity,
       11
     ));
@@ -66,7 +65,7 @@ public class SettingsMenu : CustomGameComponent
       "Gameplay",
       () => activeMenu == 3,
       alignment,
-      () => new Vector2(0f, menuSizeY * 2f) + menuOffset,
+      () => new Vector2(0f, menuSizeY * 2f) + menuOffsetOverride,
       () => opacity,
       11
     ));
@@ -75,7 +74,7 @@ public class SettingsMenu : CustomGameComponent
       "Controls",
       () => activeMenu == 4,
       alignment,
-      () => new Vector2(0f, menuSizeY * 3f) + menuOffset,
+      () => new Vector2(0f, menuSizeY * 3f) + menuOffsetOverride,
       () => opacity,
       11
     ));
@@ -84,7 +83,7 @@ public class SettingsMenu : CustomGameComponent
       "Back",
       () => activeMenu == 5,
       alignment,
-      () => new Vector2(0f, menuSizeY * 4.5f) + menuOffset,
+      () => new Vector2(0f, menuSizeY * 4.5f) + menuOffsetOverride,
       () => opacity,
       11
     ));
@@ -152,7 +151,8 @@ public class SettingsMenu : CustomGameComponent
 
   private void UpdateOffset()
   {
-    offset.X = baseOffset.X + StartScene.menuOffset.X * 3f;
-    menuOffset.X = baseOffset.X - 150 + (StartScene.menuOffset.X * 0.85f * 3f);
+    offset.X = baseOffset.X + menuOffset.X * 3f;
+    menuOffsetOverride.X = baseOffset.X - 150 + (menuOffset.X * 0.85f * 3f);
+    menuOffsetOverride.Y = -200f;
   }
 }

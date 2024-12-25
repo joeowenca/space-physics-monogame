@@ -139,6 +139,6 @@ public class MainMenu : CustomGameComponent
 
   private void UpdateOffset()
   {
-    offset.X = baseOffset.X + (StartScene.menuOffset.X * 0.85f * 3f);
+    offset.X = baseOffset.X + (menuOffset.X * 0.85f * 3f);
   }
 }

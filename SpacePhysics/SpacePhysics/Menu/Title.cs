@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using SpacePhysics.HUD;
 using SpacePhysics.Scenes.Start;
 using static SpacePhysics.GameState;
+using static SpacePhysics.Menu.MenuContainer;
 
 namespace SpacePhysics.Menu;
 
@@ -28,7 +29,7 @@ public class Title : CustomGameComponent
       layerIndex
     )
   {
-    offset = new Vector2(100 + MenuContainer.menuOffsetX, 0);
+    offset = new Vector2(100 + menuOffsetX, 0);
     baseOffset = offset;
     targetOffsetY = 0f;
 
@@ -96,6 +97,6 @@ public class Title : CustomGameComponent
     offsetY = MathHelper.Lerp(offsetY, targetOffsetY, deltaTime * 4f);
     offset.Y = offsetY;
 
-    offset.X = baseOffset.X + StartScene.menuOffset.X * 3f;
+    offset.X = baseOffset.X + menuOffset.X * 3f;
   }
 }
