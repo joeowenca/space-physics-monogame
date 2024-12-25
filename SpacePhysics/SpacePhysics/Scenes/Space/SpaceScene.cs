@@ -148,6 +148,11 @@ public class SpaceScene : CustomGameComponent
       cameraHudShadowOpacity = cameraHudOpacity;
     }
 
+    if (input.OnFirstFramePress(Keys.Escape))
+    {
+      GameState.state = GameState.State.Pause;
+    }
+
     if (GameState.state == GameState.State.Pause)
     {
       Camera.Camera.zoomOverrideLerpSpeedFactor = 0.5f;

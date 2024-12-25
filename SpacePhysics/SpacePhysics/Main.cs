@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpacePhysics.Menu;
@@ -51,7 +52,7 @@ public class Main : Game
     {
         input.Update();
 
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) || GameState.quit)
+        if (GameState.quit)
             Exit();
 
         GameState.Update(gameTime);
@@ -59,13 +60,6 @@ public class Main : Game
         Camera.Camera.Update();
 
         sceneManager.GetCurrentScene().Update();
-
-        if (input.OnFirstFramePress(Keys.Q)
-            && (GameState.state == GameState.State.Play
-            || GameState.state == GameState.State.Pause))
-        {
-            GameState.state = GameState.State.Pause;
-        }
 
         base.Update(gameTime);
     }
