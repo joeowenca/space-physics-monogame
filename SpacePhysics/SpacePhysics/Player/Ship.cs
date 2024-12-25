@@ -244,10 +244,10 @@ public class Ship : CustomGameComponent
 
   private void DrawThrust(SpriteBatch spriteBatch)
   {
-    float thrustScale = thrustAmount * scale;
+    float thrustScale = thrustAmount * scale * 0.9f;
 
-    Vector2 origin = new Vector2(thrustSprite.texture.Width / 2, 80);
-    Vector2 offset = new Vector2(2, 225f * scale);
+    Vector2 origin = new Vector2(thrustSprite.texture.Width / 2, 90);
+    Vector2 offset = new Vector2(2, 220f * scale);
 
     float rotation = direction;
 
