@@ -51,7 +51,7 @@ public class Main : Game
     {
         input.Update();
 
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) || MainMenu.quit)
+        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) || GameState.quit)
             Exit();
 
         GameState.Update(gameTime);

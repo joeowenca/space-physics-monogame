@@ -17,8 +17,6 @@ public class MainMenu : CustomGameComponent
   private int menuItemsLength;
   private int activeMenu;
 
-  public static bool quit;
-
   public MainMenu(
     bool allowInput,
     Alignment alignment,
@@ -65,7 +63,6 @@ public class MainMenu : CustomGameComponent
   {
     menuItemsLength = 3;
     activeMenu = 1;
-    quit = false;
 
     base.Initialize();
   }
