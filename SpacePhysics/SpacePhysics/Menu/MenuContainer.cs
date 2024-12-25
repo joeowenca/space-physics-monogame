@@ -11,21 +11,23 @@ public class MenuContainer
   public static Vector2 cameraOffset;
   public static Vector2 targetCameraOffset;
 
+  public static Vector2 cameraOffsetLeft;
+  public static Vector2 cameraOffsetRight;
+
   public static float padding = 0.17f;
   public static float menuSizeY = 1000f * padding;
 
-  public MenuContainer()
-  {
-    float start = 1250f;
-    float end = 1f;
-
-    menuOffsetX = start - (GameState.hudScaleOverrideFactor - 0.1f) * Math.Abs((end - start) / 0.9f);
-  }
-
   public static void Initialize()
   {
-    cameraOffset = new Vector2(GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
-    targetCameraOffset = new Vector2(GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
+    cameraOffset = Vector2.Zero;
+    targetCameraOffset = Vector2.Zero;
+
+    cameraOffsetLeft = new Vector2(GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
+    cameraOffsetRight = new Vector2(-GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
+
+    float start = 1250f;
+    float end = 1f;
+    menuOffsetX = start - (GameState.hudScaleOverrideFactor - 0.1f) * Math.Abs((end - start) / 0.9f);
   }
 
   public static void Update()

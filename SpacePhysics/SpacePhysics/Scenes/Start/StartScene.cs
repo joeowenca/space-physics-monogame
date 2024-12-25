@@ -89,6 +89,8 @@ public class StartScene : CustomGameComponent
     menuOffset = new Vector2(menuOffsetAmount, 0);
     targetMenuOffset = new Vector2(menuOffsetAmount, 0);
 
+    cameraOffset = cameraOffsetLeft;
+
     transitionSpeed = 0.6f;
 
     base.Initialize();
@@ -107,7 +109,7 @@ public class StartScene : CustomGameComponent
   {
     if (GameState.state == GameState.State.Settings)
     {
-      targetCameraOffset = new Vector2(-GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
+      targetCameraOffset = cameraOffsetRight;
       targetMenuOffset = new Vector2(-menuOffsetAmount, 0);
     }
     else if (GameState.state == GameState.State.Play)
@@ -117,7 +119,7 @@ public class StartScene : CustomGameComponent
     else
     {
       opacity = ColorHelper.FadeOpacity(opacity, -0.25f, 1f, 4f);
-      targetCameraOffset = new Vector2(GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
+      targetCameraOffset = cameraOffsetLeft;
       targetMenuOffset = new Vector2(menuOffsetAmount, 0);
     }
 
