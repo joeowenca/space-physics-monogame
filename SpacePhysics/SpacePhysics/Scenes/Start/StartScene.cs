@@ -105,12 +105,17 @@ public class StartScene : CustomGameComponent
     else if (GameState.state == GameState.State.Play)
     {
       opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, 2f);
+
+      Camera.Camera.targetZoomOverride = 20f;
     }
     else
     {
       opacity = ColorHelper.FadeOpacity(opacity, -0.25f, 1f, 4f);
       targetCameraOffset = cameraOffsetLeft;
       targetMenuOffset = new Vector2(menuOffsetAmount, 0);
+
+      Camera.Camera.zoomOverride = 1f;
+      Camera.Camera.targetZoomOverride = 1f;
     }
 
     if (Camera.Camera.zoomOverride > 10 && opacity <= 0f)

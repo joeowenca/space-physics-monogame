@@ -94,23 +94,10 @@ public class MainMenu : CustomGameComponent
 
       if (opacity <= 0.1f)
         activeMenu = 1;
-
-      if (state == State.Play)
-      {
-        Camera.Camera.targetZoomOverride = 20f;
-      }
-      else
-      {
-        Camera.Camera.zoomOverride = 1f;
-        Camera.Camera.targetZoomOverride = 1f;
-      }
     }
     else
     {
       opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, StartScene.transitionSpeed);
-
-      Camera.Camera.zoomOverride = 1f;
-      Camera.Camera.targetZoomOverride = 1f;
     }
   }
 
