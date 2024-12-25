@@ -59,10 +59,7 @@ public class Title : CustomGameComponent
   {
     TransitionState();
 
-    offsetY = MathHelper.Lerp(offsetY, targetOffsetY, deltaTime * 4f);
-    offset.Y = offsetY;
-
-    offset.X = baseOffset.X + StartScene.menuOffset.X * 3f;
+    UpdateOffset();
 
     base.Update();
   }
@@ -92,5 +89,13 @@ public class Title : CustomGameComponent
       opacity = ColorHelper.FadeOpacity(opacity, -1f, 1f, 5f);
       targetOffsetY = 0f;
     }
+  }
+
+  private void UpdateOffset()
+  {
+    offsetY = MathHelper.Lerp(offsetY, targetOffsetY, deltaTime * 4f);
+    offset.Y = offsetY;
+
+    offset.X = baseOffset.X + StartScene.menuOffset.X * 3f;
   }
 }
