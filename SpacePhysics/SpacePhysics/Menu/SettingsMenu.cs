@@ -101,6 +101,26 @@ public class SettingsMenu : CustomGameComponent
 
   public override void Update()
   {
+    TransitionState();
+
+    activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
+
+    offset.X = baseOffset.X + StartScene.menuOffset.X * 3f;
+    menuOffset.X = baseOffset.X - 150 + (StartScene.menuOffset.X * 0.85f * 3f);
+
+    base.Update();
+  }
+
+  public override void Draw(SpriteBatch spriteBatch)
+  {
+    foreach (var component in components)
+    {
+      component.Draw(spriteBatch);
+    }
+  }
+
+  private void TransitionState()
+  {
     if (state != State.Settings)
     {
       if (opacity > 0)
@@ -121,21 +141,6 @@ public class SettingsMenu : CustomGameComponent
 
       if (activeMenu == 5 && input.OnFirstFramePress(Keys.Enter))
         state = State.MainMenu;
-    }
-
-    activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
-
-    offset.X = baseOffset.X + StartScene.menuOffset.X * 3f;
-    menuOffset.X = baseOffset.X - 150 + (StartScene.menuOffset.X * 0.85f * 3f);
-
-    base.Update();
-  }
-
-  public override void Draw(SpriteBatch spriteBatch)
-  {
-    foreach (var component in components)
-    {
-      component.Draw(spriteBatch);
     }
   }
 }
