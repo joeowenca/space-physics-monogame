@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpacePhysics.Scenes.Start;
 using static SpacePhysics.GameState;
+using static SpacePhysics.Menu.MenuContainer;
 
 namespace SpacePhysics.Menu;
 
@@ -26,9 +27,7 @@ public class MainMenu : CustomGameComponent
       layerIndex
     )
   {
-    float padding = 0.17f;
-    float menuSize = 1000f * padding;
-    offset = new Vector2(1050f + MenuContainer.menuOffsetX, 50f);
+    offset = new Vector2(1050f + menuOffsetX, 50f);
     baseOffset = offset;
 
     components.Add(new MenuItem(
@@ -44,7 +43,7 @@ public class MainMenu : CustomGameComponent
       "Settings",
       () => activeMenu == 2,
       alignment,
-      () => new Vector2(0f, menuSize) + offset,
+      () => new Vector2(0f, menuSizeY) + offset,
       () => opacity,
       11
     ));
@@ -53,7 +52,7 @@ public class MainMenu : CustomGameComponent
       "Quit",
       () => activeMenu == 3,
       alignment,
-      () => new Vector2(0f, menuSize * 2f) + offset,
+      () => new Vector2(0f, menuSizeY * 2f) + offset,
       () => opacity,
       11
     ));

@@ -8,6 +8,9 @@ public class MenuContainer
 {
   public static float menuOffsetX;
 
+  public static float padding = 0.17f;
+  public static float menuSizeY = 1000f * padding;
+
   public MenuContainer()
   {
     float start = 1250f;

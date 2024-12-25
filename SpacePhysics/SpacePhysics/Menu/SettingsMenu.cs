@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using SpacePhysics.Scenes.Start;
 using SpacePhysics.HUD;
 using static SpacePhysics.GameState;
+using static SpacePhysics.Menu.MenuContainer;
 
 namespace SpacePhysics.Menu;
 
@@ -28,9 +29,7 @@ public class SettingsMenu : CustomGameComponent
       layerIndex
     )
   {
-    float padding = 0.17f;
-    float menuSize = 1000f * padding;
-    offset = new Vector2(-1700f - MenuContainer.menuOffsetX, -200f);
+    offset = new Vector2(-1700f - menuOffsetX, -200f);
     baseOffset = offset;
     menuOffset = offset;
 
@@ -58,7 +57,7 @@ public class SettingsMenu : CustomGameComponent
       "Graphics",
       () => activeMenu == 2,
       alignment,
-      () => new Vector2(0f, menuSize) + menuOffset,
+      () => new Vector2(0f, menuSizeY) + menuOffset,
       () => opacity,
       11
     ));
@@ -67,7 +66,7 @@ public class SettingsMenu : CustomGameComponent
       "Gameplay",
       () => activeMenu == 3,
       alignment,
-      () => new Vector2(0f, menuSize * 2f) + menuOffset,
+      () => new Vector2(0f, menuSizeY * 2f) + menuOffset,
       () => opacity,
       11
     ));
@@ -76,7 +75,7 @@ public class SettingsMenu : CustomGameComponent
       "Controls",
       () => activeMenu == 4,
       alignment,
-      () => new Vector2(0f, menuSize * 3f) + menuOffset,
+      () => new Vector2(0f, menuSizeY * 3f) + menuOffset,
       () => opacity,
       11
     ));
@@ -85,7 +84,7 @@ public class SettingsMenu : CustomGameComponent
       "Back",
       () => activeMenu == 5,
       alignment,
-      () => new Vector2(0f, menuSize * 4.5f) + menuOffset,
+      () => new Vector2(0f, menuSizeY * 4.5f) + menuOffset,
       () => opacity,
       11
     ));
