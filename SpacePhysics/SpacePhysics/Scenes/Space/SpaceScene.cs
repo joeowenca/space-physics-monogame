@@ -113,10 +113,7 @@ public class SpaceScene : CustomGameComponent
 
     UpdateOpacity();
 
-    cameraOffset.X = MathHelper.Lerp(cameraOffset.X, targetCameraOffset.X, GameState.deltaTime * 5f);
-    cameraOffset.Y = MathHelper.Lerp(cameraOffset.Y, targetCameraOffset.Y, GameState.deltaTime * 5f);
-
-    Camera.Camera.offset = cameraOffset;
+    cameraOffsetLerpSpeed = 5f;
 
     base.Update();
   }
