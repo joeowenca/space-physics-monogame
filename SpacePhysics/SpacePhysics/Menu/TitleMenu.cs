@@ -40,6 +40,21 @@ public class TitleMenu : CustomGameComponent
 
   public override void Update()
   {
+    TransitionState();
+
+    base.Update();
+  }
+
+  public override void Draw(SpriteBatch spriteBatch)
+  {
+    foreach (var component in components)
+    {
+      component.Draw(spriteBatch);
+    }
+  }
+
+  private void TransitionState()
+  {
     if (state != State.TitleScreen)
     {
       opacity = ColorHelper.FadeOpacity(opacity, 0.9f, 0f, StartScene.transitionSpeed);
@@ -52,16 +67,6 @@ public class TitleMenu : CustomGameComponent
     if (Keyboard.GetState().GetPressedKeys().Length > 0 && opacity >= 0.5f)
     {
       state = State.MainMenu;
-    }
-
-    base.Update();
-  }
-
-  public override void Draw(SpriteBatch spriteBatch)
-  {
-    foreach (var component in components)
-    {
-      component.Draw(spriteBatch);
     }
   }
 }
