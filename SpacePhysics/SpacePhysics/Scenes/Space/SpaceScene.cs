@@ -183,7 +183,9 @@ public class SpaceScene : CustomGameComponent
     {
       opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, 2f);
 
-      Camera.Camera.zoomOverrideLerpSpeedFactor = 0.025f;
+      cameraOffsetLerpSpeed = 3f;
+
+      Camera.Camera.zoomOverrideLerpSpeedFactor = 0.005f;
       Camera.Camera.targetZoomOverride = 20f;
     }
 
