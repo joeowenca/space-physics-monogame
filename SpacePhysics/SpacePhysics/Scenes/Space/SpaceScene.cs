@@ -95,10 +95,10 @@ public class SpaceScene : CustomGameComponent
     GameState.Initialize();
 
     Camera.Camera.allowInput = true;
-    Camera.Camera.offset = Vector2.Zero;
     Camera.Camera.zoomOverrideLerpSpeedFactor = 0.025f;
 
     cameraOffset = Vector2.Zero;
+    cameraOffsetLerpSpeed = 5f;
 
     previousTargetZoom = GameState.targetZoom;
 
@@ -112,8 +112,6 @@ public class SpaceScene : CustomGameComponent
     TransitionState();
 
     UpdateOpacity();
-
-    cameraOffsetLerpSpeed = 5f;
 
     base.Update();
   }
