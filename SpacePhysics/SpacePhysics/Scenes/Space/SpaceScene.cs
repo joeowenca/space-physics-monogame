@@ -178,6 +178,27 @@ public class SpaceScene : CustomGameComponent
 
       targetCameraOffset = cameraOffsetLeft;
     }
+
+    if (GameState.state == GameState.State.TitleScreen)
+    {
+      opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, 2f);
+
+      Camera.Camera.zoomOverrideLerpSpeedFactor = 0.025f;
+      Camera.Camera.targetZoomOverride = 20f;
+    }
+
+    if (Camera.Camera.zoomOverride > 10 && opacity <= 0f)
+    {
+      GameState.Initialize();
+
+      sceneManager.RemoveScene();
+      sceneManager.AddScene(new StartScene(sceneManager));
+
+      Camera.Camera.zoomOverride = 1f;
+      Camera.Camera.targetZoomOverride = 1f;
+
+      return;
+    }
   }
 
   private void UpdateOpacity()
