@@ -38,6 +38,13 @@ public class TitleMenu : CustomGameComponent
     ));
   }
 
+  public override void Initialize()
+  {
+    opacity = -2f;
+
+    base.Initialize();
+  }
+
   public override void Update()
   {
     TransitionState();

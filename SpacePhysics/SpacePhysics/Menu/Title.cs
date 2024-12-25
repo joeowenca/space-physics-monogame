@@ -1,8 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using SpacePhysics.HUD;
 using SpacePhysics.Scenes.Start;
 using static SpacePhysics.GameState;
@@ -54,6 +52,13 @@ public class Title : CustomGameComponent
       1.75f,
       11
     ));
+  }
+
+  public override void Initialize()
+  {
+    opacity = -1f;
+
+    base.Initialize();
   }
 
   public override void Update()

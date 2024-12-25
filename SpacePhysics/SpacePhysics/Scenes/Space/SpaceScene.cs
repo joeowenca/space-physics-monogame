@@ -95,10 +95,10 @@ public class SpaceScene : CustomGameComponent
     GameState.Initialize();
 
     Camera.Camera.allowInput = true;
-    Camera.Camera.offset = Vector2.Zero;
     Camera.Camera.zoomOverrideLerpSpeedFactor = 0.025f;
 
     cameraOffset = Vector2.Zero;
+    cameraOffsetLerpSpeed = 5f;
 
     previousTargetZoom = GameState.targetZoom;
 
@@ -107,11 +107,17 @@ public class SpaceScene : CustomGameComponent
 
   public override void Update()
   {
-    if (GameState.state == GameState.State.Play)
-    {
-      opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, 2f);
-    }
+    HandleInput();
 
+    TransitionState();
+
+    UpdateOpacity();
+
+    base.Update();
+  }
+
+  private void HandleInput()
+  {
     if (input.ContinuousPress(Keys.OemMinus) || input.ContinuousPress(Keys.OemPlus))
     {
       cameraHudOpacity = 1f;
@@ -138,33 +144,18 @@ public class SpaceScene : CustomGameComponent
       }
     }
 
-    if (cameraAngleHudOpacity > 0 && cameraAngleHudOpacity > cameraHudOpacity)
-    {
-      cameraHudShadowOpacity = cameraAngleHudOpacity;
-    }
-
-    if (cameraHudOpacity > 0 && cameraHudOpacity > cameraAngleHudOpacity)
-    {
-      cameraHudShadowOpacity = cameraHudOpacity;
-    }
-
     if (input.OnFirstFramePress(Keys.Escape))
     {
       GameState.state = GameState.State.Pause;
     }
+  }
 
-    if (GameState.state == GameState.State.Pause)
+  private void TransitionState()
+  {
+    if (GameState.state == GameState.State.Play)
     {
-      Camera.Camera.zoomOverrideLerpSpeedFactor = 0.5f;
-      Camera.Camera.targetZoomOverride = 1.5f;
-      GameState.targetZoom = 1.26f;
+      opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, 2f);
 
-      hudOpacity = ColorHelper.FadeOpacity(hudOpacity, 1f, 0f, 0.2f);
-
-      targetCameraOffset = cameraOffsetLeft;
-    }
-    else
-    {
       Camera.Camera.targetZoomOverride = 1f;
 
       if (!input.ContinuousPress(Keys.OemMinus) && !input.ContinuousPress(Keys.OemPlus))
@@ -177,11 +168,49 @@ public class SpaceScene : CustomGameComponent
       targetCameraOffset = Vector2.Zero;
     }
 
-    cameraOffset.X = MathHelper.Lerp(cameraOffset.X, targetCameraOffset.X, GameState.deltaTime * 5f);
-    cameraOffset.Y = MathHelper.Lerp(cameraOffset.Y, targetCameraOffset.Y, GameState.deltaTime * 5f);
+    if (GameState.state == GameState.State.Pause)
+    {
+      Camera.Camera.zoomOverrideLerpSpeedFactor = 0.5f;
+      Camera.Camera.targetZoomOverride = 1.5f;
+      GameState.targetZoom = 1.26f;
 
-    Camera.Camera.offset = cameraOffset;
+      hudOpacity = ColorHelper.FadeOpacity(hudOpacity, 1f, 0f, 0.2f);
 
-    base.Update();
+      targetCameraOffset = cameraOffsetLeft;
+    }
+
+    if (GameState.state == GameState.State.TitleScreen)
+    {
+      opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, 2f);
+
+      Camera.Camera.zoomOverrideLerpSpeedFactor = 0.025f;
+      Camera.Camera.targetZoomOverride = 20f;
+    }
+
+    if (Camera.Camera.zoomOverride > 10 && opacity <= 0f)
+    {
+      GameState.Initialize();
+
+      sceneManager.RemoveScene();
+      sceneManager.AddScene(new StartScene(sceneManager));
+
+      Camera.Camera.zoomOverride = 1f;
+      Camera.Camera.targetZoomOverride = 1f;
+
+      return;
+    }
+  }
+
+  private void UpdateOpacity()
+  {
+    if (cameraAngleHudOpacity > 0 && cameraAngleHudOpacity > cameraHudOpacity)
+    {
+      cameraHudShadowOpacity = cameraAngleHudOpacity;
+    }
+
+    if (cameraHudOpacity > 0 && cameraHudOpacity > cameraAngleHudOpacity)
+    {
+      cameraHudShadowOpacity = cameraHudOpacity;
+    }
   }
 }

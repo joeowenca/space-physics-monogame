@@ -119,7 +119,7 @@ public class PauseMenu : CustomGameComponent
 
       if (activeMenu == 3 && input.OnFirstFramePress(Keys.Enter))
       {
-        state = State.Play;
+        state = State.TitleScreen;
       }
 
       if (activeMenu == 4 && input.OnFirstFramePress(Keys.Enter))
