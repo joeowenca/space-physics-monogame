@@ -111,15 +111,7 @@ public class SpaceScene : CustomGameComponent
 
     TransitionState();
 
-    if (cameraAngleHudOpacity > 0 && cameraAngleHudOpacity > cameraHudOpacity)
-    {
-      cameraHudShadowOpacity = cameraAngleHudOpacity;
-    }
-
-    if (cameraHudOpacity > 0 && cameraHudOpacity > cameraAngleHudOpacity)
-    {
-      cameraHudShadowOpacity = cameraHudOpacity;
-    }
+    UpdateOpacity();
 
     cameraOffset.X = MathHelper.Lerp(cameraOffset.X, targetCameraOffset.X, GameState.deltaTime * 5f);
     cameraOffset.Y = MathHelper.Lerp(cameraOffset.Y, targetCameraOffset.Y, GameState.deltaTime * 5f);
@@ -192,6 +184,19 @@ public class SpaceScene : CustomGameComponent
       previousTargetZoom = GameState.targetZoom;
       hudOpacity = ColorHelper.FadeOpacity(hudOpacity, 0f, 1f, 0.2f);
       targetCameraOffset = Vector2.Zero;
+    }
+  }
+
+  private void UpdateOpacity()
+  {
+    if (cameraAngleHudOpacity > 0 && cameraAngleHudOpacity > cameraHudOpacity)
+    {
+      cameraHudShadowOpacity = cameraAngleHudOpacity;
+    }
+
+    if (cameraHudOpacity > 0 && cameraHudOpacity > cameraAngleHudOpacity)
+    {
+      cameraHudShadowOpacity = cameraHudOpacity;
     }
   }
 }
