@@ -107,8 +107,30 @@ public class SpaceScene : CustomGameComponent
 
   public override void Update()
   {
+    HandleInput();
+
     TransitionState();
 
+    if (cameraAngleHudOpacity > 0 && cameraAngleHudOpacity > cameraHudOpacity)
+    {
+      cameraHudShadowOpacity = cameraAngleHudOpacity;
+    }
+
+    if (cameraHudOpacity > 0 && cameraHudOpacity > cameraAngleHudOpacity)
+    {
+      cameraHudShadowOpacity = cameraHudOpacity;
+    }
+
+    cameraOffset.X = MathHelper.Lerp(cameraOffset.X, targetCameraOffset.X, GameState.deltaTime * 5f);
+    cameraOffset.Y = MathHelper.Lerp(cameraOffset.Y, targetCameraOffset.Y, GameState.deltaTime * 5f);
+
+    Camera.Camera.offset = cameraOffset;
+
+    base.Update();
+  }
+
+  private void HandleInput()
+  {
     if (input.ContinuousPress(Keys.OemMinus) || input.ContinuousPress(Keys.OemPlus))
     {
       cameraHudOpacity = 1f;
@@ -135,27 +157,10 @@ public class SpaceScene : CustomGameComponent
       }
     }
 
-    if (cameraAngleHudOpacity > 0 && cameraAngleHudOpacity > cameraHudOpacity)
-    {
-      cameraHudShadowOpacity = cameraAngleHudOpacity;
-    }
-
-    if (cameraHudOpacity > 0 && cameraHudOpacity > cameraAngleHudOpacity)
-    {
-      cameraHudShadowOpacity = cameraHudOpacity;
-    }
-
     if (input.OnFirstFramePress(Keys.Escape))
     {
       GameState.state = GameState.State.Pause;
     }
-
-    cameraOffset.X = MathHelper.Lerp(cameraOffset.X, targetCameraOffset.X, GameState.deltaTime * 5f);
-    cameraOffset.Y = MathHelper.Lerp(cameraOffset.Y, targetCameraOffset.Y, GameState.deltaTime * 5f);
-
-    Camera.Camera.offset = cameraOffset;
-
-    base.Update();
   }
 
   private void TransitionState()
