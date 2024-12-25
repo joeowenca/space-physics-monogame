@@ -88,13 +88,15 @@ public class Camera
     if (changeCamera)
     {
       rotation = -direction;
+
+      if (state == State.Pause) rotation = 0f;
     }
     else
     {
       rotation = 0f;
     }
 
-    shakeOffset = Shake(Ship.thrustAmount);
+    if (state != State.Pause) shakeOffset = Shake(Ship.thrustAmount);
   }
 
   private static float CalculateZoom(float parallaxFactor)
@@ -111,6 +113,7 @@ public class Camera
     if (parallaxFactor == 1) return 1f;
 
     zoom = MathHelper.Lerp(zoom, targetZoom, deltaTime * 2f);
+
     zoom = Math.Clamp(zoom, minZoom, maxZoom);
     targetZoom = Math.Clamp(targetZoom, minZoom, maxZoom);
 
@@ -119,7 +122,7 @@ public class Camera
       ((float)Math.Log10(minZoom)) /
       (float)Math.Log10(maxZoom) -
       (float)Math.Log10(minZoom)) *
-      100) - 66;
+      100) - 66; // TODO: Why do I need to subtract by 66??
 
     return MathHelper.Lerp(1f, zoom, GetZoomFactor(parallaxFactor));
   }
