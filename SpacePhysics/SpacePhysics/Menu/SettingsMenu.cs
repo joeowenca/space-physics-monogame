@@ -152,7 +152,7 @@ public class SettingsMenu : CustomGameComponent
   private void UpdateOffset()
   {
     offset.X = baseOffset.X + menuOffset.X * 3f;
-    menuOffsetOverride.X = baseOffset.X - 150 + (menuOffset.X * 0.85f * 3f);
+    menuOffsetOverride.X = baseOffset.X - 150 + menuOffsetFactor;
     menuOffsetOverride.Y = -200f;
   }
 }

@@ -18,6 +18,8 @@ public class MenuContainer
   public static float menuOffsetXLeft;
   public static float menuOffsetXRight;
 
+  public static float menuOffsetFactor;
+
   public static int menuOffsetAmount;
 
   public static float padding = 0.17f;
@@ -53,6 +55,8 @@ public class MenuContainer
 
     menuOffset.X = MathHelper.Lerp(menuOffset.X, targetMenuOffset.X, GameState.deltaTime * 3f);
     menuOffset.Y = MathHelper.Lerp(menuOffset.Y, targetMenuOffset.Y, GameState.deltaTime * 3f);
+
+    menuOffsetFactor = menuOffset.X * 0.85f * 3f;
   }
 
   public static float CalculateMenuHeight(List<CustomGameComponent> menuItems)

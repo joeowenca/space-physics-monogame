@@ -128,7 +128,7 @@ public class PauseMenu : CustomGameComponent
 
     activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
 
-    offset.X = baseOffset.X + (menuOffset.X * 0.85f * 3f);
+    offset.X = baseOffset.X + menuOffsetFactor;
 
     base.Update();
   }
