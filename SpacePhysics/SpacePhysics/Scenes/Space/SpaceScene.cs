@@ -155,6 +155,17 @@ public class SpaceScene : CustomGameComponent
     if (GameState.state == GameState.State.Play)
     {
       opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, 2f);
+
+      Camera.Camera.targetZoomOverride = 1f;
+
+      if (!input.ContinuousPress(Keys.OemMinus) && !input.ContinuousPress(Keys.OemPlus))
+      {
+        GameState.targetZoom = previousTargetZoom;
+      }
+
+      previousTargetZoom = GameState.targetZoom;
+      hudOpacity = ColorHelper.FadeOpacity(hudOpacity, 0f, 1f, 0.2f);
+      targetCameraOffset = Vector2.Zero;
     }
 
     if (GameState.state == GameState.State.Pause)
@@ -166,19 +177,6 @@ public class SpaceScene : CustomGameComponent
       hudOpacity = ColorHelper.FadeOpacity(hudOpacity, 1f, 0f, 0.2f);
 
       targetCameraOffset = cameraOffsetLeft;
-    }
-    else
-    {
-      Camera.Camera.targetZoomOverride = 1f;
-
-      if (!input.ContinuousPress(Keys.OemMinus) && !input.ContinuousPress(Keys.OemPlus))
-      {
-        GameState.targetZoom = previousTargetZoom;
-      }
-
-      previousTargetZoom = GameState.targetZoom;
-      hudOpacity = ColorHelper.FadeOpacity(hudOpacity, 0f, 1f, 0.2f);
-      targetCameraOffset = Vector2.Zero;
     }
   }
 
