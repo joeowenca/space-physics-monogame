@@ -57,21 +57,7 @@ public class Title : CustomGameComponent
 
   public override void Update()
   {
-    if (state != State.TitleScreen && state != State.MainMenu)
-    {
-      opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, StartScene.transitionSpeed);
-      targetOffsetY = -50;
-    }
-    else if (state == State.MainMenu)
-    {
-      opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, StartScene.transitionSpeed);
-      targetOffsetY = -50;
-    }
-    else
-    {
-      opacity = ColorHelper.FadeOpacity(opacity, -1f, 1f, 5f);
-      targetOffsetY = 0f;
-    }
+    TransitionState();
 
     offsetY = MathHelper.Lerp(offsetY, targetOffsetY, deltaTime * 4f);
     offset.Y = offsetY;
@@ -86,6 +72,25 @@ public class Title : CustomGameComponent
     foreach (var component in components)
     {
       component.Draw(spriteBatch);
+    }
+  }
+
+  private void TransitionState()
+  {
+    if (state != State.TitleScreen && state != State.MainMenu)
+    {
+      opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, StartScene.transitionSpeed);
+      targetOffsetY = -50;
+    }
+    else if (state == State.MainMenu)
+    {
+      opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, StartScene.transitionSpeed);
+      targetOffsetY = -50;
+    }
+    else
+    {
+      opacity = ColorHelper.FadeOpacity(opacity, -1f, 1f, 5f);
+      targetOffsetY = 0f;
     }
   }
 }
