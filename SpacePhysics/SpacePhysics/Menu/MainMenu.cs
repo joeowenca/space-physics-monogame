@@ -71,7 +71,7 @@ public class MainMenu : CustomGameComponent
   {
     TransitionState();
 
-    activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
+    UpdateMenu();
 
     offset.X = baseOffset.X + (StartScene.menuOffset.X * 0.85f * 3f);
 
@@ -110,6 +110,15 @@ public class MainMenu : CustomGameComponent
     {
       opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, StartScene.transitionSpeed);
 
+      Camera.Camera.zoomOverride = 1f;
+      Camera.Camera.targetZoomOverride = 1f;
+    }
+  }
+
+  private void UpdateMenu()
+  {
+    if (state == State.MainMenu)
+    {
       if (input.OnFirstFramePress(Keys.Down))
         activeMenu++;
 
@@ -124,9 +133,8 @@ public class MainMenu : CustomGameComponent
 
       if (activeMenu == 3 && input.OnFirstFramePress(Keys.Enter))
         quit = true;
-
-      Camera.Camera.zoomOverride = 1f;
-      Camera.Camera.targetZoomOverride = 1f;
     }
+
+    activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
   }
 }
