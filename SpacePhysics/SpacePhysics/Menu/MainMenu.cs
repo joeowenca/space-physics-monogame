@@ -27,7 +27,7 @@ public class MainMenu : CustomGameComponent
       layerIndex
     )
   {
-    offset = new Vector2(1050f + menuOffsetX, 50f);
+    offset = new Vector2(menuOffsetXLeft, 50f);
     baseOffset = offset;
 
     components.Add(new MenuItem(
