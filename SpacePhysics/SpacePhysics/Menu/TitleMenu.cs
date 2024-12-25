@@ -24,7 +24,7 @@ public class TitleMenu : CustomGameComponent
       layerIndex
     )
   {
-    offset = new Vector2(800 + StartScene.menuOffsetX, 0);
+    offset = new Vector2(800 + MenuContainer.menuOffsetX, 0);
 
     components.Add(new HudText(
       "Fonts/light-font",

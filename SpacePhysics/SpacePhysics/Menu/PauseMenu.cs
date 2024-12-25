@@ -29,7 +29,7 @@ public class PauseMenu : CustomGameComponent
   {
     float padding = 0.17f;
     float menuSize = 1000f * padding;
-    offset = new Vector2(1050f + StartScene.menuOffsetX, 0f);
+    offset = new Vector2(1050f + MenuContainer.menuOffsetX, 0f);
     baseOffset = offset;
 
     components.Add(new HudText(

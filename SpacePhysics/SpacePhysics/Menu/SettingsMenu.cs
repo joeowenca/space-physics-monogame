@@ -30,7 +30,7 @@ public class SettingsMenu : CustomGameComponent
   {
     float padding = 0.17f;
     float menuSize = 1000f * padding;
-    offset = new Vector2(-1700f - StartScene.menuOffsetX, -200f);
+    offset = new Vector2(-1700f - MenuContainer.menuOffsetX, -200f);
     baseOffset = offset;
     menuOffset = offset;
 

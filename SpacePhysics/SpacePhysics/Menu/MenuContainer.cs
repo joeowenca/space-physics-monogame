@@ -6,6 +6,16 @@ namespace SpacePhysics.Menu;
 
 public class MenuContainer
 {
+  public static float menuOffsetX;
+
+  public MenuContainer()
+  {
+    float start = 1250f;
+    float end = 1f;
+
+    menuOffsetX = start - (GameState.hudScaleOverrideFactor - 0.1f) * Math.Abs((end - start) / 0.9f);
+  }
+
   public static float CalculateMenuHeight(List<CustomGameComponent> menuItems)
   {
     float totalHeight = 0;

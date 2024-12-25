@@ -20,8 +20,6 @@ public class StartScene : CustomGameComponent
 
   public static float transitionSpeed;
 
-  public static float menuOffsetX;
-
   private float opacity;
 
   public StartScene(
@@ -29,11 +27,6 @@ public class StartScene : CustomGameComponent
   ) : base(true, Alignment.TopLeft, 7)
   {
     this.sceneManager = sceneManager;
-
-    float start = 1250f;
-    float end = 1f;
-
-    menuOffsetX = start - (GameState.hudScaleOverrideFactor - 0.1f) * Math.Abs((end - start) / 0.9f);
 
     components.Add(new LoopingBackground(
       "Backgrounds/starfield",
