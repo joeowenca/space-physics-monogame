@@ -107,10 +107,7 @@ public class SpaceScene : CustomGameComponent
 
   public override void Update()
   {
-    if (GameState.state == GameState.State.Play)
-    {
-      opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, 2f);
-    }
+    TransitionState();
 
     if (input.ContinuousPress(Keys.OemMinus) || input.ContinuousPress(Keys.OemPlus))
     {
@@ -153,6 +150,21 @@ public class SpaceScene : CustomGameComponent
       GameState.state = GameState.State.Pause;
     }
 
+    cameraOffset.X = MathHelper.Lerp(cameraOffset.X, targetCameraOffset.X, GameState.deltaTime * 5f);
+    cameraOffset.Y = MathHelper.Lerp(cameraOffset.Y, targetCameraOffset.Y, GameState.deltaTime * 5f);
+
+    Camera.Camera.offset = cameraOffset;
+
+    base.Update();
+  }
+
+  private void TransitionState()
+  {
+    if (GameState.state == GameState.State.Play)
+    {
+      opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, 2f);
+    }
+
     if (GameState.state == GameState.State.Pause)
     {
       Camera.Camera.zoomOverrideLerpSpeedFactor = 0.5f;
@@ -176,12 +188,5 @@ public class SpaceScene : CustomGameComponent
       hudOpacity = ColorHelper.FadeOpacity(hudOpacity, 0f, 1f, 0.2f);
       targetCameraOffset = Vector2.Zero;
     }
-
-    cameraOffset.X = MathHelper.Lerp(cameraOffset.X, targetCameraOffset.X, GameState.deltaTime * 5f);
-    cameraOffset.Y = MathHelper.Lerp(cameraOffset.Y, targetCameraOffset.Y, GameState.deltaTime * 5f);
-
-    Camera.Camera.offset = cameraOffset;
-
-    base.Update();
   }
 }
