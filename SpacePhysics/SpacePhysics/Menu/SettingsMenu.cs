@@ -103,7 +103,7 @@ public class SettingsMenu : CustomGameComponent
   {
     TransitionState();
 
-    activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
+    UpdateMenu();
 
     offset.X = baseOffset.X + StartScene.menuOffset.X * 3f;
     menuOffset.X = baseOffset.X - 150 + (StartScene.menuOffset.X * 0.85f * 3f);
@@ -132,7 +132,13 @@ public class SettingsMenu : CustomGameComponent
     else
     {
       opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, StartScene.transitionSpeed);
+    }
+  }
 
+  private void UpdateMenu()
+  {
+    if (state == State.Settings)
+    {
       if (input.OnFirstFramePress(Keys.Down))
         activeMenu++;
 
@@ -142,5 +148,7 @@ public class SettingsMenu : CustomGameComponent
       if (activeMenu == 5 && input.OnFirstFramePress(Keys.Enter))
         state = State.MainMenu;
     }
+
+    activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
   }
 }
