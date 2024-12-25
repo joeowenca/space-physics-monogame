@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using SpacePhysics.Scenes.Start;
 using SpacePhysics.HUD;
 using static SpacePhysics.GameState;
+using static SpacePhysics.Menu.MenuContainer;
 
 namespace SpacePhysics.Menu;
 
@@ -27,9 +28,7 @@ public class PauseMenu : CustomGameComponent
       layerIndex
     )
   {
-    float padding = 0.17f;
-    float menuSize = 1000f * padding;
-    offset = new Vector2(1050f + StartScene.menuOffsetX, 0f);
+    offset = new Vector2(menuOffsetXLeft, 0f);
     baseOffset = offset;
 
     components.Add(new HudText(
@@ -56,7 +55,7 @@ public class PauseMenu : CustomGameComponent
       "Settings",
       () => activeMenu == 2,
       alignment,
-      () => new Vector2(0f, menuSize) + offset,
+      () => new Vector2(0f, menuSizeY) + offset,
       () => opacity,
       11
     ));
@@ -65,7 +64,7 @@ public class PauseMenu : CustomGameComponent
       "Main Menu",
       () => activeMenu == 3,
       alignment,
-      () => new Vector2(0f, menuSize * 2f) + offset,
+      () => new Vector2(0f, menuSizeY * 2f) + offset,
       () => opacity,
       11
     ));
@@ -74,7 +73,7 @@ public class PauseMenu : CustomGameComponent
       "Quit",
       () => activeMenu == 4,
       alignment,
-      () => new Vector2(0f, menuSize * 3f) + offset,
+      () => new Vector2(0f, menuSizeY * 3f) + offset,
       () => opacity,
       11
     ));
@@ -129,7 +128,7 @@ public class PauseMenu : CustomGameComponent
 
     activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
 
-    offset.X = baseOffset.X + (StartScene.menuOffset.X * 0.85f * 3f);
+    offset.X = baseOffset.X + menuOffsetFactor;
 
     base.Update();
   }

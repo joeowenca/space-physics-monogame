@@ -33,6 +33,7 @@ public class Main : Game
 
         GameState.Initialize();
         Camera.Camera.Initialize();
+        MenuContainer.Initialize();
 
         input = new InputManager();
 
@@ -56,8 +57,8 @@ public class Main : Game
             Exit();
 
         GameState.Update(gameTime);
-
         Camera.Camera.Update();
+        MenuContainer.Update();
 
         sceneManager.GetCurrentScene().Update();
 

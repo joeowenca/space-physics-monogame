@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using SpacePhysics.HUD;
 using SpacePhysics.Scenes.Start;
 using static SpacePhysics.GameState;
+using static SpacePhysics.Menu.MenuContainer;
 
 namespace SpacePhysics.Menu;
 
@@ -28,7 +29,7 @@ public class Title : CustomGameComponent
       layerIndex
     )
   {
-    offset = new Vector2(100 + StartScene.menuOffsetX, 0);
+    offset = new Vector2(100 + menuOffsetX, 0);
     baseOffset = offset;
     targetOffsetY = 0f;
 
@@ -57,6 +58,23 @@ public class Title : CustomGameComponent
 
   public override void Update()
   {
+    TransitionState();
+
+    UpdateOffset();
+
+    base.Update();
+  }
+
+  public override void Draw(SpriteBatch spriteBatch)
+  {
+    foreach (var component in components)
+    {
+      component.Draw(spriteBatch);
+    }
+  }
+
+  private void TransitionState()
+  {
     if (state != State.TitleScreen && state != State.MainMenu)
     {
       opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, StartScene.transitionSpeed);
@@ -72,20 +90,13 @@ public class Title : CustomGameComponent
       opacity = ColorHelper.FadeOpacity(opacity, -1f, 1f, 5f);
       targetOffsetY = 0f;
     }
+  }
 
+  private void UpdateOffset()
+  {
     offsetY = MathHelper.Lerp(offsetY, targetOffsetY, deltaTime * 4f);
     offset.Y = offsetY;
 
-    offset.X = baseOffset.X + StartScene.menuOffset.X * 3f;
-
-    base.Update();
-  }
-
-  public override void Draw(SpriteBatch spriteBatch)
-  {
-    foreach (var component in components)
-    {
-      component.Draw(spriteBatch);
-    }
+    offset.X = baseOffset.X + menuOffset.X * 3f;
   }
 }

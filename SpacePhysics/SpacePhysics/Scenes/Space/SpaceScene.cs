@@ -7,15 +7,13 @@ using SpacePhysics.Sprites;
 using SpacePhysics.Scenes.Start;
 using SpacePhysics.Debugging;
 using SpacePhysics.Menu;
+using static SpacePhysics.Menu.MenuContainer;
 
 namespace SpacePhysics.Scenes.Space;
 
 public class SpaceScene : CustomGameComponent
 {
   SceneManager sceneManager;
-
-  private Vector2 cameraOffset;
-  private Vector2 targetCameraOffset;
 
   private float opacity;
   private float hudOpacity;
@@ -100,6 +98,8 @@ public class SpaceScene : CustomGameComponent
     Camera.Camera.offset = Vector2.Zero;
     Camera.Camera.zoomOverrideLerpSpeedFactor = 0.025f;
 
+    cameraOffset = Vector2.Zero;
+
     previousTargetZoom = GameState.targetZoom;
 
     base.Initialize();
@@ -161,7 +161,7 @@ public class SpaceScene : CustomGameComponent
 
       hudOpacity = ColorHelper.FadeOpacity(hudOpacity, 1f, 0f, 0.2f);
 
-      targetCameraOffset = new Vector2(GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
+      targetCameraOffset = cameraOffsetLeft;
     }
     else
     {

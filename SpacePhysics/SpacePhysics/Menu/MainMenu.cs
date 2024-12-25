@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpacePhysics.Scenes.Start;
 using static SpacePhysics.GameState;
+using static SpacePhysics.Menu.MenuContainer;
 
 namespace SpacePhysics.Menu;
 
@@ -26,9 +27,7 @@ public class MainMenu : CustomGameComponent
       layerIndex
     )
   {
-    float padding = 0.17f;
-    float menuSize = 1000f * padding;
-    offset = new Vector2(1050f + StartScene.menuOffsetX, 50f);
+    offset = new Vector2(menuOffsetXLeft, 50f);
     baseOffset = offset;
 
     components.Add(new MenuItem(
@@ -44,7 +43,7 @@ public class MainMenu : CustomGameComponent
       "Settings",
       () => activeMenu == 2,
       alignment,
-      () => new Vector2(0f, menuSize) + offset,
+      () => new Vector2(0f, menuSizeY) + offset,
       () => opacity,
       11
     ));
@@ -53,7 +52,7 @@ public class MainMenu : CustomGameComponent
       "Quit",
       () => activeMenu == 3,
       alignment,
-      () => new Vector2(0f, menuSize * 2f) + offset,
+      () => new Vector2(0f, menuSizeY * 2f) + offset,
       () => opacity,
       11
     ));
@@ -69,6 +68,25 @@ public class MainMenu : CustomGameComponent
 
   public override void Update()
   {
+    TransitionState();
+
+    UpdateMenu();
+
+    UpdateOffset();
+
+    base.Update();
+  }
+
+  public override void Draw(SpriteBatch spriteBatch)
+  {
+    foreach (var component in components)
+    {
+      component.Draw(spriteBatch);
+    }
+  }
+
+  private void TransitionState()
+  {
     if (state != State.MainMenu)
     {
       if (opacity > 0)
@@ -76,21 +94,17 @@ public class MainMenu : CustomGameComponent
 
       if (opacity <= 0.1f)
         activeMenu = 1;
-
-      if (state == State.Play)
-      {
-        Camera.Camera.targetZoomOverride = 20f;
-      }
-      else
-      {
-        Camera.Camera.zoomOverride = 1f;
-        Camera.Camera.targetZoomOverride = 1f;
-      }
     }
     else
     {
       opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, StartScene.transitionSpeed);
+    }
+  }
 
+  private void UpdateMenu()
+  {
+    if (state == State.MainMenu)
+    {
       if (input.OnFirstFramePress(Keys.Down))
         activeMenu++;
 
@@ -105,29 +119,13 @@ public class MainMenu : CustomGameComponent
 
       if (activeMenu == 3 && input.OnFirstFramePress(Keys.Enter))
         quit = true;
-
-      Camera.Camera.zoomOverride = 1f;
-      Camera.Camera.targetZoomOverride = 1f;
     }
 
     activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
-
-    offset.X = baseOffset.X + (StartScene.menuOffset.X * 0.85f * 3f);
-
-    // For debugging purposes only. TODO: remove when no longer needed
-    if (input.OnFirstFramePress(Keys.LeftControl))
-    {
-      state = State.MainMenu;
-    }
-
-    base.Update();
   }
 
-  public override void Draw(SpriteBatch spriteBatch)
+  private void UpdateOffset()
   {
-    foreach (var component in components)
-    {
-      component.Draw(spriteBatch);
-    }
+    offset.X = baseOffset.X + menuOffsetFactor;
   }
 }
