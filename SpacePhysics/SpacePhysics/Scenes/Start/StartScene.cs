@@ -108,6 +108,21 @@ public class StartScene : CustomGameComponent
 
   public override void Update()
   {
+    TransitionState();
+
+    offset.X = MathHelper.Lerp(offset.X, targetOffset.X, GameState.deltaTime * 3f);
+    offset.Y = MathHelper.Lerp(offset.Y, targetOffset.Y, GameState.deltaTime * 3f);
+
+    menuOffset.X = MathHelper.Lerp(menuOffset.X, targetMenuOffset.X, GameState.deltaTime * 3f);
+    menuOffset.Y = MathHelper.Lerp(menuOffset.Y, targetMenuOffset.Y, GameState.deltaTime * 3f);
+
+    Camera.Camera.offset = offset;
+
+    base.Update();
+  }
+
+  private void TransitionState()
+  {
     if (GameState.state == GameState.State.Settings)
     {
       targetOffset = new Vector2(-GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
@@ -134,15 +149,5 @@ public class StartScene : CustomGameComponent
 
       return;
     }
-
-    offset.X = MathHelper.Lerp(offset.X, targetOffset.X, GameState.deltaTime * 3f);
-    offset.Y = MathHelper.Lerp(offset.Y, targetOffset.Y, GameState.deltaTime * 3f);
-
-    menuOffset.X = MathHelper.Lerp(menuOffset.X, targetMenuOffset.X, GameState.deltaTime * 3f);
-    menuOffset.Y = MathHelper.Lerp(menuOffset.Y, targetMenuOffset.Y, GameState.deltaTime * 3f);
-
-    Camera.Camera.offset = offset;
-
-    base.Update();
   }
 }
