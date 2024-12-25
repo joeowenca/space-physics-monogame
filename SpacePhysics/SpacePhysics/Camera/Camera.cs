@@ -96,7 +96,7 @@ public class Camera
       rotation = 0f;
     }
 
-    if (!paused) shakeOffset = Shake(Ship.thrustAmount);
+    if (state != State.Pause) shakeOffset = Shake(Ship.thrustAmount);
   }
 
   private static float CalculateZoom(float parallaxFactor)

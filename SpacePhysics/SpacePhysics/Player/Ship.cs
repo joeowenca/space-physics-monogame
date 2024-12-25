@@ -64,7 +64,7 @@ public class Ship : CustomGameComponent
 
   public override void Update()
   {
-    if (!paused)
+    if (state != State.Pause)
     {
       thrustSprite.Update(GameState.position);
 

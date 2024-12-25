@@ -49,7 +49,6 @@ public class GameState
   public static bool sas;
   public static bool rcs;
   public static bool debug;
-  public static bool paused;
 
   private static DateTime lastFPSCheck;
 
@@ -79,7 +78,6 @@ public class GameState
     deltaTime = 0f;
     sas = false;
     rcs = false;
-    paused = false;
   }
 
   public static void Intro()

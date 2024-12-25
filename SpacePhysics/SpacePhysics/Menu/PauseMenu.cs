@@ -115,9 +115,12 @@ public class PauseMenu : CustomGameComponent
         state = State.Play;
 
       if (activeMenu == 2 && input.OnFirstFramePress(Keys.Enter))
-        state = State.Settings;
+        state = State.Play;
 
       if (activeMenu == 3 && input.OnFirstFramePress(Keys.Enter))
+        state = State.Play;
+
+      if (activeMenu == 4 && input.OnFirstFramePress(Keys.Enter))
         quit = true;
     }
 
