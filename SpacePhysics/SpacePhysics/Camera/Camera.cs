@@ -88,6 +88,8 @@ public class Camera
     if (changeCamera)
     {
       rotation = -direction;
+
+      if (state == State.Pause) rotation = 0f;
     }
     else
     {
