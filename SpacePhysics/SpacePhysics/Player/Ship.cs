@@ -39,8 +39,12 @@ public class Ship : CustomGameComponent
   public readonly Func<float> opacity;
 
   private bool throttleTransition;
+  private bool rcsRotateLeft;
+  private bool rcsRotateRight;
   private bool rcsLeft;
   private bool rcsRight;
+  private bool rcsUp;
+  private bool rcsDown;
 
   public Ship(Func<float> opacity, bool allowInput, Alignment alignment, int layerIndex) : base(allowInput, alignment, layerIndex)
   {
@@ -132,6 +136,19 @@ public class Ship : CustomGameComponent
 
     DrawRCS(spriteBatch, new Vector2(-47, -30), (float)Math.PI * 0.5f, rcsAmount.X);
     DrawRCS(spriteBatch, new Vector2(44, -30), (float)-Math.PI * 0.5f, rcsAmount.Y);
+
+    // Docking mode
+    DrawRCS(spriteBatch, new Vector2(28, -32), (float)Math.PI, rcsAmount.Z); // Bottom left
+    DrawRCS(spriteBatch, new Vector2(-31, -32), (float)Math.PI, rcsAmount.Z); // Bottom right
+
+    DrawRCS(spriteBatch, new Vector2(28, 44), (float)Math.PI, rcsAmount.Z); // Top left
+    DrawRCS(spriteBatch, new Vector2(-31, 44), (float)Math.PI, rcsAmount.Z); // Top right
+
+    DrawRCS(spriteBatch, new Vector2(28, -47), 0f, rcsAmount.W); // Top right retro
+    DrawRCS(spriteBatch, new Vector2(-32, -47), 0f, rcsAmount.W); // Top left retro
+
+    DrawRCS(spriteBatch, new Vector2(28, 32), 0f, rcsAmount.W); // Bottom right retro
+    DrawRCS(spriteBatch, new Vector2(-32, 32), 0f, rcsAmount.W); // Bottom left retro
   }
 
   private void Physics()
@@ -236,12 +253,12 @@ public class Ship : CustomGameComponent
         if (rcs)
         {
           angularVelocity += rcsAngularThrust;
-          rcsRight = true;
+          rcsRotateRight = true;
         }
       }
       else
       {
-        rcsRight = false;
+        rcsRotateRight = false;
       }
 
       if (input.ContinuousPress(Keys.Left) || input.ContinuousPress(Keys.A))
@@ -250,12 +267,12 @@ public class Ship : CustomGameComponent
         if (rcs)
         {
           angularVelocity -= rcsAngularThrust;
-          rcsLeft = true;
+          rcsRotateLeft = true;
         }
       }
       else
       {
-        rcsLeft = false;
+        rcsRotateLeft = false;
       }
     }
 
@@ -272,12 +289,12 @@ public class Ship : CustomGameComponent
         if (rcs)
         {
           angularVelocity -= rcsAngularThrust;
-          rcsLeft = true;
+          rcsRotateLeft = true;
         }
       }
       else
       {
-        rcsLeft = false;
+        rcsRotateLeft = false;
       }
 
       if (angularVelocity < -0.001f)
@@ -286,12 +303,12 @@ public class Ship : CustomGameComponent
         if (rcs)
         {
           angularVelocity += rcsAngularThrust;
-          rcsRight = true;
+          rcsRotateRight = true;
         }
       }
       else
       {
-        rcsRight = false;
+        rcsRotateRight = false;
       }
 
       if (Math.Abs(angularVelocity) < 0.001f)
@@ -312,8 +329,8 @@ public class Ship : CustomGameComponent
       rcs = !rcs;
     }
 
-    rcsAmountTarget.X = rcsLeft ? 1f : 0f;
-    rcsAmountTarget.Y = rcsRight ? 1f : 0f;
+    rcsAmountTarget.X = rcsRotateLeft ? 1f : 0f;
+    rcsAmountTarget.Y = rcsRotateRight ? 1f : 0f;
 
     rcsAmount.X = MathHelper.Lerp(rcsAmount.X, rcsAmountTarget.X, deltaTime * 50f);
     rcsAmount.Y = MathHelper.Lerp(rcsAmount.Y, rcsAmountTarget.Y, deltaTime * 50f);
@@ -331,11 +348,22 @@ public class Ship : CustomGameComponent
         {
           rcsThrust = rcsThrustAmount;
           rcsDirection = (float)Math.PI * -0.5f;
+          rcsLeft = true;
         }
-        else if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
+        else
+        {
+          rcsLeft = false;
+        }
+
+        if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
         {
           rcsThrust = rcsThrustAmount;
           rcsDirection = (float)Math.PI * 0.5f;
+          rcsRight = true;
+        }
+        else
+        {
+          rcsRight = false;
         }
       }
 
@@ -343,11 +371,22 @@ public class Ship : CustomGameComponent
       {
         rcsThrust = rcsThrustAmount;
         rcsDirection = 0f;
+        rcsUp = true;
       }
-      else if (input.ContinuousPress(Keys.Down) || input.ContinuousPress(Keys.S))
+      else
+      {
+        rcsUp = false;
+      }
+
+      if (input.ContinuousPress(Keys.Down) || input.ContinuousPress(Keys.S))
       {
         rcsThrust = rcsThrustAmount;
         rcsDirection = (float)Math.PI;
+        rcsDown = true;
+      }
+      else
+      {
+        rcsDown = false;
       }
     }
 
@@ -355,6 +394,12 @@ public class Ship : CustomGameComponent
     {
       maneuverMode = !maneuverMode;
     }
+
+    rcsAmountTarget.Z = rcsUp ? 1f : 0f;
+    rcsAmountTarget.W = rcsDown ? 1f : 0f;
+
+    rcsAmount.Z = MathHelper.Lerp(rcsAmount.Z, rcsAmountTarget.Z, deltaTime * 50f);
+    rcsAmount.W = MathHelper.Lerp(rcsAmount.W, rcsAmountTarget.W, deltaTime * 50f);
   }
 
   private void DrawThrust(SpriteBatch spriteBatch)
