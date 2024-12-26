@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -31,11 +32,9 @@ public class Ship : CustomGameComponent
   public static float rcsDirection;
   public static float rcsLerpSpeed;
   public static float altitude;
-  public static float fuelPercent;
   public static float dryMass;
 
   private float maxThrust;
-  private float maxFuel;
   private float engineEfficiency;
 
   private float[] rcsAmount = { 0f, 0f, 0f, 0f, 0f, 0f };
@@ -65,7 +64,6 @@ public class Ship : CustomGameComponent
     dryMass = 2500;
     thrust = 0f;
     maxThrust = 600000f;
-    maxFuel = fuel;
     engineEfficiency = 0.00000001f;
     rcsLerpSpeed = 30f;
   }
@@ -105,6 +103,7 @@ public class Ship : CustomGameComponent
       Thrust();
       Stability();
       Docking();
+      RCS();
     }
 
     base.Update();
@@ -268,7 +267,6 @@ public class Ship : CustomGameComponent
     }
 
     fuel -= thrust * engineEfficiency * deltaTime * 5000f;
-    fuelPercent = fuel / maxFuel * 100;
     fuel = Math.Clamp(fuel, 0f, maxFuel);
 
     thrustAmount = thrust / maxThrust;
@@ -451,6 +449,19 @@ public class Ship : CustomGameComponent
 
     rcsAmount[4] = MathHelper.Lerp(rcsAmount[4], rcsAmountTarget[4], deltaTime * rcsLerpSpeed);
     rcsAmount[5] = MathHelper.Lerp(rcsAmount[5], rcsAmountTarget[5], deltaTime * rcsLerpSpeed);
+  }
+
+  private void RCS()
+  {
+    for (int i = 0; i < rcsAmount.Length; i++)
+    {
+      mono -= rcsAmount[i] * deltaTime;
+
+      if (mono <= 0f)
+      {
+        rcsAmountTarget[i] = 0f;
+      }
+    }
   }
 
   private void DrawThrust(SpriteBatch spriteBatch)

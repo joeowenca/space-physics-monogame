@@ -70,6 +70,8 @@ public class GameState
     targetThrottle = 0f;
     fuel = 7500f;
     maxFuel = fuel;
+    mono = 300f;
+    maxMono = fuel;
     zoom = 1.26f;
     targetZoom = zoom;
     scaleOverride = 0.3f;
