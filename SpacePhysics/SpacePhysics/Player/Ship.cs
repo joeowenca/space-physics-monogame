@@ -60,7 +60,7 @@ public class Ship : CustomGameComponent
     acceleration = Vector2.Zero;
     force = Vector2.Zero;
     rcsForce = Vector2.Zero;
-    rcsThrustAmount = 100000f;
+    rcsThrustAmount = 50000f;
     dryMass = 2500;
     thrust = 0f;
     maxThrust = 600000f;
@@ -104,6 +104,8 @@ public class Ship : CustomGameComponent
       Stability();
       Docking();
       RCS();
+
+      electricity += deltaTime * 0.5f;
     }
 
     base.Update();
@@ -209,12 +211,14 @@ public class Ship : CustomGameComponent
     {
       throttleTransition = false;
       targetThrottle += throttleChangeSpeed;
+      electricity -= deltaTime;
     }
 
     if (input.ContinuousPress(Keys.LeftControl))
     {
       throttleTransition = false;
       targetThrottle -= throttleChangeSpeed;
+      electricity -= deltaTime;
     }
 
     if (input.ContinuousPress(Keys.Z))
@@ -278,14 +282,17 @@ public class Ship : CustomGameComponent
 
     float rcsAngularThrust = 1 / mass * 4f * deltaTime * 250f;
 
-    if (maneuverMode)
+    if (maneuverMode && (angularThrust > 0 || rcs))
     {
       if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
       {
         angularVelocity += angularThrust;
+        electricity -= deltaTime;
+
         if (rcs)
         {
           angularVelocity += rcsAngularThrust;
+          electricity -= deltaTime;
           rcsRotateRight = true;
         }
       }
@@ -297,9 +304,12 @@ public class Ship : CustomGameComponent
       if (input.ContinuousPress(Keys.Left) || input.ContinuousPress(Keys.A))
       {
         angularVelocity -= angularThrust;
+        electricity -= deltaTime;
+
         if (rcs)
         {
           angularVelocity -= rcsAngularThrust;
+          electricity -= deltaTime;
           rcsRotateLeft = true;
         }
       }
@@ -314,7 +324,7 @@ public class Ship : CustomGameComponent
       rcsRotateRight = false;
     }
 
-    if (sas &&
+    if (sas && (angularThrust > 0 || rcs) &&
         !input.ContinuousPress(Keys.Right) &&
         !input.ContinuousPress(Keys.Left) &&
         !input.ContinuousPress(Keys.D) &&
@@ -324,9 +334,12 @@ public class Ship : CustomGameComponent
       if (angularVelocity > 0.001f)
       {
         angularVelocity -= angularThrust;
+        electricity -= deltaTime;
+
         if (rcs)
         {
           angularVelocity -= rcsAngularThrust;
+          electricity -= deltaTime;
           rcsRotateLeft = true;
         }
       }
@@ -338,9 +351,12 @@ public class Ship : CustomGameComponent
       if (angularVelocity < -0.001f)
       {
         angularVelocity += angularThrust;
+        electricity -= deltaTime;
+
         if (rcs)
         {
           angularVelocity += rcsAngularThrust;
+          electricity -= deltaTime;
           rcsRotateRight = true;
         }
       }
@@ -385,6 +401,7 @@ public class Ship : CustomGameComponent
         if (input.ContinuousPress(Keys.Left) || input.ContinuousPress(Keys.A))
         {
           rcsThrust = rcsThrustAmount;
+          electricity -= deltaTime;
           rcsDirection = (float)Math.PI * -0.5f;
           rcsLeft = true;
         }
@@ -396,6 +413,7 @@ public class Ship : CustomGameComponent
         if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
         {
           rcsThrust = rcsThrustAmount;
+          electricity -= deltaTime;
           rcsDirection = (float)Math.PI * 0.5f;
           rcsRight = true;
         }
@@ -412,7 +430,8 @@ public class Ship : CustomGameComponent
 
       if (input.ContinuousPress(Keys.Up) || input.ContinuousPress(Keys.W))
       {
-        rcsThrust = rcsThrustAmount;
+        rcsThrust = rcsThrustAmount * 2f;
+        electricity -= deltaTime;
         rcsDirection = 0f;
         rcsUp = true;
       }
@@ -423,7 +442,8 @@ public class Ship : CustomGameComponent
 
       if (input.ContinuousPress(Keys.Down) || input.ContinuousPress(Keys.S))
       {
-        rcsThrust = rcsThrustAmount;
+        rcsThrust = rcsThrustAmount * 2f;
+        electricity -= deltaTime;
         rcsDirection = (float)Math.PI;
         rcsDown = true;
       }
@@ -436,6 +456,7 @@ public class Ship : CustomGameComponent
     if (input.OnFirstFramePress(Keys.B))
     {
       maneuverMode = !maneuverMode;
+      electricity -= deltaTime;
     }
 
     rcsAmountTarget[2] = (rcsUp && mono > 0f) ? 1f : 0f;

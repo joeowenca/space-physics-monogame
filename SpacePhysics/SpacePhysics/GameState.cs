@@ -36,6 +36,9 @@ public class GameState
   public static float mono;
   public static float maxMono;
   public static float monoPercent;
+  public static float electricity;
+  public static float maxElectricity;
+  public static float electricityPercent;
   public static float zoom;
   public static float targetZoom;
   public static float zoomPercent;
@@ -72,6 +75,8 @@ public class GameState
     maxFuel = fuel;
     mono = 300f;
     maxMono = mono;
+    electricity = 1200f;
+    maxElectricity = electricity;
     zoom = 1.26f;
     targetZoom = zoom;
     scaleOverride = 0.3f;
@@ -105,6 +110,7 @@ public class GameState
     velocityAngle = MathF.Atan2(velocity.Y, velocity.X) + (float)(Math.PI * 0.5f);
     fuelPercent = fuel / maxFuel * 100f;
     monoPercent = mono / maxMono * 100f;
+    electricityPercent = electricity / maxElectricity * 100f;
 
     if (velocityAngle == (float)(Math.PI * 0.5f) && velocity == Vector2.Zero)
     {
