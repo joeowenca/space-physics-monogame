@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SpacePhysics.Player;
 using static SpacePhysics.GameState;
 
 namespace SpacePhysics.Debugging
@@ -23,8 +24,9 @@ namespace SpacePhysics.Debugging
 
       offset = new Vector2(screenSize.X - 1000f, screenSize.Y - 800f);
 
-      statusItems.Add(new DebugItem("X", () => GameState.position.X.ToString()));
-      statusItems.Add(new DebugItem("Y", () => GameState.position.Y.ToString()));
+      statusItems.Add(new DebugItem("Mass", () => Ship.mass.ToString("0") + " kg"));
+      statusItems.Add(new DebugItem("Liquid Fuel", () => fuel.ToString("0") + " L"));
+      statusItems.Add(new DebugItem("Thrust", () => Ship.thrust.ToString("0") + " N"));
 
       for (int i = 0; i < statusItems.Count; i++)
       {
