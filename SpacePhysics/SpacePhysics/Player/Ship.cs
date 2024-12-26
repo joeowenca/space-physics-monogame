@@ -166,7 +166,7 @@ public class Ship : CustomGameComponent
 
     float thrustLensFlareScale = scale * thrustAmount;
 
-    float lensFlareOffset = 220f * scale;
+    float lensFlareOffset = (Camera.Camera.changeCamera ? 195f : 220f) * scale;
 
     lensFlareRotatedOffset = new Vector2(
       -(float)Math.Sin(direction) * lensFlareOffset,
@@ -175,10 +175,10 @@ public class Ship : CustomGameComponent
 
     spriteBatch.Draw(
       thrustLensFlare,
-      GameState.position + lensFlareRotatedOffset + new Vector2(0f, -10f),
+      GameState.position + lensFlareRotatedOffset + new Vector2(0f, Camera.Camera.changeCamera ? 0f : -10f),
       null,
       new Color(255, 255, 255, 0) * thrustAmount * 0.25f * opacity(),
-      0f,
+      Camera.Camera.changeCamera ? direction : 0f,
       new Vector2(thrustLensFlare.Width / 2, thrustLensFlare.Height / 2),
       thrustLensFlareScale,
       SpriteEffects.None,
