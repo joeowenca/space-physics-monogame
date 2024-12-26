@@ -367,8 +367,8 @@ public class Ship : CustomGameComponent
       rcs = !rcs;
     }
 
-    rcsAmountTarget[0] = rcsRotateLeft ? 1f : 0f;
-    rcsAmountTarget[1] = rcsRotateRight ? 1f : 0f;
+    rcsAmountTarget[0] = (rcsRotateLeft && mono > 0f) ? 1f : 0f;
+    rcsAmountTarget[1] = (rcsRotateRight && mono > 0f) ? 1f : 0f;
 
     rcsAmount[0] = MathHelper.Lerp(rcsAmount[0], rcsAmountTarget[0], deltaTime * rcsLerpSpeed);
     rcsAmount[1] = MathHelper.Lerp(rcsAmount[1], rcsAmountTarget[1], deltaTime * rcsLerpSpeed);
@@ -438,14 +438,14 @@ public class Ship : CustomGameComponent
       maneuverMode = !maneuverMode;
     }
 
-    rcsAmountTarget[2] = rcsUp ? 1f : 0f;
-    rcsAmountTarget[3] = rcsDown ? 1f : 0f;
+    rcsAmountTarget[2] = (rcsUp && mono > 0f) ? 1f : 0f;
+    rcsAmountTarget[3] = (rcsDown && mono > 0f) ? 1f : 0f;
 
     rcsAmount[2] = MathHelper.Lerp(rcsAmount[2], rcsAmountTarget[2], deltaTime * rcsLerpSpeed);
     rcsAmount[3] = MathHelper.Lerp(rcsAmount[3], rcsAmountTarget[3], deltaTime * rcsLerpSpeed);
 
-    rcsAmountTarget[4] = rcsLeft ? 1f : 0f;
-    rcsAmountTarget[5] = rcsRight ? 1f : 0f;
+    rcsAmountTarget[4] = (rcsLeft && mono > 0f) ? 1f : 0f;
+    rcsAmountTarget[5] = (rcsRight && mono > 0f) ? 1f : 0f;
 
     rcsAmount[4] = MathHelper.Lerp(rcsAmount[4], rcsAmountTarget[4], deltaTime * rcsLerpSpeed);
     rcsAmount[5] = MathHelper.Lerp(rcsAmount[5], rcsAmountTarget[5], deltaTime * rcsLerpSpeed);
@@ -455,13 +455,17 @@ public class Ship : CustomGameComponent
   {
     for (int i = 0; i < rcsAmount.Length; i++)
     {
-      mono -= rcsAmount[i] * deltaTime;
-
-      if (mono <= 0f)
+      if (mono > 0f)
       {
-        rcsAmountTarget[i] = 0f;
+        mono -= rcsAmount[i] * deltaTime;
+      }
+      else
+      {
+        mono = 0f;
       }
     }
+
+    mono = Math.Clamp(mono, 0f, maxMono);
   }
 
   private void DrawThrust(SpriteBatch spriteBatch)

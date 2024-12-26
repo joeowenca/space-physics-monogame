@@ -71,7 +71,7 @@ public class GameState
     fuel = 7500f;
     maxFuel = fuel;
     mono = 300f;
-    maxMono = fuel;
+    maxMono = mono;
     zoom = 1.26f;
     targetZoom = zoom;
     scaleOverride = 0.3f;

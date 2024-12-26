@@ -101,6 +101,50 @@ public class Meter : CustomGameComponent
             11
         );
 
+        HudSprite monoMeter = new(
+            "HUD/meter-right",
+            Alignment.BottomCenter,
+            Alignment.Center,
+            () => new Vector2(1000, 0) + offset,
+            () => 0f,
+            () => defaultColor * opacity(),
+            hudScale,
+            11
+        );
+
+        HudSprite monoMeterIndicator = new(
+            "HUD/meter-indicator-right",
+            Alignment.BottomCenter,
+            Alignment.Center,
+            () => new Vector2(1000, -GameState.monoPercent * 6.28f) + offset,
+            () => 0f,
+            () => highlightColor * opacity(),
+            hudScale,
+            11
+        );
+
+        HudText monoPercent = new(
+            "Fonts/text-font",
+            () => GameState.monoPercent.ToString("0") + "%",
+            Alignment.BottomCenter,
+            TextAlign.Left,
+            () => new Vector2(1150, 50f) + offset,
+            () => highlightColor * opacity(),
+            hudTextScale,
+            11
+        );
+
+        HudText monoLabel = new(
+            "Fonts/text-font",
+            () => "Mono",
+            Alignment.BottomCenter,
+            TextAlign.Center,
+            () => new Vector2(1000, -360f) + offset,
+            () => defaultColor * opacity(),
+            hudTextScale,
+            11
+        );
+
         components.Add(throttleMeter);
         components.Add(throttleMeterIndicator);
         components.Add(throttlePercent);
@@ -109,6 +153,10 @@ public class Meter : CustomGameComponent
         components.Add(fuelMeterIndicator);
         components.Add(fuelPercent);
         components.Add(fuelLabel);
+        components.Add(monoMeter);
+        components.Add(monoMeterIndicator);
+        components.Add(monoPercent);
+        components.Add(monoLabel);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
