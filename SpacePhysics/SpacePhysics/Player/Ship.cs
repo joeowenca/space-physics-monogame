@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -25,6 +26,7 @@ public class Ship : CustomGameComponent
   public static float rcsThrust;
   public static float rcsThrustAmount;
   public static float rcsDirection;
+  public static float rcsLerpSpeed;
   public static float altitude;
   public static float fuelPercent;
   public static float dryMass;
@@ -33,8 +35,8 @@ public class Ship : CustomGameComponent
   private float maxFuel;
   private float engineEfficiency;
 
-  private Vector4 rcsAmount;
-  private Vector4 rcsAmountTarget;
+  private float[] rcsAmount = { 0f, 0f, 0f, 0f, 0f, 0f };
+  private float[] rcsAmountTarget = { 0f, 0f, 0f, 0f, 0f, 0f };
 
   public readonly Func<float> opacity;
 
@@ -62,7 +64,7 @@ public class Ship : CustomGameComponent
     maxThrust = 579000f;
     maxFuel = fuel;
     engineEfficiency = 0.00000001f;
-    rcsAmount = new Vector4(0f, 0f, 0f, 0f);
+    rcsLerpSpeed = 30f;
   }
 
   public override void Load(ContentManager contentManager)
@@ -131,24 +133,31 @@ public class Ship : CustomGameComponent
 
     DrawThrust(spriteBatch);
 
-    DrawRCS(spriteBatch, new Vector2(30, -30), (float)Math.PI * 0.5f, rcsAmount.Y);
-    DrawRCS(spriteBatch, new Vector2(-33, -30), (float)-Math.PI * 0.5f, rcsAmount.X);
+    // [0]: rotate left
+    // [1]: rotate right
+    // [2]: up
+    // [3]: down
+    // [4]: left
+    // [5]: right
 
-    DrawRCS(spriteBatch, new Vector2(-47, -30), (float)Math.PI * 0.5f, rcsAmount.X);
-    DrawRCS(spriteBatch, new Vector2(44, -30), (float)-Math.PI * 0.5f, rcsAmount.Y);
+    DrawRCS(spriteBatch, new Vector2(30, -30), (float)Math.PI * 0.5f, rcsAmount[1] + rcsAmount[4]); // Bottom right
+    DrawRCS(spriteBatch, new Vector2(-33, -30), (float)-Math.PI * 0.5f, rcsAmount[0] + rcsAmount[5]); // Bottom left
+
+    DrawRCS(spriteBatch, new Vector2(-47, -30), (float)Math.PI * 0.5f, rcsAmount[0] + rcsAmount[4]); // Top right
+    DrawRCS(spriteBatch, new Vector2(44, -30), (float)-Math.PI * 0.5f, rcsAmount[1] + rcsAmount[5]); // Top left
 
     // Docking mode
-    DrawRCS(spriteBatch, new Vector2(28, -32), (float)Math.PI, rcsAmount.Z); // Bottom left
-    DrawRCS(spriteBatch, new Vector2(-31, -32), (float)Math.PI, rcsAmount.Z); // Bottom right
+    DrawRCS(spriteBatch, new Vector2(28, -32), (float)Math.PI, rcsAmount[2] + rcsAmount[1]); // Bottom left
+    DrawRCS(spriteBatch, new Vector2(-31, -32), (float)Math.PI, rcsAmount[2] + rcsAmount[0]); // Bottom right
 
-    DrawRCS(spriteBatch, new Vector2(28, 44), (float)Math.PI, rcsAmount.Z); // Top left
-    DrawRCS(spriteBatch, new Vector2(-31, 44), (float)Math.PI, rcsAmount.Z); // Top right
+    DrawRCS(spriteBatch, new Vector2(28, 44), (float)Math.PI, rcsAmount[2]); // Top left
+    DrawRCS(spriteBatch, new Vector2(-31, 44), (float)Math.PI, rcsAmount[2]); // Top right
 
-    DrawRCS(spriteBatch, new Vector2(28, -47), 0f, rcsAmount.W); // Top right retro
-    DrawRCS(spriteBatch, new Vector2(-32, -47), 0f, rcsAmount.W); // Top left retro
+    DrawRCS(spriteBatch, new Vector2(28, -47), 0f, rcsAmount[3] + rcsAmount[1]); // Top right retro
+    DrawRCS(spriteBatch, new Vector2(-32, -47), 0f, rcsAmount[3] + rcsAmount[0]); // Top left retro
 
-    DrawRCS(spriteBatch, new Vector2(28, 32), 0f, rcsAmount.W); // Bottom right retro
-    DrawRCS(spriteBatch, new Vector2(-32, 32), 0f, rcsAmount.W); // Bottom left retro
+    DrawRCS(spriteBatch, new Vector2(28, 32), 0f, rcsAmount[3]); // Bottom right retro
+    DrawRCS(spriteBatch, new Vector2(-32, 32), 0f, rcsAmount[3]); // Bottom left retro
   }
 
   private void Physics()
@@ -329,11 +338,11 @@ public class Ship : CustomGameComponent
       rcs = !rcs;
     }
 
-    rcsAmountTarget.X = rcsRotateLeft ? 1f : 0f;
-    rcsAmountTarget.Y = rcsRotateRight ? 1f : 0f;
+    rcsAmountTarget[0] = rcsRotateLeft ? 1f : 0f;
+    rcsAmountTarget[1] = rcsRotateRight ? 1f : 0f;
 
-    rcsAmount.X = MathHelper.Lerp(rcsAmount.X, rcsAmountTarget.X, deltaTime * 50f);
-    rcsAmount.Y = MathHelper.Lerp(rcsAmount.Y, rcsAmountTarget.Y, deltaTime * 50f);
+    rcsAmount[0] = MathHelper.Lerp(rcsAmount[0], rcsAmountTarget[0], deltaTime * rcsLerpSpeed);
+    rcsAmount[1] = MathHelper.Lerp(rcsAmount[1], rcsAmountTarget[1], deltaTime * rcsLerpSpeed);
   }
 
   private void Docking()
@@ -395,11 +404,17 @@ public class Ship : CustomGameComponent
       maneuverMode = !maneuverMode;
     }
 
-    rcsAmountTarget.Z = rcsUp ? 1f : 0f;
-    rcsAmountTarget.W = rcsDown ? 1f : 0f;
+    rcsAmountTarget[2] = rcsUp ? 1f : 0f;
+    rcsAmountTarget[3] = rcsDown ? 1f : 0f;
 
-    rcsAmount.Z = MathHelper.Lerp(rcsAmount.Z, rcsAmountTarget.Z, deltaTime * 50f);
-    rcsAmount.W = MathHelper.Lerp(rcsAmount.W, rcsAmountTarget.W, deltaTime * 50f);
+    rcsAmount[2] = MathHelper.Lerp(rcsAmount[2], rcsAmountTarget[2], deltaTime * rcsLerpSpeed);
+    rcsAmount[3] = MathHelper.Lerp(rcsAmount[3], rcsAmountTarget[3], deltaTime * rcsLerpSpeed);
+
+    rcsAmountTarget[4] = rcsLeft ? 1f : 0f;
+    rcsAmountTarget[5] = rcsRight ? 1f : 0f;
+
+    rcsAmount[4] = MathHelper.Lerp(rcsAmount[4], rcsAmountTarget[4], deltaTime * rcsLerpSpeed);
+    rcsAmount[5] = MathHelper.Lerp(rcsAmount[5], rcsAmountTarget[5], deltaTime * rcsLerpSpeed);
   }
 
   private void DrawThrust(SpriteBatch spriteBatch)
@@ -433,6 +448,8 @@ public class Ship : CustomGameComponent
 
   private void DrawRCS(SpriteBatch spriteBatch, Vector2 offsetOverride, float rotationOverride, float scaleOverride)
   {
+    scaleOverride = Math.Clamp(scaleOverride, 0f, 1f);
+
     float thrustScale = scaleOverride * scale * 0.3f;
 
     Vector2 offset = new Vector2(0, scale) + offsetOverride;
