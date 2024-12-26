@@ -460,7 +460,7 @@ public class Ship : CustomGameComponent
   {
     scaleOverride = Math.Clamp(scaleOverride, 0f, 1f);
 
-    float thrustScale = scaleOverride * scale * 0.3f;
+    float thrustScale = scaleOverride * scale * 0.2f;
 
     Vector2 offset = new Vector2(0, scale) + offsetOverride;
     Vector2 origin = new Vector2(rcsSprite.texture.Width / 2, rcsSprite.texture.Width);

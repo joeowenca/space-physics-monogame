@@ -54,7 +54,7 @@ namespace SpacePhysics.Debugging
 
       for (int i = 0; i < statusItems.Count; i++)
       {
-        statusItems[i].position = new Vector2(5f, i * 140f * hudTextScale + 110f) + offset;
+        statusItems[i].position = new Vector2(3f, i * 140f * hudTextScale + 110f) + offset;
       }
     }
 
