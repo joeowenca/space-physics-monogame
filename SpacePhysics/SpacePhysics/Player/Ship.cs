@@ -23,6 +23,7 @@ public class Ship : CustomGameComponent
   public static float thrust;
   public static float thrustAmount;
   public static float rcsThrust;
+  public static float rcsThrustAmount;
   public static float rcsDirection;
   public static float altitude;
   public static float fuelPercent;
@@ -51,11 +52,12 @@ public class Ship : CustomGameComponent
     acceleration = Vector2.Zero;
     force = Vector2.Zero;
     rcsForce = Vector2.Zero;
+    rcsThrustAmount = 100000f;
     dryMass = 2500;
     thrust = 0f;
-    maxThrust = 115800f;
+    maxThrust = 579000f;
     maxFuel = fuel;
-    engineEfficiency = 0.00000005f;
+    engineEfficiency = 0.00000001f;
     rcsAmount = new Vector4(0f, 0f, 0f, 0f);
   }
 
@@ -321,27 +323,31 @@ public class Ship : CustomGameComponent
   {
     rcsThrust = 0f;
 
-    if (!maneuverMode && rcs)
+    if (rcs)
     {
+      if (!maneuverMode)
+      {
+        if (input.ContinuousPress(Keys.Left) || input.ContinuousPress(Keys.A))
+        {
+          rcsThrust = rcsThrustAmount;
+          rcsDirection = (float)Math.PI * -0.5f;
+        }
+        else if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
+        {
+          rcsThrust = rcsThrustAmount;
+          rcsDirection = (float)Math.PI * 0.5f;
+        }
+      }
+
       if (input.ContinuousPress(Keys.Up) || input.ContinuousPress(Keys.W))
       {
-        rcsThrust = 100000f;
+        rcsThrust = rcsThrustAmount;
         rcsDirection = 0f;
       }
       else if (input.ContinuousPress(Keys.Down) || input.ContinuousPress(Keys.S))
       {
-        rcsThrust = 100000f;
+        rcsThrust = rcsThrustAmount;
         rcsDirection = (float)Math.PI;
-      }
-      else if (input.ContinuousPress(Keys.Left) || input.ContinuousPress(Keys.A))
-      {
-        rcsThrust = 100000f;
-        rcsDirection = (float)Math.PI * -0.5f;
-      }
-      else if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
-      {
-        rcsThrust = 100000f;
-        rcsDirection = (float)Math.PI * 0.5f;
       }
     }
 
