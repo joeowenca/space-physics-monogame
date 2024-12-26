@@ -15,10 +15,13 @@ public class Ship : CustomGameComponent
   private AnimatedSprite thrustSprite;
   private AnimatedSprite rcsSprite;
   private Texture2D thrustOverlay;
+  private Texture2D thrustLensFlare;
 
   private Vector2 acceleration;
   private Vector2 force;
   private Vector2 rcsForce;
+
+  public static Vector2 lensFlareRotatedOffset;
 
   public static float mass;
   public static float thrust;
@@ -72,6 +75,8 @@ public class Ship : CustomGameComponent
     texture = contentManager.Load<Texture2D>("Player/ship");
 
     thrustOverlay = contentManager.Load<Texture2D>("Player/thrust-overlay");
+
+    thrustLensFlare = contentManager.Load<Texture2D>("Player/thrust-lens-flare");
 
     thrustSprite = new AnimatedSprite(
       contentManager.Load<Texture2D>("Player/thrust-sheet"),
@@ -158,6 +163,27 @@ public class Ship : CustomGameComponent
 
     DrawRCS(spriteBatch, new Vector2(28, 32), 0f, rcsAmount[3]); // Bottom right retro
     DrawRCS(spriteBatch, new Vector2(-32, 32), 0f, rcsAmount[3]); // Bottom left retro
+
+    float thrustLensFlareScale = scale * thrustAmount;
+
+    float lensFlareOffset = 220f * scale;
+
+    lensFlareRotatedOffset = new Vector2(
+      -(float)Math.Sin(direction) * lensFlareOffset,
+      (float)Math.Cos(direction) * lensFlareOffset
+    );
+
+    spriteBatch.Draw(
+      thrustLensFlare,
+      GameState.position + lensFlareRotatedOffset + new Vector2(0f, -10f),
+      null,
+      new Color(255, 255, 255, 0) * thrustAmount * 0.25f * opacity(),
+      0f,
+      new Vector2(thrustLensFlare.Width / 2, thrustLensFlare.Height / 2),
+      thrustLensFlareScale,
+      SpriteEffects.None,
+      0f
+    );
   }
 
   private void Physics()
@@ -432,7 +458,7 @@ public class Ship : CustomGameComponent
     float thrustScale = thrustAmount * scale * 0.9f;
 
     Vector2 origin = new Vector2(thrustSprite.texture.Width / 2, 90);
-    Vector2 offset = new Vector2(2, 220f * scale);
+    Vector2 offset = new Vector2(0f, 220f * scale);
 
     float rotation = direction;
 
@@ -447,7 +473,7 @@ public class Ship : CustomGameComponent
       thrustSprite.texture,
       adjustedPosition,
       thrustSprite.SourceRectangle,
-      Color.White,
+      Color.White * opacity(),
       rotation,
       origin,
       thrustScale,
@@ -478,7 +504,7 @@ public class Ship : CustomGameComponent
       rcsSprite.texture,
       adjustedPosition,
       rcsSprite.SourceRectangle,
-      Color.White,
+      Color.White * opacity(),
       rotation,
       origin,
       thrustScale,
