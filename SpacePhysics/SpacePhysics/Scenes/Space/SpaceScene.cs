@@ -62,6 +62,14 @@ public class SpaceScene : CustomGameComponent
       () => opacity * hudOpacity
     ));
 
+    components.Add(new ShipInformation(
+      () => opacity * hudOpacity
+    ));
+
+    components.Add(new ManeuverInformation(
+      () => opacity * hudOpacity
+    ));
+
     components.Add(new HudSprite(
         "HUD/hud-shadow",
         Alignment.TopCenter,
