@@ -147,14 +147,14 @@ public class Ship : CustomGameComponent
     DrawRCS(spriteBatch, new Vector2(44, -30), (float)-Math.PI * 0.5f, rcsAmount[1] + rcsAmount[5]); // Top left
 
     // Docking mode
-    DrawRCS(spriteBatch, new Vector2(28, -32), (float)Math.PI, rcsAmount[2] + rcsAmount[1]); // Bottom left
-    DrawRCS(spriteBatch, new Vector2(-31, -32), (float)Math.PI, rcsAmount[2] + rcsAmount[0]); // Bottom right
+    DrawRCS(spriteBatch, new Vector2(28, -32), (float)Math.PI, rcsAmount[2]); // Bottom left
+    DrawRCS(spriteBatch, new Vector2(-31, -32), (float)Math.PI, rcsAmount[2]); // Bottom right
 
     DrawRCS(spriteBatch, new Vector2(28, 44), (float)Math.PI, rcsAmount[2]); // Top left
     DrawRCS(spriteBatch, new Vector2(-31, 44), (float)Math.PI, rcsAmount[2]); // Top right
 
-    DrawRCS(spriteBatch, new Vector2(28, -47), 0f, rcsAmount[3] + rcsAmount[1]); // Top right retro
-    DrawRCS(spriteBatch, new Vector2(-32, -47), 0f, rcsAmount[3] + rcsAmount[0]); // Top left retro
+    DrawRCS(spriteBatch, new Vector2(28, -47), 0f, rcsAmount[3]); // Top right retro
+    DrawRCS(spriteBatch, new Vector2(-32, -47), 0f, rcsAmount[3]); // Top left retro
 
     DrawRCS(spriteBatch, new Vector2(28, 32), 0f, rcsAmount[3]); // Bottom right retro
     DrawRCS(spriteBatch, new Vector2(-32, 32), 0f, rcsAmount[3]); // Bottom left retro
