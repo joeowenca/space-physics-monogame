@@ -68,7 +68,7 @@ public class Ship : CustomGameComponent
       contentManager.Load<Texture2D>("Player/rcs-sheet"),
       4,
       1,
-      1f / 30f
+      1f / 24f
     );
   }
 
@@ -116,11 +116,11 @@ public class Ship : CustomGameComponent
 
     DrawThrust(spriteBatch);
 
-    DrawRCS(spriteBatch, new Vector2(32, -30), (float)Math.PI * 0.5f, rcsRight ? 1f : 0f);
-    DrawRCS(spriteBatch, new Vector2(-32, -30), (float)-Math.PI * 0.5f, rcsLeft ? 1f : 0f);
+    DrawRCS(spriteBatch, new Vector2(30, -30), (float)Math.PI * 0.5f, rcsRight ? 1f : 0f);
+    DrawRCS(spriteBatch, new Vector2(-33, -30), (float)-Math.PI * 0.5f, rcsLeft ? 1f : 0f);
 
-    DrawRCS(spriteBatch, new Vector2(-45, -30), (float)Math.PI * 0.5f, rcsLeft ? 1f : 0f);
-    DrawRCS(spriteBatch, new Vector2(45, -30), (float)-Math.PI * 0.5f, rcsRight ? 1f : 0f);
+    DrawRCS(spriteBatch, new Vector2(-47, -30), (float)Math.PI * 0.5f, rcsLeft ? 1f : 0f);
+    DrawRCS(spriteBatch, new Vector2(44, -30), (float)-Math.PI * 0.5f, rcsRight ? 1f : 0f);
   }
 
   private void Physics()
@@ -345,7 +345,7 @@ public class Ship : CustomGameComponent
       rcsSprite.texture,
       adjustedPosition,
       rcsSprite.SourceRectangle,
-      Color.White * 0.75f,
+      Color.White,
       rotation,
       origin,
       thrustScale,
