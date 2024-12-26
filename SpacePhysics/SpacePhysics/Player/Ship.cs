@@ -12,6 +12,7 @@ namespace SpacePhysics.Player;
 public class Ship : CustomGameComponent
 {
   private AnimatedSprite thrustSprite;
+  private AnimatedSprite rcsSprite;
   private Texture2D thrustOverlay;
 
   private Vector2 acceleration;
@@ -60,6 +61,13 @@ public class Ship : CustomGameComponent
       1,
       1f / 15f
     );
+
+    rcsSprite = new AnimatedSprite(
+      contentManager.Load<Texture2D>("Player/rcs-sheet"),
+      4,
+      1,
+      1f / 15f
+    );
   }
 
   public override void Update()
@@ -67,6 +75,7 @@ public class Ship : CustomGameComponent
     if (state != State.Pause)
     {
       thrustSprite.Update(GameState.position);
+      rcsSprite.Update(GameState.position);
 
       Physics();
       Throttle();
@@ -104,6 +113,12 @@ public class Ship : CustomGameComponent
     );
 
     DrawThrust(spriteBatch);
+
+    DrawRCS(spriteBatch, new Vector2(32, -30), (float)Math.PI * 0.5f);
+    DrawRCS(spriteBatch, new Vector2(-32, -30), (float)-Math.PI * 0.5f);
+
+    DrawRCS(spriteBatch, new Vector2(-45, -30), (float)Math.PI * 0.5f);
+    DrawRCS(spriteBatch, new Vector2(45, -30), (float)-Math.PI * 0.5f);
   }
 
   private void Physics()
@@ -262,6 +277,35 @@ public class Ship : CustomGameComponent
       thrustSprite.texture,
       adjustedPosition,
       thrustSprite.SourceRectangle,
+      Color.White,
+      rotation,
+      origin,
+      thrustScale,
+      SpriteEffects.None,
+      0f
+    );
+  }
+
+  private void DrawRCS(SpriteBatch spriteBatch, Vector2 offsetOverride, float rotationOverride)
+  {
+    float thrustScale = thrustAmount * scale * 0.3f;
+
+    Vector2 offset = new Vector2(0, scale) + offsetOverride;
+    Vector2 origin = new Vector2(rcsSprite.texture.Width / 2, rcsSprite.texture.Width);
+
+    float rotation = direction + rotationOverride;
+
+    Vector2 rotatedOffset = new Vector2(
+      offset.X * (float)Math.Cos(rotation) - offset.Y * (float)Math.Sin(rotation),
+      offset.X * (float)Math.Sin(rotation) + offset.Y * (float)Math.Cos(rotation)
+    );
+
+    Vector2 adjustedPosition = rcsSprite.position + rotatedOffset;
+
+    spriteBatch.Draw(
+      rcsSprite.texture,
+      adjustedPosition,
+      rcsSprite.SourceRectangle,
       Color.White,
       rotation,
       origin,

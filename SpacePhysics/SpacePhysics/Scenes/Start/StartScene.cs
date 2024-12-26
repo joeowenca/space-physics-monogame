@@ -67,7 +67,7 @@ public class StartScene : CustomGameComponent
 
     components.Add(new Ship(
       () => opacity,
-      false,
+      true,
       Alignment.TopLeft,
       7
     ));
