@@ -54,6 +54,17 @@ public class SpaceScene : CustomGameComponent
       7
     ));
 
+    components.Add(new HudSprite(
+        "Backgrounds/dirty-lens",
+        Alignment.Center,
+        Alignment.Center,
+        () => new Vector2(0f, 0f),
+        () => 0f,
+        () => new Color(255, 255, 255, 0) * ((0.05f * Ship.thrustAmount * (GameState.zoomPercent / 100f)) + 0f) * opacity,
+        6.5f * GameState.scale,
+        0
+    ));
+
     components.Add(new Gauge(
       () => opacity * hudOpacity
     ));

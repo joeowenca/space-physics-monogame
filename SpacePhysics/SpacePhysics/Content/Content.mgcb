@@ -61,6 +61,18 @@
 /processorParam:TextureFormat=Color
 /build:../../../../../Pictures/Space Physics/thrust-sheet.png;Player/thrust-sheet.png
 
+#begin Backgrounds/dirty-lens.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Backgrounds/dirty-lens.png
+
 #begin Backgrounds/purple-background-2.png
 /importer:TextureImporter
 /processor:TextureProcessor
