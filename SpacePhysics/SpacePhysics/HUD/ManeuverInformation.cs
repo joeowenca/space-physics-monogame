@@ -23,7 +23,7 @@ namespace SpacePhysics.Debugging
     {
       this.opacity = opacity;
 
-      offset = new Vector2(200f, 400f);
+      offset = new Vector2(200f, screenSize.Y - 600f);
 
       components.Add(new HudSprite(
         "HUD/hud-shadow-bottom-left",
@@ -47,9 +47,8 @@ namespace SpacePhysics.Debugging
         11
       ));
 
-      statusItems.Add(new DebugItem("Mass", () => Ship.mass.ToString("0") + " kg"));
-      statusItems.Add(new DebugItem("Liquid Fuel", () => fuel.ToString("0") + " L"));
-      statusItems.Add(new DebugItem("Thrust", () => Ship.thrust.ToString("0") + " N"));
+      statusItems.Add(new DebugItem("Prograde", () => Math.Round(Math.Abs(velocityAngle * (180 / Math.PI)) % 360).ToString("0") + "°"));
+      statusItems.Add(new DebugItem("Retrograde", () => Math.Round(Math.Abs((velocityAngle + Math.PI) * (180 / Math.PI)) % 360).ToString("0") + "°"));
 
       for (int i = 0; i < statusItems.Count; i++)
       {
