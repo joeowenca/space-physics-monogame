@@ -457,7 +457,14 @@ public class Ship : CustomGameComponent
     {
       if (mono > 0f)
       {
-        mono -= rcsAmount[i] * deltaTime;
+        if (i == 2 || i == 3)
+        {
+          mono -= rcsAmount[i] * deltaTime * 2f;
+        }
+        else
+        {
+          mono -= rcsAmount[i] * deltaTime;
+        }
       }
       else
       {
