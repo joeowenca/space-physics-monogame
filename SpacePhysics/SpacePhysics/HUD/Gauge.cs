@@ -118,7 +118,7 @@ public class Gauge : CustomGameComponent
             Alignment.BottomCenter,
             TextAlign.Center,
             () => new Vector2(200f, 50f) + offset,
-            () => sas ? highlightColor * opacity() : defaultColor * 0f,
+            () => (sas ? highlightColor : defaultColor) * opacity(),
             hudTextScale,
             11
         );
@@ -129,7 +129,7 @@ public class Gauge : CustomGameComponent
             Alignment.BottomCenter,
             TextAlign.Center,
             () => new Vector2(-200f, 50f) + offset,
-            () => rcs ? Color.Cyan * opacity() : defaultColor * 0f,
+            () => (rcs ? Color.Cyan : defaultColor) * opacity(),
             hudTextScale,
             11
         );

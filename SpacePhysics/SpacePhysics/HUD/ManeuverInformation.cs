@@ -38,7 +38,7 @@ namespace SpacePhysics.Debugging
 
       components.Add(new HudText(
         "Fonts/text-font",
-        () => "Maneuver info",
+        () => "Maneuver",
         Alignment.TopLeft,
         TextAlign.Left,
         () => offset,

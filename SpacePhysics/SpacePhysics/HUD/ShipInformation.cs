@@ -38,7 +38,7 @@ namespace SpacePhysics.Debugging
 
       components.Add(new HudText(
         "Fonts/text-font",
-        () => "Ship info",
+        () => "Status",
         Alignment.TopLeft,
         TextAlign.Left,
         () => offset,
