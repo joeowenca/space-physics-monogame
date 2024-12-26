@@ -23,8 +23,8 @@ public class Ship : CustomGameComponent
   public static float thrustAmount;
   public static float altitude;
   public static float fuelPercent;
+  public static float dryMass;
 
-  private float dryMass;
   private float maxThrust;
   private float maxFuel;
   private float engineEfficiency;
@@ -47,11 +47,11 @@ public class Ship : CustomGameComponent
   {
     acceleration = Vector2.Zero;
     force = Vector2.Zero;
-    dryMass = 2500f;
+    dryMass = 2500;
     thrust = 0f;
     maxThrust = 115800f;
     maxFuel = fuel;
-    engineEfficiency = 0.0000001f;
+    engineEfficiency = 0.00000005f;
     rcsAmount = new Vector4(0f, 0f, 0f, 0f);
   }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SpacePhysics.HUD;
 using SpacePhysics.Player;
 using static SpacePhysics.GameState;
 
@@ -22,7 +23,29 @@ namespace SpacePhysics.Debugging
     {
       this.opacity = opacity;
 
-      offset = new Vector2(screenSize.X - 1000f, screenSize.Y - 800f);
+      offset = new Vector2(screenSize.X - 800f, screenSize.Y - 600f);
+
+      components.Add(new HudSprite(
+        "HUD/hud-shadow-bottom-right",
+        Alignment.BottomRight,
+        Alignment.BottomRight,
+        () => new Vector2(0f, 0f),
+        () => 0f,
+        () => Color.White * 0.75f * opacity(),
+        hudScale * 2.5f,
+        11
+    ));
+
+      components.Add(new HudText(
+        "Fonts/text-font",
+        () => "Ship status",
+        Alignment.TopLeft,
+        TextAlign.Left,
+        () => offset,
+        () => defaultColor * opacity(),
+        hudTextScale * 1.3f,
+        11
+      ));
 
       statusItems.Add(new DebugItem("Mass", () => Ship.mass.ToString("0") + " kg"));
       statusItems.Add(new DebugItem("Liquid Fuel", () => fuel.ToString("0") + " L"));
@@ -30,7 +53,7 @@ namespace SpacePhysics.Debugging
 
       for (int i = 0; i < statusItems.Count; i++)
       {
-        statusItems[i].position = new Vector2(20, i * 140 * hudTextScale) + offset;
+        statusItems[i].position = new Vector2(5f, i * 140f * hudTextScale + 110f) + offset;
       }
     }
 
@@ -43,6 +66,11 @@ namespace SpacePhysics.Debugging
 
     public override void Draw(SpriteBatch spriteBatch)
     {
+      foreach (var component in components)
+      {
+        component.Draw(spriteBatch);
+      }
+
       foreach (var item in statusItems)
       {
         spriteBatch.DrawString(
