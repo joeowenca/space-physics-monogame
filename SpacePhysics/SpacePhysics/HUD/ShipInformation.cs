@@ -1,35 +1,72 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using static SpacePhysics.GameState;
 
-namespace SpacePhysics.HUD;
-
-public class ShipInformation : CustomGameComponent
+namespace SpacePhysics.Debugging
 {
-  private Vector2 offset;
-
-  public ShipInformation(Func<float> opacity) : base(false, Alignment.BottomRight, 11)
+  internal class ShipInformation : CustomGameComponent
   {
-    offset = new Vector2(-1000f, -700f);
+    private List<DebugItem> statusItems = new List<DebugItem>();
 
-    components.Add(new HudText(
-      "Fonts/text-font",
-      () => "Ship status",
-      Alignment.BottomRight,
-      TextAlign.Left,
-      () => offset,
-      () => defaultColor * opacity(),
-      hudTextScale,
-      11
-    ));
-  }
+    private SpriteFont font;
 
-  public override void Draw(SpriteBatch spriteBatch)
-  {
-    foreach (var component in components)
+    private Vector2 offset;
+
+    private Func<float> opacity;
+
+    public ShipInformation(Func<float> opacity) : base(false, Alignment.BottomRight, 11)
     {
-      component.Draw(spriteBatch);
+      this.opacity = opacity;
+
+      offset = new Vector2(screenSize.X - 1000f, screenSize.Y - 800f);
+
+      statusItems.Add(new DebugItem("X", () => GameState.position.X.ToString()));
+      statusItems.Add(new DebugItem("Y", () => GameState.position.Y.ToString()));
+
+      for (int i = 0; i < statusItems.Count; i++)
+      {
+        statusItems[i].position = new Vector2(20, i * 140 * hudTextScale) + offset;
+      }
+    }
+
+    public override void Load(ContentManager contentManager)
+    {
+      font = contentManager.Load<SpriteFont>("Fonts/text-font");
+
+      base.Load(contentManager);
+    }
+
+    public override void Draw(SpriteBatch spriteBatch)
+    {
+      foreach (var item in statusItems)
+      {
+        spriteBatch.DrawString(
+          font,
+          item.Label + ": ",
+          item.position,
+          defaultColor * opacity(),
+          0f,
+          Vector2.Zero,
+          hudTextScale,
+          SpriteEffects.None,
+          0f
+        );
+
+        spriteBatch.DrawString(
+          font,
+          item.ValueGetter(),
+          item.position + new Vector2(font.MeasureString(item.Label).X * hudTextScale + 30, 0),
+          highlightColor * opacity(),
+          0f,
+          Vector2.Zero,
+          hudTextScale,
+          SpriteEffects.None,
+          0f
+        );
+      }
     }
   }
 }
