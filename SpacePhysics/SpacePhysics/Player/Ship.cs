@@ -104,6 +104,8 @@ public class Ship : CustomGameComponent
       Stability();
       Docking();
       RCS();
+
+      electricity += deltaTime * 0.5f;
     }
 
     base.Update();

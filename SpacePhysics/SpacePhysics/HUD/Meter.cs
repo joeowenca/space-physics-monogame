@@ -17,7 +17,7 @@ public class Meter : CustomGameComponent
             "HUD/meter-left",
             Alignment.BottomCenter,
             Alignment.Center,
-            () => new Vector2(-500, 0) + offset,
+            () => new Vector2(-600, 0) + offset,
             () => 0f,
             () => defaultColor * opacity(),
             hudScale,
@@ -28,7 +28,7 @@ public class Meter : CustomGameComponent
             "HUD/meter-indicator-left",
             Alignment.BottomCenter,
             Alignment.Center,
-            () => new Vector2(-500, -throttle * 628) + offset,
+            () => new Vector2(-600, -throttle * 628) + offset,
             () => 0f,
             () => highlightColor * opacity(),
             hudScale,
@@ -40,7 +40,7 @@ public class Meter : CustomGameComponent
             () => (throttle * 100).ToString("0") + "%",
             Alignment.BottomCenter,
             TextAlign.Right,
-            () => new Vector2(-650, 50f) + offset,
+            () => new Vector2(-750, 50f) + offset,
             () => highlightColor * opacity(),
             hudTextScale,
             11
@@ -51,7 +51,51 @@ public class Meter : CustomGameComponent
             () => "Throttle",
             Alignment.BottomCenter,
             TextAlign.Center,
-            () => new Vector2(-500, -360f) + offset,
+            () => new Vector2(-600, -360f) + offset,
+            () => defaultColor * opacity(),
+            hudTextScale,
+            11
+        );
+
+        HudSprite electricityMeter = new(
+            "HUD/meter-left",
+            Alignment.BottomCenter,
+            Alignment.Center,
+            () => new Vector2(-1200, 0) + offset,
+            () => 0f,
+            () => defaultColor * opacity(),
+            hudScale,
+            11
+        );
+
+        HudSprite electricityMeterIndicator = new(
+            "HUD/meter-indicator-left",
+            Alignment.BottomCenter,
+            Alignment.Center,
+            () => new Vector2(-1200, GameState.electricityPercent * -6.28f) + offset,
+            () => 0f,
+            () => highlightColor * opacity(),
+            hudScale,
+            11
+        );
+
+        HudText electricityPercent = new(
+            "Fonts/text-font",
+            () => GameState.electricityPercent.ToString("0") + "%",
+            Alignment.BottomCenter,
+            TextAlign.Right,
+            () => new Vector2(-1350, 50f) + offset,
+            () => highlightColor * opacity(),
+            hudTextScale,
+            11
+        );
+
+        HudText electricityLabel = new(
+            "Fonts/text-font",
+            () => "Electricity",
+            Alignment.BottomCenter,
+            TextAlign.Center,
+            () => new Vector2(-1200, -360f) + offset,
             () => defaultColor * opacity(),
             hudTextScale,
             11
@@ -61,7 +105,7 @@ public class Meter : CustomGameComponent
             "HUD/meter-right",
             Alignment.BottomCenter,
             Alignment.Center,
-            () => new Vector2(500, 0) + offset,
+            () => new Vector2(600, 0) + offset,
             () => 0f,
             () => defaultColor * opacity(),
             hudScale,
@@ -72,7 +116,7 @@ public class Meter : CustomGameComponent
             "HUD/meter-indicator-right",
             Alignment.BottomCenter,
             Alignment.Center,
-            () => new Vector2(500, -GameState.fuelPercent * 6.28f) + offset,
+            () => new Vector2(600, -GameState.fuelPercent * 6.28f) + offset,
             () => 0f,
             () => highlightColor * opacity(),
             hudScale,
@@ -84,7 +128,7 @@ public class Meter : CustomGameComponent
             () => GameState.fuelPercent.ToString("0") + "%",
             Alignment.BottomCenter,
             TextAlign.Left,
-            () => new Vector2(650, 50f) + offset,
+            () => new Vector2(750, 50f) + offset,
             () => highlightColor * opacity(),
             hudTextScale,
             11
@@ -95,7 +139,7 @@ public class Meter : CustomGameComponent
             () => "Fuel",
             Alignment.BottomCenter,
             TextAlign.Center,
-            () => new Vector2(500, -360f) + offset,
+            () => new Vector2(600, -360f) + offset,
             () => defaultColor * opacity(),
             hudTextScale,
             11
@@ -105,7 +149,7 @@ public class Meter : CustomGameComponent
             "HUD/meter-right",
             Alignment.BottomCenter,
             Alignment.Center,
-            () => new Vector2(1000, 0) + offset,
+            () => new Vector2(1200, 0) + offset,
             () => 0f,
             () => defaultColor * opacity(),
             hudScale,
@@ -116,7 +160,7 @@ public class Meter : CustomGameComponent
             "HUD/meter-indicator-right",
             Alignment.BottomCenter,
             Alignment.Center,
-            () => new Vector2(1000, -GameState.monoPercent * 6.28f) + offset,
+            () => new Vector2(1200, -GameState.monoPercent * 6.28f) + offset,
             () => 0f,
             () => highlightColor * opacity(),
             hudScale,
@@ -128,7 +172,7 @@ public class Meter : CustomGameComponent
             () => GameState.monoPercent.ToString("0") + "%",
             Alignment.BottomCenter,
             TextAlign.Left,
-            () => new Vector2(1150, 50f) + offset,
+            () => new Vector2(1350, 50f) + offset,
             () => highlightColor * opacity(),
             hudTextScale,
             11
@@ -139,7 +183,7 @@ public class Meter : CustomGameComponent
             () => "Mono",
             Alignment.BottomCenter,
             TextAlign.Center,
-            () => new Vector2(1000, -360f) + offset,
+            () => new Vector2(1200, -360f) + offset,
             () => defaultColor * opacity(),
             hudTextScale,
             11
@@ -149,6 +193,10 @@ public class Meter : CustomGameComponent
         components.Add(throttleMeterIndicator);
         components.Add(throttlePercent);
         components.Add(throttleLabel);
+        components.Add(electricityMeter);
+        components.Add(electricityMeterIndicator);
+        components.Add(electricityPercent);
+        components.Add(electricityLabel);
         components.Add(fuelMeter);
         components.Add(fuelMeterIndicator);
         components.Add(fuelPercent);
