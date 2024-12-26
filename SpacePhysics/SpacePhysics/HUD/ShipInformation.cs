@@ -50,10 +50,11 @@ namespace SpacePhysics.Debugging
       statusItems.Add(new DebugItem("Mass", () => Ship.mass.ToString("0") + " kg"));
       statusItems.Add(new DebugItem("Liquid Fuel", () => fuel.ToString("0") + " L"));
       statusItems.Add(new DebugItem("Thrust", () => Ship.thrust.ToString("0") + " N"));
+      statusItems.Add(new DebugItem("RCS Mode", () => maneuverMode ? "Maneuver" : "Docking"));
 
       for (int i = 0; i < statusItems.Count; i++)
       {
-        statusItems[i].position = new Vector2(5f, i * 140f * hudTextScale + 110f) + offset;
+        statusItems[i].position = new Vector2(3f, i * 140f * hudTextScale + 110f) + offset;
       }
     }
 

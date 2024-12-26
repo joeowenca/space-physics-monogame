@@ -48,6 +48,7 @@ public class GameState
 
   public static bool sas;
   public static bool rcs;
+  public static bool maneuverMode;
   public static bool debug;
   public static bool quit;
 
@@ -79,6 +80,7 @@ public class GameState
     deltaTime = 0f;
     sas = false;
     rcs = false;
+    maneuverMode = true;
     quit = false;
   }
 
