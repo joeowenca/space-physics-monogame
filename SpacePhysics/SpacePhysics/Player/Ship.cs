@@ -61,7 +61,7 @@ public class Ship : CustomGameComponent
     rcsThrustAmount = 100000f;
     dryMass = 2500;
     thrust = 0f;
-    maxThrust = 579000f;
+    maxThrust = 600000f;
     maxFuel = fuel;
     engineEfficiency = 0.00000001f;
     rcsLerpSpeed = 30f;
@@ -92,8 +92,8 @@ public class Ship : CustomGameComponent
   {
     if (state != State.Pause)
     {
-      thrustSprite.Update(GameState.position);
-      rcsSprite.Update(GameState.position);
+      thrustSprite.Animate();
+      rcsSprite.Animate();
 
       Physics();
       Throttle();
@@ -441,7 +441,7 @@ public class Ship : CustomGameComponent
       offset.X * (float)Math.Sin(rotation) + offset.Y * (float)Math.Cos(rotation)
     );
 
-    Vector2 adjustedPosition = thrustSprite.position + rotatedOffset;
+    Vector2 adjustedPosition = GameState.position + rotatedOffset;
 
     spriteBatch.Draw(
       thrustSprite.texture,
@@ -472,7 +472,7 @@ public class Ship : CustomGameComponent
       offset.X * (float)Math.Sin(rotation) + offset.Y * (float)Math.Cos(rotation)
     );
 
-    Vector2 adjustedPosition = rcsSprite.position + rotatedOffset;
+    Vector2 adjustedPosition = GameState.position + rotatedOffset;
 
     spriteBatch.Draw(
       rcsSprite.texture,
