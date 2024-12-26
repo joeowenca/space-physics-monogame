@@ -23,6 +23,7 @@ public class Ship : CustomGameComponent
   public static float thrust;
   public static float thrustAmount;
   public static float rcsThrust;
+  public static float rcsDirection;
   public static float altitude;
   public static float fuelPercent;
   public static float dryMass;
@@ -138,8 +139,8 @@ public class Ship : CustomGameComponent
     force.X = (float)Math.Cos(direction - (float)(Math.PI * 0.5f)) * thrust;
     force.Y = (float)Math.Sin(direction - (float)(Math.PI * 0.5f)) * thrust;
 
-    rcsForce.X = (float)Math.Cos(direction - (float)(Math.PI * 0.5f)) * rcsThrust;
-    rcsForce.Y = (float)Math.Sin(direction - (float)(Math.PI * 0.5f)) * rcsThrust;
+    rcsForce.X = (float)Math.Cos(direction + rcsDirection - (float)(Math.PI * 0.5f)) * rcsThrust;
+    rcsForce.Y = (float)Math.Sin(direction + rcsDirection - (float)(Math.PI * 0.5f)) * rcsThrust;
 
     acceleration = (force + rcsForce) / mass;
 
@@ -318,16 +319,29 @@ public class Ship : CustomGameComponent
 
   private void Docking()
   {
+    rcsThrust = 0f;
+
     if (!maneuverMode && rcs)
     {
       if (input.ContinuousPress(Keys.Up) || input.ContinuousPress(Keys.W))
       {
-        // rcsThrust = 1 / mass * 4f * deltaTime * 250f;
         rcsThrust = 100000f;
+        rcsDirection = 0f;
       }
-      else
+      else if (input.ContinuousPress(Keys.Down) || input.ContinuousPress(Keys.S))
       {
-        rcsThrust = 0f;
+        rcsThrust = 100000f;
+        rcsDirection = (float)Math.PI;
+      }
+      else if (input.ContinuousPress(Keys.Left) || input.ContinuousPress(Keys.A))
+      {
+        rcsThrust = 100000f;
+        rcsDirection = (float)Math.PI * -0.5f;
+      }
+      else if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
+      {
+        rcsThrust = 100000f;
+        rcsDirection = (float)Math.PI * 0.5f;
       }
     }
 
