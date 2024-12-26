@@ -60,7 +60,7 @@ public class Ship : CustomGameComponent
     acceleration = Vector2.Zero;
     force = Vector2.Zero;
     rcsForce = Vector2.Zero;
-    rcsThrustAmount = 100000f;
+    rcsThrustAmount = 50000f;
     dryMass = 2500;
     thrust = 0f;
     maxThrust = 600000f;
@@ -426,7 +426,7 @@ public class Ship : CustomGameComponent
 
       if (input.ContinuousPress(Keys.Up) || input.ContinuousPress(Keys.W))
       {
-        rcsThrust = rcsThrustAmount;
+        rcsThrust = rcsThrustAmount * 2f;
         electricity -= deltaTime;
         rcsDirection = 0f;
         rcsUp = true;
@@ -438,7 +438,7 @@ public class Ship : CustomGameComponent
 
       if (input.ContinuousPress(Keys.Down) || input.ContinuousPress(Keys.S))
       {
-        rcsThrust = rcsThrustAmount;
+        rcsThrust = rcsThrustAmount * 2f;
         electricity -= deltaTime;
         rcsDirection = (float)Math.PI;
         rcsDown = true;
