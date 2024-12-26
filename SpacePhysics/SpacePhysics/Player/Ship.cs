@@ -284,6 +284,11 @@ public class Ship : CustomGameComponent
         rcsRotateLeft = false;
       }
     }
+    else
+    {
+      rcsRotateLeft = false;
+      rcsRotateRight = false;
+    }
 
     if (sas &&
         !input.ContinuousPress(Keys.Right) &&
@@ -374,6 +379,11 @@ public class Ship : CustomGameComponent
         {
           rcsRight = false;
         }
+      }
+      else
+      {
+        rcsLeft = false;
+        rcsRight = false;
       }
 
       if (input.ContinuousPress(Keys.Up) || input.ContinuousPress(Keys.W))
