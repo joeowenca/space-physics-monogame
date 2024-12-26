@@ -211,12 +211,14 @@ public class Ship : CustomGameComponent
     {
       throttleTransition = false;
       targetThrottle += throttleChangeSpeed;
+      electricity -= deltaTime;
     }
 
     if (input.ContinuousPress(Keys.LeftControl))
     {
       throttleTransition = false;
       targetThrottle -= throttleChangeSpeed;
+      electricity -= deltaTime;
     }
 
     if (input.ContinuousPress(Keys.Z))
