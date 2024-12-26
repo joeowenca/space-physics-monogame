@@ -29,6 +29,9 @@ public class Ship : CustomGameComponent
   private float maxFuel;
   private float engineEfficiency;
 
+  private Vector4 rcsAmount;
+  private Vector4 rcsAmountTarget;
+
   public readonly Func<float> opacity;
 
   private bool throttleTransition;
@@ -46,9 +49,10 @@ public class Ship : CustomGameComponent
     force = Vector2.Zero;
     dryMass = 2500f;
     thrust = 0f;
-    maxThrust = 115800;
+    maxThrust = 115800f;
     maxFuel = fuel;
     engineEfficiency = 0.0000001f;
+    rcsAmount = new Vector4(0f, 0f, 0f, 0f);
   }
 
   public override void Load(ContentManager contentManager)
@@ -116,11 +120,11 @@ public class Ship : CustomGameComponent
 
     DrawThrust(spriteBatch);
 
-    DrawRCS(spriteBatch, new Vector2(30, -30), (float)Math.PI * 0.5f, rcsRight ? 1f : 0f);
-    DrawRCS(spriteBatch, new Vector2(-33, -30), (float)-Math.PI * 0.5f, rcsLeft ? 1f : 0f);
+    DrawRCS(spriteBatch, new Vector2(30, -30), (float)Math.PI * 0.5f, rcsAmount.Y);
+    DrawRCS(spriteBatch, new Vector2(-33, -30), (float)-Math.PI * 0.5f, rcsAmount.X);
 
-    DrawRCS(spriteBatch, new Vector2(-47, -30), (float)Math.PI * 0.5f, rcsLeft ? 1f : 0f);
-    DrawRCS(spriteBatch, new Vector2(44, -30), (float)-Math.PI * 0.5f, rcsRight ? 1f : 0f);
+    DrawRCS(spriteBatch, new Vector2(-47, -30), (float)Math.PI * 0.5f, rcsAmount.X);
+    DrawRCS(spriteBatch, new Vector2(44, -30), (float)-Math.PI * 0.5f, rcsAmount.Y);
   }
 
   private void Physics()
@@ -294,6 +298,12 @@ public class Ship : CustomGameComponent
     {
       rcs = !rcs;
     }
+
+    rcsAmountTarget.X = rcsLeft ? 1f : 0f;
+    rcsAmountTarget.Y = rcsRight ? 1f : 0f;
+
+    rcsAmount.X = MathHelper.Lerp(rcsAmount.X, rcsAmountTarget.X, deltaTime * 50f);
+    rcsAmount.Y = MathHelper.Lerp(rcsAmount.Y, rcsAmountTarget.Y, deltaTime * 50f);
   }
 
   private void DrawThrust(SpriteBatch spriteBatch)
