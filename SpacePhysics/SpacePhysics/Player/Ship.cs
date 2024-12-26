@@ -32,6 +32,8 @@ public class Ship : CustomGameComponent
   public readonly Func<float> opacity;
 
   private bool throttleTransition;
+  private bool rcsLeft;
+  private bool rcsRight;
 
   public Ship(Func<float> opacity, bool allowInput, Alignment alignment, int layerIndex) : base(allowInput, alignment, layerIndex)
   {
@@ -66,7 +68,7 @@ public class Ship : CustomGameComponent
       contentManager.Load<Texture2D>("Player/rcs-sheet"),
       4,
       1,
-      1f / 15f
+      1f / 30f
     );
   }
 
@@ -114,11 +116,11 @@ public class Ship : CustomGameComponent
 
     DrawThrust(spriteBatch);
 
-    DrawRCS(spriteBatch, new Vector2(32, -30), (float)Math.PI * 0.5f);
-    DrawRCS(spriteBatch, new Vector2(-32, -30), (float)-Math.PI * 0.5f);
+    DrawRCS(spriteBatch, new Vector2(32, -30), (float)Math.PI * 0.5f, rcsRight ? 1f : 0f);
+    DrawRCS(spriteBatch, new Vector2(-32, -30), (float)-Math.PI * 0.5f, rcsLeft ? 1f : 0f);
 
-    DrawRCS(spriteBatch, new Vector2(-45, -30), (float)Math.PI * 0.5f);
-    DrawRCS(spriteBatch, new Vector2(45, -30), (float)-Math.PI * 0.5f);
+    DrawRCS(spriteBatch, new Vector2(-45, -30), (float)Math.PI * 0.5f, rcsLeft ? 1f : 0f);
+    DrawRCS(spriteBatch, new Vector2(45, -30), (float)-Math.PI * 0.5f, rcsRight ? 1f : 0f);
   }
 
   private void Physics()
@@ -215,13 +217,29 @@ public class Ship : CustomGameComponent
     if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
     {
       angularVelocity += angularThrust;
-      if (rcs) angularVelocity += rcsThrust;
+      if (rcs)
+      {
+        angularVelocity += rcsThrust;
+        rcsRight = true;
+      }
+    }
+    else
+    {
+      rcsRight = false;
     }
 
     if (input.ContinuousPress(Keys.Left) || input.ContinuousPress(Keys.A))
     {
       angularVelocity -= angularThrust;
-      if (rcs) angularVelocity -= rcsThrust;
+      if (rcs)
+      {
+        angularVelocity -= rcsThrust;
+        rcsLeft = true;
+      }
+    }
+    else
+    {
+      rcsLeft = false;
     }
 
     if (sas &&
@@ -231,16 +249,37 @@ public class Ship : CustomGameComponent
         !input.ContinuousPress(Keys.A)
       )
     {
-      if (angularVelocity > 0f)
+      if (angularVelocity > 0.001f)
       {
         angularVelocity -= angularThrust;
-        if (rcs) angularVelocity -= rcsThrust;
+        if (rcs)
+        {
+          angularVelocity -= rcsThrust;
+          rcsLeft = true;
+        }
+      }
+      else
+      {
+        rcsLeft = false;
       }
 
-      if (angularVelocity < 0f)
+      if (angularVelocity < -0.001f)
       {
         angularVelocity += angularThrust;
-        if (rcs) angularVelocity += rcsThrust;
+        if (rcs)
+        {
+          angularVelocity += rcsThrust;
+          rcsRight = true;
+        }
+      }
+      else
+      {
+        rcsRight = false;
+      }
+
+      if (Math.Abs(angularVelocity) < 0.001f)
+      {
+        angularVelocity = 0f;
       }
     }
 
@@ -286,9 +325,9 @@ public class Ship : CustomGameComponent
     );
   }
 
-  private void DrawRCS(SpriteBatch spriteBatch, Vector2 offsetOverride, float rotationOverride)
+  private void DrawRCS(SpriteBatch spriteBatch, Vector2 offsetOverride, float rotationOverride, float scaleOverride)
   {
-    float thrustScale = thrustAmount * scale * 0.3f;
+    float thrustScale = scaleOverride * scale * 0.3f;
 
     Vector2 offset = new Vector2(0, scale) + offsetOverride;
     Vector2 origin = new Vector2(rcsSprite.texture.Width / 2, rcsSprite.texture.Width);
@@ -306,7 +345,7 @@ public class Ship : CustomGameComponent
       rcsSprite.texture,
       adjustedPosition,
       rcsSprite.SourceRectangle,
-      Color.White,
+      Color.White * 0.75f,
       rotation,
       origin,
       thrustScale,
