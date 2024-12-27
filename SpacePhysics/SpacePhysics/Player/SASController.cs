@@ -6,7 +6,7 @@ using static SpacePhysics.Player.Ship;
 
 namespace SpacePhysics.Player;
 
-public class SAS
+public class SASController
 {
   public static void Stability(InputManager input)
   {
