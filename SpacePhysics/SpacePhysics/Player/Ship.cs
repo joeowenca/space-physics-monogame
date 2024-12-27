@@ -1,13 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpacePhysics.Sprites;
 using static SpacePhysics.GameState;
+using static SpacePhysics.Player.SAS;
 
 namespace SpacePhysics.Player;
 
@@ -37,14 +35,14 @@ public class Ship : CustomGameComponent
   private float maxThrust;
   private float engineEfficiency;
 
-  private float[] rcsAmount = { 0f, 0f, 0f, 0f, 0f, 0f };
-  private float[] rcsAmountTarget = { 0f, 0f, 0f, 0f, 0f, 0f };
+  public static float[] rcsAmount = { 0f, 0f, 0f, 0f, 0f, 0f };
+  public static float[] rcsAmountTarget = { 0f, 0f, 0f, 0f, 0f, 0f };
 
   public readonly Func<float> opacity;
 
   private bool throttleTransition;
-  private bool rcsRotateLeft;
-  private bool rcsRotateRight;
+  public static bool rcsRotateLeft;
+  public static bool rcsRotateRight;
   private bool rcsLeft;
   private bool rcsRight;
   private bool rcsUp;
@@ -101,7 +99,7 @@ public class Ship : CustomGameComponent
       Physics();
       Throttle();
       Thrust();
-      Stability();
+      Stability(input);
       Docking();
       RCS();
 
@@ -274,120 +272,6 @@ public class Ship : CustomGameComponent
     fuel = Math.Clamp(fuel, 0f, maxFuel);
 
     thrustAmount = thrust / maxThrust;
-  }
-
-  private void Stability()
-  {
-    float angularThrust = thrustAmount / mass * deltaTime * 250f;
-
-    float rcsAngularThrust = 1 / mass * 4f * deltaTime * 250f;
-
-    if (maneuverMode && (angularThrust > 0 || rcs))
-    {
-      if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
-      {
-        angularVelocity += angularThrust;
-        electricity -= deltaTime;
-
-        if (rcs)
-        {
-          angularVelocity += rcsAngularThrust;
-          electricity -= deltaTime;
-          rcsRotateRight = true;
-        }
-      }
-      else
-      {
-        rcsRotateRight = false;
-      }
-
-      if (input.ContinuousPress(Keys.Left) || input.ContinuousPress(Keys.A))
-      {
-        angularVelocity -= angularThrust;
-        electricity -= deltaTime;
-
-        if (rcs)
-        {
-          angularVelocity -= rcsAngularThrust;
-          electricity -= deltaTime;
-          rcsRotateLeft = true;
-        }
-      }
-      else
-      {
-        rcsRotateLeft = false;
-      }
-    }
-    else
-    {
-      rcsRotateLeft = false;
-      rcsRotateRight = false;
-    }
-
-    if (sas && (angularThrust > 0 || rcs) &&
-        !input.ContinuousPress(Keys.Right) &&
-        !input.ContinuousPress(Keys.Left) &&
-        !input.ContinuousPress(Keys.D) &&
-        !input.ContinuousPress(Keys.A)
-      )
-    {
-      if (angularVelocity > 0.001f)
-      {
-        angularVelocity -= angularThrust;
-        electricity -= deltaTime;
-
-        if (rcs)
-        {
-          angularVelocity -= rcsAngularThrust;
-          electricity -= deltaTime;
-          rcsRotateLeft = true;
-        }
-      }
-      else
-      {
-        rcsRotateLeft = false;
-      }
-
-      if (angularVelocity < -0.001f)
-      {
-        angularVelocity += angularThrust;
-        electricity -= deltaTime;
-
-        if (rcs)
-        {
-          angularVelocity += rcsAngularThrust;
-          electricity -= deltaTime;
-          rcsRotateRight = true;
-        }
-      }
-      else
-      {
-        rcsRotateRight = false;
-      }
-
-      if (Math.Abs(angularVelocity) < 0.001f)
-      {
-        angularVelocity = 0f;
-      }
-    }
-
-    direction += angularVelocity * deltaTime;
-
-    if (input.OnFirstFramePress(Keys.T))
-    {
-      sas = !sas;
-    }
-
-    if (input.OnFirstFramePress(Keys.R))
-    {
-      rcs = !rcs;
-    }
-
-    rcsAmountTarget[0] = (rcsRotateLeft && mono > 0f) ? 1f : 0f;
-    rcsAmountTarget[1] = (rcsRotateRight && mono > 0f) ? 1f : 0f;
-
-    rcsAmount[0] = MathHelper.Lerp(rcsAmount[0], rcsAmountTarget[0], deltaTime * rcsLerpSpeed);
-    rcsAmount[1] = MathHelper.Lerp(rcsAmount[1], rcsAmountTarget[1], deltaTime * rcsLerpSpeed);
   }
 
   private void Docking()
