@@ -6,16 +6,16 @@ using static SpacePhysics.Player.Ship;
 
 namespace SpacePhysics.Player;
 
-public static class RCSController
+public class RCSController : CustomGameComponent
 {
+  private static float rcsThrustAmount;
+
   private static bool rcsLeft;
   private static bool rcsRight;
   private static bool rcsUp;
   private static bool rcsDown;
 
-  private static float rcsThrustAmount;
-
-  static RCSController()
+  public RCSController() : base()
   {
     rcsLeft = false;
     rcsRight = false;
