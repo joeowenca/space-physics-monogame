@@ -6,8 +6,17 @@ using static SpacePhysics.Player.Ship;
 
 namespace SpacePhysics.Player;
 
-public class SASController
+public static class SASController
 {
+  private static bool rcsRotateLeft;
+  private static bool rcsRotateRight;
+
+  static SASController()
+  {
+    rcsRotateLeft = false;
+    rcsRotateRight = false;
+  }
+
   public static void Stability(InputManager input)
   {
     float angularThrust = thrustAmount / mass * deltaTime * 250f;

@@ -27,7 +27,6 @@ public class Ship : CustomGameComponent
   public static float thrust;
   public static float thrustAmount;
   public static float rcsThrust;
-  public static float rcsThrustAmount;
   public static float rcsDirection;
   public static float rcsLerpSpeed;
   public static float altitude;
@@ -42,12 +41,6 @@ public class Ship : CustomGameComponent
   public readonly Func<float> opacity;
 
   private bool throttleTransition;
-  public static bool rcsRotateLeft;
-  public static bool rcsRotateRight;
-  public static bool rcsLeft;
-  public static bool rcsRight;
-  public static bool rcsUp;
-  public static bool rcsDown;
 
   public Ship(Func<float> opacity, bool allowInput, Alignment alignment, int layerIndex) : base(allowInput, alignment, layerIndex)
   {
@@ -59,7 +52,6 @@ public class Ship : CustomGameComponent
     acceleration = Vector2.Zero;
     force = Vector2.Zero;
     rcsForce = Vector2.Zero;
-    rcsThrustAmount = 50000f;
     dryMass = 2500;
     thrust = 0f;
     maxThrust = 600000f;

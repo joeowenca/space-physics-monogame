@@ -6,8 +6,24 @@ using static SpacePhysics.Player.Ship;
 
 namespace SpacePhysics.Player;
 
-public class RCSController
+public static class RCSController
 {
+  private static bool rcsLeft;
+  private static bool rcsRight;
+  private static bool rcsUp;
+  private static bool rcsDown;
+
+  private static float rcsThrustAmount;
+
+  static RCSController()
+  {
+    rcsLeft = false;
+    rcsRight = false;
+    rcsUp = false;
+    rcsDown = false;
+    rcsThrustAmount = 50000f;
+  }
+
   public static void Docking(InputManager input)
   {
     rcsThrust = 0f;
