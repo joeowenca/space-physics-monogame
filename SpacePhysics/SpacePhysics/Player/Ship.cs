@@ -108,6 +108,8 @@ public class Ship : CustomGameComponent
 
   public override void Draw(SpriteBatch spriteBatch)
   {
+    DrawThrust(spriteBatch);
+
     spriteBatch.Draw(
       texture,
       GameState.position,
@@ -131,8 +133,6 @@ public class Ship : CustomGameComponent
       SpriteEffects.None,
       0f
     );
-
-    DrawThrust(spriteBatch);
 
     DrawAllRCS(spriteBatch);
 
@@ -257,10 +257,10 @@ public class Ship : CustomGameComponent
 
   private void DrawThrust(SpriteBatch spriteBatch)
   {
-    float thrustScale = thrustAmount * scale * 0.9f;
+    float thrustScale = thrustAmount * scale * 0.8f;
 
-    Vector2 origin = new Vector2(thrustSprite.texture.Width / 2, 90);
-    Vector2 offset = new Vector2(0f, 220f * scale);
+    Vector2 origin = new Vector2(thrustSprite.texture.Width / 2, 40);
+    Vector2 offset = new Vector2(0f, 180f * scale);
 
     float rotation = direction;
 
@@ -276,7 +276,7 @@ public class Ship : CustomGameComponent
       adjustedPosition,
       thrustSprite.SourceRectangle,
       Color.White * opacity(),
-      rotation,
+      rotation + (pitch * -0.2f),
       origin,
       thrustScale,
       SpriteEffects.None,
@@ -288,11 +288,11 @@ public class Ship : CustomGameComponent
   {
     float thrustLensFlareScale = scale * thrustAmount;
 
-    float lensFlareOffset = (Camera.Camera.changeCamera ? 195f : 220f) * scale;
+    float lensFlareOffset = (Camera.Camera.changeCamera ? 210f : 235f) * scale;
 
     lensFlareRotatedOffset = new Vector2(
-      -(float)Math.Sin(direction) * lensFlareOffset,
-      (float)Math.Cos(direction) * lensFlareOffset
+      -(float)Math.Sin(direction + (pitch * -0.1f)) * lensFlareOffset,
+      (float)Math.Cos(direction + (pitch * -0.1f)) * lensFlareOffset
     );
 
     spriteBatch.Draw(
