@@ -89,7 +89,7 @@ public class RCSController : CustomGameComponent
     }
   }
 
-  public static void RotateRCS()
+  public static void RotateWithRCS()
   {
     float rcsAngularThrust = 1 / mass * 4f * deltaTime * 250f * pitch;
 
@@ -117,7 +117,7 @@ public class RCSController : CustomGameComponent
     }
   }
 
-  public static void Docking(InputManager input)
+  public static void MoveWithRCS(InputManager input)
   {
     rcsThrust = 0f;
 
