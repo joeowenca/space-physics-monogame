@@ -121,26 +121,7 @@ public class Ship : CustomGameComponent
 
     DrawAllRCS(spriteBatch);
 
-    float thrustLensFlareScale = scale * thrustAmount;
-
-    float lensFlareOffset = (Camera.Camera.changeCamera ? 195f : 220f) * scale;
-
-    lensFlareRotatedOffset = new Vector2(
-      -(float)Math.Sin(direction) * lensFlareOffset,
-      (float)Math.Cos(direction) * lensFlareOffset
-    );
-
-    spriteBatch.Draw(
-      thrustLensFlare,
-      GameState.position + lensFlareRotatedOffset + new Vector2(0f, Camera.Camera.changeCamera ? 0f : -10f),
-      null,
-      new Color(255, 255, 255, 0) * thrustAmount * 0.25f * opacity(),
-      Camera.Camera.changeCamera ? direction : 0f,
-      new Vector2(thrustLensFlare.Width / 2, thrustLensFlare.Height / 2),
-      thrustLensFlareScale,
-      SpriteEffects.None,
-      0f
-    );
+    DrawLensFlare(spriteBatch);
   }
 
   private void Physics()
@@ -256,6 +237,30 @@ public class Ship : CustomGameComponent
       rotation,
       origin,
       thrustScale,
+      SpriteEffects.None,
+      0f
+    );
+  }
+
+  private void DrawLensFlare(SpriteBatch spriteBatch)
+  {
+    float thrustLensFlareScale = scale * thrustAmount;
+
+    float lensFlareOffset = (Camera.Camera.changeCamera ? 195f : 220f) * scale;
+
+    lensFlareRotatedOffset = new Vector2(
+      -(float)Math.Sin(direction) * lensFlareOffset,
+      (float)Math.Cos(direction) * lensFlareOffset
+    );
+
+    spriteBatch.Draw(
+      thrustLensFlare,
+      GameState.position + lensFlareRotatedOffset + new Vector2(0f, Camera.Camera.changeCamera ? 0f : -10f),
+      null,
+      new Color(255, 255, 255, 0) * thrustAmount * 0.25f * opacity(),
+      Camera.Camera.changeCamera ? direction : 0f,
+      new Vector2(thrustLensFlare.Width / 2, thrustLensFlare.Height / 2),
+      thrustLensFlareScale,
       SpriteEffects.None,
       0f
     );
