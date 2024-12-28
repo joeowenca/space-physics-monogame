@@ -56,11 +56,12 @@ public class Main : Game
         if (GameState.quit)
             Exit();
 
-        GameState.Update(gameTime);
         Camera.Camera.Update();
         MenuContainer.Update();
 
         sceneManager.GetCurrentScene().Update();
+
+        GameState.Update(gameTime);
 
         base.Update(gameTime);
     }

@@ -57,6 +57,8 @@ public class RCSController : CustomGameComponent
   {
     rcsSprite.Animate();
 
+    DepleteMono();
+
     base.Update();
   }
 
@@ -196,6 +198,7 @@ public class RCSController : CustomGameComponent
       else
       {
         mono = 0f;
+        rcsAmount[i] = MathHelper.Lerp(rcsAmount[i], 0f, deltaTime * rcsLerpSpeed);
       }
     }
   }

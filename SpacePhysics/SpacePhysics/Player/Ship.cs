@@ -81,21 +81,26 @@ public class Ship : CustomGameComponent
       thrustSprite.Animate();
 
       Physics();
-      Throttle();
       Thrust();
-      AdjustPitch();
-      ToggleSAS(input);
-      Stability(input);
-      ToggleRCS(input);
-      ToggleRCSMode(input);
-      RotateWithRCS();
-      MoveWithRCS(input);
-      DepleteMono();
+
+      if (electricity > 0)
+      {
+        Throttle();
+        AdjustPitch();
+        ToggleSAS(input);
+        Stability(input);
+        ToggleRCS(input);
+        ToggleRCSMode(input);
+
+        if (mono > 0)
+        {
+          RotateWithRCS();
+          MoveWithRCS(input);
+        }
+      }
 
       pitch = MathHelper.Lerp(pitch, targetPitch, deltaTime * 30f);
       pitch = Math.Clamp(pitch, -1f, 1f);
-
-      electricity += deltaTime * 0.5f;
 
       base.Update();
     }
