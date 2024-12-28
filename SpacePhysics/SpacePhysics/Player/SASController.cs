@@ -18,6 +18,12 @@ public static class SASController
       electricity -= deltaTime;
     }
 
+    if (input.OnFirstFrameButtonPress(Buttons.Y))
+    {
+      sas = !sas;
+      electricity -= deltaTime;
+    }
+
     if (electricity <= 0) sas = false;
   }
 
@@ -27,7 +33,8 @@ public static class SASController
         (!maneuverMode || (!input.ContinuousKeyPress(Keys.Right) &&
         !input.ContinuousKeyPress(Keys.Left) &&
         !input.ContinuousKeyPress(Keys.D) &&
-        !input.ContinuousKeyPress(Keys.A)))
+        !input.ContinuousKeyPress(Keys.A) && Math.Abs(input.AnalogStick().Left.X) <= 0f)
+        )
       )
     {
       if (angularVelocity > stabilityThreshold)
