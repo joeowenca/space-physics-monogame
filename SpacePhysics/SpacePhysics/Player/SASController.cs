@@ -16,7 +16,7 @@ public static class SASController
       electricity -= deltaTime;
     }
 
-    if (electricity <= 0) sas = false;
+    if (electricity <= 0) rcs = false;
   }
 
   public static void Stability(InputManager input)

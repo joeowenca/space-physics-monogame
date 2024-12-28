@@ -84,6 +84,15 @@ public class RCSController : CustomGameComponent
     if (electricity <= 0) rcs = false;
   }
 
+  public static void ToggleRCSMode(InputManager input)
+  {
+    if (input.OnFirstFramePress(Keys.B) && electricity > 0)
+    {
+      maneuverMode = !maneuverMode;
+      electricity -= deltaTime;
+    }
+  }
+
   public static void RotateRCS(InputManager input)
   {
     float rcsAngularThrust = 1 / mass * 4f * deltaTime * 250f;
@@ -236,12 +245,6 @@ public class RCSController : CustomGameComponent
       {
         rcsDown = false;
       }
-    }
-
-    if (input.OnFirstFramePress(Keys.B))
-    {
-      maneuverMode = !maneuverMode;
-      electricity -= deltaTime;
     }
 
     rcsAmountTarget[2] = (rcsUp && mono > 0f) ? 1f : 0f;
