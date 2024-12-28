@@ -88,11 +88,11 @@ public class Ship : CustomGameComponent
       Stability(input);
       ToggleRCS(input);
       ToggleRCSMode(input);
-      RotateRCS(input);
+      RotateRCS();
       Docking(input);
       RCS();
 
-      pitch = MathHelper.Lerp(pitch, targetPitch, deltaTime * 20f);
+      pitch = MathHelper.Lerp(pitch, targetPitch, deltaTime * 30f);
       pitch = Math.Clamp(pitch, -1f, 1f);
 
       electricity += deltaTime * 0.5f;

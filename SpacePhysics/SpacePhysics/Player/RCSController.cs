@@ -27,8 +27,6 @@ public class RCSController : CustomGameComponent
   private static float[] rcsAmount = { 0f, 0f, 0f, 0f, 0f, 0f };
   private static float[] rcsAmountTarget = { 0f, 0f, 0f, 0f, 0f, 0f };
 
-  private static bool rcsRotateLeft;
-  private static bool rcsRotateRight;
   private static bool rcsLeft;
   private static bool rcsRight;
   private static bool rcsUp;
@@ -43,8 +41,6 @@ public class RCSController : CustomGameComponent
   {
     rcsForce = Vector2.Zero;
     rcsLerpSpeed = 30f;
-    rcsRotateLeft = false;
-    rcsRotateRight = false;
     rcsLeft = false;
     rcsRight = false;
     rcsUp = false;
@@ -93,97 +89,32 @@ public class RCSController : CustomGameComponent
     }
   }
 
-  public static void RotateRCS(InputManager input)
+  public static void RotateRCS()
   {
-    float rcsAngularThrust = 1 / mass * 4f * deltaTime * 250f;
+    float rcsAngularThrust = 1 / mass * 4f * deltaTime * 250f * pitch;
 
-    // Manual RCS steer - will be overriden by Ship.pitch
-    if (maneuverMode && rcs)
+    if ((maneuverMode || sas) && rcs)
     {
-      if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
-      {
-        electricity -= deltaTime;
+      angularVelocity += rcsAngularThrust;
 
-        if (rcs)
-        {
-          angularVelocity += rcsAngularThrust;
-          electricity -= deltaTime;
-          rcsRotateRight = true;
-        }
+      if (pitch <= 0)
+      {
+        rcsAmount[0] = Math.Abs(pitch);
       }
       else
       {
-        rcsRotateRight = false;
+        rcsAmount[0] = 0f;
       }
 
-      if (input.ContinuousPress(Keys.Left) || input.ContinuousPress(Keys.A))
+      if (pitch >= 0)
       {
-        electricity -= deltaTime;
-
-        if (rcs)
-        {
-          angularVelocity -= rcsAngularThrust;
-          electricity -= deltaTime;
-          rcsRotateLeft = true;
-        }
+        rcsAmount[1] = Math.Abs(pitch);
       }
       else
       {
-        rcsRotateLeft = false;
+        rcsAmount[1] = 0f;
       }
     }
-    else
-    {
-      rcsRotateLeft = false;
-      rcsRotateRight = false;
-    }
-
-    // RCS stabilize - will be overriden by Ship.pitch
-    if (sas && rcs &&
-        !input.ContinuousPress(Keys.Right) &&
-        !input.ContinuousPress(Keys.Left) &&
-        !input.ContinuousPress(Keys.D) &&
-        !input.ContinuousPress(Keys.A)
-      )
-    {
-      if (angularVelocity > 0.001f)
-      {
-        electricity -= deltaTime;
-
-        if (rcs)
-        {
-          angularVelocity -= rcsAngularThrust;
-          electricity -= deltaTime;
-          rcsRotateLeft = true;
-        }
-      }
-      else
-      {
-        rcsRotateLeft = false;
-      }
-
-      if (angularVelocity < -0.001f)
-      {
-        electricity -= deltaTime;
-
-        if (rcs)
-        {
-          angularVelocity += rcsAngularThrust;
-          electricity -= deltaTime;
-          rcsRotateRight = true;
-        }
-      }
-      else
-      {
-        rcsRotateRight = false;
-      }
-    }
-
-    rcsAmountTarget[0] = (rcsRotateLeft && mono > 0f) ? 1f : 0f;
-    rcsAmountTarget[1] = (rcsRotateRight && mono > 0f) ? 1f : 0f;
-
-    rcsAmount[0] = MathHelper.Lerp(rcsAmount[0], rcsAmountTarget[0], deltaTime * rcsLerpSpeed);
-    rcsAmount[1] = MathHelper.Lerp(rcsAmount[1], rcsAmountTarget[1], deltaTime * rcsLerpSpeed);
   }
 
   public static void Docking(InputManager input)
