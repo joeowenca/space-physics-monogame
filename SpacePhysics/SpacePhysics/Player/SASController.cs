@@ -19,6 +19,8 @@ public static class SASController
 
   public static void Stability(InputManager input)
   {
+    // ------------ To be moved to Ship.AdjustPitch ----------------------------
+
     float angularThrust = thrustAmount / mass * deltaTime * 250f;
 
     if (maneuverMode && angularThrust > 0)
@@ -35,6 +37,8 @@ public static class SASController
         electricity -= deltaTime;
       }
     }
+
+    // -------------------------------------------------------------------------
 
     if (sas && angularThrust > 0 &&
         !input.ContinuousPress(Keys.Right) &&
@@ -60,7 +64,5 @@ public static class SASController
         angularVelocity = 0f;
       }
     }
-
-    direction += angularVelocity * deltaTime;
   }
 }

@@ -139,6 +139,8 @@ public class Ship : CustomGameComponent
 
     velocity += acceleration * deltaTime;
     GameState.position += velocity * deltaTime;
+
+    direction += angularVelocity * deltaTime;
   }
 
   private void Throttle()
