@@ -97,6 +97,7 @@ public class RCSController : CustomGameComponent
   {
     float rcsAngularThrust = 1 / mass * 4f * deltaTime * 250f;
 
+    // Manual RCS steer - will be overriden by Ship.pitch
     if (maneuverMode && rcs)
     {
       if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
@@ -137,6 +138,7 @@ public class RCSController : CustomGameComponent
       rcsRotateRight = false;
     }
 
+    // RCS stabilize - will be overriden by Ship.pitch
     if (sas && rcs &&
         !input.ContinuousPress(Keys.Right) &&
         !input.ContinuousPress(Keys.Left) &&
