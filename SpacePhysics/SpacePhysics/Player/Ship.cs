@@ -111,6 +111,8 @@ public class Ship : CustomGameComponent
 
       base.Update();
     }
+
+    input.ControllerRumble(state == State.Pause ? 0f : thrustAmount);
   }
 
   public override void Draw(SpriteBatch spriteBatch)
