@@ -26,6 +26,8 @@ public class Ship : CustomGameComponent
   public static float thrustAmount;
   public static float altitude;
   public static float dryMass;
+  public static float pitch;
+  private static float targetPitch;
 
   private float maxThrust;
   private float engineEfficiency;
@@ -47,6 +49,7 @@ public class Ship : CustomGameComponent
     force = Vector2.Zero;
     dryMass = 2200;
     thrust = 0f;
+    pitch = 0f;
     maxThrust = 600000f;
     engineEfficiency = 0.00005f;
 
@@ -80,6 +83,7 @@ public class Ship : CustomGameComponent
       Physics();
       Throttle();
       Thrust();
+      AdjustPitch();
       ToggleSAS(input);
       Stability(input);
       ToggleRCS(input);
@@ -216,6 +220,35 @@ public class Ship : CustomGameComponent
     fuel = Math.Clamp(fuel, 0f, maxFuel);
 
     thrustAmount = thrust / maxThrust;
+  }
+
+  private void AdjustPitch()
+  {
+    if (maneuverMode)
+    {
+      targetPitch = 0f;
+
+      if (Math.Abs(pitch - targetPitch) < 0.01f) pitch = 0f;
+
+      if (pitch > 0.99f) pitch = 1f;
+
+      if (pitch < -0.99f) pitch = -1f;
+
+      if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
+      {
+        targetPitch = 1f;
+        electricity -= deltaTime;
+      }
+
+      if (input.ContinuousPress(Keys.Left) || input.ContinuousPress(Keys.A))
+      {
+        targetPitch = -1f;
+        electricity -= deltaTime;
+      }
+
+      pitch = MathHelper.Lerp(pitch, targetPitch, deltaTime * 20f);
+      pitch = Math.Clamp(pitch, -1f, 1f);
+    }
   }
 
   private void DrawThrust(SpriteBatch spriteBatch)
