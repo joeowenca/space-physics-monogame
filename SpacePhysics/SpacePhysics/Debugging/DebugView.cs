@@ -36,7 +36,8 @@ namespace SpacePhysics.Debugging
       debugItems.Add(new DebugItem("Velocity X", () => velocity.X.ToString()));
       debugItems.Add(new DebugItem("Velocity Y", () => velocity.Y.ToString()));
       debugItems.Add(new DebugItem("Velocity Magnitude", () => velocity.Length().ToString()));
-      debugItems.Add(new DebugItem("Thrust", () => Ship.thrust.ToString()));
+      debugItems.Add(new DebugItem("Acceleration Magnitude", () => Ship.acceleration.Length().ToString()));
+      debugItems.Add(new DebugItem("Forward Thrust", () => Ship.forwardThrust.ToString()));
       debugItems.Add(new DebugItem("Angular Velocity", () => angularVelocity.ToString()));
       debugItems.Add(new DebugItem("Direction", () => direction.ToString()));
       debugItems.Add(new DebugItem("Pitch", () => Ship.pitch.ToString()));

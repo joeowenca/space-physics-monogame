@@ -16,14 +16,16 @@ public class Ship : CustomGameComponent
   private Texture2D thrustOverlay;
   private Texture2D thrustLensFlare;
 
-  private Vector2 acceleration;
+  public static Vector2 acceleration;
   private Vector2 force;
 
   public static Vector2 lensFlareRotatedOffset;
 
   public static float mass;
   public static float thrust;
+  public static float forwardThrust;
   public static float thrustAmount;
+  public static float thrustDirection;
   public static float altitude;
   public static float dryMass;
   public static float pitch;
@@ -47,8 +49,9 @@ public class Ship : CustomGameComponent
   {
     acceleration = Vector2.Zero;
     force = Vector2.Zero;
-    dryMass = 2200;
     thrust = 0f;
+    forwardThrust = 0f;
+    dryMass = 2200;
     pitch = 0f;
     maxThrust = 600000f;
     engineEfficiency = 0.00005f;
@@ -99,7 +102,7 @@ public class Ship : CustomGameComponent
         }
       }
 
-      pitch = MathHelper.Lerp(pitch, targetPitch, deltaTime * 30f);
+      pitch = MathHelper.Lerp(pitch, targetPitch, deltaTime * 15f);
       pitch = Math.Clamp(pitch, -1f, 1f);
 
       base.Update();
@@ -143,8 +146,8 @@ public class Ship : CustomGameComponent
   {
     mass = dryMass + fuel + mono;
 
-    force.X = (float)Math.Cos(direction - (float)(Math.PI * 0.5f)) * thrust;
-    force.Y = (float)Math.Sin(direction - (float)(Math.PI * 0.5f)) * thrust;
+    force.X = (float)Math.Cos(direction - (float)(Math.PI * 0.5f)) * forwardThrust;
+    force.Y = (float)Math.Sin(direction - (float)(Math.PI * 0.5f)) * forwardThrust;
 
     rcsForce.X = (float)Math.Cos(direction + rcsDirection - (float)(Math.PI * 0.5f)) * rcsThrust;
     rcsForce.Y = (float)Math.Sin(direction + rcsDirection - (float)(Math.PI * 0.5f)) * rcsThrust;
@@ -155,6 +158,29 @@ public class Ship : CustomGameComponent
     GameState.position += velocity * deltaTime;
 
     direction += angularVelocity * deltaTime;
+  }
+
+  private void Thrust()
+  {
+    if (fuel > 0)
+    {
+      thrust = maxThrust * throttle;
+    }
+    else
+    {
+      thrust = MathHelper.Lerp(thrust, 0f, deltaTime * 30f);
+    }
+
+
+    thrustDirection = pitch * -0.2f;
+
+    forwardThrust = thrust * (float)Math.Cos(thrustDirection);
+
+    thrustAmount = thrust / maxThrust;
+
+    angularVelocity += -thrustDirection * deltaTime * 0.25f;
+
+    fuel -= thrust * engineEfficiency * deltaTime;
   }
 
   private void Throttle()
@@ -213,22 +239,6 @@ public class Ship : CustomGameComponent
     targetThrottle = Math.Clamp(targetThrottle, 0f, 1f);
   }
 
-  private void Thrust()
-  {
-    if (fuel > 0)
-    {
-      thrust = maxThrust * throttle;
-    }
-    else
-    {
-      thrust = MathHelper.Lerp(thrust, 0f, deltaTime * 15f);
-    }
-
-    fuel -= thrust * engineEfficiency * deltaTime;
-
-    thrustAmount = thrust / maxThrust;
-  }
-
   private void AdjustPitch()
   {
     if (maneuverMode)
@@ -276,7 +286,7 @@ public class Ship : CustomGameComponent
       adjustedPosition,
       thrustSprite.SourceRectangle,
       Color.White * opacity(),
-      rotation + (pitch * -0.2f),
+      rotation + thrustDirection,
       origin,
       thrustScale,
       SpriteEffects.None,

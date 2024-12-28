@@ -8,6 +8,8 @@ namespace SpacePhysics.Player;
 
 public static class SASController
 {
+  private static float stabilityThreshold = 0.002f;
+
   public static void ToggleSAS(InputManager input)
   {
     if (input.OnFirstFramePress(Keys.T))
@@ -28,19 +30,19 @@ public static class SASController
         !input.ContinuousPress(Keys.A)
       )
     {
-      if (angularVelocity > 0.001f)
+      if (angularVelocity > stabilityThreshold)
       {
         targetPitch = -1f;
         electricity -= deltaTime;
       }
 
-      if (angularVelocity < -0.001f)
+      if (angularVelocity < -stabilityThreshold)
       {
         targetPitch = 1f;
         electricity -= deltaTime;
       }
 
-      if (Math.Abs(angularVelocity) < 0.001f)
+      if (Math.Abs(angularVelocity) < stabilityThreshold)
       {
         targetPitch = 0f;
         angularVelocity = 0f;
