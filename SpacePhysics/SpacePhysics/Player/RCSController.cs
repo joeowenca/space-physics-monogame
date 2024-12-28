@@ -14,23 +14,18 @@ public class RCSController : CustomGameComponent
   private static AnimatedSprite rcsSprite;
 
   public static Vector2 rcsForce;
+  public static Vector2 rcsThrottle;
+  public static Vector2 rcsTargetThrottle;
+  public static Vector2 rcsThrustVector;
 
   private static Func<float> opacity;
 
   public static float rcsThrust;
+  private static float rcsThrustAmount;
   public static float rcsDirection;
+  private static float[] rcsAmount = { 0f, 0f, 0f, 0f, 0f, 0f };
 
   public static float rcsLerpSpeed;
-
-  private static float rcsThrustAmount;
-
-  private static float[] rcsAmount = { 0f, 0f, 0f, 0f, 0f, 0f };
-  private static float[] rcsAmountTarget = { 0f, 0f, 0f, 0f, 0f, 0f };
-
-  private static bool rcsLeft;
-  private static bool rcsRight;
-  private static bool rcsUp;
-  private static bool rcsDown;
 
   public RCSController(Func<float> opacity) : base()
   {
@@ -41,10 +36,6 @@ public class RCSController : CustomGameComponent
   {
     rcsForce = Vector2.Zero;
     rcsLerpSpeed = 30f;
-    rcsLeft = false;
-    rcsRight = false;
-    rcsUp = false;
-    rcsDown = false;
     rcsThrustAmount = 50000f;
 
     base.Initialize();
@@ -92,6 +83,8 @@ public class RCSController : CustomGameComponent
   public static void RotateWithRCS()
   {
     float rcsAngularThrust = 1 / mass * 4f * deltaTime * 250f * pitch;
+    float targetAmountLeft;
+    float targetAmountRight;
 
     if ((maneuverMode || sas) && rcs)
     {
@@ -99,98 +92,86 @@ public class RCSController : CustomGameComponent
 
       if (pitch <= 0)
       {
-        rcsAmount[0] = Math.Abs(pitch);
+        targetAmountLeft = Math.Abs(pitch);
       }
       else
       {
-        rcsAmount[0] = 0f;
+        targetAmountLeft = 0f;
       }
 
       if (pitch >= 0)
       {
-        rcsAmount[1] = Math.Abs(pitch);
+        targetAmountRight = Math.Abs(pitch);
       }
       else
       {
-        rcsAmount[1] = 0f;
+        targetAmountRight = 0f;
       }
     }
+    else
+    {
+      targetAmountLeft = 0f;
+      targetAmountRight = 0f;
+    }
+
+    rcsAmount[0] = MathHelper.Lerp(rcsAmount[0], targetAmountLeft, deltaTime * rcsLerpSpeed);
+    rcsAmount[1] = MathHelper.Lerp(rcsAmount[1], targetAmountRight, deltaTime * rcsLerpSpeed);
   }
 
   public static void MoveWithRCS(InputManager input)
   {
-    rcsThrust = 0f;
-
     if (rcs)
     {
       if (!maneuverMode)
       {
         if (input.ContinuousPress(Keys.Left) || input.ContinuousPress(Keys.A))
         {
-          rcsThrust = rcsThrustAmount;
-          electricity -= deltaTime;
-          rcsDirection = (float)Math.PI * -0.5f;
-          rcsLeft = true;
+          rcsTargetThrottle.X = -1f;
+        }
+        else if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
+        {
+          rcsTargetThrottle.X = 1f;
         }
         else
         {
-          rcsLeft = false;
+          rcsTargetThrottle.X = 0f;
         }
-
-        if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
-        {
-          rcsThrust = rcsThrustAmount;
-          electricity -= deltaTime;
-          rcsDirection = (float)Math.PI * 0.5f;
-          rcsRight = true;
-        }
-        else
-        {
-          rcsRight = false;
-        }
-      }
-      else
-      {
-        rcsLeft = false;
-        rcsRight = false;
       }
 
       if (input.ContinuousPress(Keys.Up) || input.ContinuousPress(Keys.W))
       {
-        rcsThrust = rcsThrustAmount * 2f;
-        electricity -= deltaTime;
-        rcsDirection = 0f;
-        rcsUp = true;
+        rcsTargetThrottle.Y = -1f;
+      }
+      else if (input.ContinuousPress(Keys.Down) || input.ContinuousPress(Keys.S))
+      {
+        rcsTargetThrottle.Y = 1f;
       }
       else
       {
-        rcsUp = false;
-      }
-
-      if (input.ContinuousPress(Keys.Down) || input.ContinuousPress(Keys.S))
-      {
-        rcsThrust = rcsThrustAmount * 2f;
-        electricity -= deltaTime;
-        rcsDirection = (float)Math.PI;
-        rcsDown = true;
-      }
-      else
-      {
-        rcsDown = false;
+        rcsTargetThrottle.Y = 0f;
       }
     }
+    else
+    {
+      rcsTargetThrottle = Vector2.Zero;
+    }
 
-    rcsAmountTarget[2] = (rcsUp && mono > 0f) ? 1f : 0f;
-    rcsAmountTarget[3] = (rcsDown && mono > 0f) ? 1f : 0f;
+    rcsThrottle.X = MathHelper.Lerp(rcsThrottle.X, rcsTargetThrottle.X, deltaTime * rcsLerpSpeed);
+    rcsThrottle.Y = MathHelper.Lerp(rcsThrottle.Y, rcsTargetThrottle.Y, deltaTime * rcsLerpSpeed);
 
-    rcsAmount[2] = MathHelper.Lerp(rcsAmount[2], rcsAmountTarget[2], deltaTime * rcsLerpSpeed);
-    rcsAmount[3] = MathHelper.Lerp(rcsAmount[3], rcsAmountTarget[3], deltaTime * rcsLerpSpeed);
+    rcsThrottle.X = Math.Clamp(rcsThrottle.X, -1f, 1f);
+    rcsThrottle.Y = Math.Clamp(rcsThrottle.Y, -1f, 1f);
 
-    rcsAmountTarget[4] = (rcsLeft && mono > 0f) ? 1f : 0f;
-    rcsAmountTarget[5] = (rcsRight && mono > 0f) ? 1f : 0f;
+    rcsThrustVector = new Vector2(rcsThrottle.X, rcsThrottle.Y * 2f);
 
-    rcsAmount[4] = MathHelper.Lerp(rcsAmount[4], rcsAmountTarget[4], deltaTime * rcsLerpSpeed);
-    rcsAmount[5] = MathHelper.Lerp(rcsAmount[5], rcsAmountTarget[5], deltaTime * rcsLerpSpeed);
+    rcsDirection = MathF.Atan2(rcsThrustVector.Y, rcsThrustVector.X) + ((float)Math.PI * 0.5f);
+
+    rcsThrust = rcsThrustAmount * Math.Abs(rcsThrustVector.Length());
+
+    rcsAmount[2] = rcsThrottle.Y <= 0 ? Math.Abs(rcsThrottle.Y) : 0f; // Up
+    rcsAmount[3] = rcsThrottle.Y >= 0 ? Math.Abs(rcsThrottle.Y) : 0f; // Down
+    rcsAmount[4] = rcsThrottle.X <= 0 ? Math.Abs(rcsThrottle.X) : 0f; // Left
+    rcsAmount[5] = rcsThrottle.X >= 0 ? Math.Abs(rcsThrottle.X) : 0f; // Right
   }
 
   public static void DepleteMono()
