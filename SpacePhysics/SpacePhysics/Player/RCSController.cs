@@ -126,35 +126,51 @@ public class RCSController : CustomGameComponent
     {
       if (!maneuverMode)
       {
-        if (input.ContinuousPress(Keys.Left) || input.ContinuousPress(Keys.A))
+        if (!input.gamePadConnected)
         {
-          rcsTargetThrottle.X = -1f;
-          electricity -= deltaTime;
-        }
-        else if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
-        {
-          rcsTargetThrottle.X = 1f;
-          electricity -= deltaTime;
+          if (input.ContinuousPress(Keys.Left) || input.ContinuousPress(Keys.A))
+          {
+            rcsTargetThrottle.X = -1f;
+            electricity -= deltaTime;
+          }
+          else if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
+          {
+            rcsTargetThrottle.X = 1f;
+            electricity -= deltaTime;
+          }
+          else
+          {
+            rcsTargetThrottle.X = 0f;
+          }
         }
         else
         {
-          rcsTargetThrottle.X = 0f;
+          rcsTargetThrottle.X = input.AnalogStick().Left.X;
+          electricity -= deltaTime * Math.Abs(input.AnalogStick().Left.X);
         }
       }
 
-      if (input.ContinuousPress(Keys.Up) || input.ContinuousPress(Keys.W))
+      if (!input.gamePadConnected)
       {
-        rcsTargetThrottle.Y = -1f;
-        electricity -= deltaTime * 2f;
-      }
-      else if (input.ContinuousPress(Keys.Down) || input.ContinuousPress(Keys.S))
-      {
-        rcsTargetThrottle.Y = 1f;
-        electricity -= deltaTime * 2f;
+        if (input.ContinuousPress(Keys.Up) || input.ContinuousPress(Keys.W))
+        {
+          rcsTargetThrottle.Y = -1f;
+          electricity -= deltaTime * 2f;
+        }
+        else if (input.ContinuousPress(Keys.Down) || input.ContinuousPress(Keys.S))
+        {
+          rcsTargetThrottle.Y = 1f;
+          electricity -= deltaTime * 2f;
+        }
+        else
+        {
+          rcsTargetThrottle.Y = 0f;
+        }
       }
       else
       {
-        rcsTargetThrottle.Y = 0f;
+        rcsTargetThrottle.Y = -input.AnalogStick().Left.Y;
+        electricity -= deltaTime * Math.Abs(input.AnalogStick().Left.Y);
       }
     }
     else

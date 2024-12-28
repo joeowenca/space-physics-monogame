@@ -15,7 +15,7 @@ public class InputManager
 
   public bool allowInput;
 
-  public readonly bool gamePadConnected;
+  public bool gamePadConnected;
 
   public InputManager(bool allowInput = true)
   {
@@ -37,6 +37,8 @@ public class InputManager
 
     previousGamePadState = currentGamePadState;
     currentGamePadState = GamePad.GetState(PlayerIndex.One);
+
+    gamePadConnected = GamePad.GetState(PlayerIndex.One).IsConnected;
   }
 
   public bool OnFirstFramePress(Keys key)
