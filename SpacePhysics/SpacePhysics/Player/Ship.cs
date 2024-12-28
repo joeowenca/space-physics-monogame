@@ -18,16 +18,12 @@ public class Ship : CustomGameComponent
 
   private Vector2 acceleration;
   private Vector2 force;
-  private Vector2 rcsForce;
 
   public static Vector2 lensFlareRotatedOffset;
 
   public static float mass;
   public static float thrust;
   public static float thrustAmount;
-  public static float rcsThrust;
-  public static float rcsDirection;
-  public static float rcsLerpSpeed;
   public static float altitude;
   public static float dryMass;
 
@@ -49,12 +45,10 @@ public class Ship : CustomGameComponent
   {
     acceleration = Vector2.Zero;
     force = Vector2.Zero;
-    rcsForce = Vector2.Zero;
     dryMass = 2500;
     thrust = 0f;
     maxThrust = 600000f;
     engineEfficiency = 0.00000001f;
-    rcsLerpSpeed = 30f;
 
     base.Initialize();
   }

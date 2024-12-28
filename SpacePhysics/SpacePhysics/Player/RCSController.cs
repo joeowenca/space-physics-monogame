@@ -13,7 +13,15 @@ public class RCSController : CustomGameComponent
 {
   private static AnimatedSprite rcsSprite;
 
+  public static Vector2 rcsForce;
+
   private static Func<float> opacity;
+
+  public static float rcsThrust;
+  public static float rcsDirection;
+
+  public static float rcsLerpSpeed;
+
   private static float rcsThrustAmount;
 
   private static float[] rcsAmount = { 0f, 0f, 0f, 0f, 0f, 0f };
@@ -33,6 +41,8 @@ public class RCSController : CustomGameComponent
 
   public override void Initialize()
   {
+    rcsForce = Vector2.Zero;
+    rcsLerpSpeed = 30f;
     rcsRotateLeft = false;
     rcsRotateRight = false;
     rcsLeft = false;
