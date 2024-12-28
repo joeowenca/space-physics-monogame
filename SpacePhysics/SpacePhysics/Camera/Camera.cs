@@ -80,7 +80,7 @@ public class Camera
   {
     position = GameState.position - new Vector2(screenSize.X / 2, screenSize.Y / 2);
 
-    if (input.OnFirstFramePress(Keys.V))
+    if (input.OnFirstFrameKeyPress(Keys.V))
     {
       changeCamera = !changeCamera;
     }
@@ -105,9 +105,9 @@ public class Camera
 
     float zoomSpeed = 1.3f;
 
-    if (input.ContinuousPress(Keys.OemPlus))
+    if (input.ContinuousKeyPress(Keys.OemPlus))
       targetZoom *= (float)Math.Pow(zoomSpeed, deltaTime);
-    if (input.ContinuousPress(Keys.OemMinus))
+    if (input.ContinuousKeyPress(Keys.OemMinus))
       targetZoom /= (float)Math.Pow(zoomSpeed, deltaTime);
 
     if (parallaxFactor == 1) return 1f;

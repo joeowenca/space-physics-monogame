@@ -65,7 +65,7 @@ namespace SpacePhysics.Debugging
 
     public override void Update()
     {
-      if (input.OnFirstFramePress(Keys.F3))
+      if (input.OnFirstFrameKeyPress(Keys.F3))
         debug = !debug;
 
       base.Update();

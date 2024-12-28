@@ -101,28 +101,28 @@ public class PauseMenu : CustomGameComponent
     {
       opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, 0.2f);
 
-      if (input.OnFirstFramePress(Keys.Down))
+      if (input.OnFirstFrameKeyPress(Keys.Down))
         activeMenu++;
 
-      if (input.OnFirstFramePress(Keys.Up))
+      if (input.OnFirstFrameKeyPress(Keys.Up))
         activeMenu--;
 
-      if (activeMenu == 1 && input.OnFirstFramePress(Keys.Enter))
+      if (activeMenu == 1 && input.OnFirstFrameKeyPress(Keys.Enter))
       {
         state = State.Play;
       }
 
-      if (activeMenu == 2 && input.OnFirstFramePress(Keys.Enter))
+      if (activeMenu == 2 && input.OnFirstFrameKeyPress(Keys.Enter))
       {
         state = State.Play;
       }
 
-      if (activeMenu == 3 && input.OnFirstFramePress(Keys.Enter))
+      if (activeMenu == 3 && input.OnFirstFrameKeyPress(Keys.Enter))
       {
         state = State.TitleScreen;
       }
 
-      if (activeMenu == 4 && input.OnFirstFramePress(Keys.Enter))
+      if (activeMenu == 4 && input.OnFirstFrameKeyPress(Keys.Enter))
         quit = true;
     }
 

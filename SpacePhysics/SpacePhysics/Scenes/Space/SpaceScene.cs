@@ -139,7 +139,7 @@ public class SpaceScene : CustomGameComponent
 
   private void HandleInput()
   {
-    if (input.ContinuousPress(Keys.OemMinus) || input.ContinuousPress(Keys.OemPlus))
+    if (input.ContinuousKeyPress(Keys.OemMinus) || input.ContinuousKeyPress(Keys.OemPlus))
     {
       cameraHudOpacity = 1f;
       cameraHudTime = GameState.elapsedTime;
@@ -152,7 +152,7 @@ public class SpaceScene : CustomGameComponent
       }
     }
 
-    if (input.ContinuousPress(Keys.V))
+    if (input.ContinuousKeyPress(Keys.V))
     {
       cameraAngleHudOpacity = 1f;
       cameraAngleHudTime = GameState.elapsedTime;
@@ -165,7 +165,7 @@ public class SpaceScene : CustomGameComponent
       }
     }
 
-    if (input.OnFirstFramePress(Keys.Escape))
+    if (input.OnFirstFrameKeyPress(Keys.Escape))
     {
       GameState.state = GameState.State.Pause;
     }
@@ -179,7 +179,7 @@ public class SpaceScene : CustomGameComponent
 
       Camera.Camera.targetZoomOverride = 1f;
 
-      if (!input.ContinuousPress(Keys.OemMinus) && !input.ContinuousPress(Keys.OemPlus))
+      if (!input.ContinuousKeyPress(Keys.OemMinus) && !input.ContinuousKeyPress(Keys.OemPlus))
       {
         GameState.targetZoom = previousTargetZoom;
       }

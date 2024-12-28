@@ -41,18 +41,25 @@ public class InputManager
     gamePadConnected = GamePad.GetState(PlayerIndex.One).IsConnected;
   }
 
-  public bool OnFirstFramePress(Keys key)
+  public bool OnFirstFrameKeyPress(Keys key)
   {
     if (!allowInput || gamePadConnected) return false;
 
     return currentKeyboardstate.IsKeyDown(key) && !previousKeyboardState.IsKeyDown(key);
   }
 
-  public bool ContinuousPress(Keys key)
+  public bool ContinuousKeyPress(Keys key)
   {
     if (!allowInput || gamePadConnected) return false;
 
     return currentKeyboardstate.IsKeyDown(key);
+  }
+
+  public bool OnFirstFrameButtonPress(Buttons button)
+  {
+    if (!allowInput || !gamePadConnected) return false;
+
+    return currentGamePadState.IsButtonDown(button) && !previousGamePadState.IsButtonDown(button);
   }
 
   public void ControllerRumble(float intensity)
@@ -82,99 +89,5 @@ public class InputManager
       currentGamePadState.Triggers.Left,
       currentGamePadState.Triggers.Right
     );
-  }
-
-  public (ButtonState left, ButtonState right) Bumper()
-  {
-    if (!allowInput || !gamePadConnected)
-    {
-      return
-      (
-        ButtonState.Released,
-        ButtonState.Released
-      );
-    }
-
-    return
-      (
-        currentGamePadState.Buttons.LeftShoulder,
-        currentGamePadState.Buttons.LeftShoulder
-      );
-  }
-
-  public
-  (
-    ButtonState A,
-    ButtonState B,
-    ButtonState X,
-    ButtonState Y
-  )
-    FaceButton()
-  {
-    if (!allowInput || !gamePadConnected)
-    {
-      return
-      (
-        ButtonState.Released,
-        ButtonState.Released,
-        ButtonState.Released,
-        ButtonState.Released
-      );
-    }
-
-    return
-    (
-      currentGamePadState.Buttons.A,
-      currentGamePadState.Buttons.B,
-      currentGamePadState.Buttons.X,
-      currentGamePadState.Buttons.Y
-    );
-  }
-
-  public
-  (
-    ButtonState Left,
-    ButtonState Right,
-    ButtonState Up,
-    ButtonState Down
-  )
-    DPad()
-  {
-    if (!allowInput || !gamePadConnected)
-    {
-      return
-      (
-        ButtonState.Released,
-        ButtonState.Released,
-        ButtonState.Released,
-        ButtonState.Released
-      );
-    }
-
-    return
-    (
-      currentGamePadState.DPad.Left,
-      currentGamePadState.DPad.Right,
-      currentGamePadState.DPad.Up,
-      currentGamePadState.DPad.Down
-    );
-  }
-
-  public (ButtonState start, ButtonState select) Menu()
-  {
-    if (!allowInput || !gamePadConnected)
-    {
-      return
-      (
-        ButtonState.Released,
-        ButtonState.Released
-      );
-    }
-
-    return
-      (
-        currentGamePadState.Buttons.Start,
-        currentGamePadState.Buttons.Back
-      );
   }
 }

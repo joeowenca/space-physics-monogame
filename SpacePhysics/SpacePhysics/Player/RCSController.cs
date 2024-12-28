@@ -64,10 +64,19 @@ public class RCSController : CustomGameComponent
 
   public static void ToggleRCS(InputManager input)
   {
-    if (input.OnFirstFramePress(Keys.R))
+    if (input.OnFirstFrameKeyPress(Keys.R))
     {
       rcs = !rcs;
       electricity -= deltaTime;
+    }
+
+    if (input.gamePadConnected)
+    {
+      if (input.OnFirstFrameButtonPress(Buttons.X))
+      {
+        rcs = !rcs;
+        electricity -= deltaTime;
+      }
     }
 
     if (electricity <= 0) rcs = false;
@@ -75,7 +84,7 @@ public class RCSController : CustomGameComponent
 
   public static void ToggleRCSMode(InputManager input)
   {
-    if (input.OnFirstFramePress(Keys.B) && electricity > 0)
+    if (input.OnFirstFrameKeyPress(Keys.B) && electricity > 0)
     {
       maneuverMode = !maneuverMode;
       electricity -= deltaTime;
@@ -126,12 +135,12 @@ public class RCSController : CustomGameComponent
     {
       if (!maneuverMode)
       {
-        if (input.ContinuousPress(Keys.Left) || input.ContinuousPress(Keys.A))
+        if (input.ContinuousKeyPress(Keys.Left) || input.ContinuousKeyPress(Keys.A))
         {
           rcsTargetThrottle.X = -1f;
           electricity -= deltaTime;
         }
-        else if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
+        else if (input.ContinuousKeyPress(Keys.Right) || input.ContinuousKeyPress(Keys.D))
         {
           rcsTargetThrottle.X = 1f;
           electricity -= deltaTime;
@@ -148,12 +157,12 @@ public class RCSController : CustomGameComponent
         }
       }
 
-      if (input.ContinuousPress(Keys.Up) || input.ContinuousPress(Keys.W))
+      if (input.ContinuousKeyPress(Keys.Up) || input.ContinuousKeyPress(Keys.W))
       {
         rcsTargetThrottle.Y = -1f;
         electricity -= deltaTime * 2f;
       }
-      else if (input.ContinuousPress(Keys.Down) || input.ContinuousPress(Keys.S))
+      else if (input.ContinuousKeyPress(Keys.Down) || input.ContinuousKeyPress(Keys.S))
       {
         rcsTargetThrottle.Y = 1f;
         electricity -= deltaTime * 2f;

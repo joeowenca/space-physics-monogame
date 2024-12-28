@@ -136,13 +136,13 @@ public class SettingsMenu : CustomGameComponent
   {
     if (state == State.Settings)
     {
-      if (input.OnFirstFramePress(Keys.Down))
+      if (input.OnFirstFrameKeyPress(Keys.Down))
         activeMenu++;
 
-      if (input.OnFirstFramePress(Keys.Up))
+      if (input.OnFirstFrameKeyPress(Keys.Up))
         activeMenu--;
 
-      if (activeMenu == 5 && input.OnFirstFramePress(Keys.Enter))
+      if (activeMenu == 5 && input.OnFirstFrameKeyPress(Keys.Enter))
         state = State.MainMenu;
     }
 
