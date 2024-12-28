@@ -43,25 +43,29 @@ public class InputManager
 
   public bool OnFirstFramePress(Keys key)
   {
-    if (!allowInput) return false;
+    if (!allowInput || gamePadConnected) return false;
 
     return currentKeyboardstate.IsKeyDown(key) && !previousKeyboardState.IsKeyDown(key);
   }
 
   public bool ContinuousPress(Keys key)
   {
-    if (!allowInput) return false;
+    if (!allowInput || gamePadConnected) return false;
 
     return currentKeyboardstate.IsKeyDown(key);
   }
 
   public void ControllerRumble(float intensity)
   {
+    if (!allowInput || !gamePadConnected) return;
+
     GamePad.SetVibration(PlayerIndex.One, intensity, intensity);
   }
 
   public (Vector2 Left, Vector2 Right) AnalogStick()
   {
+    if (!allowInput || !gamePadConnected) return (Vector2.Zero, Vector2.Zero);
+
     return
     (
       currentGamePadState.ThumbSticks.Left,
@@ -71,6 +75,8 @@ public class InputManager
 
   public (float Left, float Right) Trigger()
   {
+    if (!allowInput || !gamePadConnected) return (0f, 0f);
+
     return
     (
       currentGamePadState.Triggers.Left,
@@ -80,6 +86,15 @@ public class InputManager
 
   public (ButtonState left, ButtonState right) Bumper()
   {
+    if (!allowInput || !gamePadConnected)
+    {
+      return
+      (
+        ButtonState.Released,
+        ButtonState.Released
+      );
+    }
+
     return
       (
         currentGamePadState.Buttons.LeftShoulder,
@@ -96,6 +111,17 @@ public class InputManager
   )
     FaceButton()
   {
+    if (!allowInput || !gamePadConnected)
+    {
+      return
+      (
+        ButtonState.Released,
+        ButtonState.Released,
+        ButtonState.Released,
+        ButtonState.Released
+      );
+    }
+
     return
     (
       currentGamePadState.Buttons.A,
@@ -114,6 +140,17 @@ public class InputManager
   )
     DPad()
   {
+    if (!allowInput || !gamePadConnected)
+    {
+      return
+      (
+        ButtonState.Released,
+        ButtonState.Released,
+        ButtonState.Released,
+        ButtonState.Released
+      );
+    }
+
     return
     (
       currentGamePadState.DPad.Left,
@@ -125,6 +162,15 @@ public class InputManager
 
   public (ButtonState start, ButtonState select) Menu()
   {
+    if (!allowInput || !gamePadConnected)
+    {
+      return
+      (
+        ButtonState.Released,
+        ButtonState.Released
+      );
+    }
+
     return
       (
         currentGamePadState.Buttons.Start,
