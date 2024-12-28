@@ -80,6 +80,7 @@ public class Ship : CustomGameComponent
       Physics();
       Throttle();
       Thrust();
+      ToggleSAS(input);
       Stability(input);
       RotateRCS(input);
       Docking(input);

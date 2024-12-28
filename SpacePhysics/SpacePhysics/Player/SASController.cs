@@ -8,11 +8,18 @@ namespace SpacePhysics.Player;
 
 public static class SASController
 {
+  public static void ToggleSAS(InputManager input)
+  {
+    if (input.OnFirstFramePress(Keys.T))
+    {
+      sas = !sas;
+      electricity -= deltaTime;
+    }
+  }
+
   public static void Stability(InputManager input)
   {
     float angularThrust = thrustAmount / mass * deltaTime * 250f;
-
-    float rcsAngularThrust = 1 / mass * 4f * deltaTime * 250f;
 
     if (maneuverMode && angularThrust > 0)
     {
@@ -55,10 +62,5 @@ public static class SASController
     }
 
     direction += angularVelocity * deltaTime;
-
-    if (input.OnFirstFramePress(Keys.T))
-    {
-      sas = !sas;
-    }
   }
 }
