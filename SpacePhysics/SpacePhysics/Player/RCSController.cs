@@ -16,6 +16,11 @@ public class RCSController : CustomGameComponent
   private static Func<float> opacity;
   private static float rcsThrustAmount;
 
+  private static float[] rcsAmount = { 0f, 0f, 0f, 0f, 0f, 0f };
+  private static float[] rcsAmountTarget = { 0f, 0f, 0f, 0f, 0f, 0f };
+
+  private static bool rcsRotateLeft;
+  private static bool rcsRotateRight;
   private static bool rcsLeft;
   private static bool rcsRight;
   private static bool rcsUp;
@@ -28,6 +33,8 @@ public class RCSController : CustomGameComponent
 
   public override void Initialize()
   {
+    rcsRotateLeft = false;
+    rcsRotateRight = false;
     rcsLeft = false;
     rcsRight = false;
     rcsUp = false;
@@ -54,6 +61,102 @@ public class RCSController : CustomGameComponent
     rcsSprite.Animate();
 
     base.Update();
+  }
+
+  public static void RotateRCS(InputManager input)
+  {
+    float rcsAngularThrust = 1 / mass * 4f * deltaTime * 250f;
+
+    if (maneuverMode && rcs)
+    {
+      if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
+      {
+        electricity -= deltaTime;
+
+        if (rcs)
+        {
+          angularVelocity += rcsAngularThrust;
+          electricity -= deltaTime;
+          rcsRotateRight = true;
+        }
+      }
+      else
+      {
+        rcsRotateRight = false;
+      }
+
+      if (input.ContinuousPress(Keys.Left) || input.ContinuousPress(Keys.A))
+      {
+        electricity -= deltaTime;
+
+        if (rcs)
+        {
+          angularVelocity -= rcsAngularThrust;
+          electricity -= deltaTime;
+          rcsRotateLeft = true;
+        }
+      }
+      else
+      {
+        rcsRotateLeft = false;
+      }
+    }
+    else
+    {
+      rcsRotateLeft = false;
+      rcsRotateRight = false;
+    }
+
+    if (sas && rcs &&
+        !input.ContinuousPress(Keys.Right) &&
+        !input.ContinuousPress(Keys.Left) &&
+        !input.ContinuousPress(Keys.D) &&
+        !input.ContinuousPress(Keys.A)
+      )
+    {
+      if (angularVelocity > 0.001f)
+      {
+        electricity -= deltaTime;
+
+        if (rcs)
+        {
+          angularVelocity -= rcsAngularThrust;
+          electricity -= deltaTime;
+          rcsRotateLeft = true;
+        }
+      }
+      else
+      {
+        rcsRotateLeft = false;
+      }
+
+      if (angularVelocity < -0.001f)
+      {
+        electricity -= deltaTime;
+
+        if (rcs)
+        {
+          angularVelocity += rcsAngularThrust;
+          electricity -= deltaTime;
+          rcsRotateRight = true;
+        }
+      }
+      else
+      {
+        rcsRotateRight = false;
+      }
+    }
+
+    if (input.OnFirstFramePress(Keys.R))
+    {
+      rcs = !rcs;
+    }
+
+    rcsAmountTarget[0] = (rcsRotateLeft && mono > 0f) ? 1f : 0f;
+    rcsAmountTarget[1] = (rcsRotateRight && mono > 0f) ? 1f : 0f;
+
+    rcsAmount[0] = MathHelper.Lerp(rcsAmount[0], rcsAmountTarget[0], deltaTime * rcsLerpSpeed);
+    rcsAmount[1] = MathHelper.Lerp(rcsAmount[1], rcsAmountTarget[1], deltaTime * rcsLerpSpeed);
   }
 
   public static void Docking(InputManager input)

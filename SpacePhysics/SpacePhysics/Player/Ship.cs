@@ -34,9 +34,6 @@ public class Ship : CustomGameComponent
   private float maxThrust;
   private float engineEfficiency;
 
-  public static float[] rcsAmount = { 0f, 0f, 0f, 0f, 0f, 0f };
-  public static float[] rcsAmountTarget = { 0f, 0f, 0f, 0f, 0f, 0f };
-
   public readonly Func<float> opacity;
 
   private bool throttleTransition;
@@ -90,6 +87,7 @@ public class Ship : CustomGameComponent
       Throttle();
       Thrust();
       Stability(input);
+      RotateRCS(input);
       Docking(input);
       RCS();
 
