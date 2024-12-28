@@ -113,6 +113,8 @@ public class SpaceScene : CustomGameComponent
   {
     GameState.Initialize();
 
+    GameState.state = GameState.State.Play;
+
     Camera.Camera.allowInput = true;
     Camera.Camera.zoomOverrideLerpSpeedFactor = 0.025f;
 

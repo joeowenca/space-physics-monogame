@@ -1,71 +1,59 @@
 using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpacePhysics.Sprites;
 using static SpacePhysics.GameState;
+using static SpacePhysics.Player.SASController;
+using static SpacePhysics.Player.RCSController;
 
 namespace SpacePhysics.Player;
 
 public class Ship : CustomGameComponent
 {
   private AnimatedSprite thrustSprite;
-  private AnimatedSprite rcsSprite;
   private Texture2D thrustOverlay;
   private Texture2D thrustLensFlare;
 
   private Vector2 acceleration;
   private Vector2 force;
-  private Vector2 rcsForce;
 
   public static Vector2 lensFlareRotatedOffset;
 
   public static float mass;
   public static float thrust;
   public static float thrustAmount;
-  public static float rcsThrust;
-  public static float rcsThrustAmount;
-  public static float rcsDirection;
-  public static float rcsLerpSpeed;
   public static float altitude;
   public static float dryMass;
+  public static float pitch;
+  public static float targetPitch;
 
   private float maxThrust;
   private float engineEfficiency;
 
-  private float[] rcsAmount = { 0f, 0f, 0f, 0f, 0f, 0f };
-  private float[] rcsAmountTarget = { 0f, 0f, 0f, 0f, 0f, 0f };
-
   public readonly Func<float> opacity;
 
   private bool throttleTransition;
-  private bool rcsRotateLeft;
-  private bool rcsRotateRight;
-  private bool rcsLeft;
-  private bool rcsRight;
-  private bool rcsUp;
-  private bool rcsDown;
 
   public Ship(Func<float> opacity, bool allowInput, Alignment alignment, int layerIndex) : base(allowInput, alignment, layerIndex)
   {
     this.opacity = opacity;
+
+    components.Add(new RCSController(opacity));
   }
 
   public override void Initialize()
   {
     acceleration = Vector2.Zero;
     force = Vector2.Zero;
-    rcsForce = Vector2.Zero;
-    rcsThrustAmount = 50000f;
-    dryMass = 2500;
+    dryMass = 2200;
     thrust = 0f;
+    pitch = 0f;
     maxThrust = 600000f;
-    engineEfficiency = 0.00000001f;
-    rcsLerpSpeed = 30f;
+    engineEfficiency = 0.00005f;
+
+    base.Initialize();
   }
 
   public override void Load(ContentManager contentManager)
@@ -83,12 +71,7 @@ public class Ship : CustomGameComponent
       1f / 15f
     );
 
-    rcsSprite = new AnimatedSprite(
-      contentManager.Load<Texture2D>("Player/rcs-sheet"),
-      4,
-      1,
-      1f / 24f
-    );
+    base.Load(contentManager);
   }
 
   public override void Update()
@@ -96,19 +79,31 @@ public class Ship : CustomGameComponent
     if (state != State.Pause)
     {
       thrustSprite.Animate();
-      rcsSprite.Animate();
 
       Physics();
-      Throttle();
       Thrust();
-      Stability();
-      Docking();
-      RCS();
 
-      electricity += deltaTime * 0.5f;
+      if (electricity > 0)
+      {
+        Throttle();
+        AdjustPitch();
+        ToggleSAS(input);
+        Stability(input);
+        ToggleRCS(input);
+        ToggleRCSMode(input);
+
+        if (mono > 0)
+        {
+          RotateWithRCS();
+          MoveWithRCS(input);
+        }
+      }
+
+      pitch = MathHelper.Lerp(pitch, targetPitch, deltaTime * 30f);
+      pitch = Math.Clamp(pitch, -1f, 1f);
+
+      base.Update();
     }
-
-    base.Update();
   }
 
   public override void Draw(SpriteBatch spriteBatch)
@@ -139,57 +134,14 @@ public class Ship : CustomGameComponent
 
     DrawThrust(spriteBatch);
 
-    // [0]: rotate left
-    // [1]: rotate right
-    // [2]: up
-    // [3]: down
-    // [4]: left
-    // [5]: right
+    DrawAllRCS(spriteBatch);
 
-    DrawRCS(spriteBatch, new Vector2(30, -30), (float)Math.PI * 0.5f, rcsAmount[1] + rcsAmount[4]); // Bottom right
-    DrawRCS(spriteBatch, new Vector2(-33, -30), (float)-Math.PI * 0.5f, rcsAmount[0] + rcsAmount[5]); // Bottom left
-
-    DrawRCS(spriteBatch, new Vector2(-47, -30), (float)Math.PI * 0.5f, rcsAmount[0] + rcsAmount[4]); // Top right
-    DrawRCS(spriteBatch, new Vector2(44, -30), (float)-Math.PI * 0.5f, rcsAmount[1] + rcsAmount[5]); // Top left
-
-    // Docking mode
-    DrawRCS(spriteBatch, new Vector2(28, -32), (float)Math.PI, rcsAmount[2]); // Bottom left
-    DrawRCS(spriteBatch, new Vector2(-31, -32), (float)Math.PI, rcsAmount[2]); // Bottom right
-
-    DrawRCS(spriteBatch, new Vector2(28, 44), (float)Math.PI, rcsAmount[2]); // Top left
-    DrawRCS(spriteBatch, new Vector2(-31, 44), (float)Math.PI, rcsAmount[2]); // Top right
-
-    DrawRCS(spriteBatch, new Vector2(28, -47), 0f, rcsAmount[3]); // Top right retro
-    DrawRCS(spriteBatch, new Vector2(-32, -47), 0f, rcsAmount[3]); // Top left retro
-
-    DrawRCS(spriteBatch, new Vector2(28, 32), 0f, rcsAmount[3]); // Bottom right retro
-    DrawRCS(spriteBatch, new Vector2(-32, 32), 0f, rcsAmount[3]); // Bottom left retro
-
-    float thrustLensFlareScale = scale * thrustAmount;
-
-    float lensFlareOffset = (Camera.Camera.changeCamera ? 195f : 220f) * scale;
-
-    lensFlareRotatedOffset = new Vector2(
-      -(float)Math.Sin(direction) * lensFlareOffset,
-      (float)Math.Cos(direction) * lensFlareOffset
-    );
-
-    spriteBatch.Draw(
-      thrustLensFlare,
-      GameState.position + lensFlareRotatedOffset + new Vector2(0f, Camera.Camera.changeCamera ? 0f : -10f),
-      null,
-      new Color(255, 255, 255, 0) * thrustAmount * 0.25f * opacity(),
-      Camera.Camera.changeCamera ? direction : 0f,
-      new Vector2(thrustLensFlare.Width / 2, thrustLensFlare.Height / 2),
-      thrustLensFlareScale,
-      SpriteEffects.None,
-      0f
-    );
+    DrawLensFlare(spriteBatch);
   }
 
   private void Physics()
   {
-    mass = dryMass + fuel;
+    mass = dryMass + fuel + mono;
 
     force.X = (float)Math.Cos(direction - (float)(Math.PI * 0.5f)) * thrust;
     force.Y = (float)Math.Sin(direction - (float)(Math.PI * 0.5f)) * thrust;
@@ -201,6 +153,8 @@ public class Ship : CustomGameComponent
 
     velocity += acceleration * deltaTime;
     GameState.position += velocity * deltaTime;
+
+    direction += angularVelocity * deltaTime;
   }
 
   private void Throttle()
@@ -270,230 +224,35 @@ public class Ship : CustomGameComponent
       thrust = MathHelper.Lerp(thrust, 0f, deltaTime * 15f);
     }
 
-    fuel -= thrust * engineEfficiency * deltaTime * 5000f;
-    fuel = Math.Clamp(fuel, 0f, maxFuel);
+    fuel -= thrust * engineEfficiency * deltaTime;
 
     thrustAmount = thrust / maxThrust;
   }
 
-  private void Stability()
+  private void AdjustPitch()
   {
-    float angularThrust = thrustAmount / mass * deltaTime * 250f;
-
-    float rcsAngularThrust = 1 / mass * 4f * deltaTime * 250f;
-
-    if (maneuverMode && (angularThrust > 0 || rcs))
+    if (maneuverMode)
     {
+      targetPitch = 0f;
+
+      if (Math.Abs(pitch - targetPitch) < 0.01f) pitch = 0f;
+
+      if (pitch > 0.99f) pitch = 1f;
+
+      if (pitch < -0.99f) pitch = -1f;
+
       if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
       {
-        angularVelocity += angularThrust;
+        targetPitch = 1f;
         electricity -= deltaTime;
-
-        if (rcs)
-        {
-          angularVelocity += rcsAngularThrust;
-          electricity -= deltaTime;
-          rcsRotateRight = true;
-        }
-      }
-      else
-      {
-        rcsRotateRight = false;
       }
 
       if (input.ContinuousPress(Keys.Left) || input.ContinuousPress(Keys.A))
       {
-        angularVelocity -= angularThrust;
+        targetPitch = -1f;
         electricity -= deltaTime;
-
-        if (rcs)
-        {
-          angularVelocity -= rcsAngularThrust;
-          electricity -= deltaTime;
-          rcsRotateLeft = true;
-        }
-      }
-      else
-      {
-        rcsRotateLeft = false;
       }
     }
-    else
-    {
-      rcsRotateLeft = false;
-      rcsRotateRight = false;
-    }
-
-    if (sas && (angularThrust > 0 || rcs) &&
-        !input.ContinuousPress(Keys.Right) &&
-        !input.ContinuousPress(Keys.Left) &&
-        !input.ContinuousPress(Keys.D) &&
-        !input.ContinuousPress(Keys.A)
-      )
-    {
-      if (angularVelocity > 0.001f)
-      {
-        angularVelocity -= angularThrust;
-        electricity -= deltaTime;
-
-        if (rcs)
-        {
-          angularVelocity -= rcsAngularThrust;
-          electricity -= deltaTime;
-          rcsRotateLeft = true;
-        }
-      }
-      else
-      {
-        rcsRotateLeft = false;
-      }
-
-      if (angularVelocity < -0.001f)
-      {
-        angularVelocity += angularThrust;
-        electricity -= deltaTime;
-
-        if (rcs)
-        {
-          angularVelocity += rcsAngularThrust;
-          electricity -= deltaTime;
-          rcsRotateRight = true;
-        }
-      }
-      else
-      {
-        rcsRotateRight = false;
-      }
-
-      if (Math.Abs(angularVelocity) < 0.001f)
-      {
-        angularVelocity = 0f;
-      }
-    }
-
-    direction += angularVelocity * deltaTime;
-
-    if (input.OnFirstFramePress(Keys.T))
-    {
-      sas = !sas;
-    }
-
-    if (input.OnFirstFramePress(Keys.R))
-    {
-      rcs = !rcs;
-    }
-
-    rcsAmountTarget[0] = (rcsRotateLeft && mono > 0f) ? 1f : 0f;
-    rcsAmountTarget[1] = (rcsRotateRight && mono > 0f) ? 1f : 0f;
-
-    rcsAmount[0] = MathHelper.Lerp(rcsAmount[0], rcsAmountTarget[0], deltaTime * rcsLerpSpeed);
-    rcsAmount[1] = MathHelper.Lerp(rcsAmount[1], rcsAmountTarget[1], deltaTime * rcsLerpSpeed);
-  }
-
-  private void Docking()
-  {
-    rcsThrust = 0f;
-
-    if (rcs)
-    {
-      if (!maneuverMode)
-      {
-        if (input.ContinuousPress(Keys.Left) || input.ContinuousPress(Keys.A))
-        {
-          rcsThrust = rcsThrustAmount;
-          electricity -= deltaTime;
-          rcsDirection = (float)Math.PI * -0.5f;
-          rcsLeft = true;
-        }
-        else
-        {
-          rcsLeft = false;
-        }
-
-        if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
-        {
-          rcsThrust = rcsThrustAmount;
-          electricity -= deltaTime;
-          rcsDirection = (float)Math.PI * 0.5f;
-          rcsRight = true;
-        }
-        else
-        {
-          rcsRight = false;
-        }
-      }
-      else
-      {
-        rcsLeft = false;
-        rcsRight = false;
-      }
-
-      if (input.ContinuousPress(Keys.Up) || input.ContinuousPress(Keys.W))
-      {
-        rcsThrust = rcsThrustAmount * 2f;
-        electricity -= deltaTime;
-        rcsDirection = 0f;
-        rcsUp = true;
-      }
-      else
-      {
-        rcsUp = false;
-      }
-
-      if (input.ContinuousPress(Keys.Down) || input.ContinuousPress(Keys.S))
-      {
-        rcsThrust = rcsThrustAmount * 2f;
-        electricity -= deltaTime;
-        rcsDirection = (float)Math.PI;
-        rcsDown = true;
-      }
-      else
-      {
-        rcsDown = false;
-      }
-    }
-
-    if (input.OnFirstFramePress(Keys.B))
-    {
-      maneuverMode = !maneuverMode;
-      electricity -= deltaTime;
-    }
-
-    rcsAmountTarget[2] = (rcsUp && mono > 0f) ? 1f : 0f;
-    rcsAmountTarget[3] = (rcsDown && mono > 0f) ? 1f : 0f;
-
-    rcsAmount[2] = MathHelper.Lerp(rcsAmount[2], rcsAmountTarget[2], deltaTime * rcsLerpSpeed);
-    rcsAmount[3] = MathHelper.Lerp(rcsAmount[3], rcsAmountTarget[3], deltaTime * rcsLerpSpeed);
-
-    rcsAmountTarget[4] = (rcsLeft && mono > 0f) ? 1f : 0f;
-    rcsAmountTarget[5] = (rcsRight && mono > 0f) ? 1f : 0f;
-
-    rcsAmount[4] = MathHelper.Lerp(rcsAmount[4], rcsAmountTarget[4], deltaTime * rcsLerpSpeed);
-    rcsAmount[5] = MathHelper.Lerp(rcsAmount[5], rcsAmountTarget[5], deltaTime * rcsLerpSpeed);
-  }
-
-  private void RCS()
-  {
-    for (int i = 0; i < rcsAmount.Length; i++)
-    {
-      if (mono > 0f)
-      {
-        if (i == 2 || i == 3)
-        {
-          mono -= rcsAmount[i] * deltaTime * 2f;
-        }
-        else
-        {
-          mono -= rcsAmount[i] * deltaTime;
-        }
-      }
-      else
-      {
-        mono = 0f;
-      }
-    }
-
-    mono = Math.Clamp(mono, 0f, maxMono);
   }
 
   private void DrawThrust(SpriteBatch spriteBatch)
@@ -525,32 +284,25 @@ public class Ship : CustomGameComponent
     );
   }
 
-  private void DrawRCS(SpriteBatch spriteBatch, Vector2 offsetOverride, float rotationOverride, float scaleOverride)
+  private void DrawLensFlare(SpriteBatch spriteBatch)
   {
-    scaleOverride = Math.Clamp(scaleOverride, 0f, 1f);
+    float thrustLensFlareScale = scale * thrustAmount;
 
-    float thrustScale = scaleOverride * scale * 0.2f;
+    float lensFlareOffset = (Camera.Camera.changeCamera ? 195f : 220f) * scale;
 
-    Vector2 offset = new Vector2(0, scale) + offsetOverride;
-    Vector2 origin = new Vector2(rcsSprite.texture.Width / 2, rcsSprite.texture.Width);
-
-    float rotation = direction + rotationOverride;
-
-    Vector2 rotatedOffset = new Vector2(
-      offset.X * (float)Math.Cos(rotation) - offset.Y * (float)Math.Sin(rotation),
-      offset.X * (float)Math.Sin(rotation) + offset.Y * (float)Math.Cos(rotation)
+    lensFlareRotatedOffset = new Vector2(
+      -(float)Math.Sin(direction) * lensFlareOffset,
+      (float)Math.Cos(direction) * lensFlareOffset
     );
 
-    Vector2 adjustedPosition = GameState.position + rotatedOffset;
-
     spriteBatch.Draw(
-      rcsSprite.texture,
-      adjustedPosition,
-      rcsSprite.SourceRectangle,
-      Color.White * opacity(),
-      rotation,
-      origin,
-      thrustScale,
+      thrustLensFlare,
+      GameState.position + lensFlareRotatedOffset + new Vector2(0f, Camera.Camera.changeCamera ? 0f : -10f),
+      null,
+      new Color(255, 255, 255, 0) * thrustAmount * 0.25f * opacity(),
+      Camera.Camera.changeCamera ? direction : 0f,
+      new Vector2(thrustLensFlare.Width / 2, thrustLensFlare.Height / 2),
+      thrustLensFlareScale,
       SpriteEffects.None,
       0f
     );

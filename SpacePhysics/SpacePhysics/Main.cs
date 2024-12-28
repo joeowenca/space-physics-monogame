@@ -21,7 +21,7 @@ public class Main : Game
         graphics.PreferredBackBufferHeight = (int)GameState.screenSize.Y;
         graphics.IsFullScreen = true;
         IsFixedTimeStep = false;
-        graphics.SynchronizeWithVerticalRetrace = false;
+        graphics.SynchronizeWithVerticalRetrace = true;
         graphics.ApplyChanges();
         Content.RootDirectory = "Content";
         IsMouseVisible = false;
@@ -46,7 +46,7 @@ public class Main : Game
     {
         spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        sceneManager.AddScene(new Scenes.Start.StartScene(sceneManager));
+        sceneManager.AddScene(new Scenes.Space.SpaceScene(sceneManager));
     }
 
     protected override void Update(GameTime gameTime)
@@ -56,11 +56,12 @@ public class Main : Game
         if (GameState.quit)
             Exit();
 
-        GameState.Update(gameTime);
         Camera.Camera.Update();
         MenuContainer.Update();
 
         sceneManager.GetCurrentScene().Update();
+
+        GameState.Update(gameTime);
 
         base.Update(gameTime);
     }

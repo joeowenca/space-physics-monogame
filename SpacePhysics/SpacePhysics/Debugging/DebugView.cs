@@ -39,6 +39,7 @@ namespace SpacePhysics.Debugging
       debugItems.Add(new DebugItem("Thrust", () => Ship.thrust.ToString()));
       debugItems.Add(new DebugItem("Angular Velocity", () => angularVelocity.ToString()));
       debugItems.Add(new DebugItem("Direction", () => direction.ToString()));
+      debugItems.Add(new DebugItem("Pitch", () => Ship.pitch.ToString()));
       debugItems.Add(new DebugItem("SAS", () => sas.ToString()));
       debugItems.Add(new DebugItem("Camera Offset", () => Camera.Camera.offset.ToString()));
       debugItems.Add(new DebugItem("State", () => state.ToString()));
