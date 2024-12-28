@@ -48,7 +48,7 @@ public class Ship : CustomGameComponent
     dryMass = 2200;
     thrust = 0f;
     maxThrust = 600000f;
-    engineEfficiency = 0.00000001f;
+    engineEfficiency = 0.00005f;
 
     base.Initialize();
   }
@@ -207,7 +207,7 @@ public class Ship : CustomGameComponent
       thrust = MathHelper.Lerp(thrust, 0f, deltaTime * 15f);
     }
 
-    fuel -= thrust * engineEfficiency * deltaTime * 5000f;
+    fuel -= thrust * engineEfficiency * deltaTime;
     fuel = Math.Clamp(fuel, 0f, maxFuel);
 
     thrustAmount = thrust / maxThrust;
