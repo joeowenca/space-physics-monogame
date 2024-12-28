@@ -134,6 +134,8 @@ public class SpaceScene : CustomGameComponent
 
     UpdateOpacity();
 
+    AdjustCameraOffset();
+
     base.Update();
   }
 
@@ -164,6 +166,8 @@ public class SpaceScene : CustomGameComponent
         cameraAngleHudOpacity = ColorHelper.FadeOpacity(cameraAngleHudOpacity, 1f, 0f, StartScene.transitionSpeed);
       }
     }
+
+
 
     if (input.OnFirstFrameKeyPress(Keys.Escape))
     {
@@ -234,6 +238,19 @@ public class SpaceScene : CustomGameComponent
     if (cameraHudOpacity > 0 && cameraHudOpacity > cameraAngleHudOpacity)
     {
       cameraHudShadowOpacity = cameraHudOpacity;
+    }
+  }
+
+  private void AdjustCameraOffset()
+  {
+    if (GameState.state == GameState.State.Play)
+    {
+      Vector2 controllerCameraOffset = new Vector2(
+        -input.AnalogStick().Right.X,
+        input.AnalogStick().Right.Y
+      ) * GameState.screenSize.Y * 0.2f;
+
+      targetCameraOffset = controllerCameraOffset;
     }
   }
 }
