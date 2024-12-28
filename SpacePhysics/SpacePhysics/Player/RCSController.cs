@@ -235,7 +235,7 @@ public class RCSController : CustomGameComponent
 
     float thrustScale = scaleOverride * scale * 0.2f;
 
-    Vector2 offset = new Vector2(0, scale) + offsetOverride;
+    Vector2 offset = new Vector2(0, scale) + (offsetOverride * scale * 2.5f);
     Vector2 origin = new Vector2(rcsSprite.texture.Width / 2, rcsSprite.texture.Width);
 
     float rotation = direction + rotationOverride;
