@@ -1,6 +1,9 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SpacePhysics.Sprites;
 using static SpacePhysics.GameState;
 using static SpacePhysics.Player.Ship;
 
@@ -8,6 +11,9 @@ namespace SpacePhysics.Player;
 
 public class RCSController : CustomGameComponent
 {
+  private static AnimatedSprite rcsSprite;
+
+  private static Func<float> opacity;
   private static float rcsThrustAmount;
 
   private static bool rcsLeft;
@@ -15,13 +21,39 @@ public class RCSController : CustomGameComponent
   private static bool rcsUp;
   private static bool rcsDown;
 
-  public RCSController() : base()
+  public RCSController(Func<float> opacity) : base()
+  {
+    RCSController.opacity = opacity;
+  }
+
+  public override void Initialize()
   {
     rcsLeft = false;
     rcsRight = false;
     rcsUp = false;
     rcsDown = false;
     rcsThrustAmount = 50000f;
+
+    base.Initialize();
+  }
+
+  public override void Load(ContentManager contentManager)
+  {
+    rcsSprite = new AnimatedSprite(
+      contentManager.Load<Texture2D>("Player/rcs-sheet"),
+      4,
+      1,
+      1f / 24f
+    );
+
+    base.Load(contentManager);
+  }
+
+  public override void Update()
+  {
+    rcsSprite.Animate();
+
+    base.Update();
   }
 
   public static void Docking(InputManager input)
@@ -128,5 +160,65 @@ public class RCSController : CustomGameComponent
     }
 
     mono = Math.Clamp(mono, 0f, maxMono);
+  }
+
+  public static void DrawAllRCS(SpriteBatch spriteBatch)
+  {
+    // [0]: rotate left
+    // [1]: rotate right
+    // [2]: up
+    // [3]: down
+    // [4]: left
+    // [5]: right
+
+    DrawRCS(spriteBatch, new Vector2(30, -30), (float)Math.PI * 0.5f, rcsAmount[1] + rcsAmount[4]); // Bottom right
+    DrawRCS(spriteBatch, new Vector2(-33, -30), (float)-Math.PI * 0.5f, rcsAmount[0] + rcsAmount[5]); // Bottom left
+
+    DrawRCS(spriteBatch, new Vector2(-47, -30), (float)Math.PI * 0.5f, rcsAmount[0] + rcsAmount[4]); // Top right
+    DrawRCS(spriteBatch, new Vector2(44, -30), (float)-Math.PI * 0.5f, rcsAmount[1] + rcsAmount[5]); // Top left
+
+    // Docking mode
+    DrawRCS(spriteBatch, new Vector2(28, -32), (float)Math.PI, rcsAmount[2]); // Bottom left
+    DrawRCS(spriteBatch, new Vector2(-31, -32), (float)Math.PI, rcsAmount[2]); // Bottom right
+
+    DrawRCS(spriteBatch, new Vector2(28, 44), (float)Math.PI, rcsAmount[2]); // Top left
+    DrawRCS(spriteBatch, new Vector2(-31, 44), (float)Math.PI, rcsAmount[2]); // Top right
+
+    DrawRCS(spriteBatch, new Vector2(28, -47), 0f, rcsAmount[3]); // Top right retro
+    DrawRCS(spriteBatch, new Vector2(-32, -47), 0f, rcsAmount[3]); // Top left retro
+
+    DrawRCS(spriteBatch, new Vector2(28, 32), 0f, rcsAmount[3]); // Bottom right retro
+    DrawRCS(spriteBatch, new Vector2(-32, 32), 0f, rcsAmount[3]); // Bottom left retro
+  }
+
+  private static void DrawRCS(SpriteBatch spriteBatch, Vector2 offsetOverride, float rotationOverride, float scaleOverride)
+  {
+    scaleOverride = Math.Clamp(scaleOverride, 0f, 1f);
+
+    float thrustScale = scaleOverride * scale * 0.2f;
+
+    Vector2 offset = new Vector2(0, scale) + offsetOverride;
+    Vector2 origin = new Vector2(rcsSprite.texture.Width / 2, rcsSprite.texture.Width);
+
+    float rotation = direction + rotationOverride;
+
+    Vector2 rotatedOffset = new Vector2(
+      offset.X * (float)Math.Cos(rotation) - offset.Y * (float)Math.Sin(rotation),
+      offset.X * (float)Math.Sin(rotation) + offset.Y * (float)Math.Cos(rotation)
+    );
+
+    Vector2 adjustedPosition = GameState.position + rotatedOffset;
+
+    spriteBatch.Draw(
+      rcsSprite.texture,
+      adjustedPosition,
+      rcsSprite.SourceRectangle,
+      Color.White * opacity(),
+      rotation,
+      origin,
+      thrustScale,
+      SpriteEffects.None,
+      0f
+    );
   }
 }
