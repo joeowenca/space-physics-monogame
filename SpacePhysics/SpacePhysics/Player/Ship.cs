@@ -178,7 +178,7 @@ public class Ship : CustomGameComponent
 
     thrustAmount = thrust / maxThrust;
 
-    angularVelocity += -thrustDirection * deltaTime * 0.25f;
+    angularVelocity += -thrustDirection * thrustAmount * deltaTime * 0.25f;
 
     fuel -= thrust * engineEfficiency * deltaTime;
   }
