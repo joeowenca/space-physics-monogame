@@ -12,13 +12,7 @@ public static class SASController
 
   public static void ToggleSAS(InputManager input)
   {
-    if (input.OnFirstFrameKeyPress(Keys.T))
-    {
-      sas = !sas;
-      electricity -= deltaTime;
-    }
-
-    if (input.OnFirstFrameButtonPress(Buttons.Y))
+    if (input.OnFirstFrameKeyPress(Keys.T) || input.OnFirstFrameButtonPress(Buttons.Y))
     {
       sas = !sas;
       electricity -= deltaTime;

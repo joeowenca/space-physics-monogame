@@ -62,6 +62,13 @@ public class InputManager
     return currentGamePadState.IsButtonDown(button) && !previousGamePadState.IsButtonDown(button);
   }
 
+  public bool ContinuousButtonPress(Buttons button)
+  {
+    if (!allowInput || !gamePadConnected) return false;
+
+    return currentGamePadState.IsButtonDown(button);
+  }
+
   public void ControllerRumble(float intensity)
   {
     if (!allowInput || !gamePadConnected) return;

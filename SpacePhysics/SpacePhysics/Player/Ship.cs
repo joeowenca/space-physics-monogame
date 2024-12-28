@@ -209,13 +209,12 @@ public class Ship : CustomGameComponent
 
     targetThrottle += throttleChangeSpeed * (input.Trigger().Right + -input.Trigger().Left);
 
-    if (input.ContinuousKeyPress(Keys.Z))
+    if (input.ContinuousKeyPress(Keys.Z) || input.ContinuousButtonPress(Buttons.A))
     {
       targetThrottle = 1;
       throttleTransition = true;
     }
-
-    if (input.ContinuousKeyPress(Keys.X))
+    if (input.ContinuousKeyPress(Keys.X) || input.ContinuousButtonPress(Buttons.B))
     {
       targetThrottle = 0;
       throttleTransition = true;

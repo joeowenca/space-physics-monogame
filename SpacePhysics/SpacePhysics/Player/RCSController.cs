@@ -64,13 +64,7 @@ public class RCSController : CustomGameComponent
 
   public static void ToggleRCS(InputManager input)
   {
-    if (input.OnFirstFrameKeyPress(Keys.R))
-    {
-      rcs = !rcs;
-      electricity -= deltaTime;
-    }
-
-    if (input.OnFirstFrameButtonPress(Buttons.X))
+    if (input.OnFirstFrameKeyPress(Keys.R) || input.OnFirstFrameButtonPress(Buttons.X))
     {
       rcs = !rcs;
       electricity -= deltaTime;
@@ -81,13 +75,7 @@ public class RCSController : CustomGameComponent
 
   public static void ToggleRCSMode(InputManager input)
   {
-    if (input.OnFirstFrameKeyPress(Keys.B) && electricity > 0)
-    {
-      maneuverMode = !maneuverMode;
-      electricity -= deltaTime;
-    }
-
-    if (input.OnFirstFrameButtonPress(Buttons.B))
+    if ((input.OnFirstFrameKeyPress(Keys.B) || input.OnFirstFrameButtonPress(Buttons.LeftStick)) && electricity > 0)
     {
       maneuverMode = !maneuverMode;
       electricity -= deltaTime;
