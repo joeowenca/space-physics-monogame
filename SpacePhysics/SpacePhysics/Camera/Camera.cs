@@ -80,7 +80,7 @@ public class Camera
   {
     position = GameState.position - new Vector2(screenSize.X / 2, screenSize.Y / 2);
 
-    if (input.OnFirstFrameKeyPress(Keys.V))
+    if (input.OnFirstFrameKeyPress(Keys.V) || input.OnFirstFrameButtonPress(Buttons.Back))
     {
       changeCamera = !changeCamera;
     }
