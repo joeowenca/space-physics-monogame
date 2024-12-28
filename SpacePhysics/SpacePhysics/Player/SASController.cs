@@ -33,7 +33,8 @@ public static class SASController
         (!maneuverMode || (!input.ContinuousKeyPress(Keys.Right) &&
         !input.ContinuousKeyPress(Keys.Left) &&
         !input.ContinuousKeyPress(Keys.D) &&
-        !input.ContinuousKeyPress(Keys.A) && Math.Abs(input.AnalogStick().Left.X) <= 0f)
+        !input.ContinuousKeyPress(Keys.A) &&
+        Math.Abs(input.AnalogStick().Left.X) <= 0f)
         )
       )
     {

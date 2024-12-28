@@ -207,6 +207,8 @@ public class Ship : CustomGameComponent
       electricity -= deltaTime;
     }
 
+    targetThrottle += throttleChangeSpeed * (input.Trigger().Right + -input.Trigger().Left);
+
     if (input.ContinuousKeyPress(Keys.Z))
     {
       targetThrottle = 1;
