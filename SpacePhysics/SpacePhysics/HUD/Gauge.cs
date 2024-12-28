@@ -78,18 +78,6 @@ public class Gauge : CustomGameComponent
             hudScale,
             11
         );
-
-        HudText altitude = new(
-            "Fonts/text-font",
-            () => (Math.Abs(GameState.position.Y) / units).ToString("0") + " m",
-            Alignment.BottomCenter,
-            TextAlign.Center,
-            () => new Vector2(0, -440f) + offset,
-            () => highlightColor * opacity(),
-            hudTextScale,
-            11
-        );
-
         HudText velocity = new(
             "Fonts/text-font",
             () => (GameState.velocity.Length() / units).ToString("0.0") + " m/s",
@@ -152,7 +140,6 @@ public class Gauge : CustomGameComponent
         components.Add(retrogradeIndicator);
         components.Add(radialLeftIndicator);
         components.Add(radialRightIndicator);
-        components.Add(altitude);
         components.Add(velocity);
         components.Add(heading);
         components.Add(sasStatus);

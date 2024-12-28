@@ -102,7 +102,7 @@ public class Ship : CustomGameComponent
         }
       }
 
-      pitch = MathHelper.Lerp(pitch, targetPitch, deltaTime * 30f);
+      pitch = MathHelper.Lerp(pitch, targetPitch, deltaTime * 20f);
 
       if (pitch > 0.999f) pitch = 1f;
       if (pitch < -0.999f) pitch = -1f;

@@ -23,7 +23,7 @@ namespace SpacePhysics.Debugging
     {
       this.opacity = opacity;
 
-      offset = new Vector2(screenSize.X - 800f, screenSize.Y - 600f);
+      offset = new Vector2(screenSize.X - 900f, screenSize.Y - 600f);
 
       components.Add(new HudSprite(
         "HUD/hud-shadow-bottom-right",
@@ -51,7 +51,6 @@ namespace SpacePhysics.Debugging
       statusItems.Add(new DebugItem("Liquid Fuel", () => fuel.ToString("0") + " L"));
       statusItems.Add(new DebugItem("Mono Propellant", () => mono.ToString("0") + " L"));
       statusItems.Add(new DebugItem("Electricity", () => electricity.ToString("0") + " kWh"));
-      statusItems.Add(new DebugItem("Pitch", () => Ship.pitch.ToString("0.00")));
 
       for (int i = 0; i < statusItems.Count; i++)
       {

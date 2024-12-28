@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpacePhysics.Player;
 using static SpacePhysics.GameState;
 
 namespace SpacePhysics.HUD;
@@ -9,15 +10,19 @@ public class Meter : CustomGameComponent
 {
     private Vector2 offset;
 
+    private float padding;
+
     public Meter(Func<float> opacity) : base(false, Alignment.BottomCenter, 11)
     {
         offset = new Vector2(0, -450f);
+
+        padding = 600f;
 
         HudSprite throttleMeter = new(
             "HUD/meter-left",
             Alignment.BottomCenter,
             Alignment.Center,
-            () => new Vector2(-600, 0) + offset,
+            () => new Vector2(-padding, 0) + offset,
             () => 0f,
             () => defaultColor * opacity(),
             hudScale,
@@ -28,7 +33,7 @@ public class Meter : CustomGameComponent
             "HUD/meter-indicator-left",
             Alignment.BottomCenter,
             Alignment.Center,
-            () => new Vector2(-600, -throttle * 628) + offset,
+            () => new Vector2(-padding, -throttle * 628) + offset,
             () => 0f,
             () => highlightColor * opacity(),
             hudScale,
@@ -40,7 +45,7 @@ public class Meter : CustomGameComponent
             () => (throttle * 100).ToString("0") + "%",
             Alignment.BottomCenter,
             TextAlign.Right,
-            () => new Vector2(-750, 50f) + offset,
+            () => new Vector2(-padding - 150, 50f) + offset,
             () => highlightColor * opacity(),
             hudTextScale,
             11
@@ -51,7 +56,7 @@ public class Meter : CustomGameComponent
             () => "Throttle",
             Alignment.BottomCenter,
             TextAlign.Center,
-            () => new Vector2(-600, -360f) + offset,
+            () => new Vector2(-padding, -360f) + offset,
             () => defaultColor * opacity(),
             hudTextScale,
             11
@@ -61,7 +66,7 @@ public class Meter : CustomGameComponent
             "HUD/meter-left",
             Alignment.BottomCenter,
             Alignment.Center,
-            () => new Vector2(-1200, 0) + offset,
+            () => new Vector2(-padding * 2f, 0) + offset,
             () => 0f,
             () => defaultColor * opacity(),
             hudScale,
@@ -72,7 +77,7 @@ public class Meter : CustomGameComponent
             "HUD/meter-indicator-left",
             Alignment.BottomCenter,
             Alignment.Center,
-            () => new Vector2(-1200, GameState.electricityPercent * -6.28f) + offset,
+            () => new Vector2(-padding * 2f, GameState.electricityPercent * -6.28f) + offset,
             () => 0f,
             () => highlightColor * opacity(),
             hudScale,
@@ -84,7 +89,7 @@ public class Meter : CustomGameComponent
             () => GameState.electricityPercent.ToString("0") + "%",
             Alignment.BottomCenter,
             TextAlign.Right,
-            () => new Vector2(-1350, 50f) + offset,
+            () => new Vector2(-padding * 2f - 150, 50f) + offset,
             () => highlightColor * opacity(),
             hudTextScale,
             11
@@ -95,7 +100,7 @@ public class Meter : CustomGameComponent
             () => "Electricity",
             Alignment.BottomCenter,
             TextAlign.Center,
-            () => new Vector2(-1200, -360f) + offset,
+            () => new Vector2(-padding * 2f, -360f) + offset,
             () => defaultColor * opacity(),
             hudTextScale,
             11
@@ -105,7 +110,7 @@ public class Meter : CustomGameComponent
             "HUD/meter-right",
             Alignment.BottomCenter,
             Alignment.Center,
-            () => new Vector2(600, 0) + offset,
+            () => new Vector2(padding, 0) + offset,
             () => 0f,
             () => defaultColor * opacity(),
             hudScale,
@@ -116,7 +121,7 @@ public class Meter : CustomGameComponent
             "HUD/meter-indicator-right",
             Alignment.BottomCenter,
             Alignment.Center,
-            () => new Vector2(600, -GameState.fuelPercent * 6.28f) + offset,
+            () => new Vector2(padding, -GameState.fuelPercent * 6.28f) + offset,
             () => 0f,
             () => highlightColor * opacity(),
             hudScale,
@@ -128,7 +133,7 @@ public class Meter : CustomGameComponent
             () => GameState.fuelPercent.ToString("0") + "%",
             Alignment.BottomCenter,
             TextAlign.Left,
-            () => new Vector2(750, 50f) + offset,
+            () => new Vector2(padding + 150, 50f) + offset,
             () => highlightColor * opacity(),
             hudTextScale,
             11
@@ -139,7 +144,7 @@ public class Meter : CustomGameComponent
             () => "Fuel",
             Alignment.BottomCenter,
             TextAlign.Center,
-            () => new Vector2(600, -360f) + offset,
+            () => new Vector2(padding, -360f) + offset,
             () => defaultColor * opacity(),
             hudTextScale,
             11
@@ -149,7 +154,7 @@ public class Meter : CustomGameComponent
             "HUD/meter-right",
             Alignment.BottomCenter,
             Alignment.Center,
-            () => new Vector2(1200, 0) + offset,
+            () => new Vector2(padding * 2f, 0) + offset,
             () => 0f,
             () => defaultColor * opacity(),
             hudScale,
@@ -160,7 +165,7 @@ public class Meter : CustomGameComponent
             "HUD/meter-indicator-right",
             Alignment.BottomCenter,
             Alignment.Center,
-            () => new Vector2(1200, -GameState.monoPercent * 6.28f) + offset,
+            () => new Vector2(padding * 2f, -GameState.monoPercent * 6.28f) + offset,
             () => 0f,
             () => highlightColor * opacity(),
             hudScale,
@@ -172,7 +177,7 @@ public class Meter : CustomGameComponent
             () => GameState.monoPercent.ToString("0") + "%",
             Alignment.BottomCenter,
             TextAlign.Left,
-            () => new Vector2(1350, 50f) + offset,
+            () => new Vector2(padding * 2f + 150, 50f) + offset,
             () => highlightColor * opacity(),
             hudTextScale,
             11
@@ -183,9 +188,31 @@ public class Meter : CustomGameComponent
             () => "Mono",
             Alignment.BottomCenter,
             TextAlign.Center,
-            () => new Vector2(1200, -360f) + offset,
+            () => new Vector2(padding * 2f, -360f) + offset,
             () => defaultColor * opacity(),
             hudTextScale,
+            11
+        );
+
+        HudSprite pitchMeter = new(
+            "HUD/meter-blank",
+            Alignment.BottomCenter,
+            Alignment.Center,
+            () => new Vector2(0f, -padding) + offset,
+            () => (float)Math.PI * 0.5f,
+            () => defaultColor * opacity(),
+            hudScale,
+            11
+        );
+
+        HudSprite pitchIndicator = new(
+            "HUD/meter-indicator-left",
+            Alignment.BottomCenter,
+            Alignment.Center,
+            () => new Vector2((Ship.pitch * 314f) + 314f, -padding) + offset,
+            () => (float)Math.PI * 0.5f,
+            () => highlightColor * opacity(),
+            hudScale,
             11
         );
 
@@ -205,6 +232,8 @@ public class Meter : CustomGameComponent
         components.Add(monoMeterIndicator);
         components.Add(monoPercent);
         components.Add(monoLabel);
+        components.Add(pitchMeter);
+        components.Add(pitchIndicator);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
