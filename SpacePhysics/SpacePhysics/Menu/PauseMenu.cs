@@ -101,28 +101,46 @@ public class PauseMenu : CustomGameComponent
     {
       opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, 0.2f);
 
-      if (input.OnFirstFrameKeyPress(Keys.Down))
+      if (input.OnFirstFrameKeyPress(Keys.Down)
+        || input.OnFirstFrameButtonPress(Buttons.DPadDown)
+        || input.OnFirstFrameButtonPress(Buttons.LeftThumbstickDown)
+      )
         activeMenu++;
 
-      if (input.OnFirstFrameKeyPress(Keys.Up))
+      if (input.OnFirstFrameKeyPress(Keys.Up)
+        || input.OnFirstFrameButtonPress(Buttons.DPadUp)
+        || input.OnFirstFrameButtonPress(Buttons.LeftThumbstickUp)
+      )
         activeMenu--;
 
-      if (activeMenu == 1 && input.OnFirstFrameKeyPress(Keys.Enter))
+      if (activeMenu == 1 &&
+        (input.OnFirstFrameKeyPress(Keys.Enter)
+        || input.OnFirstFrameButtonPress(Buttons.A))
+      )
       {
         state = State.Play;
       }
 
-      if (activeMenu == 2 && input.OnFirstFrameKeyPress(Keys.Enter))
+      if (activeMenu == 2 &&
+        (input.OnFirstFrameKeyPress(Keys.Enter)
+        || input.OnFirstFrameButtonPress(Buttons.A))
+      )
       {
         state = State.Play;
       }
 
-      if (activeMenu == 3 && input.OnFirstFrameKeyPress(Keys.Enter))
+      if (activeMenu == 3 &&
+        (input.OnFirstFrameKeyPress(Keys.Enter)
+        || input.OnFirstFrameButtonPress(Buttons.A))
+      )
       {
         state = State.TitleScreen;
       }
 
-      if (activeMenu == 4 && input.OnFirstFrameKeyPress(Keys.Enter))
+      if (activeMenu == 4 &&
+        (input.OnFirstFrameKeyPress(Keys.Enter)
+        || input.OnFirstFrameButtonPress(Buttons.A))
+      )
         quit = true;
     }
 
