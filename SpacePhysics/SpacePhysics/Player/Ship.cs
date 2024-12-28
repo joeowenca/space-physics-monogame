@@ -90,7 +90,7 @@ public class Ship : CustomGameComponent
       ToggleRCSMode(input);
       RotateRCS();
       Docking(input);
-      RCS();
+      DepleteMono();
 
       pitch = MathHelper.Lerp(pitch, targetPitch, deltaTime * 30f);
       pitch = Math.Clamp(pitch, -1f, 1f);

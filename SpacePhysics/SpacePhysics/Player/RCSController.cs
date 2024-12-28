@@ -193,7 +193,7 @@ public class RCSController : CustomGameComponent
     rcsAmount[5] = MathHelper.Lerp(rcsAmount[5], rcsAmountTarget[5], deltaTime * rcsLerpSpeed);
   }
 
-  public static void RCS()
+  public static void DepleteMono()
   {
     for (int i = 0; i < rcsAmount.Length; i++)
     {
