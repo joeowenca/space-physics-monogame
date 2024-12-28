@@ -45,7 +45,7 @@ public class Ship : CustomGameComponent
   {
     acceleration = Vector2.Zero;
     force = Vector2.Zero;
-    dryMass = 2500;
+    dryMass = 2200;
     thrust = 0f;
     maxThrust = 600000f;
     engineEfficiency = 0.00000001f;
@@ -145,7 +145,7 @@ public class Ship : CustomGameComponent
 
   private void Physics()
   {
-    mass = dryMass + fuel;
+    mass = dryMass + fuel + mono;
 
     force.X = (float)Math.Cos(direction - (float)(Math.PI * 0.5f)) * thrust;
     force.Y = (float)Math.Sin(direction - (float)(Math.PI * 0.5f)) * thrust;
