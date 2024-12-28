@@ -91,7 +91,7 @@ public class Ship : CustomGameComponent
         Throttle();
         AdjustPitch();
         ToggleSAS(input);
-        Stability(input);
+        Stabilize(input);
         ToggleRCS(input);
         ToggleRCSMode(input);
 

@@ -21,13 +21,13 @@ public static class SASController
     if (electricity <= 0) sas = false;
   }
 
-  public static void Stability(InputManager input)
+  public static void Stabilize(InputManager input)
   {
     if (sas &&
-        !input.ContinuousPress(Keys.Right) &&
+        (!maneuverMode || (!input.ContinuousPress(Keys.Right) &&
         !input.ContinuousPress(Keys.Left) &&
         !input.ContinuousPress(Keys.D) &&
-        !input.ContinuousPress(Keys.A)
+        !input.ContinuousPress(Keys.A)))
       )
     {
       if (angularVelocity > stabilityThreshold)
