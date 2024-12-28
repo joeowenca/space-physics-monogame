@@ -220,7 +220,6 @@ public class Ship : CustomGameComponent
     }
 
     fuel -= thrust * engineEfficiency * deltaTime;
-    fuel = Math.Clamp(fuel, 0f, maxFuel);
 
     thrustAmount = thrust / maxThrust;
   }

@@ -127,10 +127,12 @@ public class RCSController : CustomGameComponent
         if (input.ContinuousPress(Keys.Left) || input.ContinuousPress(Keys.A))
         {
           rcsTargetThrottle.X = -1f;
+          electricity -= deltaTime;
         }
         else if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
         {
           rcsTargetThrottle.X = 1f;
+          electricity -= deltaTime;
         }
         else
         {
@@ -141,10 +143,12 @@ public class RCSController : CustomGameComponent
       if (input.ContinuousPress(Keys.Up) || input.ContinuousPress(Keys.W))
       {
         rcsTargetThrottle.Y = -1f;
+        electricity -= deltaTime * 2f;
       }
       else if (input.ContinuousPress(Keys.Down) || input.ContinuousPress(Keys.S))
       {
         rcsTargetThrottle.Y = 1f;
+        electricity -= deltaTime * 2f;
       }
       else
       {
@@ -194,8 +198,6 @@ public class RCSController : CustomGameComponent
         mono = 0f;
       }
     }
-
-    mono = Math.Clamp(mono, 0f, maxMono);
   }
 
   public static void DrawAllRCS(SpriteBatch spriteBatch)

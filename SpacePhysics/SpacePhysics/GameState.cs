@@ -108,9 +108,15 @@ public class GameState
   public static void Update(GameTime gameTime)
   {
     velocityAngle = MathF.Atan2(velocity.Y, velocity.X) + (float)(Math.PI * 0.5f);
+
     fuelPercent = fuel / maxFuel * 100f;
+    fuel = Math.Clamp(fuel, 0f, maxFuel);
+
     monoPercent = mono / maxMono * 100f;
+    mono = Math.Clamp(mono, 0f, maxMono);
+
     electricityPercent = electricity / maxElectricity * 100f;
+    electricity = Math.Clamp(electricity, 0f, maxElectricity);
 
     if (velocityAngle == (float)(Math.PI * 0.5f) && velocity == Vector2.Zero)
     {
