@@ -73,6 +73,17 @@ public class RCSController : CustomGameComponent
     base.Update();
   }
 
+  public static void ToggleRCS(InputManager input)
+  {
+    if (input.OnFirstFramePress(Keys.R))
+    {
+      rcs = !rcs;
+      electricity -= deltaTime;
+    }
+
+    if (electricity <= 0) rcs = false;
+  }
+
   public static void RotateRCS(InputManager input)
   {
     float rcsAngularThrust = 1 / mass * 4f * deltaTime * 250f;
@@ -155,11 +166,6 @@ public class RCSController : CustomGameComponent
       {
         rcsRotateRight = false;
       }
-    }
-
-    if (input.OnFirstFramePress(Keys.R))
-    {
-      rcs = !rcs;
     }
 
     rcsAmountTarget[0] = (rcsRotateLeft && mono > 0f) ? 1f : 0f;

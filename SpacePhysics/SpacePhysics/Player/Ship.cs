@@ -82,6 +82,7 @@ public class Ship : CustomGameComponent
       Thrust();
       ToggleSAS(input);
       Stability(input);
+      ToggleRCS(input);
       RotateRCS(input);
       Docking(input);
       RCS();
