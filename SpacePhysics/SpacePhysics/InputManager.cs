@@ -43,14 +43,14 @@ public class InputManager
 
   public bool OnFirstFrameKeyPress(Keys key)
   {
-    if (!allowInput || gamePadConnected) return false;
+    if (!allowInput) return false;
 
     return currentKeyboardstate.IsKeyDown(key) && !previousKeyboardState.IsKeyDown(key);
   }
 
   public bool ContinuousKeyPress(Keys key)
   {
-    if (!allowInput || gamePadConnected) return false;
+    if (!allowInput) return false;
 
     return currentKeyboardstate.IsKeyDown(key);
   }

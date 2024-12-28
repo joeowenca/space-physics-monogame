@@ -70,13 +70,10 @@ public class RCSController : CustomGameComponent
       electricity -= deltaTime;
     }
 
-    if (input.gamePadConnected)
+    if (input.OnFirstFrameButtonPress(Buttons.X))
     {
-      if (input.OnFirstFrameButtonPress(Buttons.X))
-      {
-        rcs = !rcs;
-        electricity -= deltaTime;
-      }
+      rcs = !rcs;
+      electricity -= deltaTime;
     }
 
     if (electricity <= 0) rcs = false;
@@ -85,6 +82,12 @@ public class RCSController : CustomGameComponent
   public static void ToggleRCSMode(InputManager input)
   {
     if (input.OnFirstFrameKeyPress(Keys.B) && electricity > 0)
+    {
+      maneuverMode = !maneuverMode;
+      electricity -= deltaTime;
+    }
+
+    if (input.OnFirstFrameButtonPress(Buttons.B))
     {
       maneuverMode = !maneuverMode;
       electricity -= deltaTime;
@@ -155,6 +158,10 @@ public class RCSController : CustomGameComponent
           rcsTargetThrottle.X = input.AnalogStick().Left.X;
           electricity -= deltaTime * Math.Abs(input.AnalogStick().Left.X);
         }
+      }
+      else
+      {
+        rcsTargetThrottle.X = 0f;
       }
 
       if (input.ContinuousKeyPress(Keys.Up) || input.ContinuousKeyPress(Keys.W))
