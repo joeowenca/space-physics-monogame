@@ -27,7 +27,7 @@ public class Ship : CustomGameComponent
   public static float altitude;
   public static float dryMass;
   public static float pitch;
-  private static float targetPitch;
+  public static float targetPitch;
 
   private float maxThrust;
   private float engineEfficiency;
@@ -91,6 +91,9 @@ public class Ship : CustomGameComponent
       RotateRCS(input);
       Docking(input);
       RCS();
+
+      pitch = MathHelper.Lerp(pitch, targetPitch, deltaTime * 20f);
+      pitch = Math.Clamp(pitch, -1f, 1f);
 
       electricity += deltaTime * 0.5f;
 
@@ -245,9 +248,6 @@ public class Ship : CustomGameComponent
         targetPitch = -1f;
         electricity -= deltaTime;
       }
-
-      pitch = MathHelper.Lerp(pitch, targetPitch, deltaTime * 20f);
-      pitch = Math.Clamp(pitch, -1f, 1f);
     }
   }
 
