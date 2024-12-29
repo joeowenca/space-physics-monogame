@@ -10,25 +10,29 @@ namespace SpacePhysics.HUD;
 
 public class CameraHud : CustomGameComponent
 {
-    private Vector2 offset;
+    private Vector2 cameraAngleOffset;
+    private Vector2 cameraModeOffset;
 
     private float cameraAngleTextOpacity;
     private float cameraAngleTextOpacityTimer;
 
     private string cameraAngleText;
+    private string cameraModeText;
 
     public CameraHud(Func<float> opacity) : base(true, Alignment.TopCenter, 11)
     {
-        offset = new Vector2(0, 350f);
+        cameraAngleOffset = new Vector2(0, 350f);
+        cameraModeOffset = new Vector2(0, 175f);
 
         cameraAngleText = "Horizon";
+        cameraModeText = "Move";
 
         components.Add(new HudText(
             "Fonts/text-font",
             () => "Camera: ",
             Alignment.TopCenter,
             TextAlign.Left,
-            () => new Vector2(0f, 0f) + offset,
+            () => new Vector2(0f, 0f) + cameraAngleOffset,
             () => defaultColor * cameraAngleTextOpacity * opacity(),
             hudTextScale,
             11
@@ -39,8 +43,30 @@ public class CameraHud : CustomGameComponent
             () => cameraAngleText,
             Alignment.TopCenter,
             TextAlign.Left,
-            () => new Vector2(components[0].width, 0f) + offset,
+            () => new Vector2(components[0].width, 0f) + cameraAngleOffset,
             () => highlightColor * cameraAngleTextOpacity * opacity(),
+            hudTextScale,
+            11
+        ));
+
+        components.Add(new HudText(
+            "Fonts/text-font",
+            () => "Camera Mode: ",
+            Alignment.TopCenter,
+            TextAlign.Left,
+            () => new Vector2(0f, 0f) + cameraModeOffset,
+            () => defaultColor * cameraModeTextOpacity * opacity(),
+            hudTextScale,
+            11
+        ));
+
+        components.Add(new HudText(
+            "Fonts/text-font",
+            () => cameraModeText,
+            Alignment.TopCenter,
+            TextAlign.Left,
+            () => new Vector2(components[2].width, 0f) + cameraModeOffset,
+            () => highlightColor * cameraModeTextOpacity * opacity(),
             hudTextScale,
             11
         ));
@@ -48,7 +74,8 @@ public class CameraHud : CustomGameComponent
 
     public override void Update()
     {
-        CenterCameraAngleText();
+        cameraAngleOffset.X = CenterText(components[0].width, components[1].width);
+        cameraModeOffset.X = CenterText(components[2].width, components[3].width);
 
         HandleCameraAngleChange();
 
@@ -63,9 +90,9 @@ public class CameraHud : CustomGameComponent
         }
     }
 
-    private void CenterCameraAngleText()
+    private float CenterText(float width1, float width2)
     {
-        offset.X = (components[0].width + components[1].width) * -0.5f;
+        return (width1 + width2) * -0.5f;
     }
 
     private void HandleCameraAngleChange()
