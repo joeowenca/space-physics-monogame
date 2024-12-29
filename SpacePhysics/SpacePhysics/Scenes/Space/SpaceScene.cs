@@ -183,7 +183,12 @@ public class SpaceScene : CustomGameComponent
 
       Camera.Camera.targetZoomOverride = 1f;
 
-      if (!input.ContinuousKeyPress(Keys.OemMinus) && !input.ContinuousKeyPress(Keys.OemPlus))
+      if
+      (
+        !input.ContinuousKeyPress(Keys.OemMinus)
+        && !input.ContinuousKeyPress(Keys.OemPlus)
+        && Math.Abs(input.AnalogStick().Right.Y) == 0
+      )
       {
         GameState.targetZoom = previousTargetZoom;
       }
@@ -243,7 +248,7 @@ public class SpaceScene : CustomGameComponent
 
   private void AdjustCameraOffset()
   {
-    if (GameState.state == GameState.State.Play)
+    if (GameState.state == GameState.State.Play && !Camera.Camera.cameraZoomMode)
     {
       Vector2 controllerCameraOffset = new Vector2(
         -input.AnalogStick().Right.X,

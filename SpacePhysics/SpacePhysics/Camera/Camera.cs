@@ -22,11 +22,16 @@ public class Camera
   public static float targetZoomOverride;
   public static float zoomOverrideLerpSpeed;
   public static float zoomOverrideLerpSpeedFactor;
+  public static float zoomSpeed;
+
+
   private static float minZoom;
   private static float maxZoom;
   private static float rotation;
 
   public static bool changeCamera;
+  public static bool cameraZoomMode;
+
   public static bool allowInput;
 
   public Camera() { }
@@ -41,9 +46,11 @@ public class Camera
     zoomOverride = 1f;
     targetZoomOverride = 1f;
     zoomOverrideLerpSpeedFactor = 0.005f;
+    zoomSpeed = 1.3f;
     minZoom = 0.4f;
     maxZoom = 4f;
     changeCamera = false;
+    cameraZoomMode = false;
     allowInput = true;
   }
 
@@ -96,6 +103,11 @@ public class Camera
       rotation = 0f;
     }
 
+    if (input.OnFirstFrameButtonPress(Buttons.RightStick))
+    {
+      cameraZoomMode = !cameraZoomMode;
+    }
+
     if (state != State.Pause) shakeOffset = Shake(Ship.thrustAmount);
   }
 
@@ -103,12 +115,29 @@ public class Camera
   {
     parallaxFactor *= 7;
 
-    float zoomSpeed = 1.3f;
+    if (cameraZoomMode)
+    {
+      zoomSpeed = 1f + (Math.Abs(input.AnalogStick().Right.Y) * 0.3f);
 
-    if (input.ContinuousKeyPress(Keys.OemPlus))
-      targetZoom *= (float)Math.Pow(zoomSpeed, deltaTime);
-    if (input.ContinuousKeyPress(Keys.OemMinus))
-      targetZoom /= (float)Math.Pow(zoomSpeed, deltaTime);
+      if (input.AnalogStick().Right.Y > 0)
+      {
+        targetZoom *= (float)Math.Pow(zoomSpeed, deltaTime);
+      }
+
+      if (input.AnalogStick().Right.Y < 0)
+      {
+        targetZoom /= (float)Math.Pow(zoomSpeed, deltaTime);
+      }
+    }
+    else
+    {
+      zoomSpeed = 1.3f;
+
+      if (input.ContinuousKeyPress(Keys.OemPlus))
+        targetZoom *= (float)Math.Pow(zoomSpeed, deltaTime);
+      if (input.ContinuousKeyPress(Keys.OemMinus))
+        targetZoom /= (float)Math.Pow(zoomSpeed, deltaTime);
+    }
 
     if (parallaxFactor == 1) return 1f;
 
