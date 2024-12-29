@@ -173,6 +173,10 @@ public class RCSController : CustomGameComponent
         electricity -= deltaTime * Math.Abs(input.AnalogStick().Left.Y);
       }
     }
+    else
+    {
+      rcsTargetThrottle = Vector2.Zero;
+    }
 
     rcsThrottle.X = MathHelper.Lerp(rcsThrottle.X, rcsTargetThrottle.X, deltaTime * rcsLerpSpeed);
     rcsThrottle.Y = MathHelper.Lerp(rcsThrottle.Y, rcsTargetThrottle.Y, deltaTime * rcsLerpSpeed);
