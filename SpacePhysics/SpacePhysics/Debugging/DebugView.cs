@@ -44,6 +44,13 @@ namespace SpacePhysics.Debugging
       debugItems.Add(new DebugItem("SAS", () => sas.ToString()));
       debugItems.Add(new DebugItem("Camera Offset", () => Camera.Camera.offset.ToString()));
       debugItems.Add(new DebugItem("State", () => state.ToString()));
+      debugItems.Add(new DebugItem("GamePad Connected", () => input.gamePadConnected.ToString()));
+      debugItems.Add(new DebugItem("GamePad Left Stick X", () => input.AnalogStick().Left.X.ToString()));
+      debugItems.Add(new DebugItem("GamePad Left Stick Y", () => input.AnalogStick().Left.Y.ToString()));
+      debugItems.Add(new DebugItem("GamePad Right Stick X", () => input.AnalogStick().Right.X.ToString()));
+      debugItems.Add(new DebugItem("GamePad Right Stick Y", () => input.AnalogStick().Right.Y.ToString()));
+      debugItems.Add(new DebugItem("Camera Zoom Speed", () => Camera.Camera.zoomSpeed.ToString()));
+      debugItems.Add(new DebugItem("Target Zoom", () => targetZoom.ToString()));
 
       for (int i = 0; i < debugItems.Count; i++)
       {
@@ -60,7 +67,7 @@ namespace SpacePhysics.Debugging
 
     public override void Update()
     {
-      if (input.OnFirstFramePress(Keys.F3))
+      if (input.OnFirstFrameKeyPress(Keys.F3))
         debug = !debug;
 
       base.Update();

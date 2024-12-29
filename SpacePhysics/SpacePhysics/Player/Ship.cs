@@ -111,6 +111,8 @@ public class Ship : CustomGameComponent
 
       base.Update();
     }
+
+    input.ControllerRumble(state == State.Pause ? 0f : thrustAmount);
   }
 
   public override void Draw(SpriteBatch spriteBatch)
@@ -191,27 +193,28 @@ public class Ship : CustomGameComponent
   {
     float throttleChangeSpeed = deltaTime * 0.4f;
 
-    if (input.ContinuousPress(Keys.LeftShift))
+    if (input.ContinuousKeyPress(Keys.LeftShift))
     {
       throttleTransition = false;
       targetThrottle += throttleChangeSpeed;
       electricity -= deltaTime;
     }
 
-    if (input.ContinuousPress(Keys.LeftControl))
+    if (input.ContinuousKeyPress(Keys.LeftControl))
     {
       throttleTransition = false;
       targetThrottle -= throttleChangeSpeed;
       electricity -= deltaTime;
     }
 
-    if (input.ContinuousPress(Keys.Z))
+    targetThrottle += throttleChangeSpeed * ((input.Trigger().Right + -input.Trigger().Left) * 10f);
+
+    if (input.ContinuousKeyPress(Keys.Z))
     {
       targetThrottle = 1;
       throttleTransition = true;
     }
-
-    if (input.ContinuousPress(Keys.X))
+    if (input.ContinuousKeyPress(Keys.X))
     {
       targetThrottle = 0;
       throttleTransition = true;
@@ -255,16 +258,22 @@ public class Ship : CustomGameComponent
 
       if (pitch < -0.99f) pitch = -1f;
 
-      if (input.ContinuousPress(Keys.Right) || input.ContinuousPress(Keys.D))
+      if (input.ContinuousKeyPress(Keys.Right) || input.ContinuousKeyPress(Keys.D))
       {
         targetPitch = 1f;
         electricity -= deltaTime;
       }
 
-      if (input.ContinuousPress(Keys.Left) || input.ContinuousPress(Keys.A))
+      if (input.ContinuousKeyPress(Keys.Left) || input.ContinuousKeyPress(Keys.A))
       {
         targetPitch = -1f;
         electricity -= deltaTime;
+      }
+
+      if (input.gamePadConnected)
+      {
+        targetPitch = input.AnalogStick().Left.X;
+        electricity -= deltaTime * Math.Abs(input.AnalogStick().Left.X);
       }
     }
   }

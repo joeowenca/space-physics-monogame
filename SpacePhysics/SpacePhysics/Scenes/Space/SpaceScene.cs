@@ -134,12 +134,17 @@ public class SpaceScene : CustomGameComponent
 
     UpdateOpacity();
 
+    AdjustCameraOffset();
+
     base.Update();
   }
 
   private void HandleInput()
   {
-    if (input.ContinuousPress(Keys.OemMinus) || input.ContinuousPress(Keys.OemPlus))
+    if (input.ContinuousKeyPress(Keys.OemMinus)
+        || input.ContinuousKeyPress(Keys.OemPlus)
+        || (Camera.Camera.cameraZoomMode && Math.Abs(input.AnalogStick().Right.Y) > 0)
+      )
     {
       cameraHudOpacity = 1f;
       cameraHudTime = GameState.elapsedTime;
@@ -152,7 +157,7 @@ public class SpaceScene : CustomGameComponent
       }
     }
 
-    if (input.ContinuousPress(Keys.V))
+    if (input.ContinuousKeyPress(Keys.V))
     {
       cameraAngleHudOpacity = 1f;
       cameraAngleHudTime = GameState.elapsedTime;
@@ -165,7 +170,9 @@ public class SpaceScene : CustomGameComponent
       }
     }
 
-    if (input.OnFirstFramePress(Keys.Escape))
+
+
+    if (input.OnFirstFrameKeyPress(Keys.Escape) || input.OnFirstFrameButtonPress(Buttons.Start))
     {
       GameState.state = GameState.State.Pause;
     }
@@ -179,7 +186,12 @@ public class SpaceScene : CustomGameComponent
 
       Camera.Camera.targetZoomOverride = 1f;
 
-      if (!input.ContinuousPress(Keys.OemMinus) && !input.ContinuousPress(Keys.OemPlus))
+      if
+      (
+        !input.ContinuousKeyPress(Keys.OemMinus)
+        && !input.ContinuousKeyPress(Keys.OemPlus)
+        && Math.Abs(input.AnalogStick().Right.Y) == 0
+      )
       {
         GameState.targetZoom = previousTargetZoom;
       }
@@ -234,6 +246,22 @@ public class SpaceScene : CustomGameComponent
     if (cameraHudOpacity > 0 && cameraHudOpacity > cameraAngleHudOpacity)
     {
       cameraHudShadowOpacity = cameraHudOpacity;
+    }
+  }
+
+  private void AdjustCameraOffset()
+  {
+    if (GameState.state == GameState.State.Play
+      && !Camera.Camera.cameraZoomMode
+      && GameState.maneuverMode
+    )
+    {
+      Vector2 controllerCameraOffset = new Vector2(
+        -input.AnalogStick().Right.X,
+        input.AnalogStick().Right.Y
+      ) * GameState.screenSize.Y * 0.2f;
+
+      targetCameraOffset = controllerCameraOffset;
     }
   }
 }
