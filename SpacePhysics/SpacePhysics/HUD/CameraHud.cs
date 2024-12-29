@@ -89,7 +89,7 @@ public class CameraHud : CustomGameComponent
                 cameraAngleTextOpacity,
                 1f,
                 0f,
-                0.6f
+                opacityTransitionSpeed
             );
         }
     }

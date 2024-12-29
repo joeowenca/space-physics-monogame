@@ -12,8 +12,6 @@ public class StartScene : CustomGameComponent
 {
   private SceneManager sceneManager;
 
-  public static float transitionSpeed;
-
   private float opacity;
 
   public StartScene(
@@ -82,8 +80,6 @@ public class StartScene : CustomGameComponent
     Camera.Camera.allowInput = false;
 
     cameraOffset = cameraOffsetLeft;
-
-    transitionSpeed = 0.6f;
 
     base.Initialize();
   }
