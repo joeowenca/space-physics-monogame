@@ -248,7 +248,10 @@ public class SpaceScene : CustomGameComponent
 
   private void AdjustCameraOffset()
   {
-    if (GameState.state == GameState.State.Play && !Camera.Camera.cameraZoomMode)
+    if (GameState.state == GameState.State.Play
+      && !Camera.Camera.cameraZoomMode
+      && GameState.maneuverMode
+    )
     {
       Vector2 controllerCameraOffset = new Vector2(
         -input.AnalogStick().Right.X,

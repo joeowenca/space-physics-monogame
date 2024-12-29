@@ -143,7 +143,8 @@ public class RCSController : CustomGameComponent
 
         if (input.gamePadConnected)
         {
-          rcsTargetThrottle.X = input.AnalogStick().Left.X;
+          rcsTargetThrottle.X = input.AnalogStick().Left.X
+            + (!Camera.Camera.cameraZoomMode ? input.AnalogStick().Right.X : 0f);
           electricity -= deltaTime * Math.Abs(input.AnalogStick().Left.X);
         }
       }
@@ -169,7 +170,8 @@ public class RCSController : CustomGameComponent
 
       if (input.gamePadConnected)
       {
-        rcsTargetThrottle.Y = -input.AnalogStick().Left.Y;
+        rcsTargetThrottle.Y = -input.AnalogStick().Left.Y
+          + ((!Camera.Camera.cameraZoomMode && !maneuverMode) ? -input.AnalogStick().Right.Y : 0f);
         electricity -= deltaTime * Math.Abs(input.AnalogStick().Left.Y);
       }
     }
