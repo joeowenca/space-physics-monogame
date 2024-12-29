@@ -42,6 +42,8 @@ public class CameraHud : CustomGameComponent
 
     public override void Update()
     {
+        CenterCameraAngleText();
+
         cameraAngleText = Camera.Camera.changeCamera ? "Ship" : "Horizon";
 
         base.Update();
@@ -53,5 +55,10 @@ public class CameraHud : CustomGameComponent
         {
             component.Draw(spriteBatch);
         }
+    }
+
+    private void CenterCameraAngleText()
+    {
+        offset.X = (components[0].width + components[1].width) * -0.5f;
     }
 }
