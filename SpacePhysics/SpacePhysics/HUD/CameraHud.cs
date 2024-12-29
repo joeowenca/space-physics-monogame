@@ -1,6 +1,9 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using SpacePhysics.Scenes.Space;
+using SpacePhysics.Scenes.Start;
 using static SpacePhysics.GameState;
 
 namespace SpacePhysics.HUD;
@@ -8,6 +11,9 @@ namespace SpacePhysics.HUD;
 public class CameraHud : CustomGameComponent
 {
     private Vector2 offset;
+
+    private float cameraAngleTextOpacity;
+    private float cameraAngleTextOpacityTimer;
 
     private string cameraAngleText;
 
@@ -23,7 +29,7 @@ public class CameraHud : CustomGameComponent
             Alignment.TopCenter,
             TextAlign.Left,
             () => new Vector2(0f, 0f) + offset,
-            () => defaultColor * opacity(),
+            () => defaultColor * cameraAngleTextOpacity * opacity(),
             hudTextScale,
             11
         ));
@@ -34,7 +40,7 @@ public class CameraHud : CustomGameComponent
             Alignment.TopCenter,
             TextAlign.Left,
             () => new Vector2(components[0].width, 0f) + offset,
-            () => highlightColor * opacity(),
+            () => highlightColor * cameraAngleTextOpacity * opacity(),
             hudTextScale,
             11
         ));
@@ -44,7 +50,7 @@ public class CameraHud : CustomGameComponent
     {
         CenterCameraAngleText();
 
-        cameraAngleText = Camera.Camera.changeCamera ? "Ship" : "Horizon";
+        HandleCameraAngleChange();
 
         base.Update();
     }
@@ -60,5 +66,31 @@ public class CameraHud : CustomGameComponent
     private void CenterCameraAngleText()
     {
         offset.X = (components[0].width + components[1].width) * -0.5f;
+    }
+
+    private void HandleCameraAngleChange()
+    {
+        cameraAngleText = Camera.Camera.changeCamera ? "Ship" : "Horizon";
+
+        if
+        (
+            input.OnFirstFrameKeyPress(Keys.V)
+            || input.OnFirstFrameButtonPress(Buttons.Back)
+        )
+        {
+            cameraAngleTextOpacity = 1f;
+            cameraAngleTextOpacityTimer = elapsedTime;
+        }
+
+        if (elapsedTime > cameraAngleTextOpacityTimer + 2f)
+        {
+            cameraAngleTextOpacity = ColorHelper.FadeOpacity
+            (
+                cameraAngleTextOpacity,
+                1f,
+                0f,
+                0.6f
+            );
+        }
     }
 }
