@@ -209,7 +209,7 @@ public class Meter : CustomGameComponent
             "HUD/meter-indicator-left",
             Alignment.BottomCenter,
             Alignment.Center,
-            () => new Vector2((Ship.pitch * 314f) + 314f, -padding) + offset,
+            () => new Vector2((Ship.pitch * 314f) + 315f, -padding) + offset,
             () => (float)Math.PI * 0.5f,
             () => highlightColor * opacity(),
             hudScale,

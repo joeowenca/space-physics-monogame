@@ -141,7 +141,10 @@ public class SpaceScene : CustomGameComponent
 
   private void HandleInput()
   {
-    if (input.ContinuousKeyPress(Keys.OemMinus) || input.ContinuousKeyPress(Keys.OemPlus))
+    if (input.ContinuousKeyPress(Keys.OemMinus)
+        || input.ContinuousKeyPress(Keys.OemPlus)
+        || (Camera.Camera.cameraZoomMode && Math.Abs(input.AnalogStick().Right.Y) > 0)
+      )
     {
       cameraHudOpacity = 1f;
       cameraHudTime = GameState.elapsedTime;
