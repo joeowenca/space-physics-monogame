@@ -50,6 +50,7 @@ namespace SpacePhysics.Debugging
       statusItems.Add(new DebugItem("Altitude", () => (Math.Abs(GameState.position.Y) / units).ToString("0") + " m"));
       statusItems.Add(new DebugItem("Prograde", () => Math.Round(Math.Abs(velocityAngle * (180 / Math.PI)) % 360).ToString("0") + "°"));
       statusItems.Add(new DebugItem("Retrograde", () => Math.Round(Math.Abs((velocityAngle + Math.PI) * (180 / Math.PI)) % 360).ToString("0") + "°"));
+      statusItems.Add(new DebugItem("SAS Mode", () => SASController.sasModeString));
       statusItems.Add(new DebugItem("RCS Mode", () => maneuverMode ? "Maneuver" : "Docking"));
 
       for (int i = 0; i < statusItems.Count; i++)

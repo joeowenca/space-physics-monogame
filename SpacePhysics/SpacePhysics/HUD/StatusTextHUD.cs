@@ -2,11 +2,12 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SpacePhysics.Player;
 using static SpacePhysics.GameState;
 
 namespace SpacePhysics.HUD;
 
-public class CameraHud : CustomGameComponent
+public class StatusTextHUD : CustomGameComponent
 {
     private Vector2 offset;
 
@@ -16,7 +17,7 @@ public class CameraHud : CustomGameComponent
     private string labelText;
     private string valueText;
 
-    public CameraHud(Func<float> opacity) : base(true, Alignment.TopCenter, 11)
+    public StatusTextHUD(Func<float> opacity) : base(true, Alignment.TopCenter, 11)
     {
         offset = new Vector2(0, 350f);
 
@@ -52,6 +53,8 @@ public class CameraHud : CustomGameComponent
 
         HandleCameraChange();
 
+        HandleSASModeChange();
+
         base.Update();
     }
 
@@ -83,6 +86,34 @@ public class CameraHud : CustomGameComponent
         {
             labelText = "Camera Mode";
             valueText = Camera.Camera.cameraZoomMode ? "Zoom" : "Move";
+
+            textOpacity = 1f;
+            fadeOutTimer = elapsedTime;
+        }
+
+        if (elapsedTime > fadeOutTimer + 2f)
+        {
+            textOpacity = ColorHelper.FadeOpacity(
+                textOpacity,
+                1f,
+                0f,
+                opacityTransitionSpeed
+            );
+        }
+    }
+
+    private void HandleSASModeChange()
+    {
+        if
+        (
+            input.SetSASTargetProgradeOrStability()
+            || input.SetSASTargetRetrograde()
+            || input.SetSASTargetRadialLeft()
+            || input.SetSASTargetRadialRight()
+        )
+        {
+            labelText = "SAS Mode";
+            valueText = SASController.sasModeString;
 
             textOpacity = 1f;
             fadeOutTimer = elapsedTime;

@@ -90,6 +90,8 @@ public class Ship : CustomGameComponent
         AdjustPitch();
         ToggleSAS(input);
         Stabilize(input);
+        LockOnTarget(input);
+        SetSASMode(input);
         ToggleRCS(input);
         ToggleRCSMode(input);
 

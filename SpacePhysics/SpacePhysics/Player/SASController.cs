@@ -1,6 +1,5 @@
 using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using static SpacePhysics.GameState;
 using static SpacePhysics.Player.Ship;
 
@@ -8,7 +7,27 @@ namespace SpacePhysics.Player;
 
 public static class SASController
 {
+  public enum SASTarget
+  {
+    Stability,
+    Prograde,
+    Retrograde,
+    RadialLeft,
+    RadialRight
+  }
+
+  private static SASTarget sasTarget = SASTarget.Stability;
+
   private static float stabilityThreshold = 0.002f;
+
+  private static float Kp = 20.0f;
+  private static float Kv = 40.0f;
+
+  private static float targetAngle;
+
+  private static bool stabilityMode = true;
+
+  public static string sasModeString = "Stability";
 
   public static void ToggleSAS(InputManager input)
   {
@@ -21,10 +40,63 @@ public static class SASController
     if (electricity <= 0) sas = false;
   }
 
+  public static void SetSASMode(InputManager input)
+  {
+    if
+    (
+      input.SetSASTargetProgradeOrStability()
+      && sasTarget != SASTarget.Prograde
+      && sasTarget != SASTarget.Stability
+    )
+    {
+      sasTarget = SASTarget.Prograde;
+      stabilityMode = true;
+    }
+
+    if
+    (
+      input.SetSASTargetProgradeOrStability()
+      && (sasTarget == SASTarget.Prograde
+      || sasTarget == SASTarget.Stability)
+    )
+    {
+      stabilityMode = !stabilityMode;
+
+      sasTarget = SASTarget.Prograde;
+      sasModeString = "Prograde";
+
+      if (stabilityMode)
+      {
+        sasTarget = SASTarget.Stability;
+        sasModeString = "Stability";
+      }
+    }
+
+    if (input.SetSASTargetRetrograde())
+    {
+      sasTarget = SASTarget.Retrograde;
+      stabilityMode = false;
+      sasModeString = "Retrograde";
+    }
+    if (input.SetSASTargetRadialLeft())
+    {
+      sasTarget = SASTarget.RadialLeft;
+      stabilityMode = false;
+      sasModeString = "Radial Left";
+    }
+    if (input.SetSASTargetRadialRight())
+    {
+      sasTarget = SASTarget.RadialRight;
+      stabilityMode = false;
+      sasModeString = "Radial Right";
+    }
+  }
+
   public static void Stabilize(InputManager input)
   {
-    if (sas &&
-        (!maneuverMode || !(Math.Abs(input.AdjustPitch()) > 0f))
+    if (sas
+        && (!maneuverMode || !(Math.Abs(input.AdjustPitch()) > 0f))
+        && stabilityMode
       )
     {
       if (angularVelocity > stabilityThreshold)
@@ -43,6 +115,43 @@ public static class SASController
       {
         targetPitch = 0f;
         angularVelocity = 0f;
+      }
+    }
+  }
+
+  public static void LockOnTarget(InputManager input)
+  {
+    if (!stabilityMode)
+    {
+      if (sasTarget == SASTarget.Prograde)
+      {
+        targetAngle = velocityAngle;
+      }
+      else if (sasTarget == SASTarget.Retrograde)
+      {
+        targetAngle = velocityAngle + (float)Math.PI;
+      }
+      else if (sasTarget == SASTarget.RadialLeft)
+      {
+        targetAngle = velocityAngle - (float)(Math.PI * 0.5f) - (velocity.Length() > 10 ? 130 / velocity.Length() : 0f);
+      }
+      else if (sasTarget == SASTarget.RadialRight)
+      {
+        targetAngle = velocityAngle + (float)(Math.PI * 0.5f) + (velocity.Length() > 10 ? 130 / velocity.Length() : 0f);
+      }
+
+      float angleError = MathHelper.WrapAngle(targetAngle - direction);
+
+      float dampingPitch = -Kv * angularVelocity;
+
+      float anglePitch = Kp * angleError;
+
+      if (sas &&
+          (!maneuverMode || !(Math.Abs(input.AdjustPitch()) > 0f))
+        )
+      {
+        targetPitch = anglePitch + dampingPitch;
+        targetPitch = Math.Clamp(targetPitch, -1.0f, 1.0f);
       }
     }
   }
