@@ -129,4 +129,39 @@ public class InputManager
 
     return throttleChangeSpeed * throttleChangeAmount;
   }
+
+  public Vector2 AdjustRCS()
+  {
+    Vector2 rcsAmount = Vector2.Zero;
+
+    if (ContinuousKeyPress(Keys.Left) || ContinuousKeyPress(Keys.A))
+      rcsAmount.X = -1f;
+    if (ContinuousKeyPress(Keys.Right) || ContinuousKeyPress(Keys.D))
+      rcsAmount.X = 1f;
+    if (ContinuousKeyPress(Keys.Up) || ContinuousKeyPress(Keys.W))
+      rcsAmount.Y = -1f;
+    if (ContinuousKeyPress(Keys.Down) || ContinuousKeyPress(Keys.S))
+      rcsAmount.Y = 1f;
+
+    if (gamePadConnected)
+    {
+      rcsAmount.X = AnalogStick().Left.X
+        + (
+          !Camera.Camera.cameraZoomMode
+          && !GameState.maneuverMode ?
+          AnalogStick().Right.X
+          : 0f
+        );
+
+      rcsAmount.Y = -AnalogStick().Left.Y
+      + (
+        !Camera.Camera.cameraZoomMode
+        && !GameState.maneuverMode ?
+        -AnalogStick().Right.Y
+        : 0f
+      );
+    }
+
+    return rcsAmount;
+  }
 }

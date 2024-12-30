@@ -126,54 +126,16 @@ public class RCSController : CustomGameComponent
     {
       if (!maneuverMode)
       {
-        if (input.ContinuousKeyPress(Keys.Left) || input.ContinuousKeyPress(Keys.A))
-        {
-          rcsTargetThrottle.X = -1f;
-          electricity -= deltaTime;
-        }
-        else if (input.ContinuousKeyPress(Keys.Right) || input.ContinuousKeyPress(Keys.D))
-        {
-          rcsTargetThrottle.X = 1f;
-          electricity -= deltaTime;
-        }
-        else
-        {
-          rcsTargetThrottle.X = 0f;
-        }
-
-        if (input.gamePadConnected)
-        {
-          rcsTargetThrottle.X = input.AnalogStick().Left.X
-            + (!Camera.Camera.cameraZoomMode ? input.AnalogStick().Right.X : 0f);
-          electricity -= deltaTime * Math.Abs(input.AnalogStick().Left.X);
-        }
+        rcsTargetThrottle.X = input.AdjustRCS().X;
+        electricity -= deltaTime * input.AdjustRCS().X;
       }
       else
       {
         rcsTargetThrottle.X = 0f;
       }
 
-      if (input.ContinuousKeyPress(Keys.Up) || input.ContinuousKeyPress(Keys.W))
-      {
-        rcsTargetThrottle.Y = -1f;
-        electricity -= deltaTime * 2f;
-      }
-      else if (input.ContinuousKeyPress(Keys.Down) || input.ContinuousKeyPress(Keys.S))
-      {
-        rcsTargetThrottle.Y = 1f;
-        electricity -= deltaTime * 2f;
-      }
-      else
-      {
-        rcsTargetThrottle.Y = 0f;
-      }
-
-      if (input.gamePadConnected)
-      {
-        rcsTargetThrottle.Y = -input.AnalogStick().Left.Y
-          + ((!Camera.Camera.cameraZoomMode && !maneuverMode) ? -input.AnalogStick().Right.Y : 0f);
-        electricity -= deltaTime * Math.Abs(input.AnalogStick().Left.Y);
-      }
+      rcsTargetThrottle.Y = input.AdjustRCS().Y * 2f;
+      electricity -= deltaTime * input.AdjustRCS().Y * 2f;
     }
     else
     {
