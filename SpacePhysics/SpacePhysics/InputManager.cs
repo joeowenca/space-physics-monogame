@@ -206,4 +206,9 @@ public class InputManager
   {
     return OnFirstFrameKeyPress(Keys.B) || OnFirstFrameButtonPress(Buttons.LeftStick);
   }
+
+  public bool ToggleCameraAngle()
+  {
+    return OnFirstFrameKeyPress(Keys.V) || OnFirstFrameButtonPress(Buttons.Back);
+  }
 }

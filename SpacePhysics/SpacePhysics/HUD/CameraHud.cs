@@ -70,11 +70,7 @@ public class CameraHud : CustomGameComponent
 
     private void HandleCameraChange()
     {
-        if
-        (
-            input.OnFirstFrameKeyPress(Keys.V)
-            || input.OnFirstFrameButtonPress(Buttons.Back)
-        )
+        if (input.ToggleCameraAngle())
         {
             labelText = "Camera";
             valueText = Camera.Camera.changeCamera ? "Ship" : "Horizon";
