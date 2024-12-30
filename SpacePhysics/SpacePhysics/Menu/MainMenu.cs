@@ -105,34 +105,19 @@ public class MainMenu : CustomGameComponent
   {
     if (state == State.MainMenu)
     {
-      if (input.OnFirstFrameKeyPress(Keys.Down)
-        || input.OnFirstFrameButtonPress(Buttons.DPadDown)
-        || input.OnFirstFrameButtonPress(Buttons.LeftThumbstickDown)
-      )
+      if (input.MenuDown())
         activeMenu++;
 
-      if (input.OnFirstFrameKeyPress(Keys.Up)
-        || input.OnFirstFrameButtonPress(Buttons.DPadUp)
-        || input.OnFirstFrameButtonPress(Buttons.LeftThumbstickUp)
-      )
+      if (input.MenuUp())
         activeMenu--;
 
-      if (activeMenu == 1 &&
-        (input.OnFirstFrameKeyPress(Keys.Enter)
-        || input.OnFirstFrameButtonPress(Buttons.A))
-      )
+      if (activeMenu == 1 && input.MenuSelect())
         state = State.Play;
 
-      if (activeMenu == 2 &&
-        (input.OnFirstFrameKeyPress(Keys.Enter)
-        || input.OnFirstFrameButtonPress(Buttons.A))
-      )
+      if (activeMenu == 2 && input.MenuSelect())
         state = State.Settings;
 
-      if (activeMenu == 3 &&
-        (input.OnFirstFrameKeyPress(Keys.Enter)
-        || input.OnFirstFrameButtonPress(Buttons.A))
-      )
+      if (activeMenu == 3 && input.MenuSelect())
         quit = true;
     }
 

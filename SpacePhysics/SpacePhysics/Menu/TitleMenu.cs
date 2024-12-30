@@ -71,7 +71,7 @@ public class TitleMenu : CustomGameComponent
       opacity = ColorHelper.FadeOpacity(opacity, -2f, 0.9f, 5.5f);
     }
 
-    if (Keyboard.GetState().GetPressedKeys().Length > 0 && opacity >= 0.5f)
+    if (input.AnyKeyOrButton() && opacity >= 0.5f)
     {
       state = State.MainMenu;
     }

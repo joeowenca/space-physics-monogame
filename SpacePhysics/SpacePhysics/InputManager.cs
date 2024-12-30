@@ -216,4 +216,47 @@ public class InputManager
   {
     return OnFirstFrameButtonPress(Buttons.RightStick);
   }
+
+  public bool MenuUp()
+  {
+    return OnFirstFrameKeyPress(Keys.Up)
+      || OnFirstFrameButtonPress(Buttons.LeftThumbstickUp)
+      || OnFirstFrameButtonPress(Buttons.DPadUp);
+  }
+
+  public bool MenuDown()
+  {
+    return OnFirstFrameKeyPress(Keys.Down)
+      || OnFirstFrameButtonPress(Buttons.LeftThumbstickDown)
+      || OnFirstFrameButtonPress(Buttons.DPadDown);
+  }
+
+  public bool MenuLeft()
+  {
+    return OnFirstFrameKeyPress(Keys.Left)
+      || OnFirstFrameButtonPress(Buttons.LeftThumbstickLeft)
+      || OnFirstFrameButtonPress(Buttons.DPadLeft);
+  }
+
+  public bool MenuRight()
+  {
+    return OnFirstFrameKeyPress(Keys.Right)
+      || OnFirstFrameButtonPress(Buttons.LeftThumbstickRight)
+      || OnFirstFrameButtonPress(Buttons.DPadRight);
+  }
+
+  public bool MenuSelect()
+  {
+    return OnFirstFrameKeyPress(Keys.Enter) || OnFirstFrameButtonPress(Buttons.A);
+  }
+
+  public bool MenuBack()
+  {
+    return OnFirstFrameKeyPress(Keys.Escape) || OnFirstFrameButtonPress(Buttons.B);
+  }
+
+  public bool AnyKeyOrButton()
+  {
+    return Keyboard.GetState().GetPressedKeys().Length > 0 || previousGamePadState != currentGamePadState;
+  }
 }
