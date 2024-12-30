@@ -16,6 +16,9 @@ public class CameraHud : CustomGameComponent
     private float cameraAngleTextOpacity;
     private float cameraAngleTextOpacityTimer;
 
+    private float cameraModeTextOpacity;
+    private float cameraModeTextOpacityTimer;
+
     private string cameraAngleText;
     private string cameraModeText;
 
@@ -78,6 +81,7 @@ public class CameraHud : CustomGameComponent
         cameraModeOffset.X = CenterText(components[2].width, components[3].width);
 
         HandleCameraAngleChange();
+        HandleCameraModeChange();
 
         base.Update();
     }
@@ -114,6 +118,28 @@ public class CameraHud : CustomGameComponent
             cameraAngleTextOpacity = ColorHelper.FadeOpacity
             (
                 cameraAngleTextOpacity,
+                1f,
+                0f,
+                opacityTransitionSpeed
+            );
+        }
+    }
+
+    private void HandleCameraModeChange()
+    {
+        cameraModeText = Camera.Camera.cameraZoomMode ? "Zoom" : "Move";
+
+        if (input.OnFirstFrameButtonPress(Buttons.RightStick))
+        {
+            cameraModeTextOpacity = 1f;
+            cameraModeTextOpacityTimer = elapsedTime;
+        }
+
+        if (elapsedTime > cameraModeTextOpacityTimer + 2f)
+        {
+            cameraModeTextOpacity = ColorHelper.FadeOpacity
+            (
+                cameraModeTextOpacity,
                 1f,
                 0f,
                 opacityTransitionSpeed
