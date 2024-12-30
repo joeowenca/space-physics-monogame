@@ -10,66 +10,39 @@ namespace SpacePhysics.HUD;
 
 public class CameraHud : CustomGameComponent
 {
-    private Vector2 cameraAngleOffset;
-    private Vector2 cameraModeOffset;
+    private Vector2 offset;
 
-    private float cameraAngleTextOpacity;
-    private float cameraAngleTextOpacityTimer;
+    private float textOpacity;
+    private float fadeOutTimer;
 
-    private float cameraModeTextOpacity;
-    private float cameraModeTextOpacityTimer;
-
-    private string cameraAngleText;
-    private string cameraModeText;
+    private string labelText;
+    private string valueText;
 
     public CameraHud(Func<float> opacity) : base(true, Alignment.TopCenter, 11)
     {
-        cameraAngleOffset = new Vector2(0, 350f);
-        cameraModeOffset = new Vector2(0, 175f);
+        offset = new Vector2(0, 350f);
 
-        cameraAngleText = "Horizon";
-        cameraModeText = "Move";
+        labelText = "Camera";
+        valueText = "Horizon";
 
         components.Add(new HudText(
             "Fonts/text-font",
-            () => "Camera: ",
+            () => labelText + ": ",
             Alignment.TopCenter,
             TextAlign.Left,
-            () => new Vector2(0f, 0f) + cameraAngleOffset,
-            () => defaultColor * cameraAngleTextOpacity * opacity(),
+            () => new Vector2(0f, 0f) + offset,
+            () => defaultColor * textOpacity * opacity(),
             hudTextScale,
             11
         ));
 
         components.Add(new HudText(
             "Fonts/text-font",
-            () => cameraAngleText,
+            () => valueText,
             Alignment.TopCenter,
             TextAlign.Left,
-            () => new Vector2(components[0].width, 0f) + cameraAngleOffset,
-            () => highlightColor * cameraAngleTextOpacity * opacity(),
-            hudTextScale,
-            11
-        ));
-
-        components.Add(new HudText(
-            "Fonts/text-font",
-            () => "Camera Mode: ",
-            Alignment.TopCenter,
-            TextAlign.Left,
-            () => new Vector2(0f, 0f) + cameraModeOffset,
-            () => defaultColor * cameraModeTextOpacity * opacity(),
-            hudTextScale,
-            11
-        ));
-
-        components.Add(new HudText(
-            "Fonts/text-font",
-            () => cameraModeText,
-            Alignment.TopCenter,
-            TextAlign.Left,
-            () => new Vector2(components[2].width, 0f) + cameraModeOffset,
-            () => highlightColor * cameraModeTextOpacity * opacity(),
+            () => new Vector2(components[0].width, 0f) + offset,
+            () => highlightColor * textOpacity * opacity(),
             hudTextScale,
             11
         ));
@@ -77,11 +50,9 @@ public class CameraHud : CustomGameComponent
 
     public override void Update()
     {
-        cameraAngleOffset.X = CenterText(components[0].width, components[1].width);
-        cameraModeOffset.X = CenterText(components[2].width, components[3].width);
+        offset.X = CenterText(components[0].width, components[1].width);
 
-        HandleCameraAngleChange();
-        HandleCameraModeChange();
+        HandleCameraChange();
 
         base.Update();
     }
@@ -99,47 +70,34 @@ public class CameraHud : CustomGameComponent
         return (width1 + width2) * -0.5f;
     }
 
-    private void HandleCameraAngleChange()
+    private void HandleCameraChange()
     {
-        cameraAngleText = Camera.Camera.changeCamera ? "Ship" : "Horizon";
-
         if
         (
             input.OnFirstFrameKeyPress(Keys.V)
             || input.OnFirstFrameButtonPress(Buttons.Back)
         )
         {
-            cameraAngleTextOpacity = 1f;
-            cameraAngleTextOpacityTimer = elapsedTime;
-        }
+            labelText = "Camera";
+            valueText = Camera.Camera.changeCamera ? "Ship" : "Horizon";
 
-        if (elapsedTime > cameraAngleTextOpacityTimer + 2f)
-        {
-            cameraAngleTextOpacity = ColorHelper.FadeOpacity
-            (
-                cameraAngleTextOpacity,
-                1f,
-                0f,
-                opacityTransitionSpeed
-            );
+            textOpacity = 1f;
+            fadeOutTimer = elapsedTime;
         }
-    }
-
-    private void HandleCameraModeChange()
-    {
-        cameraModeText = Camera.Camera.cameraZoomMode ? "Zoom" : "Move";
 
         if (input.OnFirstFrameButtonPress(Buttons.RightStick))
         {
-            cameraModeTextOpacity = 1f;
-            cameraModeTextOpacityTimer = elapsedTime;
+            labelText = "Camera Mode";
+            valueText = Camera.Camera.cameraZoomMode ? "Zoom" : "Move";
+
+            textOpacity = 1f;
+            fadeOutTimer = elapsedTime;
         }
 
-        if (elapsedTime > cameraModeTextOpacityTimer + 2f)
+        if (elapsedTime > fadeOutTimer + 2f)
         {
-            cameraModeTextOpacity = ColorHelper.FadeOpacity
-            (
-                cameraModeTextOpacity,
+            textOpacity = ColorHelper.FadeOpacity(
+                textOpacity,
                 1f,
                 0f,
                 opacityTransitionSpeed
