@@ -48,6 +48,7 @@ public class GameState
   public static float hudTextScale;
   public static float hudScaleOverride;
   public static float hudScaleOverrideFactor;
+  public static float opacityTransitionSpeed;
   public static float units;
   public static float elapsedTime;
   public static float deltaTime;
@@ -85,6 +86,7 @@ public class GameState
     hudTextScale = hudScale * 0.4f;
     hudScaleOverrideFactor = 0.75f;
     hudScaleOverride = scale * hudScaleOverrideFactor;
+    opacityTransitionSpeed = 0.6f;
     units = 5f;
     elapsedTime = 0f;
     deltaTime = 0f;

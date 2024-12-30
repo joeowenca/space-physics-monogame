@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using static SpacePhysics.GameState;
 
 namespace SpacePhysics.HUD;
@@ -9,46 +10,49 @@ public class CameraHud : CustomGameComponent
 {
     private Vector2 offset;
 
-    public CameraHud(Func<float> opacity) : base(false, Alignment.TopCenter, 11)
+    private float textOpacity;
+    private float fadeOutTimer;
+
+    private string labelText;
+    private string valueText;
+
+    public CameraHud(Func<float> opacity) : base(true, Alignment.TopCenter, 11)
     {
         offset = new Vector2(0, 350f);
 
-        HudSprite meter = new(
-            "HUD/meter-left",
-            Alignment.TopCenter,
-            Alignment.Center,
-            () => offset,
-            () => -(float)Math.PI * 0.5f,
-            () => defaultColor * opacity(),
-            hudScale,
-            11
-        );
+        labelText = "Camera";
+        valueText = "Horizon";
 
-        HudSprite indicator = new(
-            "HUD/meter-indicator-left",
-            Alignment.TopCenter,
-            Alignment.Center,
-            () => new Vector2((zoomPercent * 6.28f) - 628f, 0) + offset,
-            () => -(float)Math.PI * 0.5f,
-            () => highlightColor * opacity(),
-            hudScale,
-            11
-        );
-
-        HudText percent = new(
+        components.Add(new HudText(
             "Fonts/text-font",
-            () => zoomPercent.ToString("0") + "%",
+            () => labelText + ": ",
             Alignment.TopCenter,
-            TextAlign.Center,
-            () => new Vector2(0, 120f) + offset,
-            () => highlightColor * opacity(),
+            TextAlign.Left,
+            () => new Vector2(0f, 0f) + offset,
+            () => defaultColor * textOpacity * opacity(),
             hudTextScale,
             11
-        );
+        ));
 
-        components.Add(meter);
-        components.Add(indicator);
-        components.Add(percent);
+        components.Add(new HudText(
+            "Fonts/text-font",
+            () => valueText,
+            Alignment.TopCenter,
+            TextAlign.Left,
+            () => new Vector2(components[0].width, 0f) + offset,
+            () => highlightColor * textOpacity * opacity(),
+            hudTextScale,
+            11
+        ));
+    }
+
+    public override void Update()
+    {
+        offset.X = CenterText(components[0].width, components[1].width);
+
+        HandleCameraChange();
+
+        base.Update();
     }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -56,6 +60,46 @@ public class CameraHud : CustomGameComponent
         foreach (var component in components)
         {
             component.Draw(spriteBatch);
+        }
+    }
+
+    private float CenterText(float width1, float width2)
+    {
+        return (width1 + width2) * -0.5f;
+    }
+
+    private void HandleCameraChange()
+    {
+        if
+        (
+            input.OnFirstFrameKeyPress(Keys.V)
+            || input.OnFirstFrameButtonPress(Buttons.Back)
+        )
+        {
+            labelText = "Camera";
+            valueText = Camera.Camera.changeCamera ? "Ship" : "Horizon";
+
+            textOpacity = 1f;
+            fadeOutTimer = elapsedTime;
+        }
+
+        if (input.OnFirstFrameButtonPress(Buttons.RightStick))
+        {
+            labelText = "Camera Mode";
+            valueText = Camera.Camera.cameraZoomMode ? "Zoom" : "Move";
+
+            textOpacity = 1f;
+            fadeOutTimer = elapsedTime;
+        }
+
+        if (elapsedTime > fadeOutTimer + 2f)
+        {
+            textOpacity = ColorHelper.FadeOpacity(
+                textOpacity,
+                1f,
+                0f,
+                opacityTransitionSpeed
+            );
         }
     }
 }

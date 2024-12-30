@@ -82,12 +82,12 @@ public class Title : CustomGameComponent
   {
     if (state != State.TitleScreen && state != State.MainMenu)
     {
-      opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, StartScene.transitionSpeed);
+      opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, opacityTransitionSpeed);
       targetOffsetY = -50;
     }
     else if (state == State.MainMenu)
     {
-      opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, StartScene.transitionSpeed);
+      opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, opacityTransitionSpeed);
       targetOffsetY = -50;
     }
     else

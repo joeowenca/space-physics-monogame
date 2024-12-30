@@ -90,14 +90,14 @@ public class MainMenu : CustomGameComponent
     if (state != State.MainMenu)
     {
       if (opacity > 0)
-        opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, StartScene.transitionSpeed);
+        opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, opacityTransitionSpeed);
 
       if (opacity <= 0.1f)
         activeMenu = 1;
     }
     else
     {
-      opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, StartScene.transitionSpeed);
+      opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, opacityTransitionSpeed);
     }
   }
 

@@ -17,11 +17,6 @@ public class SpaceScene : CustomGameComponent
 
   private float opacity;
   private float hudOpacity;
-  private float cameraHudOpacity;
-  private float cameraHudShadowOpacity;
-  private float cameraAngleHudOpacity;
-  private float cameraHudTime;
-  private float cameraAngleHudTime;
   private float previousTargetZoom;
 
   public SpaceScene(SceneManager sceneManager) : base(true, Alignment.TopLeft, 7)
@@ -34,12 +29,14 @@ public class SpaceScene : CustomGameComponent
       2f,
       1
     ));
+
     components.Add(new LoopingBackground(
       "Backgrounds/purple-background",
       () => new Color(100, 100, 100, 0) * opacity,
       3f,
       2
     ));
+
     components.Add(new LoopingBackground(
       "Backgrounds/purple-background-2",
       () => new Color(100, 100, 100, 0) * opacity,
@@ -81,23 +78,8 @@ public class SpaceScene : CustomGameComponent
       () => opacity * hudOpacity
     ));
 
-    components.Add(new HudSprite(
-        "HUD/hud-shadow",
-        Alignment.TopCenter,
-        Alignment.Center,
-        () => new Vector2(0f, 500f),
-        () => (float)Math.PI,
-        () => Color.White * 0.75f * cameraHudShadowOpacity * hudOpacity,
-        GameState.hudScale * 0.5f,
-        11
-    ));
-
     components.Add(new CameraHud(
-      () => opacity * cameraHudOpacity * hudOpacity
-    ));
-
-    components.Add(new CameraAngleHud(
-      () => opacity * cameraAngleHudOpacity * hudOpacity
+      () => opacity * hudOpacity
     ));
 
     components.Add(new PauseMenu(
@@ -128,54 +110,16 @@ public class SpaceScene : CustomGameComponent
 
   public override void Update()
   {
-    HandleInput();
-
     TransitionState();
 
-    UpdateOpacity();
-
     AdjustCameraOffset();
-
-    base.Update();
-  }
-
-  private void HandleInput()
-  {
-    if (input.ContinuousKeyPress(Keys.OemMinus)
-        || input.ContinuousKeyPress(Keys.OemPlus)
-        || (Camera.Camera.cameraZoomMode && Math.Abs(input.AnalogStick().Right.Y) > 0)
-      )
-    {
-      cameraHudOpacity = 1f;
-      cameraHudTime = GameState.elapsedTime;
-    }
-    else
-    {
-      if (GameState.elapsedTime > cameraHudTime + 2)
-      {
-        cameraHudOpacity = ColorHelper.FadeOpacity(cameraHudOpacity, 1f, 0f, StartScene.transitionSpeed);
-      }
-    }
-
-    if (input.ContinuousKeyPress(Keys.V))
-    {
-      cameraAngleHudOpacity = 1f;
-      cameraAngleHudTime = GameState.elapsedTime;
-    }
-    else
-    {
-      if (GameState.elapsedTime > cameraAngleHudTime + 2)
-      {
-        cameraAngleHudOpacity = ColorHelper.FadeOpacity(cameraAngleHudOpacity, 1f, 0f, StartScene.transitionSpeed);
-      }
-    }
-
-
 
     if (input.OnFirstFrameKeyPress(Keys.Escape) || input.OnFirstFrameButtonPress(Buttons.Start))
     {
       GameState.state = GameState.State.Pause;
     }
+
+    base.Update();
   }
 
   private void TransitionState()
@@ -233,19 +177,6 @@ public class SpaceScene : CustomGameComponent
       Camera.Camera.targetZoomOverride = 1f;
 
       return;
-    }
-  }
-
-  private void UpdateOpacity()
-  {
-    if (cameraAngleHudOpacity > 0 && cameraAngleHudOpacity > cameraHudOpacity)
-    {
-      cameraHudShadowOpacity = cameraAngleHudOpacity;
-    }
-
-    if (cameraHudOpacity > 0 && cameraHudOpacity > cameraAngleHudOpacity)
-    {
-      cameraHudShadowOpacity = cameraHudOpacity;
     }
   }
 

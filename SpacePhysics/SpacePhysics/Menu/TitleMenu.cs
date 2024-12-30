@@ -64,7 +64,7 @@ public class TitleMenu : CustomGameComponent
   {
     if (state != State.TitleScreen)
     {
-      opacity = ColorHelper.FadeOpacity(opacity, 0.9f, 0f, StartScene.transitionSpeed);
+      opacity = ColorHelper.FadeOpacity(opacity, 0.9f, 0f, opacityTransitionSpeed);
     }
     else
     {
