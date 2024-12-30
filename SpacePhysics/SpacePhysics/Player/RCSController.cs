@@ -75,7 +75,7 @@ public class RCSController : CustomGameComponent
 
   public static void ToggleRCSMode(InputManager input)
   {
-    if ((input.OnFirstFrameKeyPress(Keys.B) || input.OnFirstFrameButtonPress(Buttons.LeftStick)) && electricity > 0)
+    if (input.ToggleRCSMode() && electricity > 0)
     {
       maneuverMode = !maneuverMode;
       electricity -= deltaTime;

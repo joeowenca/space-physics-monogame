@@ -201,4 +201,9 @@ public class InputManager
   {
     return OnFirstFrameKeyPress(Keys.R) || OnFirstFrameButtonPress(Buttons.X);
   }
+
+  public bool ToggleRCSMode()
+  {
+    return OnFirstFrameKeyPress(Keys.B) || OnFirstFrameButtonPress(Buttons.LeftStick);
+  }
 }
