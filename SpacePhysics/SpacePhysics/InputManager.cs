@@ -110,4 +110,23 @@ public class InputManager
 
     return 0f;
   }
+
+  public float AdjustThrottle()
+  {
+    float throttleChangeSpeed = GameState.deltaTime * 0.4f;
+    float throttleChangeAmount = 0f;
+
+    if (gamePadConnected)
+    {
+      throttleChangeAmount = (Trigger().Right + -Trigger().Left) * 10f;
+    }
+
+    if (ContinuousKeyPress(Keys.LeftShift)) throttleChangeAmount = 1f;
+    if (ContinuousKeyPress(Keys.LeftControl)) throttleChangeAmount = -1f;
+
+    if (OnFirstFrameKeyPress(Keys.Z)) throttleChangeAmount = 1000f;
+    if (OnFirstFrameKeyPress(Keys.X)) throttleChangeAmount = -1000f;
+
+    return throttleChangeSpeed * throttleChangeAmount;
+  }
 }
