@@ -20,8 +20,8 @@ public static class SASController
 
   private static float stabilityThreshold = 0.002f;
 
-  private static float Kp = 20.0f;
-  private static float Kv = 40.0f;
+  private static float Kp = 10.0f;
+  private static float Kv = 15.0f;
 
   private static float targetAngle;
 
@@ -140,11 +140,13 @@ public static class SASController
         targetAngle = radialRightRadians;
       }
 
-      float angleError = MathHelper.WrapAngle(targetAngle - direction);
+      float target = targetAngle + progradeAngularVelocity * 30000f * deltaTime;
 
-      float dampingPitch = -Kv * angularVelocity;
+      float angleError = MathHelper.WrapAngle(target - direction);
 
       float anglePitch = Kp * angleError;
+
+      float dampingPitch = -Kv * angularVelocity;
 
       if (sas &&
           (!maneuverMode || !(Math.Abs(input.AdjustPitch()) > 0f))

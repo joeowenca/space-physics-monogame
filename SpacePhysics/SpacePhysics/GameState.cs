@@ -27,6 +27,8 @@ public class GameState
 
   public static float angularVelocity;
   public static float progradeRadians;
+  public static float previousProgradeRadians;
+  public static float progradeAngularVelocity;
   public static float retrogradeRadians;
   public static float radialLeftRadians;
   public static float radialRightRadians;
@@ -72,6 +74,8 @@ public class GameState
     highlightColor = Color.Gold;
     angularVelocity = 0f;
     progradeRadians = 0f;
+    previousProgradeRadians = 0f;
+    progradeAngularVelocity = 0f;
     retrogradeRadians = 0f;
     radialLeftRadians = 0f;
     radialRightRadians = 0f;
@@ -116,6 +120,10 @@ public class GameState
   public static void Update(GameTime gameTime)
   {
     progradeRadians = MathF.Atan2(velocity.Y, velocity.X) + (float)(Math.PI * 0.5f);
+
+    progradeAngularVelocity = progradeRadians - previousProgradeRadians;
+
+    previousProgradeRadians = progradeRadians;
 
     if (progradeRadians == (float)(Math.PI * 0.5f) && velocity == Vector2.Zero)
     {
