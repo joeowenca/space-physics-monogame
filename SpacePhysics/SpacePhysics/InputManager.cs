@@ -191,4 +191,9 @@ public class InputManager
       return 0f;
     }
   }
+
+  public bool ToggleSAS()
+  {
+    return OnFirstFrameKeyPress(Keys.T) || OnFirstFrameButtonPress(Buttons.Y);
+  }
 }
