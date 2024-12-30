@@ -16,7 +16,7 @@ public static class SASController
     RadialRight
   }
 
-  public static SASTarget sasTarget = SASTarget.Stability;
+  private static SASTarget sasTarget = SASTarget.Stability;
 
   private static float stabilityThreshold = 0.002f;
 
@@ -26,6 +26,8 @@ public static class SASController
   private static float targetAngle;
 
   private static bool stabilityMode = true;
+
+  public static string sasModeString = "Stability";
 
   public static void ToggleSAS(InputManager input)
   {
@@ -61,23 +63,40 @@ public static class SASController
       stabilityMode = !stabilityMode;
 
       sasTarget = SASTarget.Prograde;
+      sasModeString = "Prograde";
 
       if (stabilityMode)
       {
         sasTarget = SASTarget.Stability;
+        sasModeString = "Stability";
       }
     }
 
-    if (input.SetSASTargetRetrograde()) sasTarget = SASTarget.Retrograde;
-    if (input.SetSASTargetRadialLeft()) sasTarget = SASTarget.RadialLeft;
-    if (input.SetSASTargetRadialRight()) sasTarget = SASTarget.RadialRight;
+    if (input.SetSASTargetRetrograde())
+    {
+      sasTarget = SASTarget.Retrograde;
+      stabilityMode = false;
+      sasModeString = "Retrograde";
+    }
+    if (input.SetSASTargetRadialLeft())
+    {
+      sasTarget = SASTarget.RadialLeft;
+      stabilityMode = false;
+      sasModeString = "Radial Left";
+    }
+    if (input.SetSASTargetRadialRight())
+    {
+      sasTarget = SASTarget.RadialRight;
+      stabilityMode = false;
+      sasModeString = "Radial Right";
+    }
   }
 
   public static void Stabilize(InputManager input)
   {
     if (sas
         && (!maneuverMode || !(Math.Abs(input.AdjustPitch()) > 0f))
-        && sasTarget == SASTarget.Stability
+        && stabilityMode
       )
     {
       if (angularVelocity > stabilityThreshold)
@@ -102,7 +121,7 @@ public static class SASController
 
   public static void LockOnTarget(InputManager input)
   {
-    if (sasTarget != SASTarget.Stability)
+    if (!stabilityMode)
     {
       if (sasTarget == SASTarget.Prograde)
       {
