@@ -79,7 +79,7 @@ public class CameraHud : CustomGameComponent
             fadeOutTimer = elapsedTime;
         }
 
-        if (input.OnFirstFrameButtonPress(Buttons.RightStick))
+        if (input.ToggleCameraMode())
         {
             labelText = "Camera Mode";
             valueText = Camera.Camera.cameraZoomMode ? "Zoom" : "Move";

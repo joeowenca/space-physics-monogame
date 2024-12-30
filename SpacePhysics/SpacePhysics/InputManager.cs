@@ -211,4 +211,9 @@ public class InputManager
   {
     return OnFirstFrameKeyPress(Keys.V) || OnFirstFrameButtonPress(Buttons.Back);
   }
+
+  public bool ToggleCameraMode()
+  {
+    return OnFirstFrameButtonPress(Buttons.RightStick);
+  }
 }

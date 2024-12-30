@@ -105,7 +105,7 @@ public class Camera
       rotation = 0f;
     }
 
-    if (input.OnFirstFrameButtonPress(Buttons.RightStick))
+    if (input.ToggleCameraMode())
     {
       cameraZoomMode = !cameraZoomMode;
     }
