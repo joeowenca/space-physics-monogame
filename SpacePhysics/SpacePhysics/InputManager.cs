@@ -97,4 +97,17 @@ public class InputManager
       currentGamePadState.Triggers.Right
     );
   }
+
+  public float AdjustPitch()
+  {
+    if (ContinuousKeyPress(Keys.Right) || ContinuousKeyPress(Keys.D)) return 1f;
+    if (ContinuousKeyPress(Keys.Left) || ContinuousKeyPress(Keys.A)) return -1f;
+
+    if (gamePadConnected)
+    {
+      return AnalogStick().Left.X;
+    }
+
+    return 0f;
+  }
 }

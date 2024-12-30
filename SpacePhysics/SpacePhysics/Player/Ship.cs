@@ -258,23 +258,8 @@ public class Ship : CustomGameComponent
 
       if (pitch < -0.99f) pitch = -1f;
 
-      if (input.ContinuousKeyPress(Keys.Right) || input.ContinuousKeyPress(Keys.D))
-      {
-        targetPitch = 1f;
-        electricity -= deltaTime;
-      }
-
-      if (input.ContinuousKeyPress(Keys.Left) || input.ContinuousKeyPress(Keys.A))
-      {
-        targetPitch = -1f;
-        electricity -= deltaTime;
-      }
-
-      if (input.gamePadConnected)
-      {
-        targetPitch = input.AnalogStick().Left.X;
-        electricity -= deltaTime * Math.Abs(input.AnalogStick().Left.X);
-      }
+      targetPitch = input.AdjustPitch();
+      electricity -= deltaTime * Math.Abs(input.AdjustPitch());
     }
   }
 
