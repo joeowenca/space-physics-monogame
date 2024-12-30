@@ -40,7 +40,7 @@ public class Gauge : CustomGameComponent
             Alignment.BottomCenter,
             Alignment.Center,
             () => offset,
-            () => velocityAngle,
+            () => progradeRadians,
             () => new Color(0, 255, 0) * opacity(),
             hudScale,
             11
@@ -51,7 +51,7 @@ public class Gauge : CustomGameComponent
             Alignment.BottomCenter,
             Alignment.Center,
             () => offset,
-            () => velocityAngle + (float)Math.PI,
+            () => retrogradeRadians,
             () => Color.Red * opacity(),
             hudScale,
             11
@@ -62,7 +62,7 @@ public class Gauge : CustomGameComponent
             Alignment.BottomCenter,
             Alignment.Center,
             () => offset,
-            () => velocityAngle - (float)(Math.PI * 0.5f),
+            () => radialLeftRadians,
             () => Color.Cyan * opacity(),
             hudScale,
             11
@@ -73,7 +73,7 @@ public class Gauge : CustomGameComponent
             Alignment.BottomCenter,
             Alignment.Center,
             () => offset,
-            () => velocityAngle + (float)(Math.PI * 0.5f),
+            () => radialRightRadians,
             () => Color.Cyan * opacity(),
             hudScale,
             11

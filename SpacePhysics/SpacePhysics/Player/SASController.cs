@@ -125,19 +125,19 @@ public static class SASController
     {
       if (sasTarget == SASTarget.Prograde)
       {
-        targetAngle = velocityAngle;
+        targetAngle = progradeRadians;
       }
       else if (sasTarget == SASTarget.Retrograde)
       {
-        targetAngle = velocityAngle + (float)Math.PI;
+        targetAngle = retrogradeRadians;
       }
       else if (sasTarget == SASTarget.RadialLeft)
       {
-        targetAngle = velocityAngle - (float)(Math.PI * 0.5f) - (velocity.Length() > 10 ? 130 / velocity.Length() : 0f);
+        targetAngle = radialLeftRadians;
       }
       else if (sasTarget == SASTarget.RadialRight)
       {
-        targetAngle = velocityAngle + (float)(Math.PI * 0.5f) + (velocity.Length() > 10 ? 130 / velocity.Length() : 0f);
+        targetAngle = radialRightRadians;
       }
 
       float angleError = MathHelper.WrapAngle(targetAngle - direction);

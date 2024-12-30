@@ -26,7 +26,10 @@ public class GameState
   public static Color highlightColor;
 
   public static float angularVelocity;
-  public static float velocityAngle;
+  public static float progradeRadians;
+  public static float retrogradeRadians;
+  public static float radialLeftRadians;
+  public static float radialRightRadians;
   public static float direction;
   public static float throttle;
   public static float targetThrottle;
@@ -68,7 +71,10 @@ public class GameState
     defaultColor = Color.White * 0.75f;
     highlightColor = Color.Gold;
     angularVelocity = 0f;
-    velocityAngle = 0f;
+    progradeRadians = 0f;
+    retrogradeRadians = 0f;
+    radialLeftRadians = 0f;
+    radialRightRadians = 0f;
     direction = 0f;
     throttle = 0f;
     targetThrottle = 0f;
@@ -109,7 +115,16 @@ public class GameState
 
   public static void Update(GameTime gameTime)
   {
-    velocityAngle = MathF.Atan2(velocity.Y, velocity.X) + (float)(Math.PI * 0.5f);
+    progradeRadians = MathF.Atan2(velocity.Y, velocity.X) + (float)(Math.PI * 0.5f);
+
+    if (progradeRadians == (float)(Math.PI * 0.5f) && velocity == Vector2.Zero)
+    {
+      progradeRadians = 0f;
+    }
+
+    retrogradeRadians = progradeRadians + (float)Math.PI;
+    radialLeftRadians = progradeRadians - (float)Math.PI * 0.5f;
+    radialRightRadians = progradeRadians + (float)Math.PI * 0.5f;
 
     fuelPercent = fuel / maxFuel * 100f;
     fuel = Math.Clamp(fuel, 0f, maxFuel);
@@ -119,11 +134,6 @@ public class GameState
 
     electricityPercent = electricity / maxElectricity * 100f;
     electricity = Math.Clamp(electricity, 0f, maxElectricity);
-
-    if (velocityAngle == (float)(Math.PI * 0.5f) && velocity == Vector2.Zero)
-    {
-      velocityAngle = 0f;
-    }
 
     deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
     elapsedTime += deltaTime;
