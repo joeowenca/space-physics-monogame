@@ -196,4 +196,9 @@ public class InputManager
   {
     return OnFirstFrameKeyPress(Keys.T) || OnFirstFrameButtonPress(Buttons.Y);
   }
+
+  public bool ToggleRCS()
+  {
+    return OnFirstFrameKeyPress(Keys.R) || OnFirstFrameButtonPress(Buttons.X);
+  }
 }

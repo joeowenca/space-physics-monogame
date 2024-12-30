@@ -64,7 +64,7 @@ public class RCSController : CustomGameComponent
 
   public static void ToggleRCS(InputManager input)
   {
-    if (input.OnFirstFrameKeyPress(Keys.R) || input.OnFirstFrameButtonPress(Buttons.X))
+    if (input.ToggleRCS())
     {
       rcs = !rcs;
       electricity -= deltaTime;
