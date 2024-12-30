@@ -25,6 +25,8 @@ public static class SASController
 
   private static float targetAngle;
 
+  private static bool stabilityMode = true;
+
   public static void ToggleSAS(InputManager input)
   {
     if (input.ToggleSAS())
@@ -46,24 +48,24 @@ public static class SASController
     )
     {
       sasTarget = SASTarget.Prograde;
+      stabilityMode = true;
     }
 
     if
     (
       input.SetSASTargetProgradeOrStability()
-      && sasTarget == SASTarget.Prograde
+      && (sasTarget == SASTarget.Prograde
+      || sasTarget == SASTarget.Stability)
     )
     {
-      sasTarget = SASTarget.Stability;
-    }
+      stabilityMode = !stabilityMode;
 
-    if
-    (
-      input.SetSASTargetProgradeOrStability()
-      && sasTarget == SASTarget.Stability
-    )
-    {
       sasTarget = SASTarget.Prograde;
+
+      if (stabilityMode)
+      {
+        sasTarget = SASTarget.Stability;
+      }
     }
 
     if (input.SetSASTargetRetrograde()) sasTarget = SASTarget.Retrograde;
