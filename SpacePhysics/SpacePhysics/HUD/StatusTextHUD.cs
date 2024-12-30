@@ -57,6 +57,16 @@ public class StatusTextHUD : CustomGameComponent
 
         HandleRCSModeChange();
 
+        if (elapsedTime > fadeOutTimer + 2f)
+        {
+            textOpacity = ColorHelper.FadeOpacity(
+                textOpacity,
+                1f,
+                0f,
+                opacityTransitionSpeed
+            );
+        }
+
         base.Update();
     }
 
@@ -92,16 +102,6 @@ public class StatusTextHUD : CustomGameComponent
             textOpacity = 1f;
             fadeOutTimer = elapsedTime;
         }
-
-        if (elapsedTime > fadeOutTimer + 2f)
-        {
-            textOpacity = ColorHelper.FadeOpacity(
-                textOpacity,
-                1f,
-                0f,
-                opacityTransitionSpeed
-            );
-        }
     }
 
     private void HandleSASModeChange()
@@ -120,16 +120,6 @@ public class StatusTextHUD : CustomGameComponent
             textOpacity = 1f;
             fadeOutTimer = elapsedTime;
         }
-
-        if (elapsedTime > fadeOutTimer + 2f)
-        {
-            textOpacity = ColorHelper.FadeOpacity(
-                textOpacity,
-                1f,
-                0f,
-                opacityTransitionSpeed
-            );
-        }
     }
 
     private void HandleRCSModeChange()
@@ -141,16 +131,6 @@ public class StatusTextHUD : CustomGameComponent
 
             textOpacity = 1f;
             fadeOutTimer = elapsedTime;
-        }
-
-        if (elapsedTime > fadeOutTimer + 2f)
-        {
-            textOpacity = ColorHelper.FadeOpacity(
-                textOpacity,
-                1f,
-                0f,
-                opacityTransitionSpeed
-            );
         }
     }
 }
