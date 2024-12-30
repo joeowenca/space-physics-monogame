@@ -114,11 +114,11 @@ public static class SASController
       }
       else if (sasTarget == SASTarget.RadialLeft)
       {
-        targetAngle = velocityAngle - (float)(Math.PI * 0.5f) - (130 / velocity.Length());
+        targetAngle = velocityAngle - (float)(Math.PI * 0.5f) - (velocity.Length() > 10 ? 130 / velocity.Length() : 0f);
       }
       else if (sasTarget == SASTarget.RadialRight)
       {
-        targetAngle = velocityAngle + (float)(Math.PI * 0.5f) + (130 / velocity.Length());
+        targetAngle = velocityAngle + (float)(Math.PI * 0.5f) + (velocity.Length() > 10 ? 130 / velocity.Length() : 0f);
       }
 
       float angleError = MathHelper.WrapAngle(targetAngle - direction);
