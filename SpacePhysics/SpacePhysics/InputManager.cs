@@ -255,6 +255,11 @@ public class InputManager
     return OnFirstFrameKeyPress(Keys.Escape) || OnFirstFrameButtonPress(Buttons.B);
   }
 
+  public bool MenuPause()
+  {
+    return OnFirstFrameKeyPress(Keys.Escape) || OnFirstFrameButtonPress(Buttons.Start);
+  }
+
   public bool AnyKeyOrButton()
   {
     return Keyboard.GetState().GetPressedKeys().Length > 0 || previousGamePadState != currentGamePadState;
