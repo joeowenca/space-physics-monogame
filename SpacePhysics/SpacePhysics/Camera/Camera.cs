@@ -115,28 +115,16 @@ public class Camera
   {
     parallaxFactor *= 7;
 
-    if (cameraZoomMode)
+    zoomSpeed = 1f + (Math.Abs(input.AdjustCameraZoom()) * 0.3f);
+
+    if (input.AdjustCameraZoom() > 0)
     {
-      zoomSpeed = 1f + (Math.Abs(input.AnalogStick().Right.Y) * 0.3f);
-
-      if (input.AnalogStick().Right.Y > 0)
-      {
-        targetZoom *= (float)Math.Pow(zoomSpeed, deltaTime);
-      }
-
-      if (input.AnalogStick().Right.Y < 0)
-      {
-        targetZoom /= (float)Math.Pow(zoomSpeed, deltaTime);
-      }
+      targetZoom *= (float)Math.Pow(zoomSpeed, deltaTime);
     }
-    else
-    {
-      zoomSpeed = 1.3f;
 
-      if (input.ContinuousKeyPress(Keys.OemPlus))
-        targetZoom *= (float)Math.Pow(zoomSpeed, deltaTime);
-      if (input.ContinuousKeyPress(Keys.OemMinus))
-        targetZoom /= (float)Math.Pow(zoomSpeed, deltaTime);
+    if (input.AdjustCameraZoom() < 0)
+    {
+      targetZoom /= (float)Math.Pow(zoomSpeed, deltaTime);
     }
 
     if (parallaxFactor == 1) return 1f;

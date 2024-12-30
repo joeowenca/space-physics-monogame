@@ -98,38 +98,6 @@ public class InputManager
     );
   }
 
-  public float AdjustPitch()
-  {
-    if (ContinuousKeyPress(Keys.Right) || ContinuousKeyPress(Keys.D)) return 1f;
-    if (ContinuousKeyPress(Keys.Left) || ContinuousKeyPress(Keys.A)) return -1f;
-
-    if (gamePadConnected)
-    {
-      return AnalogStick().Left.X;
-    }
-
-    return 0f;
-  }
-
-  public float AdjustThrottle()
-  {
-    float throttleChangeSpeed = GameState.deltaTime * 0.4f;
-    float throttleChangeAmount = 0f;
-
-    if (gamePadConnected)
-    {
-      throttleChangeAmount = (Trigger().Right + -Trigger().Left) * 10f;
-    }
-
-    if (ContinuousKeyPress(Keys.LeftShift)) throttleChangeAmount = 1f;
-    if (ContinuousKeyPress(Keys.LeftControl)) throttleChangeAmount = -1f;
-
-    if (OnFirstFrameKeyPress(Keys.Z)) throttleChangeAmount = 1000f;
-    if (OnFirstFrameKeyPress(Keys.X)) throttleChangeAmount = -1000f;
-
-    return throttleChangeSpeed * throttleChangeAmount;
-  }
-
   public Vector2 AdjustRCS()
   {
     Vector2 rcsAmount = Vector2.Zero;
@@ -163,5 +131,52 @@ public class InputManager
     }
 
     return rcsAmount;
+  }
+
+  public float AdjustPitch()
+  {
+    if (ContinuousKeyPress(Keys.Right) || ContinuousKeyPress(Keys.D)) return 1f;
+    if (ContinuousKeyPress(Keys.Left) || ContinuousKeyPress(Keys.A)) return -1f;
+
+    if (gamePadConnected)
+    {
+      return AnalogStick().Left.X;
+    }
+
+    return 0f;
+  }
+
+  public float AdjustThrottle()
+  {
+    float throttleChangeSpeed = GameState.deltaTime * 0.4f;
+    float throttleChangeAmount = 0f;
+
+    if (gamePadConnected)
+    {
+      throttleChangeAmount = (Trigger().Right + -Trigger().Left) * 10f;
+    }
+
+    if (ContinuousKeyPress(Keys.LeftShift)) throttleChangeAmount = 1f;
+    if (ContinuousKeyPress(Keys.LeftControl)) throttleChangeAmount = -1f;
+
+    if (OnFirstFrameKeyPress(Keys.Z)) throttleChangeAmount = 1000f;
+    if (OnFirstFrameKeyPress(Keys.X)) throttleChangeAmount = -1000f;
+
+    return throttleChangeSpeed * throttleChangeAmount;
+  }
+
+  public float AdjustCameraZoom()
+  {
+    if (ContinuousKeyPress(Keys.OemPlus)) return 1f;
+    if (ContinuousKeyPress(Keys.OemMinus)) return -1f;
+
+    if (gamePadConnected && Camera.Camera.cameraZoomMode)
+    {
+      return AnalogStick().Right.Y;
+    }
+    else
+    {
+      return 0f;
+    }
   }
 }
