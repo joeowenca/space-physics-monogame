@@ -55,6 +55,8 @@ public class StatusTextHUD : CustomGameComponent
 
         HandleSASModeChange();
 
+        HandleRCSModeChange();
+
         base.Update();
     }
 
@@ -114,6 +116,28 @@ public class StatusTextHUD : CustomGameComponent
         {
             labelText = "SAS Mode";
             valueText = SASController.sasModeString;
+
+            textOpacity = 1f;
+            fadeOutTimer = elapsedTime;
+        }
+
+        if (elapsedTime > fadeOutTimer + 2f)
+        {
+            textOpacity = ColorHelper.FadeOpacity(
+                textOpacity,
+                1f,
+                0f,
+                opacityTransitionSpeed
+            );
+        }
+    }
+
+    private void HandleRCSModeChange()
+    {
+        if (input.ToggleRCSMode())
+        {
+            labelText = "RCS Mode";
+            valueText = maneuverMode ? "Maneuver" : "Docking";
 
             textOpacity = 1f;
             fadeOutTimer = elapsedTime;
