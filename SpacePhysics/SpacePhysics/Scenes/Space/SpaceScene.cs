@@ -78,7 +78,7 @@ public class SpaceScene : CustomGameComponent
       () => opacity * hudOpacity
     ));
 
-    components.Add(new CameraHud(
+    components.Add(new StatusTextHUD(
       () => opacity * hudOpacity
     ));
 
