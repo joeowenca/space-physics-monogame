@@ -91,7 +91,7 @@ public class Gauge : CustomGameComponent
 
         HudText heading = new(
             "Fonts/text-font",
-            () => Math.Round(Math.Abs(direction * (180 / Math.PI)) % 360).ToString() + "°",
+            () => Utilities.RadiansToDegrees(direction).ToString() + "°",
             Alignment.BottomCenter,
             TextAlign.Center,
             () => new Vector2(0, 240f) + offset,
