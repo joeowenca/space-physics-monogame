@@ -36,8 +36,6 @@ public class Ship : CustomGameComponent
 
   public readonly Func<float> opacity;
 
-  private bool throttleTransition;
-
   public Ship(Func<float> opacity, bool allowInput, Alignment alignment, int layerIndex) : base(allowInput, alignment, layerIndex)
   {
     this.opacity = opacity;
@@ -191,59 +189,26 @@ public class Ship : CustomGameComponent
 
   private void Throttle()
   {
-    float throttleChangeSpeed = deltaTime * 0.4f;
+    targetThrottle += input.AdjustThrottle();
 
-    if (input.ContinuousKeyPress(Keys.LeftShift))
+    if
+    (
+      Math.Abs(input.AdjustThrottle()) > 0
+      && throttle != 0f
+      && throttle != 1f
+    )
     {
-      throttleTransition = false;
-      targetThrottle += throttleChangeSpeed;
-      electricity -= deltaTime;
+      electricity -= deltaTime * input.AdjustThrottle();
     }
 
-    if (input.ContinuousKeyPress(Keys.LeftControl))
-    {
-      throttleTransition = false;
-      targetThrottle -= throttleChangeSpeed;
-      electricity -= deltaTime;
-    }
-
-    targetThrottle += throttleChangeSpeed * ((input.Trigger().Right + -input.Trigger().Left) * 10f);
-
-    if (input.ContinuousKeyPress(Keys.Z))
-    {
-      targetThrottle = 1;
-      throttleTransition = true;
-    }
-    if (input.ContinuousKeyPress(Keys.X))
-    {
-      targetThrottle = 0;
-      throttleTransition = true;
-    }
-
+    throttle = Math.Clamp(throttle, 0f, 1f);
+    targetThrottle = Math.Clamp(targetThrottle, 0f, 1f);
     throttle = MathHelper.Lerp(throttle, targetThrottle, deltaTime * 10f);
 
     if (Math.Abs(throttle - targetThrottle) < 0.00001f)
     {
       throttle = targetThrottle;
     }
-
-    if (throttleTransition)
-    {
-      throttle = MathHelper.Lerp(
-        throttle,
-        targetThrottle,
-        deltaTime * 10f
-      );
-
-      if (Math.Abs(throttle - targetThrottle) < 0.00001f)
-      {
-        throttle = targetThrottle;
-        throttleTransition = false;
-      }
-    }
-
-    throttle = Math.Clamp(throttle, 0f, 1f);
-    targetThrottle = Math.Clamp(targetThrottle, 0f, 1f);
   }
 
   private void AdjustPitch()
@@ -258,23 +223,8 @@ public class Ship : CustomGameComponent
 
       if (pitch < -0.99f) pitch = -1f;
 
-      if (input.ContinuousKeyPress(Keys.Right) || input.ContinuousKeyPress(Keys.D))
-      {
-        targetPitch = 1f;
-        electricity -= deltaTime;
-      }
-
-      if (input.ContinuousKeyPress(Keys.Left) || input.ContinuousKeyPress(Keys.A))
-      {
-        targetPitch = -1f;
-        electricity -= deltaTime;
-      }
-
-      if (input.gamePadConnected)
-      {
-        targetPitch = input.AnalogStick().Left.X;
-        electricity -= deltaTime * Math.Abs(input.AnalogStick().Left.X);
-      }
+      targetPitch = input.AdjustPitch();
+      electricity -= deltaTime * Math.Abs(input.AdjustPitch());
     }
   }
 

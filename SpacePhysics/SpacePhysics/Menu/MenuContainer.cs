@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using static SpacePhysics.Camera.Camera;
 
 namespace SpacePhysics.Menu;
 
 public class MenuContainer
 {
-  public static Vector2 cameraOffset;
-  public static Vector2 targetCameraOffset;
-
   public static Vector2 cameraOffsetLeft;
   public static Vector2 cameraOffsetRight;
 
@@ -30,9 +28,6 @@ public class MenuContainer
 
   public static void Initialize()
   {
-    cameraOffset = Vector2.Zero;
-    targetCameraOffset = Vector2.Zero;
-
     cameraOffsetLeft = new Vector2(GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
     cameraOffsetRight = new Vector2(-GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
 
@@ -52,10 +47,8 @@ public class MenuContainer
 
   public static void Update()
   {
-    cameraOffset.X = MathHelper.Lerp(cameraOffset.X, targetCameraOffset.X, GameState.deltaTime * cameraOffsetLerpSpeed);
-    cameraOffset.Y = MathHelper.Lerp(cameraOffset.Y, targetCameraOffset.Y, GameState.deltaTime * cameraOffsetLerpSpeed);
-
-    Camera.Camera.offset = cameraOffset;
+    offset.X = MathHelper.Lerp(offset.X, targetOffset.X, GameState.deltaTime * cameraOffsetLerpSpeed);
+    offset.Y = MathHelper.Lerp(offset.Y, targetOffset.Y, GameState.deltaTime * cameraOffsetLerpSpeed);
 
     menuOffset.X = MathHelper.Lerp(menuOffset.X, targetMenuOffset.X, GameState.deltaTime * 3f);
     menuOffset.Y = MathHelper.Lerp(menuOffset.Y, targetMenuOffset.Y, GameState.deltaTime * 3f);

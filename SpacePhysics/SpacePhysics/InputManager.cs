@@ -97,4 +97,171 @@ public class InputManager
       currentGamePadState.Triggers.Right
     );
   }
+
+  public Vector2 AdjustRCS()
+  {
+    Vector2 rcsAmount = Vector2.Zero;
+
+    if (ContinuousKeyPress(Keys.Left) || ContinuousKeyPress(Keys.A))
+      rcsAmount.X = -1f;
+    if (ContinuousKeyPress(Keys.Right) || ContinuousKeyPress(Keys.D))
+      rcsAmount.X = 1f;
+    if (ContinuousKeyPress(Keys.Up) || ContinuousKeyPress(Keys.W))
+      rcsAmount.Y = -1f;
+    if (ContinuousKeyPress(Keys.Down) || ContinuousKeyPress(Keys.S))
+      rcsAmount.Y = 1f;
+
+    if (gamePadConnected)
+    {
+      rcsAmount.X = AnalogStick().Left.X
+        + (
+          !Camera.Camera.cameraZoomMode
+          && !GameState.maneuverMode ?
+          AnalogStick().Right.X
+          : 0f
+        );
+
+      rcsAmount.Y = -AnalogStick().Left.Y
+      + (
+        !Camera.Camera.cameraZoomMode
+        && !GameState.maneuverMode ?
+        -AnalogStick().Right.Y
+        : 0f
+      );
+    }
+
+    return rcsAmount;
+  }
+
+  public Vector2 MoveCamera()
+  {
+    Vector2 moveAmount = Vector2.Zero;
+
+    if (gamePadConnected && !Camera.Camera.cameraZoomMode)
+    {
+      return new Vector2(-AnalogStick().Right.X, AnalogStick().Right.Y);
+    }
+
+    return moveAmount;
+  }
+
+  public float AdjustPitch()
+  {
+    if (ContinuousKeyPress(Keys.Right) || ContinuousKeyPress(Keys.D)) return 1f;
+    if (ContinuousKeyPress(Keys.Left) || ContinuousKeyPress(Keys.A)) return -1f;
+
+    if (gamePadConnected)
+    {
+      return AnalogStick().Left.X;
+    }
+
+    return 0f;
+  }
+
+  public float AdjustThrottle()
+  {
+    float throttleChangeSpeed = GameState.deltaTime * 0.4f;
+    float throttleChangeAmount = 0f;
+
+    if (gamePadConnected)
+    {
+      throttleChangeAmount = (Trigger().Right + -Trigger().Left) * 10f;
+    }
+
+    if (ContinuousKeyPress(Keys.LeftShift)) throttleChangeAmount = 1f;
+    if (ContinuousKeyPress(Keys.LeftControl)) throttleChangeAmount = -1f;
+
+    if (OnFirstFrameKeyPress(Keys.Z)) throttleChangeAmount = 1000f;
+    if (OnFirstFrameKeyPress(Keys.X)) throttleChangeAmount = -1000f;
+
+    return throttleChangeSpeed * throttleChangeAmount;
+  }
+
+  public float AdjustCameraZoom()
+  {
+    if (ContinuousKeyPress(Keys.OemPlus)) return 1f;
+    if (ContinuousKeyPress(Keys.OemMinus)) return -1f;
+
+    if (gamePadConnected && Camera.Camera.cameraZoomMode)
+    {
+      return AnalogStick().Right.Y;
+    }
+    else
+    {
+      return 0f;
+    }
+  }
+
+  public bool ToggleSAS()
+  {
+    return OnFirstFrameKeyPress(Keys.T) || OnFirstFrameButtonPress(Buttons.Y);
+  }
+
+  public bool ToggleRCS()
+  {
+    return OnFirstFrameKeyPress(Keys.R) || OnFirstFrameButtonPress(Buttons.X);
+  }
+
+  public bool ToggleRCSMode()
+  {
+    return OnFirstFrameKeyPress(Keys.B) || OnFirstFrameButtonPress(Buttons.LeftStick);
+  }
+
+  public bool ToggleCameraAngle()
+  {
+    return OnFirstFrameKeyPress(Keys.V) || OnFirstFrameButtonPress(Buttons.Back);
+  }
+
+  public bool ToggleCameraMode()
+  {
+    return OnFirstFrameButtonPress(Buttons.RightStick);
+  }
+
+  public bool MenuUp()
+  {
+    return OnFirstFrameKeyPress(Keys.Up)
+      || OnFirstFrameButtonPress(Buttons.LeftThumbstickUp)
+      || OnFirstFrameButtonPress(Buttons.DPadUp);
+  }
+
+  public bool MenuDown()
+  {
+    return OnFirstFrameKeyPress(Keys.Down)
+      || OnFirstFrameButtonPress(Buttons.LeftThumbstickDown)
+      || OnFirstFrameButtonPress(Buttons.DPadDown);
+  }
+
+  public bool MenuLeft()
+  {
+    return OnFirstFrameKeyPress(Keys.Left)
+      || OnFirstFrameButtonPress(Buttons.LeftThumbstickLeft)
+      || OnFirstFrameButtonPress(Buttons.DPadLeft);
+  }
+
+  public bool MenuRight()
+  {
+    return OnFirstFrameKeyPress(Keys.Right)
+      || OnFirstFrameButtonPress(Buttons.LeftThumbstickRight)
+      || OnFirstFrameButtonPress(Buttons.DPadRight);
+  }
+
+  public bool MenuSelect()
+  {
+    return OnFirstFrameKeyPress(Keys.Enter) || OnFirstFrameButtonPress(Buttons.A);
+  }
+
+  public bool MenuBack()
+  {
+    return OnFirstFrameKeyPress(Keys.Escape) || OnFirstFrameButtonPress(Buttons.B);
+  }
+
+  public bool MenuPause()
+  {
+    return OnFirstFrameKeyPress(Keys.Escape) || OnFirstFrameButtonPress(Buttons.Start);
+  }
+
+  public bool AnyKeyOrButton()
+  {
+    return Keyboard.GetState().GetPressedKeys().Length > 0 || previousGamePadState != currentGamePadState;
+  }
 }

@@ -12,7 +12,7 @@ public static class SASController
 
   public static void ToggleSAS(InputManager input)
   {
-    if (input.OnFirstFrameKeyPress(Keys.T) || input.OnFirstFrameButtonPress(Buttons.Y))
+    if (input.ToggleSAS())
     {
       sas = !sas;
       electricity -= deltaTime;
@@ -24,12 +24,7 @@ public static class SASController
   public static void Stabilize(InputManager input)
   {
     if (sas &&
-        (!maneuverMode || (!input.ContinuousKeyPress(Keys.Right) &&
-        !input.ContinuousKeyPress(Keys.Left) &&
-        !input.ContinuousKeyPress(Keys.D) &&
-        !input.ContinuousKeyPress(Keys.A) &&
-        Math.Abs(input.AnalogStick().Left.X) <= 0f)
-        )
+        (!maneuverMode || !(Math.Abs(input.AdjustPitch()) > 0f))
       )
     {
       if (angularVelocity > stabilityThreshold)

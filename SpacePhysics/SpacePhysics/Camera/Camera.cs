@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using SpacePhysics.Menu;
 using SpacePhysics.Player;
 using static SpacePhysics.GameState;
 
@@ -11,6 +12,7 @@ public class Camera
   private static InputManager input;
   public static Vector2 position;
   public static Vector2 offset;
+  public static Vector2 targetOffset;
 
   private static Vector2 initialPosition;
   private static Vector2 shakeDirection;
@@ -87,7 +89,7 @@ public class Camera
   {
     position = GameState.position - new Vector2(screenSize.X / 2, screenSize.Y / 2);
 
-    if (input.OnFirstFrameKeyPress(Keys.V) || input.OnFirstFrameButtonPress(Buttons.Back))
+    if (input.ToggleCameraAngle())
     {
       changeCamera = !changeCamera;
     }
@@ -103,40 +105,36 @@ public class Camera
       rotation = 0f;
     }
 
-    if (input.OnFirstFrameButtonPress(Buttons.RightStick))
+    if (input.ToggleCameraMode())
     {
       cameraZoomMode = !cameraZoomMode;
     }
 
     if (state != State.Pause) shakeOffset = Shake(Ship.thrustAmount);
+
+    if (state == State.Play
+      && !cameraZoomMode
+      && maneuverMode
+    )
+    {
+      targetOffset = input.MoveCamera() * screenSize.Y * 0.2f;
+    }
   }
 
   private static float CalculateZoom(float parallaxFactor)
   {
     parallaxFactor *= 7;
 
-    if (cameraZoomMode)
+    zoomSpeed = 1f + (Math.Abs(input.AdjustCameraZoom()) * 0.3f);
+
+    if (input.AdjustCameraZoom() > 0)
     {
-      zoomSpeed = 1f + (Math.Abs(input.AnalogStick().Right.Y) * 0.3f);
-
-      if (input.AnalogStick().Right.Y > 0)
-      {
-        targetZoom *= (float)Math.Pow(zoomSpeed, deltaTime);
-      }
-
-      if (input.AnalogStick().Right.Y < 0)
-      {
-        targetZoom /= (float)Math.Pow(zoomSpeed, deltaTime);
-      }
+      targetZoom *= (float)Math.Pow(zoomSpeed, deltaTime);
     }
-    else
-    {
-      zoomSpeed = 1.3f;
 
-      if (input.ContinuousKeyPress(Keys.OemPlus))
-        targetZoom *= (float)Math.Pow(zoomSpeed, deltaTime);
-      if (input.ContinuousKeyPress(Keys.OemMinus))
-        targetZoom /= (float)Math.Pow(zoomSpeed, deltaTime);
+    if (input.AdjustCameraZoom() < 0)
+    {
+      targetZoom /= (float)Math.Pow(zoomSpeed, deltaTime);
     }
 
     if (parallaxFactor == 1) return 1f;
