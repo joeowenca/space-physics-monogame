@@ -36,6 +36,41 @@ public static class SASController
     if (electricity <= 0) sas = false;
   }
 
+  public static void SetSASMode(InputManager input)
+  {
+    if
+    (
+      input.SetSASTargetProgradeOrStability()
+      && sasTarget != SASTarget.Prograde
+      && sasTarget != SASTarget.Stability
+    )
+    {
+      sasTarget = SASTarget.Prograde;
+    }
+
+    if
+    (
+      input.SetSASTargetProgradeOrStability()
+      && sasTarget == SASTarget.Prograde
+    )
+    {
+      sasTarget = SASTarget.Stability;
+    }
+
+    if
+    (
+      input.SetSASTargetProgradeOrStability()
+      && sasTarget == SASTarget.Stability
+    )
+    {
+      sasTarget = SASTarget.Prograde;
+    }
+
+    if (input.SetSASTargetRetrograde()) sasTarget = SASTarget.Retrograde;
+    if (input.SetSASTargetRadialLeft()) sasTarget = SASTarget.RadialLeft;
+    if (input.SetSASTargetRadialRight()) sasTarget = SASTarget.RadialRight;
+  }
+
   public static void Stabilize(InputManager input)
   {
     if (sas
@@ -79,7 +114,7 @@ public static class SASController
       {
         targetAngle = velocityAngle - (float)(Math.PI * 0.5f) - (130 / velocity.Length());
       }
-      else if (sasTarget == SASTarget.RadialLeft)
+      else if (sasTarget == SASTarget.RadialRight)
       {
         targetAngle = velocityAngle + (float)(Math.PI * 0.5f) + (130 / velocity.Length());
       }

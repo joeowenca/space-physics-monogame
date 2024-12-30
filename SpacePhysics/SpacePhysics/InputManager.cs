@@ -197,6 +197,26 @@ public class InputManager
     return OnFirstFrameKeyPress(Keys.T) || OnFirstFrameButtonPress(Buttons.Y);
   }
 
+  public bool SetSASTargetProgradeOrStability()
+  {
+    return OnFirstFrameKeyPress(Keys.I) || OnFirstFrameButtonPress(Buttons.DPadUp);
+  }
+
+  public bool SetSASTargetRetrograde()
+  {
+    return OnFirstFrameKeyPress(Keys.K) || OnFirstFrameButtonPress(Buttons.DPadDown);
+  }
+
+  public bool SetSASTargetRadialLeft()
+  {
+    return OnFirstFrameKeyPress(Keys.J) || OnFirstFrameButtonPress(Buttons.DPadLeft);
+  }
+
+  public bool SetSASTargetRadialRight()
+  {
+    return OnFirstFrameKeyPress(Keys.L) || OnFirstFrameButtonPress(Buttons.DPadRight);
+  }
+
   public bool ToggleRCS()
   {
     return OnFirstFrameKeyPress(Keys.R) || OnFirstFrameButtonPress(Buttons.X);
