@@ -1,6 +1,5 @@
 using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using static SpacePhysics.GameState;
 using static SpacePhysics.Player.Ship;
 
@@ -8,12 +7,23 @@ namespace SpacePhysics.Player;
 
 public static class SASController
 {
+  public enum SASTarget
+  {
+    Stability,
+    Prograde,
+    Retrograde,
+    RadialLeft,
+    RadialRight
+  }
+
+  public static SASTarget sasTarget = SASTarget.Stability;
+
   private static float stabilityThreshold = 0.002f;
 
   private static float Kp = 20.0f;
   private static float Kv = 40.0f;
 
-  private static bool lockOnRadialRight = true;
+  private static float targetAngle;
 
   public static void ToggleSAS(InputManager input)
   {
@@ -28,8 +38,9 @@ public static class SASController
 
   public static void Stabilize(InputManager input)
   {
-    if (sas &&
-        (!maneuverMode || !(Math.Abs(input.AdjustPitch()) > 0f) && !lockOnRadialRight)
+    if (sas
+        && (!maneuverMode || !(Math.Abs(input.AdjustPitch()) > 0f))
+        && sasTarget == SASTarget.Stability
       )
     {
       if (angularVelocity > stabilityThreshold)
@@ -54,20 +65,38 @@ public static class SASController
 
   public static void LockOnTarget(InputManager input)
   {
-    float targetAngle = velocityAngle;
-
-    float angleError = MathHelper.WrapAngle(targetAngle - direction);
-
-    float dampingPitch = -Kv * angularVelocity;
-
-    float anglePitch = Kp * angleError;
-
-    if (sas &&
-        (!maneuverMode || !(Math.Abs(input.AdjustPitch()) > 0f) && lockOnRadialRight)
-      )
+    if (sasTarget != SASTarget.Stability)
     {
-      targetPitch = anglePitch + dampingPitch;
-      targetPitch = Math.Clamp(targetPitch, -1.0f, 1.0f);
+      if (sasTarget == SASTarget.Prograde)
+      {
+        targetAngle = velocityAngle;
+      }
+      else if (sasTarget == SASTarget.Retrograde)
+      {
+        targetAngle = velocityAngle + (float)Math.PI;
+      }
+      else if (sasTarget == SASTarget.RadialLeft)
+      {
+        targetAngle = velocityAngle - (float)(Math.PI * 0.5f) - (130 / velocity.Length());
+      }
+      else if (sasTarget == SASTarget.RadialLeft)
+      {
+        targetAngle = velocityAngle + (float)(Math.PI * 0.5f) + (130 / velocity.Length());
+      }
+
+      float angleError = MathHelper.WrapAngle(targetAngle - direction);
+
+      float dampingPitch = -Kv * angularVelocity;
+
+      float anglePitch = Kp * angleError;
+
+      if (sas &&
+          (!maneuverMode || !(Math.Abs(input.AdjustPitch()) > 0f))
+        )
+      {
+        targetPitch = anglePitch + dampingPitch;
+        targetPitch = Math.Clamp(targetPitch, -1.0f, 1.0f);
+      }
     }
   }
 }
