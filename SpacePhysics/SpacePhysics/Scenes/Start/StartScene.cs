@@ -79,7 +79,7 @@ public class StartScene : CustomGameComponent
 
     Camera.Camera.allowInput = false;
 
-    cameraOffset = cameraOffsetLeft;
+    Camera.Camera.offset = cameraOffsetLeft;
 
     base.Initialize();
   }
@@ -95,7 +95,7 @@ public class StartScene : CustomGameComponent
   {
     if (GameState.state == GameState.State.Settings)
     {
-      targetCameraOffset = cameraOffsetRight;
+      Camera.Camera.targetOffset = cameraOffsetRight;
       targetMenuOffset = new Vector2(-menuOffsetAmount, 0);
     }
     else if (GameState.state == GameState.State.Play)
@@ -107,7 +107,7 @@ public class StartScene : CustomGameComponent
     else
     {
       opacity = ColorHelper.FadeOpacity(opacity, -0.25f, 1f, 4f);
-      targetCameraOffset = cameraOffsetLeft;
+      Camera.Camera.targetOffset = cameraOffsetLeft;
       targetMenuOffset = new Vector2(menuOffsetAmount, 0);
 
       Camera.Camera.zoomOverride = 1f;

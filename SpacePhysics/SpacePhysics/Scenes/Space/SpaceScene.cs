@@ -100,7 +100,7 @@ public class SpaceScene : CustomGameComponent
     Camera.Camera.allowInput = true;
     Camera.Camera.zoomOverrideLerpSpeedFactor = 0.025f;
 
-    cameraOffset = Vector2.Zero;
+    Camera.Camera.offset = Vector2.Zero;
     cameraOffsetLerpSpeed = 5f;
 
     previousTargetZoom = GameState.targetZoom;
@@ -111,8 +111,6 @@ public class SpaceScene : CustomGameComponent
   public override void Update()
   {
     TransitionState();
-
-    AdjustCameraOffset();
 
     if (input.OnFirstFrameKeyPress(Keys.Escape) || input.OnFirstFrameButtonPress(Buttons.Start))
     {
@@ -142,7 +140,7 @@ public class SpaceScene : CustomGameComponent
 
       previousTargetZoom = GameState.targetZoom;
       hudOpacity = ColorHelper.FadeOpacity(hudOpacity, 0f, 1f, 0.2f);
-      targetCameraOffset = Vector2.Zero;
+      Camera.Camera.targetOffset = Vector2.Zero;
     }
 
     if (GameState.state == GameState.State.Pause)
@@ -153,7 +151,7 @@ public class SpaceScene : CustomGameComponent
 
       hudOpacity = ColorHelper.FadeOpacity(hudOpacity, 1f, 0f, 0.2f);
 
-      targetCameraOffset = cameraOffsetLeft;
+      Camera.Camera.targetOffset = cameraOffsetLeft;
     }
 
     if (GameState.state == GameState.State.TitleScreen)
@@ -177,22 +175,6 @@ public class SpaceScene : CustomGameComponent
       Camera.Camera.targetZoomOverride = 1f;
 
       return;
-    }
-  }
-
-  private void AdjustCameraOffset()
-  {
-    if (GameState.state == GameState.State.Play
-      && !Camera.Camera.cameraZoomMode
-      && GameState.maneuverMode
-    )
-    {
-      Vector2 controllerCameraOffset = new Vector2(
-        -input.AnalogStick().Right.X,
-        input.AnalogStick().Right.Y
-      ) * GameState.screenSize.Y * 0.2f;
-
-      targetCameraOffset = controllerCameraOffset;
     }
   }
 }

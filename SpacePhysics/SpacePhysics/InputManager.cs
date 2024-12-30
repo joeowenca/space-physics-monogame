@@ -133,6 +133,18 @@ public class InputManager
     return rcsAmount;
   }
 
+  public Vector2 MoveCamera()
+  {
+    Vector2 moveAmount = Vector2.Zero;
+
+    if (gamePadConnected && !Camera.Camera.cameraZoomMode)
+    {
+      return new Vector2(-AnalogStick().Right.X, AnalogStick().Right.Y);
+    }
+
+    return moveAmount;
+  }
+
   public float AdjustPitch()
   {
     if (ContinuousKeyPress(Keys.Right) || ContinuousKeyPress(Keys.D)) return 1f;

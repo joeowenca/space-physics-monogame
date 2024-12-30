@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using SpacePhysics.Menu;
 using SpacePhysics.Player;
 using static SpacePhysics.GameState;
 
@@ -11,6 +12,7 @@ public class Camera
   private static InputManager input;
   public static Vector2 position;
   public static Vector2 offset;
+  public static Vector2 targetOffset;
 
   private static Vector2 initialPosition;
   private static Vector2 shakeDirection;
@@ -109,6 +111,14 @@ public class Camera
     }
 
     if (state != State.Pause) shakeOffset = Shake(Ship.thrustAmount);
+
+    if (state == State.Play
+      && !cameraZoomMode
+      && maneuverMode
+    )
+    {
+      targetOffset = input.MoveCamera() * screenSize.Y * 0.2f;
+    }
   }
 
   private static float CalculateZoom(float parallaxFactor)
