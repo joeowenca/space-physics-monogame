@@ -116,6 +116,13 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/light-font.spritefont
 
+#begin Fonts/regular-font.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/regular-font.spritefont
+
 #begin Fonts/text-font.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

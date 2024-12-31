@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using SpacePhysics.Scenes;
 
 namespace SpacePhysics;
 
@@ -59,6 +60,8 @@ public class GameState
   public static float elapsedTime;
   public static float deltaTime;
 
+  public static string sceneString;
+
   public static bool sas;
   public static bool rcs;
   public static bool maneuverMode;
@@ -101,6 +104,7 @@ public class GameState
     units = 5f;
     elapsedTime = 0f;
     deltaTime = 0f;
+    sceneString = "";
     sas = false;
     rcs = false;
     maneuverMode = true;
@@ -143,6 +147,16 @@ public class GameState
 
     electricityPercent = electricity / maxElectricity * 100f;
     electricity = Math.Clamp(electricity, 0f, maxElectricity);
+
+    if (SceneManager.GetCurrentScene() is Scenes.Start.StartScene)
+    {
+      sceneString = "Start";
+    }
+
+    if (SceneManager.GetCurrentScene() is Scenes.Space.SpaceScene)
+    {
+      sceneString = "Space";
+    }
 
     deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
     elapsedTime += deltaTime;

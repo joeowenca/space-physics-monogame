@@ -29,7 +29,7 @@ public class ControlsMenu : CustomGameComponent
       layerIndex
     )
   {
-    entireOffsetOverride = new Vector2(-600f, -850f);
+    entireOffsetOverride = new Vector2(-600f, -950f);
     offset = new Vector2(menuOffsetXRight, 0f);
     baseOffset = offset;
     controlItemDistance = 1750f;
@@ -177,11 +177,22 @@ public class ControlsMenu : CustomGameComponent
       11
     ));
 
-    components.Add(new MenuItem(
-      "Back",
+    components.Add(new ControlItem(
+      "Toggle Debug View",
+      () => "F3",
       () => activeMenu == 13,
       alignment,
-      () => new Vector2(0f, menuSizeY * 12.5f) + menuOffsetOverride + entireOffsetOverride,
+      () => new Vector2(0f, menuSizeY * 12f) + menuOffsetOverride + entireOffsetOverride,
+      controlItemDistance,
+      () => opacity,
+      11
+    ));
+
+    components.Add(new MenuItem(
+      "Back",
+      () => activeMenu == 14,
+      alignment,
+      () => new Vector2(0f, menuSizeY * 13.5f) + menuOffsetOverride + entireOffsetOverride,
       () => opacity,
       11
     ));
@@ -189,7 +200,7 @@ public class ControlsMenu : CustomGameComponent
 
   public override void Initialize()
   {
-    menuItemsLength = 13;
+    menuItemsLength = 14;
     activeMenu = 1;
 
     base.Initialize();
@@ -240,7 +251,7 @@ public class ControlsMenu : CustomGameComponent
       if (input.MenuUp())
         activeMenu--;
 
-      if ((activeMenu == 13 && input.MenuSelect()) || input.MenuBack())
+      if ((activeMenu == 14 && input.MenuSelect()) || input.MenuBack())
         state = State.Settings;
     }
 
