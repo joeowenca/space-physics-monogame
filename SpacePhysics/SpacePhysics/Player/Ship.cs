@@ -80,11 +80,17 @@ public class Ship : CustomGameComponent
   {
     if
     (
-      (state == State.Play && SceneManager.GetCurrentScene() is Scenes.Space.SpaceScene)
-      || SceneManager.GetCurrentScene() is Scenes.Start.StartScene
+      ((state == State.Play || state == State.TitleScreen)
+        && SceneManager.GetCurrentScene() is Scenes.Space.SpaceScene)
+        || SceneManager.GetCurrentScene() is Scenes.Start.StartScene
     )
     {
-      input.ControllerRumble(thrustAmount * 0.5f);
+      input.ControllerRumble
+      (
+        (SceneManager.GetCurrentScene() is Scenes.Space.SpaceScene
+        && state != State.TitleScreen)
+        ? thrustAmount * 0.5f : 0f
+      );
 
       thrustSprite.Animate();
 
