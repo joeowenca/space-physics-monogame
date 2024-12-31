@@ -112,9 +112,9 @@ public class PauseMenu : CustomGameComponent
         state = State.Play;
       }
 
-      if (activeMenu == 2 && input.MenuSelect() || input.MenuBack())
+      if (activeMenu == 2 && input.MenuSelect())
       {
-        state = State.Play;
+        state = State.Settings;
       }
 
       if (activeMenu == 3 && input.MenuSelect())
