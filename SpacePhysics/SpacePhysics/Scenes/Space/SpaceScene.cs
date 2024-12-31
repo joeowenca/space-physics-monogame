@@ -112,7 +112,7 @@ public class SpaceScene : CustomGameComponent
   {
     TransitionState();
 
-    if (input.MenuPause())
+    if (input.MenuPause() && GameState.state == GameState.State.Play)
     {
       GameState.state = GameState.State.Pause;
     }
