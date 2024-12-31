@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SpacePhysics.Menu;
 using SpacePhysics.Scenes;
@@ -10,7 +11,6 @@ public class Main : Game
 {
     private GraphicsDeviceManager graphics;
     private SpriteBatch spriteBatch;
-    private SceneManager sceneManager;
     private InputManager input;
 
     public Main()
@@ -30,13 +30,13 @@ public class Main : Game
     {
         GraphicsDevice.PresentationParameters.MultiSampleCount = 4;
 
+        SceneManager.Initialize(Content);
+
         GameState.Initialize();
         Camera.Camera.Initialize();
         MenuContainer.Initialize();
 
         input = new InputManager();
-
-        sceneManager = new(Content);
 
         base.Initialize();
     }
@@ -45,7 +45,7 @@ public class Main : Game
     {
         spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        sceneManager.AddScene(new Scenes.Space.SpaceScene(sceneManager));
+        SceneManager.AddScene(new Scenes.Space.SpaceScene());
     }
 
     protected override void Update(GameTime gameTime)
@@ -55,7 +55,7 @@ public class Main : Game
         if (GameState.quit)
             Exit();
 
-        sceneManager.GetCurrentScene().Update();
+        SceneManager.GetCurrentScene().Update();
 
         MenuContainer.Update();
         Camera.Camera.Update();
@@ -68,7 +68,7 @@ public class Main : Game
     {
         GraphicsDevice.Clear(Color.Black);
 
-        sceneManager.GetCurrentScene().Draw(spriteBatch);
+        SceneManager.GetCurrentScene().Draw(spriteBatch);
 
         base.Draw(gameTime);
     }

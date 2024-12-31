@@ -4,18 +4,23 @@ using Microsoft.Xna.Framework.Content;
 
 namespace SpacePhysics.Scenes;
 
-public class SceneManager
+public static class SceneManager
 {
-  private readonly Stack<CustomGameComponent> scenes;
-  private ContentManager contentManager;
+  public static readonly Stack<CustomGameComponent> scenes;
 
-  public SceneManager(ContentManager contentManager)
+  private static ContentManager contentManager;
+
+  static SceneManager()
   {
-    this.contentManager = contentManager;
     scenes = new();
   }
 
-  public void AddScene(CustomGameComponent scene)
+  public static void Initialize(ContentManager contentManager)
+  {
+    SceneManager.contentManager = contentManager;
+  }
+
+  public static void AddScene(CustomGameComponent scene)
   {
     scene.Initialize();
     scene.Load(contentManager);
@@ -23,13 +28,13 @@ public class SceneManager
     scenes.Push(scene);
   }
 
-  public void RemoveScene()
+  public static void RemoveScene()
   {
     contentManager.Unload();
     scenes.Pop();
   }
 
-  public CustomGameComponent GetCurrentScene()
+  public static CustomGameComponent GetCurrentScene()
   {
     return scenes.Peek();
   }

@@ -5,21 +5,16 @@ using SpacePhysics.Player;
 using SpacePhysics.Sprites;
 using SpacePhysics.Debugging;
 using static SpacePhysics.Menu.MenuContainer;
+using Microsoft.Xna.Framework.Content;
 
 namespace SpacePhysics.Scenes.Start;
 
 public class StartScene : CustomGameComponent
 {
-  private SceneManager sceneManager;
-
   private float opacity;
 
-  public StartScene(
-    SceneManager sceneManager
-  ) : base(true, Alignment.TopLeft, 7)
+  public StartScene() : base(true, Alignment.TopLeft, 7)
   {
-    this.sceneManager = sceneManager;
-
     components.Add(new LoopingBackground(
       "Backgrounds/starfield",
       () => new Color(255, 255, 255, 0) * opacity,
@@ -116,8 +111,8 @@ public class StartScene : CustomGameComponent
 
     if (Camera.Camera.zoomOverride > 10 && opacity <= 0f)
     {
-      sceneManager.RemoveScene();
-      sceneManager.AddScene(new Space.SpaceScene(sceneManager));
+      SceneManager.RemoveScene();
+      SceneManager.AddScene(new Space.SpaceScene());
 
       Camera.Camera.zoomOverride = 0f;
       Camera.Camera.targetZoomOverride = 1f;
