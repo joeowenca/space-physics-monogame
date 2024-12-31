@@ -140,7 +140,7 @@ public static class SASController
         targetAngle = radialRightRadians;
       }
 
-      float target = targetAngle + progradeAngularVelocity * 30000f * deltaTime;
+      float target = targetAngle + progradeAngularVelocity * 31500f * deltaTime;
 
       float angleError = MathHelper.WrapAngle(target - direction);
 
