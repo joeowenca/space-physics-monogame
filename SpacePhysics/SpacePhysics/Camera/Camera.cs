@@ -113,7 +113,11 @@ public class Camera
       cameraZoomMode = !cameraZoomMode;
     }
 
-    if (state != State.Pause) shakeOffset = Shake(Ship.thrustAmount);
+    if
+    (
+      (state == State.Play && SceneManager.GetCurrentScene() is Scenes.Space.SpaceScene)
+      || SceneManager.GetCurrentScene() is Scenes.Start.StartScene
+    ) shakeOffset = Shake(Ship.thrustAmount);
 
     if (state == State.Play
       && SceneManager.GetCurrentScene() is Scenes.Space.SpaceScene

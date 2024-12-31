@@ -142,6 +142,9 @@ public class SettingsMenu : CustomGameComponent
       if (input.MenuUp())
         activeMenu--;
 
+      if (activeMenu == 4 && input.MenuSelect())
+        state = State.Controls;
+
       if ((activeMenu == 5 && input.MenuSelect()) || input.MenuBack())
         state = State.MainMenu;
     }

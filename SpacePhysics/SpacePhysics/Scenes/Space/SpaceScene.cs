@@ -84,6 +84,18 @@ public class SpaceScene : CustomGameComponent
       11
     ));
 
+    components.Add(new SettingsMenu(
+      true,
+      Alignment.Right,
+      11
+    ));
+
+    components.Add(new ControlsMenu(
+      true,
+      Alignment.Right,
+      11
+    ));
+
     components.Add(new DebugView());
   }
 
@@ -123,6 +135,7 @@ public class SpaceScene : CustomGameComponent
       opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, 2f);
 
       Camera.Camera.targetZoomOverride = 1f;
+      Camera.Camera.cameraOffsetLerpSpeed = 5f;
 
       if (input.AdjustCameraZoom() == 0)
       {
@@ -134,11 +147,21 @@ public class SpaceScene : CustomGameComponent
       Camera.Camera.targetOffset = Vector2.Zero;
     }
 
+    if (GameState.state == GameState.State.Settings || GameState.state == GameState.State.Controls)
+    {
+      Camera.Camera.targetOffset = cameraOffsetRight;
+      targetMenuOffset = new Vector2(-menuOffsetAmount, 0);
+      Camera.Camera.cameraOffsetLerpSpeed = 3f;
+    }
+
     if (GameState.state == GameState.State.Pause)
     {
       Camera.Camera.zoomOverrideLerpSpeedFactor = 0.5f;
       Camera.Camera.targetZoomOverride = 1.5f;
       GameState.targetZoom = 1.26f;
+
+      Camera.Camera.targetOffset = cameraOffsetLeft;
+      targetMenuOffset = new Vector2(menuOffsetAmount, 0);
 
       hudOpacity = ColorHelper.FadeOpacity(hudOpacity, 1f, 0f, 0.2f);
 
@@ -153,6 +176,11 @@ public class SpaceScene : CustomGameComponent
 
       Camera.Camera.zoomOverrideLerpSpeedFactor = 0.005f;
       Camera.Camera.targetZoomOverride = 20f;
+    }
+
+    if (GameState.state == GameState.State.MainMenu)
+    {
+      GameState.state = GameState.State.Pause;
     }
 
     if (Camera.Camera.zoomOverride > 10 && opacity <= 0f)

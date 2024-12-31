@@ -58,6 +58,12 @@ public class StartScene : CustomGameComponent
       11
     ));
 
+    components.Add(new ControlsMenu(
+      true,
+      Alignment.Right,
+      11
+    ));
+
     components.Add(new Ship(
       () => opacity,
       false,
@@ -88,7 +94,7 @@ public class StartScene : CustomGameComponent
 
   private void TransitionState()
   {
-    if (GameState.state == GameState.State.Settings)
+    if (GameState.state == GameState.State.Settings || GameState.state == GameState.State.Controls)
     {
       Camera.Camera.targetOffset = cameraOffsetRight;
       targetMenuOffset = new Vector2(-menuOffsetAmount, 0);

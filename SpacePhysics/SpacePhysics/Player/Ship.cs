@@ -7,6 +7,7 @@ using SpacePhysics.Sprites;
 using static SpacePhysics.GameState;
 using static SpacePhysics.Player.SASController;
 using static SpacePhysics.Player.RCSController;
+using SpacePhysics.Scenes;
 
 namespace SpacePhysics.Player;
 
@@ -77,8 +78,14 @@ public class Ship : CustomGameComponent
 
   public override void Update()
   {
-    if (state != State.Pause)
+    if
+    (
+      (state == State.Play && SceneManager.GetCurrentScene() is Scenes.Space.SpaceScene)
+      || SceneManager.GetCurrentScene() is Scenes.Start.StartScene
+    )
     {
+      input.ControllerRumble(thrustAmount * 0.5f);
+
       thrustSprite.Animate();
 
       Physics();
@@ -111,8 +118,10 @@ public class Ship : CustomGameComponent
 
       base.Update();
     }
-
-    input.ControllerRumble(state != State.Play ? 0f : thrustAmount * 0.5f);
+    else
+    {
+      input.ControllerRumble(0f);
+    }
   }
 
   public override void Draw(SpriteBatch spriteBatch)
