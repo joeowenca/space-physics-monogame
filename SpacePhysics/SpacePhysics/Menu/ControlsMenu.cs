@@ -14,6 +14,7 @@ public class ControlsMenu : CustomGameComponent
   private Vector2 offset;
   private Vector2 baseOffset;
   private Vector2 menuOffsetOverride;
+  private Vector2 entireOffsetOverride;
 
   private float opacity;
 
@@ -29,7 +30,8 @@ public class ControlsMenu : CustomGameComponent
       layerIndex
     )
   {
-    offset = new Vector2(menuOffsetXRight, -200f);
+    entireOffsetOverride = new Vector2(-300f, -600f);
+    offset = new Vector2(menuOffsetXRight, 0f);
     baseOffset = offset;
 
     components.Add(new HudText(
@@ -37,53 +39,107 @@ public class ControlsMenu : CustomGameComponent
       () => "Controls",
       alignment,
       TextAlign.Left,
-      () => new Vector2(-100, -400) + offset,
+      () => new Vector2(-100, -400) + offset + entireOffsetOverride,
       () => Color.White * opacity,
       1.75f,
       11
     ));
 
     components.Add(new MenuItem(
-        "Audio",
+        "Adjust Pitch",
         () => activeMenu == 1,
         alignment,
-        () => new Vector2(0f, 0f) + menuOffsetOverride,
+        () => new Vector2(0f, 0f) + menuOffsetOverride + entireOffsetOverride,
         () => opacity,
         11
       ));
 
     components.Add(new MenuItem(
-      "Graphics",
+      "Adjust Throttle",
       () => activeMenu == 2,
       alignment,
-      () => new Vector2(0f, menuSizeY) + menuOffsetOverride,
+      () => new Vector2(0f, menuSizeY) + menuOffsetOverride + entireOffsetOverride,
       () => opacity,
       11
     ));
 
     components.Add(new MenuItem(
-      "Gameplay",
+      "Adjust RCS",
       () => activeMenu == 3,
       alignment,
-      () => new Vector2(0f, menuSizeY * 2f) + menuOffsetOverride,
+      () => new Vector2(0f, menuSizeY * 2f) + menuOffsetOverride + entireOffsetOverride,
       () => opacity,
       11
     ));
 
     components.Add(new MenuItem(
-      "Controls",
+      "Adjust Camera Zoom",
       () => activeMenu == 4,
       alignment,
-      () => new Vector2(0f, menuSizeY * 3f) + menuOffsetOverride,
+      () => new Vector2(0f, menuSizeY * 3f) + menuOffsetOverride + entireOffsetOverride,
+      () => opacity,
+      11
+    ));
+
+    components.Add(new MenuItem(
+      "Move Camera",
+      () => activeMenu == 5,
+      alignment,
+      () => new Vector2(0f, menuSizeY * 4f) + menuOffsetOverride + entireOffsetOverride,
+      () => opacity,
+      11
+    ));
+
+    components.Add(new MenuItem(
+      "Toggle SAS",
+      () => activeMenu == 6,
+      alignment,
+      () => new Vector2(0f, menuSizeY * 5f) + menuOffsetOverride + entireOffsetOverride,
+      () => opacity,
+      11
+    ));
+
+    components.Add(new MenuItem(
+      "Toggle RCS",
+      () => activeMenu == 7,
+      alignment,
+      () => new Vector2(0f, menuSizeY * 6f) + menuOffsetOverride + entireOffsetOverride,
+      () => opacity,
+      11
+    ));
+
+    components.Add(new MenuItem(
+      "Toggle RCS Mode",
+      () => activeMenu == 8,
+      alignment,
+      () => new Vector2(0f, menuSizeY * 7f) + menuOffsetOverride + entireOffsetOverride,
+      () => opacity,
+      11
+    ));
+
+    components.Add(new MenuItem(
+      "Toggle Camera",
+      () => activeMenu == 9,
+      alignment,
+      () => new Vector2(0f, menuSizeY * 8f) + menuOffsetOverride + entireOffsetOverride,
+      () => opacity,
+      11
+    ));
+
+    components.Add(new MenuItem(
+      "Toggle Camera Mode",
+      () => activeMenu == 10,
+      alignment,
+      () => new Vector2(0f, menuSizeY * 9f) + menuOffsetOverride + entireOffsetOverride,
       () => opacity,
       11
     ));
 
     components.Add(new MenuItem(
       "Back",
-      () => activeMenu == 5,
+      () => activeMenu == 11,
       alignment,
-      () => new Vector2(0f, menuSizeY * 4.5f) + menuOffsetOverride,
+      () => new Vector2(0f, menuSizeY * 10.5f) + menuOffsetOverride + entireOffsetOverride,
       () => opacity,
       11
     ));
@@ -91,7 +147,7 @@ public class ControlsMenu : CustomGameComponent
 
   public override void Initialize()
   {
-    menuItemsLength = 5;
+    menuItemsLength = 11;
     activeMenu = 1;
 
     base.Initialize();
@@ -142,7 +198,7 @@ public class ControlsMenu : CustomGameComponent
       if (input.MenuUp())
         activeMenu--;
 
-      if ((activeMenu == 5 && input.MenuSelect()) || input.MenuBack())
+      if ((activeMenu == 11 && input.MenuSelect()) || input.MenuBack())
         state = State.Settings;
     }
 
@@ -153,6 +209,5 @@ public class ControlsMenu : CustomGameComponent
   {
     offset.X = baseOffset.X + menuOffset.X * 3f;
     menuOffsetOverride.X = baseOffset.X - 150 + menuOffsetFactor;
-    menuOffsetOverride.Y = -200f;
   }
 }
