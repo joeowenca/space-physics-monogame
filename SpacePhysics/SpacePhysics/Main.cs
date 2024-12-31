@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using SpacePhysics.Menu;
 using SpacePhysics.Scenes;
 
@@ -56,11 +55,10 @@ public class Main : Game
         if (GameState.quit)
             Exit();
 
-        Camera.Camera.Update();
-        MenuContainer.Update();
-
         sceneManager.GetCurrentScene().Update();
 
+        MenuContainer.Update();
+        Camera.Camera.Update();
         GameState.Update(gameTime);
 
         base.Update(gameTime);
