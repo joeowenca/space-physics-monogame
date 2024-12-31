@@ -1,8 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using SpacePhysics.Scenes.Start;
 using SpacePhysics.HUD;
 using static SpacePhysics.GameState;
 using static SpacePhysics.Menu.MenuContainer;
@@ -17,6 +15,7 @@ public class ControlsMenu : CustomGameComponent
   private Vector2 entireOffsetOverride;
 
   private float opacity;
+  private float controlItemDistance;
 
   private int menuItemsLength;
   private int activeMenu;
@@ -30,9 +29,10 @@ public class ControlsMenu : CustomGameComponent
       layerIndex
     )
   {
-    entireOffsetOverride = new Vector2(-300f, -600f);
+    entireOffsetOverride = new Vector2(-450f, -600f);
     offset = new Vector2(menuOffsetXRight, 0f);
     baseOffset = offset;
+    controlItemDistance = 1750f;
 
     components.Add(new HudText(
       "Fonts/title-font",
@@ -45,11 +45,13 @@ public class ControlsMenu : CustomGameComponent
       11
     ));
 
-    components.Add(new MenuItem(
+    components.Add(new ControlItem(
         "Adjust Pitch",
+        () => "Left Stick",
         () => activeMenu == 1,
         alignment,
         () => new Vector2(0f, 0f) + menuOffsetOverride + entireOffsetOverride,
+        controlItemDistance,
         () => opacity,
         11
       ));
