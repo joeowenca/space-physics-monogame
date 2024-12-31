@@ -130,6 +130,9 @@ public class Camera
 
     offset.X = MathHelper.Lerp(offset.X, targetOffset.X, deltaTime * cameraOffsetLerpSpeed);
     offset.Y = MathHelper.Lerp(offset.Y, targetOffset.Y, deltaTime * cameraOffsetLerpSpeed);
+
+    if (Math.Abs(offset.X - targetOffset.X) < 0.01f) offset.X = targetOffset.X;
+    if (Math.Abs(offset.Y - targetOffset.Y) < 0.01f) offset.Y = targetOffset.Y;
   }
 
   private static float CalculateZoom(float parallaxFactor)
@@ -152,6 +155,8 @@ public class Camera
 
     zoom = MathHelper.Lerp(zoom, targetZoom, deltaTime * 2f);
 
+    if (Math.Abs(zoom - targetZoom) < 0.01f) zoom = targetZoom;
+
     zoom = Math.Clamp(zoom, minZoom, maxZoom);
     targetZoom = Math.Clamp(targetZoom, minZoom, maxZoom);
 
@@ -172,6 +177,9 @@ public class Camera
     if (parallaxFactor == 1) return 1f;
 
     zoomOverride = Utilities.ExponentialLerp(zoomOverride, targetZoomOverride, zoomOverrideLerpSpeed);
+
+    if (Math.Abs(zoomOverride - targetZoomOverride) < 0.01f) zoomOverride = targetZoomOverride;
+
     zoomOverride = Math.Clamp(zoomOverride, 0f, 20f);
 
     return MathHelper.Lerp(1f, zoomOverride, GetZoomFactor(parallaxFactor));
