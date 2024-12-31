@@ -45,7 +45,7 @@ public class Main : Game
     {
         spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        SceneManager.AddScene(new Scenes.Space.SpaceScene());
+        SceneManager.AddScene(new Scenes.Start.StartScene());
     }
 
     protected override void Update(GameTime gameTime)
