@@ -13,8 +13,6 @@ public class MenuContainer
   public static Vector2 menuOffset;
   public static Vector2 targetMenuOffset;
 
-  public static float cameraOffsetLerpSpeed;
-
   public static float menuOffsetXLeft;
   public static float menuOffsetXRight;
 
@@ -47,9 +45,6 @@ public class MenuContainer
 
   public static void Update()
   {
-    offset.X = MathHelper.Lerp(offset.X, targetOffset.X, GameState.deltaTime * cameraOffsetLerpSpeed);
-    offset.Y = MathHelper.Lerp(offset.Y, targetOffset.Y, GameState.deltaTime * cameraOffsetLerpSpeed);
-
     menuOffset.X = MathHelper.Lerp(menuOffset.X, targetMenuOffset.X, GameState.deltaTime * 3f);
     menuOffset.Y = MathHelper.Lerp(menuOffset.Y, targetMenuOffset.Y, GameState.deltaTime * 3f);
 

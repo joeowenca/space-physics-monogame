@@ -21,6 +21,8 @@ public class Camera
 
   private static float counter;
 
+  public static float cameraOffsetLerpSpeed;
+
   public static float zoomOverride;
   public static float targetZoomOverride;
   public static float zoomOverrideLerpSpeed;
@@ -121,6 +123,9 @@ public class Camera
     {
       targetOffset = input.MoveCamera() * screenSize.Y * 0.2f;
     }
+
+    offset.X = MathHelper.Lerp(offset.X, targetOffset.X, deltaTime * cameraOffsetLerpSpeed);
+    offset.Y = MathHelper.Lerp(offset.Y, targetOffset.Y, deltaTime * cameraOffsetLerpSpeed);
   }
 
   private static float CalculateZoom(float parallaxFactor)

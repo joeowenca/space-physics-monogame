@@ -44,6 +44,7 @@ namespace SpacePhysics.Debugging
       debugItems.Add(new DebugItem("Pitch", () => Ship.pitch.ToString()));
       debugItems.Add(new DebugItem("SAS", () => sas.ToString()));
       debugItems.Add(new DebugItem("Camera Offset", () => Camera.Camera.offset.ToString()));
+      debugItems.Add(new DebugItem("Camera Target Offset", () => Camera.Camera.targetOffset.ToString()));
       debugItems.Add(new DebugItem("State", () => state.ToString()));
       debugItems.Add(new DebugItem("GamePad Connected", () => input.gamePadConnected.ToString()));
       debugItems.Add(new DebugItem("GamePad Left Stick X", () => input.AnalogStick().Left.X.ToString()));
@@ -51,9 +52,12 @@ namespace SpacePhysics.Debugging
       debugItems.Add(new DebugItem("GamePad Right Stick X", () => input.AnalogStick().Right.X.ToString()));
       debugItems.Add(new DebugItem("GamePad Right Stick Y", () => input.AnalogStick().Right.Y.ToString()));
       debugItems.Add(new DebugItem("Camera Zoom Speed", () => Camera.Camera.zoomSpeed.ToString()));
+      debugItems.Add(new DebugItem("Zoom", () => zoom.ToString()));
       debugItems.Add(new DebugItem("Target Zoom", () => targetZoom.ToString()));
+      debugItems.Add(new DebugItem("Zoom Override", () => Camera.Camera.zoomOverride.ToString()));
+      debugItems.Add(new DebugItem("Target Zoom Override", () => Camera.Camera.targetZoomOverride.ToString()));
       debugItems.Add(new DebugItem("Prograde Angular Velocity", () => progradeAngularVelocity.ToString()));
-      debugItems.Add(new DebugItem("Current Scene", () => SceneManager.GetCurrentScene().GetType().ToString()));
+      debugItems.Add(new DebugItem("Current Scene", () => (SceneManager.GetCurrentScene() is Scenes.Space.SpaceScene).ToString()));
 
       for (int i = 0; i < debugItems.Count; i++)
       {

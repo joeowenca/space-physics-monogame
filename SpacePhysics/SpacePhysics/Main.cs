@@ -58,7 +58,9 @@ public class Main : Game
         SceneManager.GetCurrentScene().Update();
 
         MenuContainer.Update();
+
         Camera.Camera.Update();
+
         GameState.Update(gameTime);
 
         base.Update(gameTime);

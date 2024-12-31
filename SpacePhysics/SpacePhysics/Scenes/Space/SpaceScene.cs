@@ -97,7 +97,7 @@ public class SpaceScene : CustomGameComponent
     Camera.Camera.zoomOverrideLerpSpeedFactor = 0.025f;
 
     Camera.Camera.offset = Vector2.Zero;
-    cameraOffsetLerpSpeed = 5f;
+    Camera.Camera.cameraOffsetLerpSpeed = 5f;
 
     previousTargetZoom = GameState.targetZoom;
 
@@ -149,7 +149,7 @@ public class SpaceScene : CustomGameComponent
     {
       opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, 2f);
 
-      cameraOffsetLerpSpeed = 3f;
+      Camera.Camera.cameraOffsetLerpSpeed = 3f;
 
       Camera.Camera.zoomOverrideLerpSpeedFactor = 0.005f;
       Camera.Camera.targetZoomOverride = 20f;
