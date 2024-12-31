@@ -1,10 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using SpacePhysics.HUD;
-using SpacePhysics.Scenes.Start;
 using static SpacePhysics.GameState;
 
 namespace SpacePhysics.Menu;
@@ -28,10 +25,10 @@ public class TitleMenu : CustomGameComponent
 
     components.Add(new HudText(
       "Fonts/light-font",
-      () => "PRESS ANY KEY",
+      () => input.gamePadConnected ? "PRESS START" : "PRESS SPACE",
       alignment,
-      TextAlign.Left,
-      () => new Vector2(1250, 300) + offset,
+      TextAlign.Center,
+      () => new Vector2(1650, 300) + offset,
       () => Color.White * opacity,
       1.4f,
       11
@@ -71,7 +68,7 @@ public class TitleMenu : CustomGameComponent
       opacity = ColorHelper.FadeOpacity(opacity, -2f, 0.9f, 5.5f);
     }
 
-    if (input.AnyKeyOrButton() && opacity >= 0.5f)
+    if (input.TitleScreenStart() && opacity >= 0.5f && state == State.TitleScreen)
     {
       state = State.MainMenu;
     }

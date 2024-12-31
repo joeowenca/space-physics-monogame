@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SpacePhysics.Menu;
 using SpacePhysics.Player;
+using SpacePhysics.Scenes;
 using static SpacePhysics.GameState;
 
 namespace SpacePhysics.Camera;
@@ -113,6 +114,7 @@ public class Camera
     if (state != State.Pause) shakeOffset = Shake(Ship.thrustAmount);
 
     if (state == State.Play
+      && SceneManager.GetCurrentScene() is Scenes.Space.SpaceScene
       && !cameraZoomMode
       && maneuverMode
     )

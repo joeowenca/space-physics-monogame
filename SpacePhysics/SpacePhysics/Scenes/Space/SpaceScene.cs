@@ -13,16 +13,12 @@ namespace SpacePhysics.Scenes.Space;
 
 public class SpaceScene : CustomGameComponent
 {
-  SceneManager sceneManager;
-
   private float opacity;
   private float hudOpacity;
   private float previousTargetZoom;
 
-  public SpaceScene(SceneManager sceneManager) : base(true, Alignment.TopLeft, 7)
+  public SpaceScene() : base(true, Alignment.TopLeft, 7)
   {
-    this.sceneManager = sceneManager;
-
     components.Add(new LoopingBackground(
       "Backgrounds/starfield",
       () => new Color(255, 255, 255, 0) * opacity,
@@ -112,7 +108,7 @@ public class SpaceScene : CustomGameComponent
   {
     TransitionState();
 
-    if (input.MenuPause())
+    if (input.MenuPause() && GameState.state == GameState.State.Play)
     {
       GameState.state = GameState.State.Pause;
     }
@@ -163,8 +159,8 @@ public class SpaceScene : CustomGameComponent
     {
       GameState.Initialize();
 
-      sceneManager.RemoveScene();
-      sceneManager.AddScene(new StartScene(sceneManager));
+      SceneManager.RemoveScene();
+      SceneManager.AddScene(new StartScene());
 
       Camera.Camera.zoomOverride = 1f;
       Camera.Camera.targetZoomOverride = 1f;

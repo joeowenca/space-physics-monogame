@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpacePhysics.Player;
+using SpacePhysics.Scenes;
 using static SpacePhysics.GameState;
 
 namespace SpacePhysics.Debugging
@@ -52,6 +53,7 @@ namespace SpacePhysics.Debugging
       debugItems.Add(new DebugItem("Camera Zoom Speed", () => Camera.Camera.zoomSpeed.ToString()));
       debugItems.Add(new DebugItem("Target Zoom", () => targetZoom.ToString()));
       debugItems.Add(new DebugItem("Prograde Angular Velocity", () => progradeAngularVelocity.ToString()));
+      debugItems.Add(new DebugItem("Current Scene", () => SceneManager.GetCurrentScene().GetType().ToString()));
 
       for (int i = 0; i < debugItems.Count; i++)
       {

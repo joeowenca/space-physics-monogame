@@ -280,8 +280,8 @@ public class InputManager
     return OnFirstFrameKeyPress(Keys.Escape) || OnFirstFrameButtonPress(Buttons.Start);
   }
 
-  public bool AnyKeyOrButton()
+  public bool TitleScreenStart()
   {
-    return Keyboard.GetState().GetPressedKeys().Length > 0 || previousGamePadState != currentGamePadState;
+    return OnFirstFrameKeyPress(Keys.Space) || OnFirstFrameButtonPress(Buttons.Start);
   }
 }
