@@ -9,7 +9,7 @@ using static SpacePhysics.Menu.MenuContainer;
 
 namespace SpacePhysics.Menu;
 
-public class SettingsMenu : CustomGameComponent
+public class ControlsMenu : CustomGameComponent
 {
   private Vector2 offset;
   private Vector2 baseOffset;
@@ -20,7 +20,7 @@ public class SettingsMenu : CustomGameComponent
   private int menuItemsLength;
   private int activeMenu;
 
-  public SettingsMenu(
+  public ControlsMenu(
     bool allowInput,
     Alignment alignment,
     int layerIndex) : base(
@@ -34,7 +34,7 @@ public class SettingsMenu : CustomGameComponent
 
     components.Add(new HudText(
       "Fonts/title-font",
-      () => "Settings",
+      () => "Controls",
       alignment,
       TextAlign.Left,
       () => new Vector2(-100, -400) + offset,
@@ -118,7 +118,7 @@ public class SettingsMenu : CustomGameComponent
 
   private void TransitionState()
   {
-    if (state != State.Settings)
+    if (state != State.Controls)
     {
       if (opacity > 0)
         opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, opacityTransitionSpeed);
@@ -134,7 +134,7 @@ public class SettingsMenu : CustomGameComponent
 
   private void UpdateMenu()
   {
-    if (state == State.Settings)
+    if (state == State.Controls)
     {
       if (input.MenuDown())
         activeMenu++;
@@ -142,11 +142,8 @@ public class SettingsMenu : CustomGameComponent
       if (input.MenuUp())
         activeMenu--;
 
-      if (activeMenu == 4 && input.MenuSelect())
-        state = State.Controls;
-
       if ((activeMenu == 5 && input.MenuSelect()) || input.MenuBack())
-        state = State.MainMenu;
+        state = State.Settings;
     }
 
     activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
