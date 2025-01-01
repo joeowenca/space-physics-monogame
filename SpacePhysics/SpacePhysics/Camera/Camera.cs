@@ -139,6 +139,8 @@ public class Camera
   {
     parallaxFactor *= 7;
 
+    if (parallaxFactor == 1) return 1f;
+
     zoomSpeed = 1f + (Math.Abs(input.AdjustCameraZoom()) * 0.3f);
 
     if (input.AdjustCameraZoom() > 0)
@@ -151,11 +153,9 @@ public class Camera
       targetZoom /= (float)Math.Pow(zoomSpeed, deltaTime);
     }
 
-    if (parallaxFactor == 1) return 1f;
-
     zoom = MathHelper.Lerp(zoom, targetZoom, deltaTime * 2f);
 
-    if (Math.Abs(zoom - targetZoom) < 0.01f) zoom = targetZoom;
+    if (Math.Abs(zoom - targetZoom) < 0.001f) zoom = targetZoom;
 
     zoom = Math.Clamp(zoom, minZoom, maxZoom);
     targetZoom = Math.Clamp(targetZoom, minZoom, maxZoom);
