@@ -18,7 +18,7 @@ public class GameState
 
   public static State state;
 
-  public static Vector2 screenSize = new Vector2(2560, 1440);
+  public static Vector2 screenSize = new Vector2(1920, 1080);
   public static float FPS;
 
   public static Vector2 position;
@@ -98,7 +98,7 @@ public class GameState
     scale = screenSize.Y / 1080 * scaleOverride;
     hudScale = 1.4f;
     hudTextScale = hudScale * 0.4f;
-    hudScaleOverrideFactor = 0.75f;
+    hudScaleOverrideFactor = 0.85f;
     hudScaleOverride = scale * hudScaleOverrideFactor;
     opacityTransitionSpeed = 0.6f;
     units = 5f;
@@ -126,7 +126,7 @@ public class GameState
   {
     progradeRadians = MathF.Atan2(velocity.Y, velocity.X) + (float)(Math.PI * 0.5f);
 
-    progradeAngularVelocity = progradeRadians - previousProgradeRadians;
+    progradeAngularVelocity = (progradeRadians - previousProgradeRadians) / deltaTime;
 
     previousProgradeRadians = progradeRadians;
 
