@@ -18,7 +18,7 @@ public static class SASController
 
   private static SASTarget sasTarget = SASTarget.Stability;
 
-  private static float stabilityThreshold = 0.002f;
+  private static float stabilityThreshold = 0.4f;
 
   private static float Kp = 10.0f;
   private static float Kv = 15.0f;
@@ -99,19 +99,19 @@ public static class SASController
         && stabilityMode
       )
     {
-      if (angularVelocity > stabilityThreshold)
+      if (angularVelocity > stabilityThreshold * deltaTime)
       {
         targetPitch = -1f;
         electricity -= deltaTime;
       }
 
-      if (angularVelocity < -stabilityThreshold)
+      if (angularVelocity < -stabilityThreshold * deltaTime)
       {
         targetPitch = 1f;
         electricity -= deltaTime;
       }
 
-      if (Math.Abs(angularVelocity) < stabilityThreshold)
+      if (Math.Abs(angularVelocity) < stabilityThreshold * deltaTime)
       {
         targetPitch = 0f;
         angularVelocity = 0f;
