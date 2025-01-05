@@ -24,13 +24,24 @@ public class Gauge : CustomGameComponent
             11
         );
 
-        HudSprite directionIndicator = new(
-            "HUD/gauge-indicator",
+        HudSprite gaugeNeedle = new(
+            "HUD/gauge-needle",
             Alignment.BottomCenter,
             Alignment.Center,
             () => offset,
             () => direction,
             () => sas ? highlightColor * opacity() : defaultColor * opacity(),
+            hudScale,
+            11
+        );
+
+        HudSprite gaugeIndicator = new(
+            "HUD/gauge-indicator",
+            Alignment.BottomCenter,
+            Alignment.Center,
+            () => offset,
+            () => direction,
+            () => defaultColor * opacity(),
             hudScale,
             11
         );
@@ -135,7 +146,8 @@ public class Gauge : CustomGameComponent
 
         components.Add(hudShadow);
         components.Add(guage);
-        components.Add(directionIndicator);
+        components.Add(gaugeNeedle);
+        components.Add(gaugeIndicator);
         components.Add(progradeIndicator);
         components.Add(retrogradeIndicator);
         components.Add(radialLeftIndicator);

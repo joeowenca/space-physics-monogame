@@ -1,1 +1,3 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/JoeAO/Documents/space-physics-monogame/SpacePhysics/SpacePhysics/Content/HUD/gauge-indicator.png","C:/Users/JoeAO/Documents/space-physics-monogame/SpacePhysics/SpacePhysics/Content/bin/DesktopGL/Content/HUD/gauge-indicator.xnb","TextureProcessor","Texture2DContent",6110,1440085,0.1003947
+"C:/Users/JoeAO/Documents/space-physics-monogame/SpacePhysics/SpacePhysics/Content/HUD/gauge-needle.png","C:/Users/JoeAO/Documents/space-physics-monogame/SpacePhysics/SpacePhysics/Content/bin/DesktopGL/Content/HUD/gauge-needle.xnb","TextureProcessor","Texture2DContent",6937,1440085,0.0256988
