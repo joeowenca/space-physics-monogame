@@ -107,7 +107,7 @@ public class PauseMenu : CustomGameComponent
       if (input.MenuUp())
         activeMenu--;
 
-      if (activeMenu == 1 && input.MenuSelect() || input.MenuBack())
+      if (activeMenu == 1 && input.MenuSelect())
       {
         state = State.Play;
       }

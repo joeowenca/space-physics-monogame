@@ -124,6 +124,10 @@ public class SpaceScene : CustomGameComponent
     {
       GameState.state = GameState.State.Pause;
     }
+    else if ((input.MenuPause() || input.MenuBack()) && GameState.state == GameState.State.Pause)
+    {
+      GameState.state = GameState.State.Play;
+    }
 
     base.Update();
   }
