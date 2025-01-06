@@ -16,7 +16,7 @@ public static class SASController
     RadialRight
   }
 
-  private static SASTarget sasTarget = SASTarget.Stability;
+  public static SASTarget sasTarget = SASTarget.Stability;
 
   private static float stabilityThreshold = 0.4f;
 
@@ -156,5 +156,10 @@ public static class SASController
         targetPitch = Math.Clamp(targetPitch, -1.0f, 1.0f);
       }
     }
+  }
+
+  public static bool isSasMode(SASTarget sasMode)
+  {
+    return sasMode == sasTarget && sas;
   }
 }
