@@ -1,7 +1,9 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpacePhysics.Player;
 using static SpacePhysics.GameState;
+using static SpacePhysics.Player.SASController;
 
 namespace SpacePhysics.HUD;
 
@@ -41,7 +43,8 @@ public class Gauge : CustomGameComponent
             Alignment.Center,
             () => offset,
             () => direction,
-            () => defaultColor * opacity(),
+            () => isSasMode(SASTarget.Stability)
+                ? highlightColor * opacity() : defaultColor * opacity(),
             hudScale,
             11
         );
@@ -52,7 +55,8 @@ public class Gauge : CustomGameComponent
             Alignment.Center,
             () => offset,
             () => progradeRadians,
-            () => new Color(0, 255, 0) * opacity(),
+            () => isSasMode(SASTarget.Prograde)
+                ? highlightColor * opacity() : new Color(0, 255, 0) * opacity(),
             hudScale,
             11
         );
@@ -63,7 +67,8 @@ public class Gauge : CustomGameComponent
             Alignment.Center,
             () => offset,
             () => retrogradeRadians,
-            () => Color.Red * opacity(),
+            () => isSasMode(SASTarget.Retrograde)
+                ? highlightColor * opacity() : Color.Red * opacity(),
             hudScale,
             11
         );
@@ -74,7 +79,8 @@ public class Gauge : CustomGameComponent
             Alignment.Center,
             () => offset,
             () => radialLeftRadians,
-            () => Color.Cyan * opacity(),
+            () => isSasMode(SASTarget.RadialLeft)
+                ? highlightColor * opacity() : Color.Cyan * opacity(),
             hudScale,
             11
         );
@@ -85,7 +91,8 @@ public class Gauge : CustomGameComponent
             Alignment.Center,
             () => offset,
             () => radialRightRadians,
-            () => Color.Cyan * opacity(),
+            () => isSasMode(SASTarget.RadialRight)
+                ? highlightColor * opacity() : Color.Cyan * opacity(),
             hudScale,
             11
         );
