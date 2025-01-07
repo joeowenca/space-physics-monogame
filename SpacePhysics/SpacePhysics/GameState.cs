@@ -124,6 +124,9 @@ public class GameState
 
   public static void Update(GameTime gameTime)
   {
+    deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+    elapsedTime += deltaTime;
+
     progradeRadians = MathF.Atan2(velocity.Y, velocity.X) + (float)(Math.PI * 0.5f);
 
     progradeAngularVelocity = (progradeRadians - previousProgradeRadians) / deltaTime;
@@ -157,9 +160,6 @@ public class GameState
     {
       sceneString = "Space";
     }
-
-    deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-    elapsedTime += deltaTime;
 
     if ((DateTime.Now - lastFPSCheck).TotalMilliseconds >= 1000 && deltaTime > 0)
     {
