@@ -100,15 +100,11 @@ public class Camera
       changeCamera = !changeCamera;
     }
 
+    rotation = 0f;
+
     if (changeCamera)
     {
       rotation = -direction;
-
-      if (state == State.Pause) rotation = 0f;
-    }
-    else
-    {
-      rotation = 0f;
     }
 
     if (input.ToggleCameraMode())
