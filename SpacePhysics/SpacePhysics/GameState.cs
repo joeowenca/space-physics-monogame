@@ -115,6 +115,8 @@ public class GameState
 
   public static void Intro()
   {
+    Initialize();
+
     state = State.TitleScreen;
     position = new Vector2(400, 400);
     velocity = new Vector2(200, -80);
@@ -122,7 +124,6 @@ public class GameState
     direction = -0.4f;
     zoom = 1.75f;
     targetZoom = zoom;
-    changeCamera = false;
   }
 
   public static void Update(GameTime gameTime)
