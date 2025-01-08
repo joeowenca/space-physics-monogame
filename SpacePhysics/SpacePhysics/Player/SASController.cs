@@ -16,16 +16,12 @@ public static class SASController
     RadialRight
   }
 
-  public static SASTarget sasTarget = SASTarget.Stability;
-
   private static float stabilityThreshold = 0.4f;
 
   private static float Kp = 10.0f;
   private static float Kv = 15.0f;
 
   private static float targetAngle;
-
-  private static bool stabilityMode = true;
 
   public static string sasModeString = "Stability";
 
@@ -63,12 +59,10 @@ public static class SASController
       stabilityMode = !stabilityMode;
 
       sasTarget = SASTarget.Prograde;
-      sasModeString = "Prograde";
 
       if (stabilityMode)
       {
         sasTarget = SASTarget.Stability;
-        sasModeString = "Stability";
       }
     }
 
@@ -76,20 +70,23 @@ public static class SASController
     {
       sasTarget = SASTarget.Retrograde;
       stabilityMode = false;
-      sasModeString = "Retrograde";
     }
     if (input.SetSASTargetRadialLeft())
     {
       sasTarget = SASTarget.RadialLeft;
       stabilityMode = false;
-      sasModeString = "Radial Left";
     }
     if (input.SetSASTargetRadialRight())
     {
       sasTarget = SASTarget.RadialRight;
       stabilityMode = false;
-      sasModeString = "Radial Right";
     }
+
+    if (sasTarget == SASTarget.Stability) sasModeString = "Stability";
+    if (sasTarget == SASTarget.Prograde) sasModeString = "Prograde";
+    if (sasTarget == SASTarget.Retrograde) sasModeString = "Retrograde";
+    if (sasTarget == SASTarget.RadialLeft) sasModeString = "Radial Left";
+    if (sasTarget == SASTarget.RadialRight) sasModeString = "Radial Right";
   }
 
   public static void Stabilize(InputManager input)

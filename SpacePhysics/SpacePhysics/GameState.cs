@@ -18,6 +18,8 @@ public class GameState
 
   public static State state;
 
+  public static Player.SASController.SASTarget sasTarget;
+
   public static Vector2 screenSize = new Vector2(2560, 1440);
   public static float FPS;
 
@@ -67,6 +69,7 @@ public class GameState
   public static bool sas;
   public static bool rcs;
   public static bool maneuverMode;
+  public static bool stabilityMode;
   public static bool debug;
   public static bool quit;
 
@@ -74,6 +77,7 @@ public class GameState
 
   public static void Initialize()
   {
+    sasTarget = Player.SASController.SASTarget.Stability;
     position = Vector2.Zero;
     velocity = Vector2.Zero;
     defaultColor = Color.White * 0.75f;
@@ -112,6 +116,7 @@ public class GameState
     sas = false;
     rcs = false;
     maneuverMode = true;
+    stabilityMode = true;
     quit = false;
   }
 
