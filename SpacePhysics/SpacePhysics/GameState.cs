@@ -62,6 +62,7 @@ public class GameState
 
   public static string sceneString;
 
+  public static bool changeCamera;
   public static bool sas;
   public static bool rcs;
   public static bool maneuverMode;
@@ -105,6 +106,7 @@ public class GameState
     elapsedTime = 0f;
     deltaTime = 0f;
     sceneString = "";
+    changeCamera = false;
     sas = false;
     rcs = false;
     maneuverMode = true;
@@ -120,7 +122,7 @@ public class GameState
     direction = -0.4f;
     zoom = 1.75f;
     targetZoom = zoom;
-    Camera.Camera.changeCamera = false;
+    changeCamera = false;
   }
 
   public static void Update(GameTime gameTime)

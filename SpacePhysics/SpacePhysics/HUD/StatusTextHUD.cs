@@ -88,7 +88,7 @@ public class StatusTextHUD : CustomGameComponent
         if (input.ToggleCameraAngle())
         {
             labelText = "Camera";
-            valueText = Camera.Camera.changeCamera ? "Ship" : "Horizon";
+            valueText = changeCamera ? "Ship" : "Horizon";
 
             textOpacity = 1f;
             fadeOutTimer = elapsedTime;
