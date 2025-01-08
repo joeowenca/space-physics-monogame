@@ -120,6 +120,7 @@ public class GameState
     direction = -0.4f;
     zoom = 1.75f;
     targetZoom = zoom;
+    Camera.Camera.changeCamera = false;
   }
 
   public static void Update(GameTime gameTime)
