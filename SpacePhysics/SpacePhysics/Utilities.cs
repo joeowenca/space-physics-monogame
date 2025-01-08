@@ -16,10 +16,21 @@ public class Utilities
   {
     float degrees = radians * (180f / (float)Math.PI);
 
-    degrees = degrees % 360f;
+    degrees %= 360f;
 
     if (degrees < 0) degrees += 360f;
 
     return (float)Math.Round(degrees);
+  }
+
+  public static Vector2 RotateVector2(Vector2 vector, float radians)
+  {
+    float cosTheta = (float)Math.Cos(radians);
+    float sinTheta = (float)Math.Sin(radians);
+
+    float x = vector.X * cosTheta - vector.Y * sinTheta;
+    float y = vector.X * sinTheta + vector.Y * cosTheta;
+
+    return new Vector2(x, y);
   }
 }

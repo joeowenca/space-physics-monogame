@@ -14,6 +14,7 @@ public class Camera
   public static Vector2 position;
   public static Vector2 offset;
   public static Vector2 targetOffset;
+  public static Vector2 rotatedOffset;
 
   private static Vector2 initialPosition;
   private static Vector2 shakeDirection;
@@ -32,7 +33,7 @@ public class Camera
 
   private static float minZoom;
   private static float maxZoom;
-  private static float rotation;
+  public static float rotation;
 
   public static bool changeCamera;
   public static bool cameraZoomMode;
@@ -46,6 +47,8 @@ public class Camera
     input = new();
     counter = 0;
     offset = Vector2.Zero;
+    targetOffset = Vector2.Zero;
+    rotatedOffset = Vector2.Zero;
     initialPosition = Vector2.Zero;
     shakeDirection = Vector2.Zero;
     zoomOverride = 1f;
@@ -125,11 +128,17 @@ public class Camera
       && maneuverMode
     )
     {
-      targetOffset = input.MoveCamera() * screenSize.Y * 0.2f;
+      targetOffset = new Vector2
+      (
+        -input.AnalogStick().Right.X,
+        input.AnalogStick().Right.Y
+      ) * screenSize.Y * 0.2f;
     }
 
     offset.X = MathHelper.Lerp(offset.X, targetOffset.X, deltaTime * cameraOffsetLerpSpeed);
     offset.Y = MathHelper.Lerp(offset.Y, targetOffset.Y, deltaTime * cameraOffsetLerpSpeed);
+
+    rotatedOffset = Utilities.RotateVector2(offset, -rotation);
 
     if (Math.Abs(offset.X - targetOffset.X) < 0.01f) offset.X = targetOffset.X;
     if (Math.Abs(offset.Y - targetOffset.Y) < 0.01f) offset.Y = targetOffset.Y;
@@ -196,7 +205,7 @@ public class Camera
     float zoomOverride = CalculateZoomOverride(parallaxFactor);
 
     return
-        Matrix.CreateTranslation(new Vector3((-GameState.position.X) * parallaxFactor + offset.X, (-GameState.position.Y) * parallaxFactor + offset.Y, 0)) *
+        Matrix.CreateTranslation(new Vector3((-GameState.position.X) * parallaxFactor + rotatedOffset.X, (-GameState.position.Y) * parallaxFactor + rotatedOffset.Y, 0)) *
         Matrix.CreateRotationZ(rotation) *
         Matrix.CreateTranslation(new Vector3(parallaxFactor == 0 ? 0 : shakeOffset.X, parallaxFactor == 0 ? 0 : shakeOffset.Y, 0)) *
         Matrix.CreateScale(zoom * zoomOverride) *

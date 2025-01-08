@@ -50,6 +50,7 @@ namespace SpacePhysics.Debugging
       debugItems.Add(new DebugItem("Camera", () => ""));
       debugItems.Add(new DebugItem("Camera X", () => Camera.Camera.position.X.ToString()));
       debugItems.Add(new DebugItem("Camera Y", () => Camera.Camera.position.Y.ToString()));
+      debugItems.Add(new DebugItem("Camera Rotation", () => Camera.Camera.rotation.ToString()));
       debugItems.Add(new DebugItem("Camera Offset", () => Camera.Camera.offset.ToString()));
       debugItems.Add(new DebugItem("Camera Target Offset", () => Camera.Camera.targetOffset.ToString()));
       debugItems.Add(new DebugItem("Camera Zoom Speed", () => Camera.Camera.zoomSpeed.ToString()));
