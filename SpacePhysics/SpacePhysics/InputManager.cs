@@ -115,7 +115,7 @@ public class InputManager
     {
       rcsAmount.X = AnalogStick().Left.X
         + (
-          !Camera.Camera.cameraZoomMode
+          !GameState.cameraZoomMode
           && !GameState.maneuverMode ?
           AnalogStick().Right.X
           : 0f
@@ -123,7 +123,7 @@ public class InputManager
 
       rcsAmount.Y = -AnalogStick().Left.Y
       + (
-        !Camera.Camera.cameraZoomMode
+        !GameState.cameraZoomMode
         && !GameState.maneuverMode ?
         -AnalogStick().Right.Y
         : 0f
@@ -137,7 +137,7 @@ public class InputManager
   {
     Vector2 moveAmount = Vector2.Zero;
 
-    if (gamePadConnected && !Camera.Camera.cameraZoomMode)
+    if (gamePadConnected && !GameState.cameraZoomMode)
     {
       return new Vector2(-AnalogStick().Right.X, AnalogStick().Right.Y);
     }
@@ -182,7 +182,7 @@ public class InputManager
     if (ContinuousKeyPress(Keys.OemPlus)) return 1f;
     if (ContinuousKeyPress(Keys.OemMinus)) return -1f;
 
-    if (gamePadConnected && Camera.Camera.cameraZoomMode)
+    if (gamePadConnected && GameState.cameraZoomMode)
     {
       return AnalogStick().Right.Y;
     }

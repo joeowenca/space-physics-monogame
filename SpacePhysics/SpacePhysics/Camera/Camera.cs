@@ -33,8 +33,6 @@ public class Camera
   private static float maxZoom;
   public static float rotation;
 
-  public static bool cameraZoomMode;
-
   public static bool allowInput;
 
   public Camera() { }
@@ -54,7 +52,6 @@ public class Camera
     zoomSpeed = 1.3f;
     minZoom = 0.4f;
     maxZoom = 4f;
-    cameraZoomMode = false;
     allowInput = true;
   }
 

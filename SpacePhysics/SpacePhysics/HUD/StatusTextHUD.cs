@@ -97,7 +97,7 @@ public class StatusTextHUD : CustomGameComponent
         if (input.ToggleCameraMode())
         {
             labelText = "Camera Mode";
-            valueText = Camera.Camera.cameraZoomMode ? "Zoom" : "Move";
+            valueText = cameraZoomMode ? "Zoom" : "Move";
 
             textOpacity = 1f;
             fadeOutTimer = elapsedTime;

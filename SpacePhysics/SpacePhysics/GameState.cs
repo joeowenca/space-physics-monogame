@@ -63,6 +63,7 @@ public class GameState
   public static string sceneString;
 
   public static bool changeCamera;
+  public static bool cameraZoomMode;
   public static bool sas;
   public static bool rcs;
   public static bool maneuverMode;
@@ -107,6 +108,7 @@ public class GameState
     deltaTime = 0f;
     sceneString = "";
     changeCamera = false;
+    cameraZoomMode = false;
     sas = false;
     rcs = false;
     maneuverMode = true;
