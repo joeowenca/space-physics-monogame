@@ -96,6 +96,12 @@ public class SpaceScene : CustomGameComponent
       11
     ));
 
+    components.Add(new DisplayMenu(
+      true,
+      Alignment.Right,
+      11
+    ));
+
     components.Add(new DebugView());
   }
 
@@ -151,7 +157,9 @@ public class SpaceScene : CustomGameComponent
       Camera.Camera.targetOffset = Vector2.Zero;
     }
 
-    if (GameState.state == GameState.State.Settings || GameState.state == GameState.State.Controls)
+    if (GameState.state != GameState.State.Play
+        && GameState.state != GameState.State.Pause
+        && GameState.state != GameState.State.TitleScreen)
     {
       Camera.Camera.targetOffset = cameraOffsetRight;
       targetMenuOffset = new Vector2(-menuOffsetAmount, 0);

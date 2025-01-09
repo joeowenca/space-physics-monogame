@@ -1,26 +1,26 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using SpacePhysics.Scenes.Start;
 using SpacePhysics.HUD;
 using static SpacePhysics.GameState;
 using static SpacePhysics.Menu.MenuContainer;
 
 namespace SpacePhysics.Menu;
 
-public class SettingsMenu : CustomGameComponent
+public class DisplayMenu : CustomGameComponent
 {
   private Vector2 offset;
   private Vector2 baseOffset;
   private Vector2 menuOffsetOverride;
+  private Vector2 entireOffsetOverride;
 
   private float opacity;
+  private float controlItemDistance;
 
   private int menuItemsLength;
   private int activeMenu;
 
-  public SettingsMenu(
+  public DisplayMenu(
     bool allowInput,
     Alignment alignment,
     int layerIndex) : base(
@@ -29,61 +29,60 @@ public class SettingsMenu : CustomGameComponent
       layerIndex
     )
   {
-    offset = new Vector2(menuOffsetXRight, -100f);
+    entireOffsetOverride = new Vector2(-600f, -50f);
+    offset = new Vector2(menuOffsetXRight, 0f);
     baseOffset = offset;
+    controlItemDistance = 1750f;
 
     components.Add(new HudText(
       "Fonts/title-font",
-      () => "Settings",
+      () => "Display",
       alignment,
       TextAlign.Left,
-      () => new Vector2(-100, -400) + offset,
+      () => new Vector2(-100, -400) + offset + entireOffsetOverride,
       () => Color.White * opacity,
       1.75f,
       11
     ));
 
-    components.Add(new MenuItem(
-        "Sound",
-        () => activeMenu == 1,
-        alignment,
-        () => new Vector2(0f, 0f) + menuOffsetOverride,
-        () => opacity,
-        11
-      ));
+    components.Add(new ControlItem(
+      "Aspect ratio",
+      () => "16:9",
+      () => activeMenu == 1,
+      alignment,
+      () => new Vector2(0f, 0f) + menuOffsetOverride + entireOffsetOverride,
+      controlItemDistance,
+      () => opacity,
+      11
+    ));
 
-    components.Add(new MenuItem(
-      "Display",
+    components.Add(new ControlItem(
+      "Resolution",
+      () => "2560x1440",
       () => activeMenu == 2,
       alignment,
-      () => new Vector2(0f, menuSizeY) + menuOffsetOverride,
+      () => new Vector2(0f, menuSizeY) + menuOffsetOverride + entireOffsetOverride,
+      controlItemDistance,
       () => opacity,
       11
     ));
 
-    components.Add(new MenuItem(
-      "Gameplay",
+    components.Add(new ControlItem(
+      "Vsync",
+      () => "Off",
       () => activeMenu == 3,
       alignment,
-      () => new Vector2(0f, menuSizeY * 2f) + menuOffsetOverride,
-      () => opacity,
-      11
-    ));
-
-    components.Add(new MenuItem(
-      "Controls",
-      () => activeMenu == 4,
-      alignment,
-      () => new Vector2(0f, menuSizeY * 3f) + menuOffsetOverride,
+      () => new Vector2(0f, menuSizeY * 2f) + menuOffsetOverride + entireOffsetOverride,
+      controlItemDistance,
       () => opacity,
       11
     ));
 
     components.Add(new MenuItem(
       "Back",
-      () => activeMenu == 5,
+      () => activeMenu == 4,
       alignment,
-      () => new Vector2(0f, menuSizeY * 4.5f) + menuOffsetOverride,
+      () => new Vector2(0f, menuSizeY * 3.5f) + menuOffsetOverride + entireOffsetOverride,
       () => opacity,
       11
     ));
@@ -91,7 +90,7 @@ public class SettingsMenu : CustomGameComponent
 
   public override void Initialize()
   {
-    menuItemsLength = 5;
+    menuItemsLength = 4;
     activeMenu = 1;
 
     base.Initialize();
@@ -118,7 +117,7 @@ public class SettingsMenu : CustomGameComponent
 
   private void TransitionState()
   {
-    if (state != State.Settings)
+    if (state != State.Display)
     {
       if (opacity > 0)
         opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, opacityTransitionSpeed);
@@ -134,7 +133,7 @@ public class SettingsMenu : CustomGameComponent
 
   private void UpdateMenu()
   {
-    if (state == State.Settings)
+    if (state == State.Display)
     {
       if (input.MenuDown())
         activeMenu++;
@@ -142,14 +141,8 @@ public class SettingsMenu : CustomGameComponent
       if (input.MenuUp())
         activeMenu--;
 
-      if (activeMenu == 2 && input.MenuSelect())
-        state = State.Display;
-
-      if (activeMenu == 4 && input.MenuSelect())
-        state = State.Controls;
-
-      if ((activeMenu == 5 && input.MenuSelect()) || input.MenuBack())
-        state = State.MainMenu;
+      if ((activeMenu == 4 && input.MenuSelect()) || input.MenuBack())
+        state = State.Settings;
     }
 
     activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
@@ -159,6 +152,5 @@ public class SettingsMenu : CustomGameComponent
   {
     offset.X = baseOffset.X + menuOffset.X * 3f;
     menuOffsetOverride.X = baseOffset.X - 150 + menuOffsetFactor;
-    menuOffsetOverride.Y = -200f;
   }
 }

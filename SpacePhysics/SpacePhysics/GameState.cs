@@ -11,6 +11,7 @@ public class GameState
     TitleScreen,
     MainMenu,
     Settings,
+    Display,
     Controls,
     Play,
     Pause
