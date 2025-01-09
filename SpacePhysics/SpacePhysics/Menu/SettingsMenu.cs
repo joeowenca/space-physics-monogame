@@ -87,6 +87,18 @@ public class SettingsMenu : CustomGameComponent
       () => opacity,
       11
     ));
+
+    components.Add(new ControlsMenu(
+      true,
+      Alignment.Right,
+      11
+    ));
+
+    components.Add(new DisplayMenu(
+      true,
+      Alignment.Right,
+      11
+    ));
   }
 
   public override void Initialize()
