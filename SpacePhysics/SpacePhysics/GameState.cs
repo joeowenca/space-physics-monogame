@@ -12,6 +12,7 @@ public class GameState
     MainMenu,
     Settings,
     Display,
+    Sound,
     Controls,
     Play,
     Pause

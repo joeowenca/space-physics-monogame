@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -17,6 +18,8 @@ public class MainMenu : CustomGameComponent
 
   private int menuItemsLength;
   private int activeMenu;
+
+  public static bool isMainMenu;
 
   public MainMenu(
     bool allowInput,
@@ -62,6 +65,8 @@ public class MainMenu : CustomGameComponent
   {
     menuItemsLength = 3;
     activeMenu = 1;
+
+    isMainMenu = true;
 
     base.Initialize();
   }
@@ -119,6 +124,8 @@ public class MainMenu : CustomGameComponent
 
       if (activeMenu == 3 && input.MenuSelect())
         quit = true;
+
+      isMainMenu = true;
     }
 
     activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);

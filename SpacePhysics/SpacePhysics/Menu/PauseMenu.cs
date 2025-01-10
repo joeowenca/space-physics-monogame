@@ -19,6 +19,8 @@ public class PauseMenu : CustomGameComponent
   private int menuItemsLength;
   private int activeMenu;
 
+  public static bool isPauseMenu;
+
   public PauseMenu(
     bool allowInput,
     Alignment alignment,
@@ -84,6 +86,8 @@ public class PauseMenu : CustomGameComponent
     menuItemsLength = 4;
     activeMenu = 1;
 
+    isPauseMenu = true;
+
     base.Initialize();
   }
 
@@ -124,6 +128,8 @@ public class PauseMenu : CustomGameComponent
 
       if (activeMenu == 4 && input.MenuSelect())
         quit = true;
+
+      isPauseMenu = true;
     }
 
     activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
