@@ -10,7 +10,7 @@ public class UIMenu : SubMenu
 
   public UIMenu() : base(
     "UI",
-    new Vector2(-600f, 0),
+    new Vector2(0f, -50f),
     State.UI,
     State.Settings
   )

@@ -10,7 +10,7 @@ public class SoundMenu : SubMenu
 
   public SoundMenu() : base(
     "Sound",
-    new Vector2(-600f, 0),
+    new Vector2(0f, -150f),
     State.Sound,
     State.Settings
   )

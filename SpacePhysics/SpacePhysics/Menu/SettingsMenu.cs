@@ -94,11 +94,7 @@ public class SettingsMenu : CustomGameComponent
 
     components.Add(new UIMenu());
 
-    components.Add(new ControlsMenu(
-      true,
-      Alignment.Right,
-      11
-    ));
+    components.Add(new ControlsMenu());
   }
 
   public override void Initialize()

@@ -1,7 +1,5 @@
 using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using SpacePhysics.HUD;
 using static SpacePhysics.GameState;
 using static SpacePhysics.Menu.MenuContainer;
 
@@ -12,7 +10,7 @@ public class DisplayMenu : SubMenu
 
   public DisplayMenu() : base(
     "Display",
-    new Vector2(-600f, 0),
+    new Vector2(0f, -50f),
     State.Display,
     State.Settings
   )

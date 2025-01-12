@@ -39,7 +39,7 @@ public class SubMenu : CustomGameComponent
     this.activeState = activeState;
     this.previousState = previousState;
 
-    entireOffsetOverride = new Vector2(0f, -50f);
+    entireOffsetOverride = new Vector2(-600f, 0f);
     entireOffsetOverride += offsetOverride;
     offset = new Vector2(menuOffsetXRight, 0f);
     baseOffset = offset;
