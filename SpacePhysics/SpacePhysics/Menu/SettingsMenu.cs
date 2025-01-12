@@ -88,11 +88,7 @@ public class SettingsMenu : CustomGameComponent
       11
     ));
 
-    components.Add(new SoundMenu(
-      true,
-      Alignment.Right,
-      11
-    ));
+    components.Add(new SoundMenu());
 
     components.Add(new DisplayMenu());
 

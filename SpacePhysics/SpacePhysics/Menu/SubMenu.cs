@@ -20,6 +20,7 @@ public class SubMenu : CustomGameComponent
 
   public float opacity;
   public float controlItemDistance;
+  private float backButtonYOffset;
 
   private int menuItemsLength;
   public int activeMenu;
@@ -60,7 +61,6 @@ public class SubMenu : CustomGameComponent
 
   public override void Initialize()
   {
-    menuItemsLength = components.Count - 1;
     activeMenu = 1;
 
     base.Initialize();
@@ -69,6 +69,8 @@ public class SubMenu : CustomGameComponent
   public override void Update()
   {
     TransitionState();
+
+    UpdateNumberOfMenuItems();
 
     UpdateMenu();
 
@@ -91,7 +93,7 @@ public class SubMenu : CustomGameComponent
       "Back",
       () => activeMenu == components.Count - 1,
       alignment,
-      () => new Vector2(0f, menuSizeY * 3.5f) + menuOffsetOverride + entireOffsetOverride,
+      () => new Vector2(0f, menuSizeY * backButtonYOffset) + menuOffsetOverride + entireOffsetOverride,
       () => opacity,
       11
     ));
@@ -111,6 +113,13 @@ public class SubMenu : CustomGameComponent
     {
       opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, opacityTransitionSpeed);
     }
+  }
+
+  private void UpdateNumberOfMenuItems()
+  {
+    menuItemsLength = components.Count - 1;
+
+    backButtonYOffset = components.Count - 1.5f;
   }
 
   private void UpdateMenu()
