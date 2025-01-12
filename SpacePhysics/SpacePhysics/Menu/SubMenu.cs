@@ -12,17 +12,17 @@ public class SubMenu : CustomGameComponent
   // TODO: Remove redundant offsets
   private Vector2 offset;
   private Vector2 baseOffset;
-  private Vector2 menuOffsetOverride;
-  private Vector2 entireOffsetOverride;
+  public Vector2 menuOffsetOverride;
+  public Vector2 entireOffsetOverride;
 
   private State activeState;
   private State previousState;
 
-  private float opacity;
-  private float controlItemDistance;
+  public float opacity;
+  public float controlItemDistance;
 
   private int menuItemsLength;
-  private int activeMenu;
+  public int activeMenu;
 
   public SubMenu(
     string title,
@@ -38,7 +38,7 @@ public class SubMenu : CustomGameComponent
     this.activeState = activeState;
     this.previousState = previousState;
 
-    entireOffsetOverride = new Vector2(-600f, -50f);
+    entireOffsetOverride = new Vector2(0f, -50f);
     entireOffsetOverride += offsetOverride;
     offset = new Vector2(menuOffsetXRight, 0f);
     baseOffset = offset;
@@ -56,15 +56,6 @@ public class SubMenu : CustomGameComponent
     ));
 
     AddMenuItems();
-
-    components.Add(new MenuItem(
-      "Back",
-      () => activeMenu == components.Count - 1,
-      alignment,
-      () => new Vector2(0f, menuSizeY * 3.5f) + menuOffsetOverride + entireOffsetOverride,
-      () => opacity,
-      11
-    ));
   }
 
   public override void Initialize()
@@ -96,35 +87,11 @@ public class SubMenu : CustomGameComponent
 
   public virtual void AddMenuItems()
   {
-    components.Add(new ControlItem(
-      "Aspect ratio",
-      () => "16:9",
-      () => activeMenu == 1,
+    components.Add(new MenuItem(
+      "Back",
+      () => activeMenu == components.Count - 1,
       alignment,
-      () => new Vector2(0f, 0f) + menuOffsetOverride + entireOffsetOverride,
-      controlItemDistance,
-      () => opacity,
-      11
-    ));
-
-    components.Add(new ControlItem(
-      "Resolution",
-      () => "2560x1440",
-      () => activeMenu == 2,
-      alignment,
-      () => new Vector2(0f, menuSizeY) + menuOffsetOverride + entireOffsetOverride,
-      controlItemDistance,
-      () => opacity,
-      11
-    ));
-
-    components.Add(new ControlItem(
-      "Vsync",
-      () => "Off",
-      () => activeMenu == 3,
-      alignment,
-      () => new Vector2(0f, menuSizeY * 2f) + menuOffsetOverride + entireOffsetOverride,
-      controlItemDistance,
+      () => new Vector2(0f, menuSizeY * 3.5f) + menuOffsetOverride + entireOffsetOverride,
       () => opacity,
       11
     ));
