@@ -92,11 +92,7 @@ public class SettingsMenu : CustomGameComponent
 
     components.Add(new DisplayMenu());
 
-    components.Add(new UIMenu(
-      true,
-      Alignment.Right,
-      11
-    ));
+    components.Add(new UIMenu());
 
     components.Add(new ControlsMenu(
       true,
