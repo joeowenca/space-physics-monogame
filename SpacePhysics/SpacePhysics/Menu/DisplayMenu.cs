@@ -18,7 +18,7 @@ public class DisplayMenu : SubMenu
 
   public override void AddMenuItems()
   {
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Aspect ratio",
       () => "16:9",
       () => activeMenu == 1,
@@ -29,7 +29,7 @@ public class DisplayMenu : SubMenu
       11
     ));
 
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Resolution",
       () => "2560x1440",
       () => activeMenu == 2,
@@ -40,7 +40,7 @@ public class DisplayMenu : SubMenu
       11
     ));
 
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Vsync",
       () => "Off",
       () => activeMenu == 3,

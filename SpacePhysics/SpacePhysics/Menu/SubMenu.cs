@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpacePhysics.HUD;
@@ -9,6 +10,8 @@ namespace SpacePhysics.Menu;
 
 public class SubMenu : CustomGameComponent
 {
+  public List<CustomGameComponent> menuItems = [];
+
   // TODO: Remove redundant offsets
   private Vector2 offset;
   private Vector2 baseOffset;
@@ -22,7 +25,6 @@ public class SubMenu : CustomGameComponent
   public float controlItemDistance;
   private float backButtonYOffset;
 
-  private int menuItemsLength;
   public int activeMenu;
 
   public SubMenu(
@@ -57,6 +59,11 @@ public class SubMenu : CustomGameComponent
     ));
 
     AddMenuItems();
+
+    foreach (var menuItem in menuItems)
+    {
+      components.Add(menuItem);
+    }
   }
 
   public override void Initialize()
@@ -68,9 +75,9 @@ public class SubMenu : CustomGameComponent
 
   public override void Update()
   {
-    TransitionState();
+    backButtonYOffset = menuItems.Count - 0.5f;
 
-    UpdateNumberOfMenuItems();
+    TransitionState();
 
     UpdateMenu();
 
@@ -89,9 +96,9 @@ public class SubMenu : CustomGameComponent
 
   public virtual void AddMenuItems()
   {
-    components.Add(new MenuItem(
+    menuItems.Add(new MenuItem(
       "Back",
-      () => activeMenu == components.Count - 1,
+      () => activeMenu == menuItems.Count,
       alignment,
       () => new Vector2(0f, menuSizeY * backButtonYOffset) + menuOffsetOverride + entireOffsetOverride,
       () => opacity,
@@ -115,16 +122,9 @@ public class SubMenu : CustomGameComponent
     }
   }
 
-  private void UpdateNumberOfMenuItems()
-  {
-    menuItemsLength = components.Count - 1;
-
-    backButtonYOffset = components.Count - 1.5f;
-  }
-
   public virtual void UpdateMenu()
   {
-    activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
+    activeMenu = Math.Clamp(activeMenu, 1, menuItems.Count);
 
     if (state != activeState) return;
 
@@ -134,7 +134,7 @@ public class SubMenu : CustomGameComponent
     if (input.MenuUp())
       activeMenu--;
 
-    if ((activeMenu == menuItemsLength && input.MenuSelect()) || input.MenuBack())
+    if ((activeMenu == menuItems.Count && input.MenuSelect()) || input.MenuBack())
       state = previousState;
   }
 

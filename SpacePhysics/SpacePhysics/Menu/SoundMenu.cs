@@ -18,7 +18,7 @@ public class SoundMenu : SubMenu
 
   public override void AddMenuItems()
   {
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Master",
       () => "100%",
       () => activeMenu == 1,
@@ -29,7 +29,7 @@ public class SoundMenu : SubMenu
       11
     ));
 
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Music",
       () => "100%",
       () => activeMenu == 2,
@@ -40,7 +40,7 @@ public class SoundMenu : SubMenu
       11
     ));
 
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Sound effects",
       () => "100%",
       () => activeMenu == 3,
@@ -51,7 +51,7 @@ public class SoundMenu : SubMenu
       11
     ));
 
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Menu sound effects",
       () => "100%",
       () => activeMenu == 4,

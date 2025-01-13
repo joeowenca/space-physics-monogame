@@ -18,7 +18,7 @@ public class UIMenu : SubMenu
 
   public override void AddMenuItems()
   {
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Scale",
       () => "100%",
       () => activeMenu == 1,
@@ -29,7 +29,7 @@ public class UIMenu : SubMenu
       11
     ));
 
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Color",
       () => "Yellow",
       () => activeMenu == 2,
@@ -40,7 +40,7 @@ public class UIMenu : SubMenu
       11
     ));
 
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Safe zone",
       () => "0.0",
       () => activeMenu == 3,

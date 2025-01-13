@@ -14,11 +14,19 @@ public class SettingsMenu : SubMenu
     State.Settings,
     State.MainMenu
   )
-  { }
+  {
+    components.Add(new SoundMenu());
+
+    components.Add(new DisplayMenu());
+
+    components.Add(new UIMenu());
+
+    components.Add(new ControlsMenu());
+  }
 
   public override void AddMenuItems()
   {
-    components.Add(new MenuItem(
+    menuItems.Add(new MenuItem(
         "Sound",
         () => activeMenu == 1,
         alignment,
@@ -27,7 +35,7 @@ public class SettingsMenu : SubMenu
         11
       ));
 
-    components.Add(new MenuItem(
+    menuItems.Add(new MenuItem(
       "Display",
       () => activeMenu == 2,
       alignment,
@@ -36,7 +44,7 @@ public class SettingsMenu : SubMenu
       11
     ));
 
-    components.Add(new MenuItem(
+    menuItems.Add(new MenuItem(
       "UI",
       () => activeMenu == 3,
       alignment,
@@ -45,7 +53,7 @@ public class SettingsMenu : SubMenu
       11
     ));
 
-    components.Add(new MenuItem(
+    menuItems.Add(new MenuItem(
       "Controls",
       () => activeMenu == 4,
       alignment,
@@ -53,14 +61,6 @@ public class SettingsMenu : SubMenu
       () => opacity,
       11
     ));
-
-    components.Add(new SoundMenu());
-
-    components.Add(new DisplayMenu());
-
-    components.Add(new UIMenu());
-
-    components.Add(new ControlsMenu());
 
     base.AddMenuItems();
   }

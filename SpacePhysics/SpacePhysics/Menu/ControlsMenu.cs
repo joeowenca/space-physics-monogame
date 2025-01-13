@@ -18,7 +18,7 @@ public class ControlsMenu : SubMenu
 
   public override void AddMenuItems()
   {
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Adjust Pitch",
       () => "Left Stick",
       () => activeMenu == 1,
@@ -29,7 +29,7 @@ public class ControlsMenu : SubMenu
       11
     ));
 
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Increase Throttle",
       () => "Right Trigger",
       () => activeMenu == 2,
@@ -40,7 +40,7 @@ public class ControlsMenu : SubMenu
       11
     ));
 
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Decrease Throttle",
       () => "Left Trigger",
       () => activeMenu == 3,
@@ -51,7 +51,7 @@ public class ControlsMenu : SubMenu
       11
     ));
 
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Adjust RCS",
       () => "Left Stick",
       () => activeMenu == 4,
@@ -62,7 +62,7 @@ public class ControlsMenu : SubMenu
       11
     ));
 
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Toggle RCS",
       () => "X",
       () => activeMenu == 5,
@@ -73,7 +73,7 @@ public class ControlsMenu : SubMenu
       11
     ));
 
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Toggle RCS Mode",
       () => "Left Stick Click",
       () => activeMenu == 6,
@@ -84,7 +84,7 @@ public class ControlsMenu : SubMenu
       11
     ));
 
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Toggle SAS",
       () => "Y",
       () => activeMenu == 7,
@@ -95,7 +95,7 @@ public class ControlsMenu : SubMenu
       11
     ));
 
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Set SAS Mode",
       () => "Directional Pad",
       () => activeMenu == 8,
@@ -106,7 +106,7 @@ public class ControlsMenu : SubMenu
       11
     ));
 
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Move Camera",
       () => "Right Stick",
       () => activeMenu == 9,
@@ -117,7 +117,7 @@ public class ControlsMenu : SubMenu
       11
     ));
 
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Adjust Camera Zoom",
       () => "Right Stick",
       () => activeMenu == 10,
@@ -128,7 +128,7 @@ public class ControlsMenu : SubMenu
       11
     ));
 
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Toggle Camera",
       () => "Back",
       () => activeMenu == 11,
@@ -139,7 +139,7 @@ public class ControlsMenu : SubMenu
       11
     ));
 
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Toggle Camera Mode",
       () => "Right Stick Click",
       () => activeMenu == 12,
@@ -150,7 +150,7 @@ public class ControlsMenu : SubMenu
       11
     ));
 
-    components.Add(new ControlItem(
+    menuItems.Add(new ControlItem(
       "Toggle Debug View",
       () => "F3",
       () => activeMenu == 13,
