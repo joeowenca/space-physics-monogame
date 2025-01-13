@@ -19,9 +19,10 @@ public class UIMenu : SubMenu
 
   public override void AddMenuItems()
   {
-    menuItems.Add(new ControlItem(
+    menuItems.Add(new MenuSelectorItem(
       "Scale",
       () => "100%",
+      false,
       () => activeMenu == 1,
       alignment,
       () => new Vector2(0f, 0f) + menuOffsetOverride + entireOffsetOverride,
@@ -30,9 +31,10 @@ public class UIMenu : SubMenu
       11
     ));
 
-    menuItems.Add(new ControlItem(
+    menuItems.Add(new MenuSelectorItem(
       "Color",
       () => "Yellow",
+      true,
       () => activeMenu == 2,
       alignment,
       () => new Vector2(0f, menuSizeY) + menuOffsetOverride + entireOffsetOverride,
@@ -41,9 +43,10 @@ public class UIMenu : SubMenu
       11
     ));
 
-    menuItems.Add(new ControlItem(
+    menuItems.Add(new MenuSelectorItem(
       "Safe zone",
       () => "0.0",
+      false,
       () => activeMenu == 3,
       alignment,
       () => new Vector2(0f, menuSizeY * 2f) + menuOffsetOverride + entireOffsetOverride,

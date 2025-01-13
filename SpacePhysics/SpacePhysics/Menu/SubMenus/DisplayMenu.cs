@@ -19,9 +19,10 @@ public class DisplayMenu : SubMenu
 
   public override void AddMenuItems()
   {
-    menuItems.Add(new ControlItem(
+    menuItems.Add(new MenuSelectorItem(
       "Aspect ratio",
       () => "16:9",
+      true,
       () => activeMenu == 1,
       alignment,
       () => new Vector2(0f, 0f) + menuOffsetOverride + entireOffsetOverride,
@@ -30,9 +31,10 @@ public class DisplayMenu : SubMenu
       11
     ));
 
-    menuItems.Add(new ControlItem(
+    menuItems.Add(new MenuSelectorItem(
       "Resolution",
       () => "2560x1440",
+      true,
       () => activeMenu == 2,
       alignment,
       () => new Vector2(0f, menuSizeY) + menuOffsetOverride + entireOffsetOverride,
@@ -41,9 +43,10 @@ public class DisplayMenu : SubMenu
       11
     ));
 
-    menuItems.Add(new ControlItem(
+    menuItems.Add(new MenuSelectorItem(
       "Vsync",
       () => "Off",
+      true,
       () => activeMenu == 3,
       alignment,
       () => new Vector2(0f, menuSizeY * 2f) + menuOffsetOverride + entireOffsetOverride,

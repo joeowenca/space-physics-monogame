@@ -19,9 +19,10 @@ public class SoundMenu : SubMenu
 
   public override void AddMenuItems()
   {
-    menuItems.Add(new ControlItem(
+    menuItems.Add(new MenuSelectorItem(
       "Master",
       () => "100%",
+      false,
       () => activeMenu == 1,
       alignment,
       () => new Vector2(0f, 0f) + menuOffsetOverride + entireOffsetOverride,
@@ -30,9 +31,10 @@ public class SoundMenu : SubMenu
       11
     ));
 
-    menuItems.Add(new ControlItem(
+    menuItems.Add(new MenuSelectorItem(
       "Music",
       () => "100%",
+      false,
       () => activeMenu == 2,
       alignment,
       () => new Vector2(0f, menuSizeY) + menuOffsetOverride + entireOffsetOverride,
@@ -41,9 +43,10 @@ public class SoundMenu : SubMenu
       11
     ));
 
-    menuItems.Add(new ControlItem(
+    menuItems.Add(new MenuSelectorItem(
       "Sound effects",
       () => "100%",
+      false,
       () => activeMenu == 3,
       alignment,
       () => new Vector2(0f, menuSizeY * 2f) + menuOffsetOverride + entireOffsetOverride,
@@ -52,9 +55,10 @@ public class SoundMenu : SubMenu
       11
     ));
 
-    menuItems.Add(new ControlItem(
+    menuItems.Add(new MenuSelectorItem(
       "Menu sound effects",
       () => "100%",
+      false,
       () => activeMenu == 4,
       alignment,
       () => new Vector2(0f, menuSizeY * 3f) + menuOffsetOverride + entireOffsetOverride,

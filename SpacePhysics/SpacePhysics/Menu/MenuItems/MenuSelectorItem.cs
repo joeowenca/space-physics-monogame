@@ -14,9 +14,12 @@ public class MenuSelectorItem : CustomGameComponent
   private Color defaultColor;
   private Color highlightColor;
 
+  private bool loopableValue;
+
   public MenuSelectorItem(
     string label,
     Func<string> value,
+    bool loopableValue,
     Func<bool> active,
     Alignment alignment,
     Func<Vector2> offset,
@@ -26,6 +29,7 @@ public class MenuSelectorItem : CustomGameComponent
   ) : base(false, alignment, layerIndex)
   {
     this.active = active;
+    this.loopableValue = loopableValue;
 
     components.Add(new HudText(
       "Fonts/text-font",
