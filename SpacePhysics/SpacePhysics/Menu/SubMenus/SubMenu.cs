@@ -46,7 +46,7 @@ public class SubMenu : CustomGameComponent
     entireOffsetOverride += offsetOverride;
     offset = new Vector2(menuOffsetXRight, 0f);
     baseOffset = offset;
-    controlItemDistance = 1750f;
+    controlItemDistance = 2000f;
 
     components.Add(new HudText(
       "Fonts/title-font",

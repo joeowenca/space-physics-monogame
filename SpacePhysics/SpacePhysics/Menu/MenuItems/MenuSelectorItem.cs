@@ -5,7 +5,7 @@ using SpacePhysics.HUD;
 
 namespace SpacePhysics.Menu.MenuItems;
 
-public class ControlItem : CustomGameComponent
+public class MenuSelectorItem : CustomGameComponent
 {
   private readonly Func<bool> active;
 
@@ -14,7 +14,7 @@ public class ControlItem : CustomGameComponent
   private Color defaultColor;
   private Color highlightColor;
 
-  public ControlItem(
+  public MenuSelectorItem(
     string label,
     Func<string> value,
     Func<bool> active,
@@ -45,6 +45,28 @@ public class ControlItem : CustomGameComponent
       TextAlign.Center,
       () => offset() + new Vector2(distanceX, 0f),
       () => color * opacity(),
+      1f,
+      11
+    ));
+
+    components.Add(new HudSprite(
+      "Menu/menu-selector-left",
+      alignment,
+      Alignment.Center,
+      () => offset() + new Vector2(distanceX - (components[1].width / 2) - 55f, 0f),
+      () => 0f,
+      () => active() ? color * opacity() : Color.White * 0f,
+      1f,
+      11
+    ));
+
+    components.Add(new HudSprite(
+      "Menu/menu-selector-right",
+      alignment,
+      Alignment.Center,
+      () => offset() + new Vector2(distanceX + (components[1].width / 2) + 50f, 0f),
+      () => 0f,
+      () => active() ? color * opacity() : Color.White * 0f,
       1f,
       11
     ));
