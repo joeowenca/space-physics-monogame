@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SpacePhysics.HUD;
 
-namespace SpacePhysics.Menu;
+namespace SpacePhysics.Menu.MenuItems;
 
-public class MenuItem : CustomGameComponent
+public class ControlItem : CustomGameComponent
 {
   private readonly Func<bool> active;
 
@@ -15,20 +15,20 @@ public class MenuItem : CustomGameComponent
   private Color defaultColor;
   private Color highlightColor;
 
-  private CustomGameComponent component;
-
-  public MenuItem(
+  public ControlItem(
     string label,
+    Func<string> value,
     Func<bool> active,
     Alignment alignment,
     Func<Vector2> offset,
+    float distanceX,
     Func<float> opacity,
     int layerIndex
   ) : base(false, alignment, layerIndex)
   {
     this.active = active;
 
-    component = new HudText(
+    components.Add(new HudText(
       "Fonts/text-font",
       () => label,
       alignment,
@@ -37,7 +37,18 @@ public class MenuItem : CustomGameComponent
       () => color * opacity(),
       1f,
       11
-    );
+    ));
+
+    components.Add(new HudText(
+      "Fonts/text-font",
+      () => value(),
+      alignment,
+      TextAlign.Left,
+      () => offset() + new Vector2(distanceX, 0f),
+      () => color * opacity(),
+      1f,
+      11
+    ));
   }
 
   public override void Initialize()
@@ -47,31 +58,25 @@ public class MenuItem : CustomGameComponent
     color = defaultColor;
     targetColor = color;
 
-    component.Initialize();
-  }
-
-  public override void Load(ContentManager contentManager)
-  {
-    component.Load(contentManager);
+    base.Initialize();
   }
 
   public override void Update()
   {
-    position = component.position;
-    width = component.width;
-    height = component.height;
-
     targetColor = defaultColor;
 
     if (active()) targetColor = highlightColor;
 
     color = ColorHelper.Lerp(color, targetColor, 0.3f);
 
-    component.Update();
+    base.Update();
   }
 
   public override void Draw(SpriteBatch spriteBatch)
   {
-    component.Draw(spriteBatch);
+    foreach (var component in components)
+    {
+      component.Draw(spriteBatch);
+    }
   }
 }

@@ -6,6 +6,7 @@ using SpacePhysics.Sprites;
 using SpacePhysics.Debugging;
 using static SpacePhysics.Menu.MenuContainer;
 using Microsoft.Xna.Framework.Content;
+using SpacePhysics.Menu.SubMenus;
 
 namespace SpacePhysics.Scenes.Start;
 
@@ -52,17 +53,7 @@ public class StartScene : CustomGameComponent
       11
     ));
 
-    components.Add(new SettingsMenu(
-      true,
-      Alignment.Right,
-      11
-    ));
-
-    components.Add(new ControlsMenu(
-      true,
-      Alignment.Right,
-      11
-    ));
+    components.Add(new SettingsMenu());
 
     components.Add(new Ship(
       () => opacity,
@@ -94,7 +85,9 @@ public class StartScene : CustomGameComponent
 
   private void TransitionState()
   {
-    if (GameState.state == GameState.State.Settings || GameState.state == GameState.State.Controls)
+    if (GameState.state != GameState.State.TitleScreen
+        && GameState.state != GameState.State.MainMenu
+        && GameState.state != GameState.State.Play)
     {
       Camera.Camera.targetOffset = cameraOffsetRight;
       targetMenuOffset = new Vector2(-menuOffsetAmount, 0);

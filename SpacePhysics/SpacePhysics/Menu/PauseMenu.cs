@@ -1,11 +1,10 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using SpacePhysics.Scenes.Start;
 using SpacePhysics.HUD;
 using static SpacePhysics.GameState;
 using static SpacePhysics.Menu.MenuContainer;
+using SpacePhysics.Menu.MenuItems;
 
 namespace SpacePhysics.Menu;
 
@@ -124,6 +123,8 @@ public class PauseMenu : CustomGameComponent
 
       if (activeMenu == 4 && input.MenuSelect())
         quit = true;
+
+      isSettingsMenu = false;
     }
 
     activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);

@@ -2,12 +2,12 @@ using System;
 using Microsoft.Xna.Framework;
 using SpacePhysics.HUD;
 using SpacePhysics.Player;
-using Microsoft.Xna.Framework.Input;
 using SpacePhysics.Sprites;
 using SpacePhysics.Scenes.Start;
 using SpacePhysics.Debugging;
 using SpacePhysics.Menu;
 using static SpacePhysics.Menu.MenuContainer;
+using SpacePhysics.Menu.SubMenus;
 
 namespace SpacePhysics.Scenes.Space;
 
@@ -84,17 +84,7 @@ public class SpaceScene : CustomGameComponent
       11
     ));
 
-    components.Add(new SettingsMenu(
-      true,
-      Alignment.Right,
-      11
-    ));
-
-    components.Add(new ControlsMenu(
-      true,
-      Alignment.Right,
-      11
-    ));
+    components.Add(new SettingsMenu());
 
     components.Add(new DebugView());
   }
@@ -151,7 +141,9 @@ public class SpaceScene : CustomGameComponent
       Camera.Camera.targetOffset = Vector2.Zero;
     }
 
-    if (GameState.state == GameState.State.Settings || GameState.state == GameState.State.Controls)
+    if (GameState.state != GameState.State.Play
+        && GameState.state != GameState.State.Pause
+        && GameState.state != GameState.State.TitleScreen)
     {
       Camera.Camera.targetOffset = cameraOffsetRight;
       targetMenuOffset = new Vector2(-menuOffsetAmount, 0);

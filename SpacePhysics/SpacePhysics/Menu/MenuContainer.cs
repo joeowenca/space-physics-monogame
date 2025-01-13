@@ -5,7 +5,7 @@ using static SpacePhysics.Camera.Camera;
 
 namespace SpacePhysics.Menu;
 
-public class MenuContainer
+public static class MenuContainer
 {
   public static Vector2 cameraOffsetLeft;
   public static Vector2 cameraOffsetRight;
@@ -24,6 +24,8 @@ public class MenuContainer
   public static float menuSizeY = 1000f * padding;
   public static float menuOffsetX;
 
+  public static bool isSettingsMenu;
+
   public static void Initialize()
   {
     cameraOffsetLeft = new Vector2(GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
@@ -41,6 +43,8 @@ public class MenuContainer
 
     menuOffsetXLeft = 1050f + menuOffsetX;
     menuOffsetXRight = -1700f - menuOffsetX;
+
+    isSettingsMenu = false;
   }
 
   public static void Update()

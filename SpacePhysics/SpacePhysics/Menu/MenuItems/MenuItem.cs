@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SpacePhysics.HUD;
 
-namespace SpacePhysics.Menu;
+namespace SpacePhysics.Menu.MenuItems;
 
-public class ControlItem : CustomGameComponent
+public class MenuItem : CustomGameComponent
 {
   private readonly Func<bool> active;
 
@@ -15,20 +15,20 @@ public class ControlItem : CustomGameComponent
   private Color defaultColor;
   private Color highlightColor;
 
-  public ControlItem(
+  private CustomGameComponent component;
+
+  public MenuItem(
     string label,
-    Func<string> value,
     Func<bool> active,
     Alignment alignment,
     Func<Vector2> offset,
-    float distanceX,
     Func<float> opacity,
     int layerIndex
   ) : base(false, alignment, layerIndex)
   {
     this.active = active;
 
-    components.Add(new HudText(
+    component = new HudText(
       "Fonts/text-font",
       () => label,
       alignment,
@@ -37,18 +37,7 @@ public class ControlItem : CustomGameComponent
       () => color * opacity(),
       1f,
       11
-    ));
-
-    components.Add(new HudText(
-      "Fonts/text-font",
-      () => value(),
-      alignment,
-      TextAlign.Left,
-      () => offset() + new Vector2(distanceX, 0f),
-      () => color * opacity(),
-      1f,
-      11
-    ));
+    );
   }
 
   public override void Initialize()
@@ -58,25 +47,31 @@ public class ControlItem : CustomGameComponent
     color = defaultColor;
     targetColor = color;
 
-    base.Initialize();
+    component.Initialize();
+  }
+
+  public override void Load(ContentManager contentManager)
+  {
+    component.Load(contentManager);
   }
 
   public override void Update()
   {
+    position = component.position;
+    width = component.width;
+    height = component.height;
+
     targetColor = defaultColor;
 
     if (active()) targetColor = highlightColor;
 
     color = ColorHelper.Lerp(color, targetColor, 0.3f);
 
-    base.Update();
+    component.Update();
   }
 
   public override void Draw(SpriteBatch spriteBatch)
   {
-    foreach (var component in components)
-    {
-      component.Draw(spriteBatch);
-    }
+    component.Draw(spriteBatch);
   }
 }

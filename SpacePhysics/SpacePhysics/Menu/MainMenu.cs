@@ -1,8 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using SpacePhysics.Scenes.Start;
+using SpacePhysics.Menu.MenuItems;
 using static SpacePhysics.GameState;
 using static SpacePhysics.Menu.MenuContainer;
 
@@ -103,25 +102,26 @@ public class MainMenu : CustomGameComponent
 
   private void UpdateMenu()
   {
-    if (state == State.MainMenu)
-    {
-      if (input.MenuDown())
-        activeMenu++;
-
-      if (input.MenuUp())
-        activeMenu--;
-
-      if (activeMenu == 1 && input.MenuSelect())
-        state = State.Play;
-
-      if (activeMenu == 2 && input.MenuSelect())
-        state = State.Settings;
-
-      if (activeMenu == 3 && input.MenuSelect())
-        quit = true;
-    }
-
     activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
+
+    if (state != State.MainMenu) return;
+
+    if (input.MenuDown())
+      activeMenu++;
+
+    if (input.MenuUp())
+      activeMenu--;
+
+    if (activeMenu == 1 && input.MenuSelect())
+      state = State.Play;
+
+    if (activeMenu == 2 && input.MenuSelect())
+      state = State.Settings;
+
+    if (activeMenu == 3 && input.MenuSelect())
+      quit = true;
+
+    isSettingsMenu = false;
   }
 
   private void UpdateOffset()
