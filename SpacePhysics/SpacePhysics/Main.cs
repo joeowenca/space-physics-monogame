@@ -10,7 +10,6 @@ public class Main : Game
 {
     private GraphicsDeviceManager graphics;
     private SpriteBatch spriteBatch;
-    private InputManager input;
 
     public Main()
     {
@@ -35,8 +34,6 @@ public class Main : Game
         Camera.Camera.Initialize();
         MenuContainer.Initialize();
 
-        input = new InputManager();
-
         base.Initialize();
     }
 
@@ -49,8 +46,6 @@ public class Main : Game
 
     protected override void Update(GameTime gameTime)
     {
-        input.Update();
-
         if (GameState.quit)
             Exit();
 
