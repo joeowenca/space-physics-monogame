@@ -128,6 +128,8 @@ public class SubMenu : CustomGameComponent
 
     if (state != activeState) return;
 
+    if (state != State.Settings) isSettingsMenu = false;
+
     if (input.MenuDown())
       activeMenu++;
 

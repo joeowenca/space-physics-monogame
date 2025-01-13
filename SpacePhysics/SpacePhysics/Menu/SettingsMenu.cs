@@ -69,7 +69,7 @@ public class SettingsMenu : SubMenu
   {
     base.UpdateMenu();
 
-    if (activeMenu == 1 && input.MenuSelect() && !MainMenu.isMainMenu && !PauseMenu.isPauseMenu)
+    if (activeMenu == 1 && input.MenuSelect() && isSettingsMenu)
       state = State.Sound;
 
     if (activeMenu == 2 && input.MenuSelect())
@@ -81,7 +81,6 @@ public class SettingsMenu : SubMenu
     if (activeMenu == 4 && input.MenuSelect())
       state = State.Controls;
 
-    MainMenu.isMainMenu = false;
-    PauseMenu.isPauseMenu = false;
+    isSettingsMenu = true;
   }
 }
