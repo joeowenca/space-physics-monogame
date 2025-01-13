@@ -108,27 +108,26 @@ public class MainMenu : CustomGameComponent
 
   private void UpdateMenu()
   {
-    if (state == State.MainMenu)
-    {
-      if (input.MenuDown())
-        activeMenu++;
-
-      if (input.MenuUp())
-        activeMenu--;
-
-      if (activeMenu == 1 && input.MenuSelect())
-        state = State.Play;
-
-      if (activeMenu == 2 && input.MenuSelect())
-        state = State.Settings;
-
-      if (activeMenu == 3 && input.MenuSelect())
-        quit = true;
-
-      isMainMenu = true;
-    }
-
     activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
+
+    if (state != State.MainMenu) return;
+
+    if (input.MenuDown())
+      activeMenu++;
+
+    if (input.MenuUp())
+      activeMenu--;
+
+    if (activeMenu == 1 && input.MenuSelect())
+      state = State.Play;
+
+    if (activeMenu == 2 && input.MenuSelect())
+      state = State.Settings;
+
+    if (activeMenu == 3 && input.MenuSelect())
+      quit = true;
+
+    isMainMenu = true;
   }
 
   private void UpdateOffset()

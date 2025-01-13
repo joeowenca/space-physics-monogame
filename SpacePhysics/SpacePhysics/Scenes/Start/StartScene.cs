@@ -52,11 +52,7 @@ public class StartScene : CustomGameComponent
       11
     ));
 
-    components.Add(new SettingsMenu(
-      true,
-      Alignment.Right,
-      11
-    ));
+    components.Add(new SettingsMenu());
 
     components.Add(new Ship(
       () => opacity,

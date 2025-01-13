@@ -1,53 +1,28 @@
 using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using SpacePhysics.Scenes.Start;
-using SpacePhysics.HUD;
 using static SpacePhysics.GameState;
 using static SpacePhysics.Menu.MenuContainer;
 
 namespace SpacePhysics.Menu;
 
-public class SettingsMenu : CustomGameComponent
+public class SettingsMenu : SubMenu
 {
-  private Vector2 offset;
-  private Vector2 baseOffset;
-  private Vector2 menuOffsetOverride;
 
-  private float opacity;
+  public SettingsMenu() : base(
+    "Settings",
+    new Vector2(450f, -150f),
+    State.Settings,
+    State.MainMenu
+  )
+  { }
 
-  private int menuItemsLength;
-  private int activeMenu;
-
-  public SettingsMenu(
-    bool allowInput,
-    Alignment alignment,
-    int layerIndex) : base(
-      allowInput,
-      alignment,
-      layerIndex
-    )
+  public override void AddMenuItems()
   {
-    offset = new Vector2(menuOffsetXRight, -100f);
-    baseOffset = offset;
-
-    components.Add(new HudText(
-      "Fonts/title-font",
-      () => "Settings",
-      alignment,
-      TextAlign.Left,
-      () => new Vector2(-100, -400) + offset,
-      () => Color.White * opacity,
-      1.75f,
-      11
-    ));
-
     components.Add(new MenuItem(
         "Sound",
         () => activeMenu == 1,
         alignment,
-        () => new Vector2(0f, 0f) + menuOffsetOverride,
+        () => new Vector2(0f, 0f) + menuOffsetOverride + entireOffsetOverride,
         () => opacity,
         11
       ));
@@ -56,7 +31,7 @@ public class SettingsMenu : CustomGameComponent
       "Display",
       () => activeMenu == 2,
       alignment,
-      () => new Vector2(0f, menuSizeY) + menuOffsetOverride,
+      () => new Vector2(0f, menuSizeY) + menuOffsetOverride + entireOffsetOverride,
       () => opacity,
       11
     ));
@@ -65,7 +40,7 @@ public class SettingsMenu : CustomGameComponent
       "UI",
       () => activeMenu == 3,
       alignment,
-      () => new Vector2(0f, menuSizeY * 2f) + menuOffsetOverride,
+      () => new Vector2(0f, menuSizeY * 2f) + menuOffsetOverride + entireOffsetOverride,
       () => opacity,
       11
     ));
@@ -74,16 +49,7 @@ public class SettingsMenu : CustomGameComponent
       "Controls",
       () => activeMenu == 4,
       alignment,
-      () => new Vector2(0f, menuSizeY * 3f) + menuOffsetOverride,
-      () => opacity,
-      11
-    ));
-
-    components.Add(new MenuItem(
-      "Back",
-      () => activeMenu == 5,
-      alignment,
-      () => new Vector2(0f, menuSizeY * 4.5f) + menuOffsetOverride,
+      () => new Vector2(0f, menuSizeY * 3f) + menuOffsetOverride + entireOffsetOverride,
       () => opacity,
       11
     ));
@@ -95,87 +61,27 @@ public class SettingsMenu : CustomGameComponent
     components.Add(new UIMenu());
 
     components.Add(new ControlsMenu());
+
+    base.AddMenuItems();
   }
 
-  public override void Initialize()
+  public override void UpdateMenu()
   {
-    menuItemsLength = 5;
-    activeMenu = 1;
+    base.UpdateMenu();
 
-    base.Initialize();
-  }
+    if (activeMenu == 1 && input.MenuSelect() && !MainMenu.isMainMenu && !PauseMenu.isPauseMenu)
+      state = State.Sound;
 
-  public override void Update()
-  {
-    TransitionState();
+    if (activeMenu == 2 && input.MenuSelect())
+      state = State.Display;
 
-    UpdateMenu();
+    if (activeMenu == 3 && input.MenuSelect())
+      state = State.UI;
 
-    UpdateOffset();
+    if (activeMenu == 4 && input.MenuSelect())
+      state = State.Controls;
 
-    base.Update();
-  }
-
-  public override void Draw(SpriteBatch spriteBatch)
-  {
-    foreach (var component in components)
-    {
-      component.Draw(spriteBatch);
-    }
-  }
-
-  private void TransitionState()
-  {
-    if (state != State.Settings)
-    {
-      if (opacity > 0)
-        opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, opacityTransitionSpeed);
-
-      if (opacity <= 0.1f)
-        activeMenu = 1;
-    }
-    else
-    {
-      opacity = ColorHelper.FadeOpacity(opacity, 0f, 1f, opacityTransitionSpeed);
-    }
-  }
-
-  private void UpdateMenu()
-  {
-    if (state == State.Settings)
-    {
-      if (input.MenuDown())
-        activeMenu++;
-
-      if (input.MenuUp())
-        activeMenu--;
-
-      if (activeMenu == 1 && input.MenuSelect() && !MainMenu.isMainMenu && !PauseMenu.isPauseMenu)
-        state = State.Sound;
-
-      if (activeMenu == 2 && input.MenuSelect())
-        state = State.Display;
-
-      if (activeMenu == 3 && input.MenuSelect())
-        state = State.UI;
-
-      if (activeMenu == 4 && input.MenuSelect())
-        state = State.Controls;
-
-      if ((activeMenu == 5 && input.MenuSelect()) || input.MenuBack())
-        state = State.MainMenu;
-
-      MainMenu.isMainMenu = false;
-      PauseMenu.isPauseMenu = false;
-    }
-
-    activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
-  }
-
-  private void UpdateOffset()
-  {
-    offset.X = baseOffset.X + menuOffset.X * 3f;
-    menuOffsetOverride.X = baseOffset.X - 150 + menuOffsetFactor;
-    menuOffsetOverride.Y = -200f;
+    MainMenu.isMainMenu = false;
+    PauseMenu.isPauseMenu = false;
   }
 }

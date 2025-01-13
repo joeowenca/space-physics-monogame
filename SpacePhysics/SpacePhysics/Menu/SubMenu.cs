@@ -122,21 +122,20 @@ public class SubMenu : CustomGameComponent
     backButtonYOffset = components.Count - 1.5f;
   }
 
-  private void UpdateMenu()
+  public virtual void UpdateMenu()
   {
-    if (state == activeState)
-    {
-      if (input.MenuDown())
-        activeMenu++;
-
-      if (input.MenuUp())
-        activeMenu--;
-
-      if ((activeMenu == menuItemsLength && input.MenuSelect()) || input.MenuBack())
-        state = previousState;
-    }
-
     activeMenu = Math.Clamp(activeMenu, 1, menuItemsLength);
+
+    if (state != activeState) return;
+
+    if (input.MenuDown())
+      activeMenu++;
+
+    if (input.MenuUp())
+      activeMenu--;
+
+    if ((activeMenu == menuItemsLength && input.MenuSelect()) || input.MenuBack())
+      state = previousState;
   }
 
   private void UpdateOffset()
