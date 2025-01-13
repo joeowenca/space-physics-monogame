@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpacePhysics.HUD;
+using SpacePhysics.Menu.MenuItems;
 using static SpacePhysics.GameState;
 using static SpacePhysics.Menu.MenuContainer;
 
-namespace SpacePhysics.Menu;
+namespace SpacePhysics.Menu.SubMenus;
 
 public class SubMenu : CustomGameComponent
 {

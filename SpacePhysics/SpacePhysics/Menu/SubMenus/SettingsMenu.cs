@@ -1,9 +1,10 @@
 using System;
 using Microsoft.Xna.Framework;
+using SpacePhysics.Menu.MenuItems;
 using static SpacePhysics.GameState;
 using static SpacePhysics.Menu.MenuContainer;
 
-namespace SpacePhysics.Menu;
+namespace SpacePhysics.Menu.SubMenus;
 
 public class SettingsMenu : SubMenu
 {
