@@ -30,6 +30,7 @@ public class Main : Game
 
         SceneManager.Initialize(Content);
 
+        SettingsState.Initialize();
         GameState.Initialize();
         Camera.Camera.Initialize();
         MenuContainer.Initialize();
@@ -52,9 +53,8 @@ public class Main : Game
         SceneManager.GetCurrentScene().Update();
 
         MenuContainer.Update();
-
         Camera.Camera.Update();
-
+        SettingsState.Update();
         GameState.Update(gameTime);
 
         base.Update(gameTime);

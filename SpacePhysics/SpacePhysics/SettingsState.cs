@@ -63,4 +63,9 @@ public static class SettingsState
     uiColor = GameState.highlightColor;
     uiScale = uiScaleOptions[5];
   }
+
+  public static void Update()
+  {
+
+  }
 }

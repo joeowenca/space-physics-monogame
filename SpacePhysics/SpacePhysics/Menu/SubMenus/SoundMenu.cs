@@ -19,10 +19,14 @@ public class SoundMenu : SubMenu
 
   public override void AddMenuItems()
   {
-    menuItems.Add(new MenuSelectorItem(
+    menuItems.Add(new MenuIncrementerItem(
       "Master",
-      () => "100%",
-      false,
+      () => SettingsState.masterVolume,
+      value => SettingsState.masterVolume = (int)value,
+      5f,
+      0f,
+      100f,
+      "%",
       () => activeMenu == 1,
       alignment,
       () => new Vector2(0f, 0f) + menuOffsetOverride + entireOffsetOverride,
@@ -31,10 +35,14 @@ public class SoundMenu : SubMenu
       11
     ));
 
-    menuItems.Add(new MenuSelectorItem(
+    menuItems.Add(new MenuIncrementerItem(
       "Music",
-      () => "100%",
-      false,
+      () => SettingsState.musicVolume,
+      value => SettingsState.musicVolume = (int)value,
+      5f,
+      0f,
+      100f,
+      "%",
       () => activeMenu == 2,
       alignment,
       () => new Vector2(0f, menuSizeY) + menuOffsetOverride + entireOffsetOverride,
@@ -43,10 +51,14 @@ public class SoundMenu : SubMenu
       11
     ));
 
-    menuItems.Add(new MenuSelectorItem(
+    menuItems.Add(new MenuIncrementerItem(
       "Sound effects",
-      () => "100%",
-      false,
+      () => SettingsState.soundEffectsVolume,
+      value => SettingsState.soundEffectsVolume = (int)value,
+      5f,
+      0f,
+      100f,
+      "%",
       () => activeMenu == 3,
       alignment,
       () => new Vector2(0f, menuSizeY * 2f) + menuOffsetOverride + entireOffsetOverride,
@@ -55,10 +67,14 @@ public class SoundMenu : SubMenu
       11
     ));
 
-    menuItems.Add(new MenuSelectorItem(
+    menuItems.Add(new MenuIncrementerItem(
       "Menu sound effects",
-      () => "100%",
-      false,
+      () => SettingsState.menuSoundEffectsVolume,
+      value => SettingsState.menuSoundEffectsVolume = (int)value,
+      5f,
+      0f,
+      100f,
+      "%",
       () => activeMenu == 4,
       alignment,
       () => new Vector2(0f, menuSizeY * 3f) + menuOffsetOverride + entireOffsetOverride,
