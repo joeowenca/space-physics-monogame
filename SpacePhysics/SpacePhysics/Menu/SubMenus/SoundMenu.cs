@@ -8,6 +8,7 @@ namespace SpacePhysics.Menu.SubMenus;
 
 public class SoundMenu : SubMenu
 {
+  private bool updatable;
 
   public SoundMenu() : base(
     "Sound",
@@ -16,6 +17,13 @@ public class SoundMenu : SubMenu
     State.Settings
   )
   { }
+
+  public override void Update()
+  {
+    updatable = state == State.Sound;
+
+    base.Update();
+  }
 
   public override void AddMenuItems()
   {
@@ -28,6 +36,7 @@ public class SoundMenu : SubMenu
       100f,
       "%",
       () => activeMenu == 1,
+      () => updatable,
       alignment,
       () => new Vector2(0f, 0f) + menuOffsetOverride + entireOffsetOverride,
       controlItemDistance,
@@ -44,6 +53,7 @@ public class SoundMenu : SubMenu
       100f,
       "%",
       () => activeMenu == 2,
+      () => updatable,
       alignment,
       () => new Vector2(0f, menuSizeY) + menuOffsetOverride + entireOffsetOverride,
       controlItemDistance,
@@ -60,6 +70,7 @@ public class SoundMenu : SubMenu
       100f,
       "%",
       () => activeMenu == 3,
+      () => updatable,
       alignment,
       () => new Vector2(0f, menuSizeY * 2f) + menuOffsetOverride + entireOffsetOverride,
       controlItemDistance,
@@ -76,6 +87,7 @@ public class SoundMenu : SubMenu
       100f,
       "%",
       () => activeMenu == 4,
+      () => updatable,
       alignment,
       () => new Vector2(0f, menuSizeY * 3f) + menuOffsetOverride + entireOffsetOverride,
       controlItemDistance,

@@ -49,7 +49,7 @@ public class Main : Game
     {
         if (GameState.quit)
             Exit();
-
+                         
         SceneManager.GetCurrentScene().Update();
 
         MenuContainer.Update();
