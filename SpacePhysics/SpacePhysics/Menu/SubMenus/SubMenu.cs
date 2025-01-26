@@ -114,7 +114,7 @@ public class SubMenu : CustomGameComponent
       if (opacity > 0)
         opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, opacityTransitionSpeed);
 
-      if (opacity <= 0.1f)
+      if (opacity <= 0.1f && (state == State.MainMenu || state == State.Pause))
         activeMenu = 1;
     }
     else
