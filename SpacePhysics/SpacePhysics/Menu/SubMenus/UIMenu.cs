@@ -22,6 +22,7 @@ public class UIMenu : SubMenu
     menuItems.Add(new MenuSelectorItem(
       "Scale",
       () => "100%",
+      () => ["100%"],
       value => SettingsState.resolution = value,
       () => activeMenu == 1,
       () => true,
@@ -35,6 +36,7 @@ public class UIMenu : SubMenu
     menuItems.Add(new MenuSelectorItem(
       "Color",
       () => "Yellow",
+      () => ["Yellow"],
       value => SettingsState.resolution = value,
       () => activeMenu == 2,
       () => true,
@@ -48,6 +50,7 @@ public class UIMenu : SubMenu
     menuItems.Add(new MenuSelectorItem(
       "Safe zone",
       () => "0.0",
+      () => ["0.0"],
       value => SettingsState.resolution = value,
       () => activeMenu == 3,
       () => true,

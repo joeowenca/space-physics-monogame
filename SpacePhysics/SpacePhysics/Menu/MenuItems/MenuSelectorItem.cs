@@ -15,13 +15,17 @@ public class MenuSelectorItem : CustomGameComponent
   private Color highlightColor;
 
   private Func<string> getValue;
+  private Func<string[]> getOptions;
   private Action<string> setValue;
 
   private Func<bool> updatable;
 
+  private int optionIndex;
+
   public MenuSelectorItem(
     string label,
     Func<string> getValue,
+    Func<string[]> getOptions,
     Action<string> setValue,
     Func<bool> active,
     Func<bool> updatable,
@@ -33,6 +37,7 @@ public class MenuSelectorItem : CustomGameComponent
   ) : base(true, alignment, layerIndex)
   {
     this.getValue = getValue;
+    this.getOptions = getOptions;
     this.setValue = setValue;
     this.active = active;
     this.updatable = updatable;
@@ -50,7 +55,7 @@ public class MenuSelectorItem : CustomGameComponent
 
     components.Add(new HudText(
       "Fonts/text-font",
-      () => this.getValue().ToString(),
+      () => this.getOptions()[optionIndex].ToString(),
       alignment,
       TextAlign.Center,
       () => offset() + new Vector2(distanceX, 0f),
@@ -88,6 +93,7 @@ public class MenuSelectorItem : CustomGameComponent
     highlightColor = Color.Gold;
     color = defaultColor;
     targetColor = color;
+    optionIndex = Array.IndexOf(getOptions(), getValue()) != -1 ? Array.IndexOf(getOptions(), getValue()) : 0;
 
     base.Initialize();
   }
@@ -101,6 +107,14 @@ public class MenuSelectorItem : CustomGameComponent
       targetColor = highlightColor;
 
       if (!updatable()) return;
+
+      if (input.MenuLeft()) optionIndex--;
+      if (input.MenuRight()) optionIndex++;
+
+      if (optionIndex + 1 > getOptions().Length) optionIndex = 0;
+      if (optionIndex < 0) optionIndex = getOptions().Length - 1;
+
+      setValue(getOptions()[optionIndex]);
     }
 
     color = ColorHelper.Lerp(color, targetColor, 0.3f);
