@@ -1,19 +1,42 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 namespace SpacePhysics;
 
 public static class SettingsState
 {
-  public static Dictionary<string, ResolutionOption> resolutionOptions = new()
-  {
-    { "1280x720", new ResolutionOption(new Vector2(1280, 720), "16:9") },
-    { "1600x900", new ResolutionOption(new Vector2(1600, 900), "16:9") },
-    { "1920x1080", new ResolutionOption(new Vector2(1920, 1080), "16:9") },
-    { "2560x1440", new ResolutionOption(new Vector2(2560, 1440), "16:9") },
-    { "3840x2160", new ResolutionOption(new Vector2(3840, 2160), "16:9") }
-  };
+  public static string[] aspectRatioOptions = ["4:3", "16:9", "16:10"];
+
+  public static string[] resolutionOptions4x3 =
+  [
+    "1024x768",
+    "1280x960",
+    "1400x1050",
+    "1440x1080",
+    "1600x1200",
+    "1856x1392",
+    "1920x1440",
+    "2048x1536"
+  ];
+
+  public static string[] resolutionOptions16x9 =
+  [
+    "1280x720",
+    "1600x900",
+    "1920x1080",
+    "2560x1440",
+    "3840x2160"
+  ];
+
+  public static string[] resolutionOptions16x10 =
+  [
+    "1280x800",
+    "1440x900",
+    "1680x1050",
+    "1920x1200",
+    "2560x1600",
+    "3840x2400"
+  ];
 
   public static Color uiColor;
 
@@ -67,5 +90,14 @@ public static class SettingsState
   public static void Update()
   {
 
+  }
+
+  public static string[] GetReslutionOptionsFromAspectRatio(string aspectRatio)
+  {
+    if (aspectRatio == "4:3") return resolutionOptions4x3;
+    if (aspectRatio == "16:9") return resolutionOptions16x9;
+    if (aspectRatio == "16:10") return resolutionOptions16x10;
+
+    return resolutionOptions16x9;
   }
 }

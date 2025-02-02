@@ -22,7 +22,7 @@ public class DisplayMenu : SubMenu
     menuItems.Add(new MenuSelectorItem(
       "Aspect ratio",
       () => SettingsState.aspectRatio,
-      () => ["4:3", "16:9", "16:10"],
+      () => SettingsState.aspectRatioOptions,
       value => SettingsState.aspectRatio = value,
       () => activeMenu == 1,
       () => true,
@@ -36,7 +36,7 @@ public class DisplayMenu : SubMenu
     menuItems.Add(new MenuSelectorItem(
       "Resolution",
       () => SettingsState.resolution,
-      () => ["1280x720", "1600x900", "1920x1080", "2560x1440"],
+      () => SettingsState.GetReslutionOptionsFromAspectRatio(SettingsState.aspectRatio),
       value => SettingsState.resolution = value,
       () => activeMenu == 2,
       () => true,
