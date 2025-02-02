@@ -21,7 +21,7 @@ public class MenuIncrementerItem : CustomGameComponent
   private float min;
   private float max;
 
-  private Func<bool> updtatable;
+  private Func<bool> updatable;
 
   public MenuIncrementerItem(
     string label,
@@ -46,7 +46,7 @@ public class MenuIncrementerItem : CustomGameComponent
     this.min = min;
     this.max = max;
     this.active = active;
-    this.updtatable = updatable;
+    this.updatable = updatable;
 
     components.Add(new HudText(
       "Fonts/text-font",
@@ -111,7 +111,7 @@ public class MenuIncrementerItem : CustomGameComponent
     {
       targetColor = highlightColor;
 
-      if (!updtatable()) return;
+      if (!updatable()) return;
 
       if (input.MenuLeft()) setValue(getValue() - incrementAmount);
       if (input.MenuRight()) setValue(getValue() + incrementAmount);

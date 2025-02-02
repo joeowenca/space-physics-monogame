@@ -22,8 +22,9 @@ public class DisplayMenu : SubMenu
     menuItems.Add(new MenuSelectorItem(
       "Aspect ratio",
       () => "16:9",
-      true,
+      value => SettingsState.aspectRatio = value,
       () => activeMenu == 1,
+      () => true,
       alignment,
       () => new Vector2(0f, 0f) + menuOffsetOverride + entireOffsetOverride,
       controlItemDistance,
@@ -34,8 +35,9 @@ public class DisplayMenu : SubMenu
     menuItems.Add(new MenuSelectorItem(
       "Resolution",
       () => "2560x1440",
-      true,
+      value => SettingsState.resolution = value,
       () => activeMenu == 2,
+      () => true,
       alignment,
       () => new Vector2(0f, menuSizeY) + menuOffsetOverride + entireOffsetOverride,
       controlItemDistance,
@@ -46,10 +48,11 @@ public class DisplayMenu : SubMenu
     menuItems.Add(new MenuSelectorItem(
       "Vsync",
       () => "Off",
-      true,
+      value => SettingsState.vsync = false,
       () => activeMenu == 3,
+      () => true,
       alignment,
-      () => new Vector2(0f, menuSizeY * 2f) + menuOffsetOverride + entireOffsetOverride,
+      () => new Vector2(0f, menuSizeY * 2) + menuOffsetOverride + entireOffsetOverride,
       controlItemDistance,
       () => opacity,
       11

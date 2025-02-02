@@ -14,22 +14,28 @@ public class MenuSelectorItem : CustomGameComponent
   private Color defaultColor;
   private Color highlightColor;
 
-  private bool loopableValue;
+  private Func<string> getValue;
+  private Action<string> setValue;
+
+  private Func<bool> updatable;
 
   public MenuSelectorItem(
     string label,
-    Func<string> value,
-    bool loopableValue,
+    Func<string> getValue,
+    Action<string> setValue,
     Func<bool> active,
+    Func<bool> updatable,
     Alignment alignment,
     Func<Vector2> offset,
     float distanceX,
     Func<float> opacity,
     int layerIndex
-  ) : base(false, alignment, layerIndex)
+  ) : base(true, alignment, layerIndex)
   {
+    this.getValue = getValue;
+    this.setValue = setValue;
     this.active = active;
-    this.loopableValue = loopableValue;
+    this.updatable = updatable;
 
     components.Add(new HudText(
       "Fonts/text-font",
@@ -44,7 +50,7 @@ public class MenuSelectorItem : CustomGameComponent
 
     components.Add(new HudText(
       "Fonts/text-font",
-      () => value(),
+      () => this.getValue().ToString(),
       alignment,
       TextAlign.Center,
       () => offset() + new Vector2(distanceX, 0f),
@@ -90,7 +96,12 @@ public class MenuSelectorItem : CustomGameComponent
   {
     targetColor = defaultColor;
 
-    if (active()) targetColor = highlightColor;
+    if (active())
+    {
+      targetColor = highlightColor;
+
+      if (!updatable()) return;
+    }
 
     color = ColorHelper.Lerp(color, targetColor, 0.3f);
 
