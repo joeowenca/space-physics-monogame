@@ -113,9 +113,9 @@ public class MenuSelectorItem : CustomGameComponent
 
       if (optionIndex + 1 > getOptions().Length) optionIndex = 0;
       if (optionIndex < 0) optionIndex = getOptions().Length - 1;
-
-      setValue(getOptions()[optionIndex]);
     }
+
+    setValue(getOptions()[optionIndex]);
 
     color = ColorHelper.Lerp(color, targetColor, 0.3f);
 
