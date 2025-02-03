@@ -79,7 +79,7 @@ public class DisplayMenu : SubMenu
 
     if (activeMenu == 4 && input.MenuSelect())
     {
-      // Apply logic here
+      Main.applyGraphics = true;
       state = previousState;
     }
 

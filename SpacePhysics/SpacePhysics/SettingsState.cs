@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 
 namespace SpacePhysics;
@@ -87,11 +88,6 @@ public static class SettingsState
     uiScale = uiScaleOptions[5];
   }
 
-  public static void Update()
-  {
-
-  }
-
   public static string[] GetReslutionOptionsFromAspectRatio(string aspectRatio)
   {
     if (aspectRatio == "4:3") return resolutionOptions4x3;
@@ -99,5 +95,19 @@ public static class SettingsState
     if (aspectRatio == "16:10") return resolutionOptions16x10;
 
     return resolutionOptions16x9;
+  }
+
+  public static Vector2 GetResolutionVector()
+  {
+    string[] splitString = resolution.Split('x');
+
+    if (splitString.Length == 2 && int.TryParse(splitString[0], out int width) && int.TryParse(splitString[1], out int height))
+    {
+      return new Vector2(width, height);
+    }
+    else
+    {
+      return new Vector2(1920, 1080);
+    }
   }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpacePhysics.Menu;
@@ -8,18 +9,15 @@ namespace SpacePhysics;
 
 public class Main : Game
 {
-    private GraphicsDeviceManager graphics;
+    public static GraphicsDeviceManager graphics;
     private SpriteBatch spriteBatch;
+
+    public static bool applyGraphics;
 
     public Main()
     {
-        graphics = new GraphicsDeviceManager(this);
-        graphics.PreferredBackBufferWidth = (int)GameState.screenSize.X;
-        graphics.PreferredBackBufferHeight = (int)GameState.screenSize.Y;
-        graphics.IsFullScreen = true;
         IsFixedTimeStep = false;
-        graphics.SynchronizeWithVerticalRetrace = true;
-        graphics.ApplyChanges();
+        graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = false;
     }
@@ -27,6 +25,10 @@ public class Main : Game
     protected override void Initialize()
     {
         GraphicsDevice.PresentationParameters.MultiSampleCount = 4;
+
+        ApplyGraphics();
+
+        applyGraphics = false;
 
         SceneManager.Initialize(Content);
 
@@ -49,12 +51,17 @@ public class Main : Game
     {
         if (GameState.quit)
             Exit();
-                         
+
+        if (applyGraphics)
+        {
+            ApplyGraphics();
+            applyGraphics = false;
+        }
+
         SceneManager.GetCurrentScene().Update();
 
         MenuContainer.Update();
         Camera.Camera.Update();
-        SettingsState.Update();
         GameState.Update(gameTime);
 
         base.Update(gameTime);
@@ -67,5 +74,22 @@ public class Main : Game
         SceneManager.GetCurrentScene().Draw(spriteBatch);
 
         base.Draw(gameTime);
+    }
+
+    private void ApplyGraphics()
+    {
+        int width = (int)SettingsState.GetResolutionVector().X;
+        int height = (int)SettingsState.GetResolutionVector().Y;
+        bool vsync = true;
+        bool fullscreen = true;
+
+        graphics.PreferredBackBufferWidth = width;
+        graphics.PreferredBackBufferHeight = height;
+        graphics.SynchronizeWithVerticalRetrace = vsync;
+        graphics.IsFullScreen = fullscreen;
+
+        GraphicsDevice.Viewport = new Viewport(0, 0, width, height);
+
+        graphics.ApplyChanges();
     }
 }
