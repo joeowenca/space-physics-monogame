@@ -61,6 +61,28 @@ public class DisplayMenu : SubMenu
       11
     ));
 
+    menuItems.Add(new MenuItem(
+      "Apply",
+      () => activeMenu == 4,
+      alignment,
+      () => new Vector2(0f, menuSizeY * 3.5f) + menuOffsetOverride + entireOffsetOverride,
+      () => opacity,
+      11
+    ));
+
     base.AddMenuItems();
+  }
+
+  public override void Update()
+  {
+    if (activeMenu == 4 && input.MenuSelect())
+    {
+      // Apply logic here
+      state = previousState;
+    }
+
+    if (opacity < 0.1f) activeMenu = 1;
+
+    base.Update();
   }
 }

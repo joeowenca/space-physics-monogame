@@ -164,4 +164,11 @@ public class ControlsMenu : SubMenu
 
     base.AddMenuItems();
   }
+
+  public override void Update()
+  {
+    if (opacity < 0.1f) activeMenu = 1;
+
+    base.Update();
+  }
 }

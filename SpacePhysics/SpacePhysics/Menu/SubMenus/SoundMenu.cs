@@ -18,13 +18,6 @@ public class SoundMenu : SubMenu
   )
   { }
 
-  public override void Update()
-  {
-    updatable = state == State.Sound;
-
-    base.Update();
-  }
-
   public override void AddMenuItems()
   {
     menuItems.Add(new MenuIncrementerItem(
@@ -96,5 +89,14 @@ public class SoundMenu : SubMenu
     ));
 
     base.AddMenuItems();
+  }
+
+  public override void Update()
+  {
+    updatable = state == State.Sound;
+
+    if (opacity < 0.1f) activeMenu = 1;
+
+    base.Update();
   }
 }

@@ -20,7 +20,7 @@ public class SubMenu : CustomGameComponent
   public Vector2 entireOffsetOverride;
 
   private State activeState;
-  private State previousState;
+  public State previousState;
 
   public float opacity;
   public float controlItemDistance;
