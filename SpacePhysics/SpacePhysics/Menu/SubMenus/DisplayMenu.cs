@@ -25,7 +25,7 @@ public class DisplayMenu : SubMenu
       () => SettingsState.aspectRatioOptions,
       value => SettingsState.aspectRatio = value,
       () => activeMenu == 1,
-      () => true,
+      () => updatable,
       alignment,
       () => new Vector2(0f, 0f) + menuOffsetOverride + entireOffsetOverride,
       controlItemDistance,
@@ -39,7 +39,7 @@ public class DisplayMenu : SubMenu
       () => SettingsState.GetReslutionOptionsFromAspectRatio(SettingsState.aspectRatio),
       value => SettingsState.resolution = value,
       () => activeMenu == 2,
-      () => true,
+      () => updatable,
       alignment,
       () => new Vector2(0f, menuSizeY) + menuOffsetOverride + entireOffsetOverride,
       controlItemDistance,
@@ -53,7 +53,7 @@ public class DisplayMenu : SubMenu
       () => ["Off", "On"],
       value => SettingsState.vsync = false,
       () => activeMenu == 3,
-      () => true,
+      () => updatable,
       alignment,
       () => new Vector2(0f, menuSizeY * 2) + menuOffsetOverride + entireOffsetOverride,
       controlItemDistance,
@@ -75,6 +75,8 @@ public class DisplayMenu : SubMenu
 
   public override void Update()
   {
+    updatable = state == State.Display;
+
     if (activeMenu == 4 && input.MenuSelect())
     {
       // Apply logic here

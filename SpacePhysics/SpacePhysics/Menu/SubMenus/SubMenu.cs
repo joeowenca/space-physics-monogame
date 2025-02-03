@@ -28,6 +28,8 @@ public class SubMenu : CustomGameComponent
 
   public int activeMenu;
 
+  public bool updatable;
+
   public SubMenu(
     string title,
     Vector2 offsetOverride,
@@ -47,6 +49,7 @@ public class SubMenu : CustomGameComponent
     offset = new Vector2(menuOffsetXRight, 0f);
     baseOffset = offset;
     controlItemDistance = 2000f;
+    updatable = false;
 
     components.Add(new HudText(
       "Fonts/title-font",

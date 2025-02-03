@@ -8,7 +8,6 @@ namespace SpacePhysics.Menu.SubMenus;
 
 public class UIMenu : SubMenu
 {
-
   public UIMenu() : base(
     "UI",
     new Vector2(0f, -50f),
@@ -23,9 +22,9 @@ public class UIMenu : SubMenu
       "Scale",
       () => "100%",
       () => ["100%"],
-      value => SettingsState.resolution = value,
+      value => SettingsState.uiScale = 1,
       () => activeMenu == 1,
-      () => true,
+      () => updatable,
       alignment,
       () => new Vector2(0f, 0f) + menuOffsetOverride + entireOffsetOverride,
       controlItemDistance,
@@ -37,9 +36,9 @@ public class UIMenu : SubMenu
       "Color",
       () => "Yellow",
       () => ["Yellow"],
-      value => SettingsState.resolution = value,
+      value => SettingsState.uiColor = Color.Gold,
       () => activeMenu == 2,
-      () => true,
+      () => updatable,
       alignment,
       () => new Vector2(0f, menuSizeY) + menuOffsetOverride + entireOffsetOverride,
       controlItemDistance,
@@ -51,9 +50,9 @@ public class UIMenu : SubMenu
       "Safe zone",
       () => "0.0",
       () => ["0.0"],
-      value => SettingsState.resolution = value,
+      value => SettingsState.uiSafeZone = 1f,
       () => activeMenu == 3,
-      () => true,
+      () => updatable,
       alignment,
       () => new Vector2(0f, menuSizeY * 2) + menuOffsetOverride + entireOffsetOverride,
       controlItemDistance,
@@ -66,6 +65,8 @@ public class UIMenu : SubMenu
 
   public override void Update()
   {
+    updatable = state == State.UI;
+
     if (opacity < 0.1f) activeMenu = 1;
 
     base.Update();

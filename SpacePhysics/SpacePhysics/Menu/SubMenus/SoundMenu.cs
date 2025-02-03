@@ -8,8 +8,6 @@ namespace SpacePhysics.Menu.SubMenus;
 
 public class SoundMenu : SubMenu
 {
-  private bool updatable;
-
   public SoundMenu() : base(
     "Sound",
     new Vector2(0f, -150f),

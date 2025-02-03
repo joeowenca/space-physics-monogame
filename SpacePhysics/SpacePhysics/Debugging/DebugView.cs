@@ -64,6 +64,7 @@ namespace SpacePhysics.Debugging
       debugItems.Add(new DebugItem("Game State", () => ""));
       debugItems.Add(new DebugItem("State", () => state.ToString()));
       debugItems.Add(new DebugItem("Scene", () => sceneString));
+      debugItems.Add(new DebugItem("Resolution", () => SettingsState.resolution));
 
       debugItems.Add(new DebugItem("", () => ""));
       debugItems.Add(new DebugItem("Controls", () => ""));
