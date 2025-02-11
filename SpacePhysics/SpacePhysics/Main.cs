@@ -78,6 +78,8 @@ public class Main : Game
 
     private void ApplyGraphics()
     {
+        GameState.UpdateScale();
+
         int width = (int)SettingsState.GetResolutionVector().X;
         int height = (int)SettingsState.GetResolutionVector().Y;
         bool vsync = true;
