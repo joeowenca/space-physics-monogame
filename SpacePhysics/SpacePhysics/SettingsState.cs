@@ -75,7 +75,7 @@ public static class SettingsState
   {
     resolution = "2560x1440";
     aspectRatio = "16:9";
-    vsync = true;
+    vsync = false;
 
     masterVolume = 100;
     musicVolume = 100;

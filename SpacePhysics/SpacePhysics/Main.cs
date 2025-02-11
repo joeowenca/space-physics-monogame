@@ -82,7 +82,7 @@ public class Main : Game
 
         int width = (int)SettingsState.GetResolutionVector().X;
         int height = (int)SettingsState.GetResolutionVector().Y;
-        bool vsync = true;
+        bool vsync = SettingsState.vsync;
         bool fullscreen = true;
 
         graphics.PreferredBackBufferWidth = width;

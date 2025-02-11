@@ -51,7 +51,7 @@ public class DisplayMenu : SubMenu
       "Vsync",
       () => SettingsState.vsync.ToString(),
       () => ["Off", "On"],
-      value => SettingsState.vsync = false,
+      value => SettingsState.vsync = value == "On",
       () => activeMenu == 3,
       () => updatable,
       alignment,
