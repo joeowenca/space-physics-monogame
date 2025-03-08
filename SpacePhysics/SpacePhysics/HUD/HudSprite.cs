@@ -49,7 +49,10 @@ public class HudSprite : CustomGameComponent
 
   public override void Update()
   {
-    if (Main.applyGraphics) AlignRectangle();
+    if (Main.graphicsApplied)
+    {
+      AlignRectangle();
+    }
 
     rectangle.X = (int)initialPosition.X + (int)offset().X;
     rectangle.Y = (int)initialPosition.Y + (int)offset().Y;
@@ -76,9 +79,6 @@ public class HudSprite : CustomGameComponent
 
   private void AlignRectangle()
   {
-    // Need to update scale here as GetAlignmentRectangle needs the updated screenSize
-    GameState.UpdateScale();
-
     rectangle = GetAlignmentRectangle(alignment);
 
     originVector = GetAlignmentVector(

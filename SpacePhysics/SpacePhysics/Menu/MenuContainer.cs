@@ -48,7 +48,7 @@ public static class MenuContainer
 
   public static void Update()
   {
-    if (Main.applyGraphics) UpdateCameraOffset();
+    if (Main.graphicsApplied) UpdateCameraOffset();
 
     menuOffset.X = MathHelper.Lerp(menuOffset.X, targetMenuOffset.X, GameState.deltaTime * 3f);
     menuOffset.Y = MathHelper.Lerp(menuOffset.Y, targetMenuOffset.Y, GameState.deltaTime * 3f);

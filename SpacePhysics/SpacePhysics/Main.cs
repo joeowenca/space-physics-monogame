@@ -13,6 +13,7 @@ public class Main : Game
     private SpriteBatch spriteBatch;
 
     public static bool applyGraphics;
+    public static bool graphicsApplied;
 
     public Main()
     {
@@ -56,6 +57,7 @@ public class Main : Game
         {
             ApplyGraphics();
             applyGraphics = false;
+            graphicsApplied = true;
         }
 
         SceneManager.GetCurrentScene().Update();
@@ -65,6 +67,8 @@ public class Main : Game
         GameState.Update(gameTime);
 
         base.Update(gameTime);
+
+        graphicsApplied = false;
     }
 
     protected override void Draw(GameTime gameTime)
