@@ -50,7 +50,7 @@ public class DisplayMenu : SubMenu
     menuItems.Add(new MenuSelectorItem(
       "Vsync",
       () => SettingsState.vsync.ToString(),
-      () => ["Off", "On"],
+      () => ["On", "Off"],
       value => SettingsState.vsync = value == "On",
       () => activeMenu == 3,
       () => updatable,
