@@ -43,7 +43,7 @@ namespace SpacePhysics.Debugging
         TextAlign.Left,
         () => offset,
         () => defaultColor * opacity(),
-        hudTextScale * 1.3f,
+        () => hudTextScale * 1.3f,
         11
       ));
 

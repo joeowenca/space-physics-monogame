@@ -58,7 +58,7 @@ public class SubMenu : CustomGameComponent
       TextAlign.Left,
       () => new Vector2(-100, -400) + offset + entireOffsetOverride,
       () => Color.White * opacity,
-      1.75f,
+      () => 1.75f,
       11
     ));
 

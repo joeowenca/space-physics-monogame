@@ -49,7 +49,7 @@ public class Title : CustomGameComponent
       TextAlign.Left,
       () => new Vector2(700, -300) + offset,
       () => Color.White * opacity,
-      1.75f,
+      () => 1.75f,
       11
     ));
   }

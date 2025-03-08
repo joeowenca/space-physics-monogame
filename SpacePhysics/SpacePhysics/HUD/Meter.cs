@@ -47,7 +47,7 @@ public class Meter : CustomGameComponent
             TextAlign.Right,
             () => new Vector2(-padding - 150, 50f) + offset,
             () => highlightColor * opacity(),
-            hudTextScale,
+            () => hudTextScale,
             11
         );
 
@@ -58,7 +58,7 @@ public class Meter : CustomGameComponent
             TextAlign.Center,
             () => new Vector2(-padding, -360f) + offset,
             () => defaultColor * opacity(),
-            hudTextScale,
+            () => hudTextScale,
             11
         );
 
@@ -91,7 +91,7 @@ public class Meter : CustomGameComponent
             TextAlign.Right,
             () => new Vector2(-padding * 2f - 150, 50f) + offset,
             () => highlightColor * opacity(),
-            hudTextScale,
+            () => hudTextScale,
             11
         );
 
@@ -102,7 +102,7 @@ public class Meter : CustomGameComponent
             TextAlign.Center,
             () => new Vector2(-padding * 2f, -360f) + offset,
             () => defaultColor * opacity(),
-            hudTextScale,
+            () => hudTextScale,
             11
         );
 
@@ -135,7 +135,7 @@ public class Meter : CustomGameComponent
             TextAlign.Left,
             () => new Vector2(padding + 150, 50f) + offset,
             () => highlightColor * opacity(),
-            hudTextScale,
+            () => hudTextScale,
             11
         );
 
@@ -146,7 +146,7 @@ public class Meter : CustomGameComponent
             TextAlign.Center,
             () => new Vector2(padding, -360f) + offset,
             () => defaultColor * opacity(),
-            hudTextScale,
+            () => hudTextScale,
             11
         );
 
@@ -179,7 +179,7 @@ public class Meter : CustomGameComponent
             TextAlign.Left,
             () => new Vector2(padding * 2f + 150, 50f) + offset,
             () => highlightColor * opacity(),
-            hudTextScale,
+            () => hudTextScale,
             11
         );
 
@@ -190,7 +190,7 @@ public class Meter : CustomGameComponent
             TextAlign.Center,
             () => new Vector2(padding * 2f, -360f) + offset,
             () => defaultColor * opacity(),
-            hudTextScale,
+            () => hudTextScale,
             11
         );
 

@@ -37,7 +37,7 @@ public class PauseMenu : CustomGameComponent
       TextAlign.Left,
       () => new Vector2(-100, -400) + offset,
       () => Color.White * opacity,
-      1.75f,
+      () => 1.75f,
       11
     ));
 

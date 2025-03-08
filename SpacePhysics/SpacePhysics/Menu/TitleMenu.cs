@@ -30,7 +30,7 @@ public class TitleMenu : CustomGameComponent
       TextAlign.Center,
       () => new Vector2(1650, 300) + offset,
       () => Color.White * opacity,
-      1.4f,
+      () => 1.4f,
       11
     ));
   }

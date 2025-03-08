@@ -49,7 +49,7 @@ public class MenuSelectorItem : CustomGameComponent
       TextAlign.Left,
       () => offset(),
       () => color * opacity(),
-      1f,
+      () => 1f,
       11
     ));
 
@@ -60,7 +60,7 @@ public class MenuSelectorItem : CustomGameComponent
       TextAlign.Center,
       () => offset() + new Vector2(distanceX, 0f),
       () => color * opacity(),
-      1f,
+      () => 1f,
       11
     ));
 

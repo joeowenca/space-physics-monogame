@@ -103,7 +103,7 @@ public class Gauge : CustomGameComponent
             TextAlign.Center,
             () => new Vector2(0, -120f) + offset,
             () => highlightColor * opacity(),
-            hudTextScale,
+            () => hudTextScale,
             11
         );
 
@@ -114,7 +114,7 @@ public class Gauge : CustomGameComponent
             TextAlign.Center,
             () => new Vector2(0, 240f) + offset,
             () => sas ? highlightColor * opacity() : defaultColor * opacity(),
-            hudTextScale,
+            () => hudTextScale,
             11
         );
 
@@ -125,7 +125,7 @@ public class Gauge : CustomGameComponent
             TextAlign.Center,
             () => new Vector2(200f, 50f) + offset,
             () => (sas ? highlightColor : defaultColor) * opacity(),
-            hudTextScale,
+            () => hudTextScale,
             11
         );
 
@@ -136,7 +136,7 @@ public class Gauge : CustomGameComponent
             TextAlign.Center,
             () => new Vector2(-200f, 50f) + offset,
             () => (rcs ? Color.Cyan : defaultColor) * opacity(),
-            hudTextScale,
+            () => hudTextScale,
             11
         );
 

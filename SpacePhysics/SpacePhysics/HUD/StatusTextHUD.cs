@@ -31,7 +31,7 @@ public class StatusTextHUD : CustomGameComponent
             TextAlign.Left,
             () => new Vector2(0f, 0f) + offset,
             () => defaultColor * textOpacity * opacity(),
-            hudTextScale,
+            () => hudTextScale,
             11
         ));
 
@@ -42,7 +42,7 @@ public class StatusTextHUD : CustomGameComponent
             TextAlign.Left,
             () => new Vector2(components[0].width, 0f) + offset,
             () => highlightColor * textOpacity * opacity(),
-            hudTextScale,
+            () => hudTextScale,
             11
         ));
     }
