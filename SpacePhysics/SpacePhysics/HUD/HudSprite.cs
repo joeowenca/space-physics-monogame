@@ -42,23 +42,15 @@ public class HudSprite : CustomGameComponent
   {
     texture = contentManager.Load<Texture2D>(textureName);
 
-    rectangle = GetAlignmentRectangle(alignment);
-
-    originVector = GetAlignmentVector(
-      new Vector2(texture.Width, texture.Height),
-      origin
-    );
-
-    initialPosition = new Vector2(
-      rectangle.X,
-      rectangle.Y
-    );
+    AlignRectangle();
 
     Update();
   }
 
   public override void Update()
   {
+    if (Main.applyGraphics) AlignRectangle();
+
     rectangle.X = (int)initialPosition.X + (int)offset().X;
     rectangle.Y = (int)initialPosition.Y + (int)offset().Y;
   }
@@ -80,6 +72,24 @@ public class HudSprite : CustomGameComponent
         0f
       );
     }
+  }
+
+  private void AlignRectangle()
+  {
+    // Need to update scale here as GetAlignmentRectangle needs the updated screenSize
+    GameState.UpdateScale();
+
+    rectangle = GetAlignmentRectangle(alignment);
+
+    originVector = GetAlignmentVector(
+      new Vector2(texture.Width, texture.Height),
+      origin
+    );
+
+    initialPosition = new Vector2(
+      rectangle.X,
+      rectangle.Y
+    );
   }
 
   private Rectangle GetAlignmentRectangle(Alignment alignment)
