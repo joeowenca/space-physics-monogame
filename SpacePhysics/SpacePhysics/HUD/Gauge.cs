@@ -22,7 +22,7 @@ public class Gauge : CustomGameComponent
             () => offset,
             () => 0f,
             () => defaultColor * opacity(),
-            hudScale,
+            () => hudScale,
             11
         );
 
@@ -33,7 +33,7 @@ public class Gauge : CustomGameComponent
             () => offset,
             () => direction,
             () => sas ? highlightColor * opacity() : defaultColor * opacity(),
-            hudScale,
+            () => hudScale,
             11
         );
 
@@ -45,7 +45,7 @@ public class Gauge : CustomGameComponent
             () => direction,
             () => isSasMode(SASTarget.Stability)
                 ? highlightColor * opacity() : defaultColor * opacity(),
-            hudScale,
+            () => hudScale,
             11
         );
 
@@ -57,7 +57,7 @@ public class Gauge : CustomGameComponent
             () => progradeRadians,
             () => isSasMode(SASTarget.Prograde)
                 ? highlightColor * opacity() : new Color(0, 255, 0) * opacity(),
-            hudScale,
+            () => hudScale,
             11
         );
 
@@ -69,7 +69,7 @@ public class Gauge : CustomGameComponent
             () => retrogradeRadians,
             () => isSasMode(SASTarget.Retrograde)
                 ? highlightColor * opacity() : Color.Red * opacity(),
-            hudScale,
+            () => hudScale,
             11
         );
 
@@ -81,7 +81,7 @@ public class Gauge : CustomGameComponent
             () => radialLeftRadians,
             () => isSasMode(SASTarget.RadialLeft)
                 ? highlightColor * opacity() : Color.Cyan * opacity(),
-            hudScale,
+            () => hudScale,
             11
         );
 
@@ -93,7 +93,7 @@ public class Gauge : CustomGameComponent
             () => radialRightRadians,
             () => isSasMode(SASTarget.RadialRight)
                 ? highlightColor * opacity() : Color.Cyan * opacity(),
-            hudScale,
+            () => hudScale,
             11
         );
         HudText velocity = new(
@@ -147,7 +147,7 @@ public class Gauge : CustomGameComponent
             () => Vector2.Zero,
             () => 0f,
             () => Color.White * 0.75f * opacity(),
-            hudScale,
+            () => hudScale,
             11
         );
 

@@ -32,7 +32,7 @@ namespace SpacePhysics.Debugging
         () => new Vector2(0f, 0f),
         () => 0f,
         () => Color.White * 0.75f * opacity(),
-        hudScale * 2.5f,
+        () => hudScale * 2.5f,
         11
     ));
 

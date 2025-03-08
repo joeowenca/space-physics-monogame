@@ -16,7 +16,7 @@ public class HudSprite : CustomGameComponent
   private readonly Func<Vector2> offset;
   private readonly Func<float> rotation;
   private readonly Func<Color> color;
-  private float scale;
+  private readonly Func<float> scale;
 
   public HudSprite(
     string textureName,
@@ -25,7 +25,7 @@ public class HudSprite : CustomGameComponent
     Func<Vector2> offset,
     Func<float> rotation,
     Func<Color> color,
-    float scale,
+    Func<float> scale,
     int layerIndex
   ) : base(false, alignment, layerIndex)
   {
@@ -92,8 +92,8 @@ public class HudSprite : CustomGameComponent
     return new(
       (int)alignmentVector.X,
       (int)alignmentVector.Y,
-      (int)(texture.Width * scale),
-      (int)(texture.Height * scale)
+      (int)(texture.Width * scale()),
+      (int)(texture.Height * scale())
     );
   }
 

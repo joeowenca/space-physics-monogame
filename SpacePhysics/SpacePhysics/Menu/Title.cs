@@ -38,7 +38,7 @@ public class Title : CustomGameComponent
       () => new Vector2(0, -300) + offset,
       () => 0f,
       () => Color.White * opacity,
-      2.5f,
+      () => 2.5f,
       11
     ));
 

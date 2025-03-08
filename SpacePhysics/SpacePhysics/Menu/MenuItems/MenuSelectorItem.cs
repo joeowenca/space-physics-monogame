@@ -71,7 +71,7 @@ public class MenuSelectorItem : CustomGameComponent
       () => offset() + new Vector2(distanceX - (components[1].width / 2) - 55f, 0f),
       () => 0f,
       () => active() ? color * opacity() : Color.White * 0f,
-      1f,
+      () => 1f,
       11
     ));
 
@@ -82,7 +82,7 @@ public class MenuSelectorItem : CustomGameComponent
       () => offset() + new Vector2(distanceX + (components[1].width / 2) + 50f, 0f),
       () => 0f,
       () => active() ? color * opacity() : Color.White * 0f,
-      1f,
+      () => 1f,
       11
     ));
   }
