@@ -100,6 +100,8 @@ public class MenuSelectorItem : CustomGameComponent
 
   public override void Update()
   {
+    base.Update();
+
     targetColor = defaultColor;
 
     if (active())
@@ -118,8 +120,6 @@ public class MenuSelectorItem : CustomGameComponent
     setValue(getOptions()[optionIndex]);
 
     color = ColorHelper.Lerp(color, targetColor, 0.3f);
-
-    base.Update();
   }
 
   public override void Draw(SpriteBatch spriteBatch)

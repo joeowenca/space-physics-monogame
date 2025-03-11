@@ -56,8 +56,8 @@ public class Main : Game
         if (applyGraphics)
         {
             ApplyGraphics();
-            applyGraphics = false;
             graphicsApplied = true;
+            applyGraphics = false;
         }
 
         SceneManager.GetCurrentScene().Update();

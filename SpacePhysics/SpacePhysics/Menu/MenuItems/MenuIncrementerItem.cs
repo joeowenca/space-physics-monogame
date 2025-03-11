@@ -105,6 +105,8 @@ public class MenuIncrementerItem : CustomGameComponent
 
   public override void Update()
   {
+    base.Update();
+
     targetColor = defaultColor;
 
     if (active())
@@ -120,8 +122,6 @@ public class MenuIncrementerItem : CustomGameComponent
     setValue(Math.Clamp(getValue(), min, max));
 
     color = ColorHelper.Lerp(color, targetColor, 0.3f);
-
-    base.Update();
   }
 
   public override void Draw(SpriteBatch spriteBatch)
