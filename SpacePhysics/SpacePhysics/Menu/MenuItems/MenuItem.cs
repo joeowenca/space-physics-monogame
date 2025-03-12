@@ -35,7 +35,7 @@ public class MenuItem : CustomGameComponent
       TextAlign.Left,
       () => offset(),
       () => color * opacity(),
-      1f,
+      () => 1f,
       11
     );
   }

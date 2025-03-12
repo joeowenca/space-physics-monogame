@@ -23,8 +23,6 @@ namespace SpacePhysics.Debugging
     {
       this.opacity = opacity;
 
-      offset = new Vector2(200f, screenSize.Y - 600f);
-
       components.Add(new HudSprite(
         "HUD/hud-shadow-bottom-left",
         Alignment.BottomLeft,
@@ -32,7 +30,7 @@ namespace SpacePhysics.Debugging
         () => new Vector2(0f, 0f),
         () => 0f,
         () => Color.White * 0.75f * opacity(),
-        hudScale * 2.5f,
+        () => hudScale * 2.5f,
         11
     ));
 
@@ -43,7 +41,7 @@ namespace SpacePhysics.Debugging
         TextAlign.Left,
         () => offset,
         () => defaultColor * opacity(),
-        hudTextScale * 1.3f,
+        () => hudTextScale * 1.3f,
         11
       ));
 
@@ -53,10 +51,7 @@ namespace SpacePhysics.Debugging
       statusItems.Add(new DebugItem("SAS Mode", () => SASController.sasModeString));
       statusItems.Add(new DebugItem("RCS Mode", () => maneuverMode ? "Maneuver" : "Docking"));
 
-      for (int i = 0; i < statusItems.Count; i++)
-      {
-        statusItems[i].position = new Vector2(0f, i * 140f * hudTextScale + 110f) + offset;
-      }
+      UpdateOffset();
     }
 
     public override void Load(ContentManager contentManager)
@@ -64,6 +59,16 @@ namespace SpacePhysics.Debugging
       font = contentManager.Load<SpriteFont>("Fonts/text-font");
 
       base.Load(contentManager);
+    }
+
+    public override void Update()
+    {
+      if (Main.graphicsApplied)
+      {
+        UpdateOffset();
+      }
+
+      base.Update();
     }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -98,6 +103,16 @@ namespace SpacePhysics.Debugging
           SpriteEffects.None,
           0f
         );
+      }
+    }
+
+    private void UpdateOffset()
+    {
+      offset = new Vector2(200f, screenSize.Y - 600f);
+
+      for (int i = 0; i < statusItems.Count; i++)
+      {
+        statusItems[i].position = new Vector2(0f, i * 140f * hudTextScale + 110f) + offset;
       }
     }
   }

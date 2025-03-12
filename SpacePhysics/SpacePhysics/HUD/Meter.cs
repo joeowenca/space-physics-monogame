@@ -25,7 +25,7 @@ public class Meter : CustomGameComponent
             () => new Vector2(-padding, 0) + offset,
             () => 0f,
             () => defaultColor * opacity(),
-            hudScale,
+            () => hudScale,
             11
         );
 
@@ -36,7 +36,7 @@ public class Meter : CustomGameComponent
             () => new Vector2(-padding, -throttle * 628) + offset,
             () => 0f,
             () => highlightColor * opacity(),
-            hudScale,
+            () => hudScale,
             11
         );
 
@@ -47,7 +47,7 @@ public class Meter : CustomGameComponent
             TextAlign.Right,
             () => new Vector2(-padding - 150, 50f) + offset,
             () => highlightColor * opacity(),
-            hudTextScale,
+            () => hudTextScale,
             11
         );
 
@@ -58,7 +58,7 @@ public class Meter : CustomGameComponent
             TextAlign.Center,
             () => new Vector2(-padding, -360f) + offset,
             () => defaultColor * opacity(),
-            hudTextScale,
+            () => hudTextScale,
             11
         );
 
@@ -69,7 +69,7 @@ public class Meter : CustomGameComponent
             () => new Vector2(-padding * 2f, 0) + offset,
             () => 0f,
             () => defaultColor * opacity(),
-            hudScale,
+            () => hudScale,
             11
         );
 
@@ -80,7 +80,7 @@ public class Meter : CustomGameComponent
             () => new Vector2(-padding * 2f, GameState.electricityPercent * -6.28f) + offset,
             () => 0f,
             () => highlightColor * opacity(),
-            hudScale,
+            () => hudScale,
             11
         );
 
@@ -91,7 +91,7 @@ public class Meter : CustomGameComponent
             TextAlign.Right,
             () => new Vector2(-padding * 2f - 150, 50f) + offset,
             () => highlightColor * opacity(),
-            hudTextScale,
+            () => hudTextScale,
             11
         );
 
@@ -102,7 +102,7 @@ public class Meter : CustomGameComponent
             TextAlign.Center,
             () => new Vector2(-padding * 2f, -360f) + offset,
             () => defaultColor * opacity(),
-            hudTextScale,
+            () => hudTextScale,
             11
         );
 
@@ -113,7 +113,7 @@ public class Meter : CustomGameComponent
             () => new Vector2(padding, 0) + offset,
             () => 0f,
             () => defaultColor * opacity(),
-            hudScale,
+            () => hudScale,
             11
         );
 
@@ -124,7 +124,7 @@ public class Meter : CustomGameComponent
             () => new Vector2(padding, -GameState.fuelPercent * 6.28f) + offset,
             () => 0f,
             () => highlightColor * opacity(),
-            hudScale,
+            () => hudScale,
             11
         );
 
@@ -135,7 +135,7 @@ public class Meter : CustomGameComponent
             TextAlign.Left,
             () => new Vector2(padding + 150, 50f) + offset,
             () => highlightColor * opacity(),
-            hudTextScale,
+            () => hudTextScale,
             11
         );
 
@@ -146,7 +146,7 @@ public class Meter : CustomGameComponent
             TextAlign.Center,
             () => new Vector2(padding, -360f) + offset,
             () => defaultColor * opacity(),
-            hudTextScale,
+            () => hudTextScale,
             11
         );
 
@@ -157,7 +157,7 @@ public class Meter : CustomGameComponent
             () => new Vector2(padding * 2f, 0) + offset,
             () => 0f,
             () => defaultColor * opacity(),
-            hudScale,
+            () => hudScale,
             11
         );
 
@@ -168,7 +168,7 @@ public class Meter : CustomGameComponent
             () => new Vector2(padding * 2f, -GameState.monoPercent * 6.28f) + offset,
             () => 0f,
             () => highlightColor * opacity(),
-            hudScale,
+            () => hudScale,
             11
         );
 
@@ -179,7 +179,7 @@ public class Meter : CustomGameComponent
             TextAlign.Left,
             () => new Vector2(padding * 2f + 150, 50f) + offset,
             () => highlightColor * opacity(),
-            hudTextScale,
+            () => hudTextScale,
             11
         );
 
@@ -190,7 +190,7 @@ public class Meter : CustomGameComponent
             TextAlign.Center,
             () => new Vector2(padding * 2f, -360f) + offset,
             () => defaultColor * opacity(),
-            hudTextScale,
+            () => hudTextScale,
             11
         );
 
@@ -201,7 +201,7 @@ public class Meter : CustomGameComponent
             () => new Vector2(0f, -padding) + offset,
             () => (float)Math.PI * 0.5f,
             () => defaultColor * opacity(),
-            hudScale,
+            () => hudScale,
             11
         );
 
@@ -212,7 +212,7 @@ public class Meter : CustomGameComponent
             () => new Vector2((Ship.pitch * 314f) + 315f, -padding) + offset,
             () => (float)Math.PI * 0.5f,
             () => highlightColor * opacity(),
-            hudScale,
+            () => hudScale,
             11
         );
 

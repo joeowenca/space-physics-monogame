@@ -1,4 +1,5 @@
 using System;
+using System.Reflection.Metadata.Ecma335;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,7 +15,7 @@ public class HudText : CustomGameComponent
   private TextAlign textAlign;
   private readonly Func<Vector2> offset;
   private readonly Func<Color> color;
-  private float scale;
+  private readonly Func<float> scale;
 
   public HudText(
     string fontName,
@@ -23,7 +24,7 @@ public class HudText : CustomGameComponent
     TextAlign textAlign,
     Func<Vector2> offset,
     Func<Color> color,
-    float scale,
+    Func<float> scale,
     int layerIndex
   ) : base(false, alignment, layerIndex)
   {
@@ -45,8 +46,8 @@ public class HudText : CustomGameComponent
 
   public override void Update()
   {
-    width = font.MeasureString(value()).X * scale;
-    height = font.MeasureString(value()).Y * scale;
+    width = font.MeasureString(value()).X * scale();
+    height = font.MeasureString(value()).Y * scale();
 
     position = offset();
 
@@ -67,7 +68,7 @@ public class HudText : CustomGameComponent
         color(),
         0f,
         Vector2.Zero,
-        scale,
+        scale(),
         SpriteEffects.None,
         0f
       );

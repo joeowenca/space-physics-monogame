@@ -28,8 +28,7 @@ public static class MenuContainer
 
   public static void Initialize()
   {
-    cameraOffsetLeft = new Vector2(GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
-    cameraOffsetRight = new Vector2(-GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
+    UpdateCameraOffset();
 
     cameraOffsetLerpSpeed = 3f;
 
@@ -49,6 +48,8 @@ public static class MenuContainer
 
   public static void Update()
   {
+    if (Main.graphicsApplied) UpdateCameraOffset();
+
     menuOffset.X = MathHelper.Lerp(menuOffset.X, targetMenuOffset.X, GameState.deltaTime * 3f);
     menuOffset.Y = MathHelper.Lerp(menuOffset.Y, targetMenuOffset.Y, GameState.deltaTime * 3f);
 
@@ -83,5 +84,11 @@ public static class MenuContainer
       0f,
       GameState.screenSize.Y * GameState.scale - CalculateMenuHeight(menuItems) / 2
     );
+  }
+
+  private static void UpdateCameraOffset()
+  {
+    cameraOffsetLeft = new Vector2(GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
+    cameraOffsetRight = new Vector2(-GameState.screenSize.X * 0.12f, -GameState.screenSize.Y * 0.05f);
   }
 }

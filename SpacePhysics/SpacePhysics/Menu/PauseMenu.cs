@@ -35,9 +35,9 @@ public class PauseMenu : CustomGameComponent
       () => "Paused",
       alignment,
       TextAlign.Left,
-      () => new Vector2(-100, -400) + offset,
+      () => new Vector2(-250 + Camera.Camera.offset.X * 0.66f, -400) + offset,
       () => Color.White * opacity,
-      1.75f,
+      () => 1.75f,
       11
     ));
 
@@ -93,7 +93,7 @@ public class PauseMenu : CustomGameComponent
       if (opacity > 0)
         opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, 0.2f);
 
-      if (opacity <= 0.1f)
+      if (opacity <= 0.1f && state == State.Play)
         activeMenu = 1;
     }
     else

@@ -20,13 +20,15 @@ public class SubMenu : CustomGameComponent
   public Vector2 entireOffsetOverride;
 
   private State activeState;
-  private State previousState;
+  public State previousState;
 
   public float opacity;
   public float controlItemDistance;
   private float backButtonYOffset;
 
   public int activeMenu;
+
+  public bool updatable;
 
   public SubMenu(
     string title,
@@ -46,7 +48,8 @@ public class SubMenu : CustomGameComponent
     entireOffsetOverride += offsetOverride;
     offset = new Vector2(menuOffsetXRight, 0f);
     baseOffset = offset;
-    controlItemDistance = 1750f;
+    controlItemDistance = 2000f;
+    updatable = false;
 
     components.Add(new HudText(
       "Fonts/title-font",
@@ -55,7 +58,7 @@ public class SubMenu : CustomGameComponent
       TextAlign.Left,
       () => new Vector2(-100, -400) + offset + entireOffsetOverride,
       () => Color.White * opacity,
-      1.75f,
+      () => 1.75f,
       11
     ));
 
@@ -114,7 +117,7 @@ public class SubMenu : CustomGameComponent
       if (opacity > 0)
         opacity = ColorHelper.FadeOpacity(opacity, 1f, 0f, opacityTransitionSpeed);
 
-      if (opacity <= 0.1f)
+      if (opacity <= 0.1f && (state == State.MainMenu || state == State.Pause))
         activeMenu = 1;
     }
     else

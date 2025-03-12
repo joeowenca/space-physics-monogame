@@ -23,8 +23,6 @@ namespace SpacePhysics.Debugging
     {
       this.opacity = opacity;
 
-      offset = new Vector2(screenSize.X - 900f, screenSize.Y - 600f);
-
       components.Add(new HudSprite(
         "HUD/hud-shadow-bottom-right",
         Alignment.BottomRight,
@@ -32,7 +30,7 @@ namespace SpacePhysics.Debugging
         () => new Vector2(0f, 0f),
         () => 0f,
         () => Color.White * 0.75f * opacity(),
-        hudScale * 2.5f,
+        () => hudScale * 2.5f,
         11
     ));
 
@@ -43,7 +41,7 @@ namespace SpacePhysics.Debugging
         TextAlign.Left,
         () => offset,
         () => defaultColor * opacity(),
-        hudTextScale * 1.3f,
+        () => hudTextScale * 1.3f,
         11
       ));
 
@@ -52,10 +50,7 @@ namespace SpacePhysics.Debugging
       statusItems.Add(new DebugItem("Mono Propellant", () => mono.ToString("0") + " L"));
       statusItems.Add(new DebugItem("Electricity", () => electricity.ToString("0") + " kWh"));
 
-      for (int i = 0; i < statusItems.Count; i++)
-      {
-        statusItems[i].position = new Vector2(3f, i * 140f * hudTextScale + 110f) + offset;
-      }
+      UpdateOffset();
     }
 
     public override void Load(ContentManager contentManager)
@@ -63,6 +58,16 @@ namespace SpacePhysics.Debugging
       font = contentManager.Load<SpriteFont>("Fonts/text-font");
 
       base.Load(contentManager);
+    }
+
+    public override void Update()
+    {
+      if (Main.graphicsApplied)
+      {
+        UpdateOffset();
+      }
+
+      base.Update();
     }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -97,6 +102,16 @@ namespace SpacePhysics.Debugging
           SpriteEffects.None,
           0f
         );
+      }
+    }
+
+    private void UpdateOffset()
+    {
+      offset = new Vector2(screenSize.X - 900f, screenSize.Y - 600f);
+
+      for (int i = 0; i < statusItems.Count; i++)
+      {
+        statusItems[i].position = new Vector2(3f, i * 140f * hudTextScale + 110f) + offset;
       }
     }
   }

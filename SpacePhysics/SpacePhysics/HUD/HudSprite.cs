@@ -16,7 +16,7 @@ public class HudSprite : CustomGameComponent
   private readonly Func<Vector2> offset;
   private readonly Func<float> rotation;
   private readonly Func<Color> color;
-  private float scale;
+  private readonly Func<float> scale;
 
   public HudSprite(
     string textureName,
@@ -25,7 +25,7 @@ public class HudSprite : CustomGameComponent
     Func<Vector2> offset,
     Func<float> rotation,
     Func<Color> color,
-    float scale,
+    Func<float> scale,
     int layerIndex
   ) : base(false, alignment, layerIndex)
   {
@@ -42,23 +42,18 @@ public class HudSprite : CustomGameComponent
   {
     texture = contentManager.Load<Texture2D>(textureName);
 
-    rectangle = GetAlignmentRectangle(alignment);
-
-    originVector = GetAlignmentVector(
-      new Vector2(texture.Width, texture.Height),
-      origin
-    );
-
-    initialPosition = new Vector2(
-      rectangle.X,
-      rectangle.Y
-    );
+    AlignRectangle();
 
     Update();
   }
 
   public override void Update()
   {
+    if (Main.graphicsApplied)
+    {
+      AlignRectangle();
+    }
+
     rectangle.X = (int)initialPosition.X + (int)offset().X;
     rectangle.Y = (int)initialPosition.Y + (int)offset().Y;
   }
@@ -82,6 +77,21 @@ public class HudSprite : CustomGameComponent
     }
   }
 
+  private void AlignRectangle()
+  {
+    rectangle = GetAlignmentRectangle(alignment);
+
+    originVector = GetAlignmentVector(
+      new Vector2(texture.Width, texture.Height),
+      origin
+    );
+
+    initialPosition = new Vector2(
+      rectangle.X,
+      rectangle.Y
+    );
+  }
+
   private Rectangle GetAlignmentRectangle(Alignment alignment)
   {
     Vector2 alignmentVector = GetAlignmentVector(
@@ -92,8 +102,8 @@ public class HudSprite : CustomGameComponent
     return new(
       (int)alignmentVector.X,
       (int)alignmentVector.Y,
-      (int)(texture.Width * scale),
-      (int)(texture.Height * scale)
+      (int)(texture.Width * scale()),
+      (int)(texture.Height * scale())
     );
   }
 

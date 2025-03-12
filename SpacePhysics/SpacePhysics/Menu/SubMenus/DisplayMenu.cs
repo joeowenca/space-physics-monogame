@@ -19,10 +19,13 @@ public class DisplayMenu : SubMenu
 
   public override void AddMenuItems()
   {
-    menuItems.Add(new ControlItem(
+    menuItems.Add(new MenuSelectorItem(
       "Aspect ratio",
-      () => "16:9",
+      () => SettingsState.aspectRatio,
+      () => SettingsState.aspectRatioOptions,
+      value => SettingsState.aspectRatio = value,
       () => activeMenu == 1,
+      () => updatable,
       alignment,
       () => new Vector2(0f, 0f) + menuOffsetOverride + entireOffsetOverride,
       controlItemDistance,
@@ -30,10 +33,13 @@ public class DisplayMenu : SubMenu
       11
     ));
 
-    menuItems.Add(new ControlItem(
+    menuItems.Add(new MenuSelectorItem(
       "Resolution",
-      () => "2560x1440",
+      () => SettingsState.resolution,
+      () => SettingsState.GetReslutionOptionsFromAspectRatio(SettingsState.aspectRatio),
+      value => SettingsState.resolution = value,
       () => activeMenu == 2,
+      () => updatable,
       alignment,
       () => new Vector2(0f, menuSizeY) + menuOffsetOverride + entireOffsetOverride,
       controlItemDistance,
@@ -41,17 +47,44 @@ public class DisplayMenu : SubMenu
       11
     ));
 
-    menuItems.Add(new ControlItem(
+    menuItems.Add(new MenuSelectorItem(
       "Vsync",
-      () => "Off",
+      () => SettingsState.vsync.ToString(),
+      () => ["On", "Off"],
+      value => SettingsState.vsync = value == "On",
       () => activeMenu == 3,
+      () => updatable,
       alignment,
-      () => new Vector2(0f, menuSizeY * 2f) + menuOffsetOverride + entireOffsetOverride,
+      () => new Vector2(0f, menuSizeY * 2) + menuOffsetOverride + entireOffsetOverride,
       controlItemDistance,
       () => opacity,
       11
     ));
 
+    menuItems.Add(new MenuItem(
+      "Apply",
+      () => activeMenu == 4,
+      alignment,
+      () => new Vector2(0f, menuSizeY * 3.5f) + menuOffsetOverride + entireOffsetOverride,
+      () => opacity,
+      11
+    ));
+
     base.AddMenuItems();
+  }
+
+  public override void Update()
+  {
+    updatable = state == State.Display;
+
+    if (activeMenu == 4 && input.MenuSelect())
+    {
+      Main.applyGraphics = true;
+      state = previousState;
+    }
+
+    if (opacity < 0.1f) activeMenu = 1;
+
+    base.Update();
   }
 }

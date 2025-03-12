@@ -23,7 +23,7 @@ public class GameState
 
   public static Player.SASController.SASTarget sasTarget;
 
-  public static Vector2 screenSize = new Vector2(2560, 1440);
+  public static Vector2 screenSize;
   public static float FPS;
 
   public static Vector2 position;
@@ -103,12 +103,6 @@ public class GameState
     maxElectricity = electricity;
     zoom = 1.26f;
     targetZoom = zoom;
-    scaleOverride = 0.3f;
-    scale = screenSize.Y / 1080 * scaleOverride;
-    hudScale = 1.4f;
-    hudTextScale = hudScale * 0.4f;
-    hudScaleOverrideFactor = 0.75f;
-    hudScaleOverride = scale * hudScaleOverrideFactor;
     opacityTransitionSpeed = 0.6f;
     units = 5f;
     elapsedTime = 0f;
@@ -121,6 +115,19 @@ public class GameState
     maneuverMode = true;
     stabilityMode = true;
     quit = false;
+
+    UpdateScale();
+  }
+
+  public static void UpdateScale()
+  {
+    screenSize = SettingsState.GetResolutionVector();
+    scaleOverride = 0.3f;
+    scale = screenSize.Y / 1080 * scaleOverride;
+    hudScale = 1.4f;
+    hudTextScale = hudScale * 0.4f;
+    hudScaleOverrideFactor = 0.9f;
+    hudScaleOverride = scale * hudScaleOverrideFactor;
   }
 
   public static void Intro()
