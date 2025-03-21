@@ -117,8 +117,10 @@ public class Ship : CustomGameComponent
 
       pitch = MathHelper.Lerp(pitch, targetPitch, deltaTime * 20f);
 
-      if (pitch > 0.999f) pitch = 1f;
-      if (pitch < -0.999f) pitch = -1f;
+      if (Math.Abs(pitch - targetPitch) < deltaTime) pitch = targetPitch;
+
+      if (pitch > 1f - deltaTime) pitch = 1f;
+      if (pitch < -1f + deltaTime) pitch = -1f;
 
       pitch = Math.Clamp(pitch, -1f, 1f);
 
@@ -233,13 +235,6 @@ public class Ship : CustomGameComponent
     if (maneuverMode)
     {
       targetPitch = 0f;
-
-      if (Math.Abs(pitch - targetPitch) < 0.01f) pitch = 0f;
-
-      if (pitch > 0.99f) pitch = 1f;
-
-      if (pitch < -0.99f) pitch = -1f;
-
       targetPitch = input.AdjustPitch();
       electricity -= deltaTime * Math.Abs(input.AdjustPitch());
     }
