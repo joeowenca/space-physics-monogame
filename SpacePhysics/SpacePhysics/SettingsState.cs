@@ -66,14 +66,14 @@ public static class SettingsState
     150
   ];
 
-  public static string resolution = "2560x1440";
+  public static string resolution = "1920x1080";
   public static string aspectRatio = "16:9";
 
   public static bool vsync = true;
 
   public static void Initialize()
   {
-    resolution = "2560x1440";
+    resolution = "1920x1080";
     aspectRatio = "16:9";
     vsync = true;
 
